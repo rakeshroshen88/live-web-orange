@@ -1,0 +1,415 @@
+<?php include( 'header.php'); include( 'chksession.php'); ?>
+    <?php $catid1=base64_decode($_REQUEST['cid']);
+$subid1=base64_decode($_REQUEST['subid']);
+$subsubid=base64_decode($_REQUEST['subsubid']);
+
+  $pid=base64_decode($_REQUEST['pid']);
+
+  $sql="SELECT * from ".$_TBL_PROD1." where id='$pid'";
+	$db->query($sql);
+	if($db->numRows()>0)
+		{
+	$row=$db->fetchArray();
+		}
+	$catname=$db->getSingleResult('select catname from category where id='.$row['catid']);
+	 $path=$row['prod_large_image'];
+	 $path1=$row['image1'];
+	 $path2=$row['image2'];
+	 $goid=base64_encode($row['id']);
+// on each product page, set "setRecentlyViewed" like so:
+  setRecentlyViewed( $row['prod_name'], htmlspecialchars($_SERVER['REQUEST_URI']),$path );
+	?>
+        <main>
+            <div class="main-section">
+                <div class="container">
+                    <div class="main-section-data">
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <div class="breadcrumb flat">
+                                    <a href="../">Home</a>
+                                    <a href="">
+                                        <?=$catname?>
+                                    </a>
+                                    <a href="javascript:;" class="active">
+                                        <?=$row['prod_name']?>
+                                    </a>
+                                </div>
+
+                                <div class="card">
+                                    <div class="row">
+                                        <aside class="col-sm-5 border-right">
+                                            <article class="gallery-wrap">
+                                                <div class="img-big-wrap">
+                                                    <!--Carousel Wrapper-->
+                                                    <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+                                                        <!--Slides-->
+                                                        <div class="carousel-inner" role="listbox">
+                                                            <div class="carousel-item active">
+                                                                <img class="d-block w-100" src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>">
+                                                            </div>
+
+                                                            <?php $dbt=new DB;
+$sqlt="select * from productimage where pid='".$row['id']."'";
+$dbt->query($sqlt);
+if($dbt->numRows()>0)
+	{
+
+	while($rowt=$dbt->fetchArray()){
+		$pathslider=$rowt['prod_large_image'];?>
+                                                                <div class="carousel-item">
+                                                                    <img class="d-block w-100" src="product/<?=$pathslider?>" alt="Second slide">
+                                                                </div>
+
+                                                                <?php }} ?>
+                                                                    <!--<div class="carousel-item">
+            <img class="d-block w-100" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/252820/1320x580-78.jfif" alt="Third slide">
+        </div>-->ccsd
+                                                        </div>
+                                                        <!--/.Slides-->
+                                                        <!--Controls-->
+                                                        <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                        <!--/.Controls-->
+                                                        <ol class="img-small-wrap">
+                                                            <li data-target="#carousel-thumb" data-slide-to="0" class="active"> <img class="d-block w-100" src="<?=$_SITE_PATH?>product/<?=$path?>" class="img-fluid"></li>
+                                                            <?php $dbt=new DB;
+$sqlt="select * from productimage where pid='".$row['id']."'";
+$dbt->query($sqlt);
+if($dbt->numRows()>0)
+	{
+
+	while($rowt=$dbt->fetchArray()){
+		$pathslider=$rowt['imgid'];?>
+                                                                <li data-target="#carousel-thumb" data-slide-to="1"><img class="d-block w-100" src="product/<?=$pathslider?>" class="img-fluid"></li>
+                                                                <?php }} ?>
+                                                        </ol>
+                                                    </div>
+                                                    <!--/.Carousel Wrapper-->
+
+                                                </div>
+
+                                                <!-- slider-nav.// -->
+                                            </article>
+                                            <!-- gallery-wrap .end// -->
+                                        </aside>
+                                        <aside class="col-sm-7">
+                                            <article class="card-body detaipage-body">
+                                                <div class="product-pup-detailss">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="">
+                                                                <?=$catname?>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="">
+                                                                <?=$row['prod_name']?>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <h3 class="prodcutname product_name"><?=$row['prod_name']?></h3>
+                                                    <p class="timeofproduc">
+                                                        <?php echo timeago($row['prod_date']);?>
+                                                    </p>
+                                                    <div class="prdcutprice">
+                                                        <?php
+				$save=$row['prod_price']-$row['prod_sprice']; 			
+			    $mrp=$row['prod_price'];
+				$persen=$row['prod_price']-$row['prod_sprice'];
+				$discount=($persen*100)/$mrp;
+			    $orgprice=$row['prod_sprice'];
+			    $finalprice=$row['prod_sprice'];
+				?>
+                                                            <h2 class="prodcfprice"> ₦ <?=number_format($row['prod_sprice'],2);?></h2>
+															 <?php if(!empty($row['material'])){ ?>
+                                                            <h3 class="prodcttype">Material: <?=$row['material']?></h3>
+                                                           <?php } if(!empty($row['sort_detail'])){ ?>
+														   <h3 class="prodcttype">Description:  <?=$row['sort_detail']?></h3><?php } ?>
+                                                            <!--<h3 class="prodcttype">Condition: Used - Good</h3>-->
+                                                    </div>
+                                                    <div class="slelect-dteails">
+                                                        <h2>Seller Information</h2>
+                                                        <div class="post_topbar">
+                                                            <div class="usy-dt">
+															<?php 
+															if($row['userid']==0){ echo "Orange State "; }else{
+																
+															echo $name=$db->getSingleResult('select first_name from all_user where user_id='.$row['userid']); } ?>
+                                                                <!--<?php $joindate=$db->getSingleResult('select joindate from all_user where user_id='.$_SESSION['sess_webid']);
+
+					if($userspath=='' and empty($userspath)){ ?>
+							<img src="images/resources/user.png" alt="">
+						<?php }else{?>
+							<img src="upload/<?=$userspath?>" alt="" height="40" width="40">
+						<?php }?>
+							<div class="usy-name">
+							<h3><?=$_SESSION['sess_name']?></h3>-->
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                                <div class="clear"></div>
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <dl class="param param-inline">
+                                                            <dt>Quantity: </dt>
+                                                            <dd>
+                                                                <select class="form-control form-control-sm" style="width:70px;" id="tono<?=$row['id']?>">
+                                                                    <option value="1"> 1 </option>
+                                                                    <option value="2"> 2 </option>
+                                                                    <option value="3"> 3 </option>
+                                                                </select>
+                                                            </dd>
+                                                        </dl>
+                                                        <!-- item-property .// -->
+                                                    </div>
+                                                    <!-- col.// -->
+                                                    <div class="col-sm-7">
+                                                        <dl class="param param-inline">
+                                                           <?php if(!empty($row[ 'prodsize1']) or !empty($row[ 'prodsize2']) or !empty($row[ 'prodsize3']) or !empty($row[ 'prodsize4'])){ ?> <dt>Size: </dt> <?php }?>
+                                                            <dd> <?php if(!empty($row[ 'prodsize1'])){ ?>
+                                                                <label class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2<?=$row['id']?>" value="SM" <?php if($row[ 'prodsize1']=='S'){ echo "selected"; } ?>>
+                                                                    <span class="form-check-label">SM</span>
+                                                                </label><?php }?>
+																<?php if(!empty($row[ 'prodsize2'])){ ?>
+                                                                <label class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2<?=$row['id']?>" value="MD" <?php if($row[ 'prodsize2']=='MD' ){ echo "selected"; } ?>>
+                                                                    <span class="form-check-label">MD</span>
+                                                                </label><?php }?>
+																<?php if(!empty($row[ 'prodsize3'])){ ?>
+                                                                <label class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2<?=$row['id']?>" value="XXL" <?php if($row[ 'prodsize3']=='L' ){ echo "selected"; } ?>>
+                                                                    <span class="form-check-label">L</span>
+                                                                </label><?php }?>
+																
+																
+																<?php if(!empty($row[ 'prodsize4'])){ ?>
+                                                                <label class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2<?=$row['id']?>" value="XXL" <?php if($row[ 'prodsize4']=='EXL' ){ echo "selected"; } ?>>
+                                                                    <span class="form-check-label">XXL</span>
+                                                                </label><?php } ?>
+                                                            </dd>
+                                                        </dl>
+                                                        <!-- item-property .// -->
+                                                    </div>
+                                                    <!-- col.// -->
+                                                </div>
+
+                                                <hr>
+                                                <a href="#" class="btn btn-lg btn-primary text-uppercase buynow-btn-n  addtocart" pid="<?=$row['id']?>"> Buy now </a>
+
+                                                <button class="btn btn-lg btn-outline-primary text-uppercase add-btnbtn11 my-cart-btn addtocartnew" pid="<?=$row['id']?>" data-id="1" data-name="product 1" data-summary="summary 1" data-price="10" data-quantity="1" data-image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/252820/1320x580-78.jfif">Add to Cart</button>
+                                                <!-- row.// -->
+
+                                                <div class="detila-prodcs-descroption">
+                                                    <h3>Description</h3>
+                                                    <div class="scrsss">
+                                                        <?=$row['prod_detail']?>
+                                                    </div>
+                                                </div>
+
+                                    </div>
+
+                                    </article>
+                                    <!-- card-body.// -->
+                                    </aside>
+                                    <!-- col.// -->
+                                </div>
+                                <!-- row.// -->
+                            </div>
+                            <!-- card.// -->
+
+                            <!-- new code -->
+                            <div class="container" >
+                                <div class="_3aadb_LRmas _3aadb_LRmas1">Similar Items You May Like</div>
+                                <section class="_588b5_3MtNs">
+                                    <section class="morepdlisting">
+                                        <ul class="b49ee_2pjyI _6a0fe_3Mm35">
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where catid='".$row[ 'catid']."' ORDER BY RAND()";						
+						$db->query($sql);
+						if($db->numRows()>0)
+						{
+						while($row=$db->fetchArray()){						
+						$path=$row['prod_large_image'];
+						$goid=base64_encode($row['id']); 
+						$save=$row['prod_price']-$row['prod_sprice']; 			
+						$mrp=$row['prod_price'];
+						$persen=$row['prod_price']-$row['prod_sprice'];
+						$discount=($persen*100)/$mrp;
+						$orgprice=$row['prod_sprice'];
+						$finalprice=$row['prod_sprice'];?>
+                                            <li class="bbe45_3oExY _9efef_381hp">
+                                                <a class="a2cf5_2S5q5 ae72d_3tPQG" href="product-details.php?pid=<?=base64_encode($row['id'])?>">
+                                                    <div class="fd0b5_20IbM">
+                                                        <picture>
+                                                            <img data-expand="100" data-src="product/<?=$path?>" alt="Extra Bass Booster Bluetooth Wireless Headphone With Fm-red." class="f5e10_VzEXF _59c59_3-MyH lazyloaded " src="product/<?=$path?>"></picture>
+                                                    </div>
+                                                    <div>
+                                                        <h3 class="_25677_1VXsu"><?=$row['prod_name']?></h3>
+                                                        <div class="_4e81a_39Ehs f57ef_hFN-_"><span class="d7c0f_sJAqi"><span style="font-family: sans-serif; margin-right: 1px;">₦</span><?=$finalprice?></span>
+                                                        </div>
+                                                        <div class="_287bd_1qnW0">
+                                                            <div class="_114c2_18RSu"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+
+						<?php }} ?>
+                                     
+                                             
+                                        </ul>
+                                    </section>
+                                </section>
+
+                            </div>
+							<?php echo getRecentlyViewed();?>
+                            <!-- new code ended -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <?php 
+                 function setRecentlyViewed ( $item, $url,$path ) {
+    //@session_start();
+     $_SESSION['items'] = array( $item, $url,$path );
+    //print_r($_SESSION['items']);
+  }
+  
+  function getRecentlyViewed () {
+     $str = '<div class="_3aadb_LRmas _3aadb_LRmas1">Your Most Recently Viewed Item</div>';
+     
+    if ( $_SESSION['items'] > 0 ) {
+        $str .= '<section class="_588b5_3MtNs">';
+        $str .= '<section class="morepdlisting">';
+        $str .= '<ul class="b49ee_2pjyI _6a0fe_3Mm35">';
+        $str .= '<li class="bbe45_3oExY _9efef_381hp">
+        <a class="a2cf5_2S5q5 ae72d_3tPQG" href="'.$_SESSION['items'][1].'"><div class="fd0b5_20IbM"><picture><img src="product/'.$_SESSION['items'][2].'" /></picture></div>
+        <h3 class="_25677_1VXsu">'.$_SESSION['items'][0].'</h3>
+        <div class="_4e81a_39Ehs f57ef_hFN-_"><span class="d7c0f_sJAqi"><span style="font-family: sans-serif; margin-right: 1px;">₦</span>3</span>
+        </div>
+        </a>
+
+        </li>';
+        $str .= '</ul>';
+        $str .= '</section>';
+        $str .= '</section>';
+    } else {
+        $str .= 'Nothing selected yet!';
+    }
+    return $str;
+  }
+  
+  
+  
+  // Display the results like so
+  
+                ?>
+ 
+                            </div>
+				
+                <?php /*
+				 function setRecentlyViewed ( $item, $url,$path ) {
+  	//@session_start();
+  	 $_SESSION['items'] = array( $item, $url,$path );
+	print_r($_SESSION['items']);
+  }
+  
+  function getRecentlyViewed () {
+  	 $str = '<h2>Your Most Recently Viewed Item:</h2>';
+	 
+  	if ( $_SESSION['items'] > 0 ) {
+  		$str .= '<ul>';
+  		$str .= '<li>
+		<img src="product/'.$_SESSION['items'][2].'" />
+		<a href="'.$_SESSION['items'][1].'">'.$_SESSION['items'][0].'</a></li>';
+  		$str .= '</ul>';
+  	} else {
+  		$str .= 'Nothing selected yet!';
+  	}
+  	return $str;
+  }
+  
+  
+  
+  // Display the results like so
+  
+			*/	?>
+				
+                <!-- main-section-data end-->
+            </div>
+            </div>
+        </main>
+
+        <script src="js/jquery.mycart.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+
+                var goToCartIcon = function($addTocartBtn) {
+                    var $cartIcon = $(".my-cart-icon");
+                    var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({
+                        "position": "fixed",
+                        "z-index": "999"
+                    });
+                    $addTocartBtn.prepend($image);
+                    var position = $cartIcon.position();
+                    $image.animate({
+                        top: position.top,
+                        right: 350,
+                    }, 500, "linear", function() {
+                        $image.remove();
+                    });
+                }
+
+            });
+        </script>
+
+        <script src="lib/js/config.js"></script>
+        <script src="lib/js/util.js"></script>
+        <script src="lib/js/jquery.emojiarea.js"></script>
+        <script src="lib/js/emoji-picker.js"></script>
+        <script>
+            $(function() {
+                // Initializes and creates emoji set from sprite sheet
+                window.emojiPicker = new EmojiPicker({
+                    emojiable_selector: '[data-emojiable=true]',
+                    assetsPath: 'lib/img/',
+                    popupButtonClasses: 'fa fa-smile-o'
+                });
+                // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
+                // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
+                // It can be called as many times as necessary; previously converted input fields will not be converted again
+                window.emojiPicker.discover();
+            });
+        </script>
+        <?php include( 'footer.php') ?>
+            <script>
+                function preview_image() {
+                    var total_file = document.getElementById("upload_file").files.length;
+                    for (var i = 0; i < total_file; i++) {
+
+                        $('#image_preview').append("<img src='" + URL.createObjectURL(event.target.files[i]) + "'>");
+                    }
+                }
+
+                //video player
+            </script>
+            <script type="text/javascript">
+                document.documentElement.setAttribute("lang", "en");
+                document.documentElement.removeAttribute("class");
+				var axe;
+                axe.run(function(err, results) {
+                    console.log(results.violations);
+                });
+            </script>
