@@ -115,16 +115,16 @@ $(document).ready(function(){
 	fetch_user();
 
 
- setInterval(function(){
+/*  setInterval(function(){
 
 		update_last_activity();
 		fetch_user();
-    update_chat_history_data_json();
+        update_chat_history_data_json();
 		// update_chat_history_data();
 
 		fetch_group_chat_history();
 		log();
-	}, 5000);
+	}, 5000); */
 
 	 setInterval(function(){
 

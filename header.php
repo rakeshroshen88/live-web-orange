@@ -31,6 +31,11 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 	<link rel="stylesheet" type="text/css" href="css/responsive.css">
 	<link rel="stylesheet" type="text/css" href="css/video-js.css">
 	<link href="images/logo.png" rel="icon" sizes="32x32" type="image/png" />
+	
+	    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="664380665812-8b9mqe830i9ibuer9b3g9l14tga0n0tl.apps.googleusercontent.com">
+   
+	<a href="#" onclick="signOut();">Sign out</a>
 	<!--<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	
@@ -139,7 +144,7 @@ $("#suggesstion-box").hide();
 							<li>
 								<a href=" " title="">
 									<span><img src="images/tourist.png" alt=""></span>
-									Tourist Destination
+									Tourism
 								</a>
 								<ul>
 									<li><a href=" " title="">Tourist sites</a></li>
@@ -151,8 +156,8 @@ $("#suggesstion-box").hide();
 
 							<li>
 								<a href=" " title="">
-									<span><img src="images/hotelss.png" alt=""></span>
-									Hospitality
+									<span><img src="images/hubbusiness.png" alt=""></span>
+									Business Hub
 								</a>
 								<ul>
 									<li><a href=" " title="">Hotels</a></li>
@@ -240,6 +245,102 @@ $("#suggesstion-box").hide();
 									</div><!--nott-list end-->
 								</div><!--notification-box end-->
 							</li>
+							 
+							<!--
+							<li class="viewcaronhouse">
+								<span class="cart-design">
+									<img src="img/carticon.png">
+									<span class="cartnumber"><?php 
+												echo $iemcount=$db->getSingleResult("SELECT count(*) from $_TBL_TEMPORDER where sessionid='".session_id()."'");
+												?></span>
+
+								</span>
+
+
+								<span class="addtocart1" style="display: none;">
+									<span class=" my-cart-icon fa fa-cart-arrow-down">
+										<span class="my-cart-badge"><?php 
+												echo $iemcount=$db->getSingleResult("SELECT count(*) from $_TBL_TEMPORDER where sessionid='".session_id()."'");
+												?></span>
+									</span>
+								</span>
+								
+								<div class="carviewtop">
+          <div class="card">
+            <div class="card-header  ">
+              <h4 class="card-title">Your cart (<?php 
+												echo $iemcount=$db->getSingleResult("SELECT count(*) from $_TBL_TEMPORDER where sessionid='".session_id()."'");
+												?>)</h4>
+            </div>
+            <div class="card-content">
+              <ul class="list-group mb-3 checkoutlist-rpdoct carlisting1">
+			  <li class="" >
+			  <p id="tempshow">
+               <?php $grand_total=0;
+$ct=1;
+$dbt=new DB;
+ $sqlt="select * from ".$_TBL_TEMPORDER." where sessionid='".session_id()."'";
+$dbt->query($sqlt);
+if($dbt->numRows()>0)
+	{
+		$ship=0;
+		while($rowt=$dbt->fetchArray()){
+		
+		$ppid=$rowt['prodid'];		
+		$path2=$db->getSingleResult("select prod_large_image from $_TBL_PRODUCTUCT where  id='$ppid'");
+          if(!empty($path2)){
+            $path1=$path2;
+          }else{
+         $path1='noimage.jpg'; 
+        }
+		
+		$ship1=$db->getSingleResult("select shippingcharge from $_TBL_PRODUCT where  id='$ppid'");
+			
+			?>
+ <div class="carlisting1main">
+                    <h6 class="my-0"><span class="prodcutname"><?php if(!empty($rowt['product_name'])){
+		echo $rowt['product_name']; } ?>  (Qty : <?php echo $rowt['quantity'];?> ) </span><span class="text-muted">-  ₦<?php if(!empty($rowt['cost'])){
+		echo $rowt['cost']; } ?>.00 <span class="text-muted btndel" title="Remove" pid="<?php echo $rowt['id'];?>">X</span></span></h6>
+                    
+                  
+				   
+                  
+		
+               
+             </div>                
+	<?php
+$ct++; 
+	  
+	   $grand_total=$grand_total+$rowt['prod_total'];
+	   $ship=$ship+$ship1;
+
+	}} ?>  </p></li> 
+
+
+	<li class="list-group-item d-flex justify-content-between border-top1px">
+                  <span class="product-name">Shipping &amp; Handling</span>
+                  <span class="product-price shiping">₦<?=number_format($ship,2,'.',',')?></span>
+                </li>
+                
+                
+                <li class="list-group-item d-flex justify-content-between">
+                  <span class="product-name success bold finalprice">Order Total</span>
+                  <span class="product-price bold finalprice gt">₦<?=number_format($grand_total+$ship,2,'.',',')?></span>
+                </li>
+                
+                <hr>
+              	<li><a href="checkout.php" class="btn btn-primary pull-right">Checkout</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+           
+        </div>
+      
+							</li>
+
+
 
 							<li class="viewcaronhouse">
 								<span class="addtocart1">
@@ -323,7 +424,99 @@ $ct++;
            
         </div>
       
+							</li> -->
+						</ul>
+					  
+						<ul>
+							 
+							<li class="viewcaronhouse">
+								<span class="cart-design">
+									<img src="img/carticon.png">
+									<span class="cartnumber"><?php 
+												echo $iemcount=$db->getSingleResult("SELECT count(*) from $_TBL_TEMPORDER where sessionid='".session_id()."'");
+												?></span>
+
+								</span>
+
+
+								 
+								 
+								<div class="carviewtop">
+          <div class="card">
+            <div class="card-header  ">
+              <h4 class="card-title">Your cart (<?php 
+												echo $iemcount=$db->getSingleResult("SELECT count(*) from $_TBL_TEMPORDER where sessionid='".session_id()."'");
+												?>)</h4>
+            </div>
+            <div class="card-content">
+              <ul class="list-group mb-3 checkoutlist-rpdoct carlisting1">
+			  <li class="" >
+			  <p id="tempshow">
+               <?php $grand_total=0;
+$ct=1;
+$dbt=new DB;
+ $sqlt="select * from ".$_TBL_TEMPORDER." where sessionid='".session_id()."'";
+$dbt->query($sqlt);
+if($dbt->numRows()>0)
+	{
+		$ship=0;
+		while($rowt=$dbt->fetchArray()){
+		
+		$ppid=$rowt['prodid'];		
+		$path2=$db->getSingleResult("select prod_large_image from $_TBL_PRODUCTUCT where  id='$ppid'");
+          if(!empty($path2)){
+            $path1=$path2;
+          }else{
+         $path1='noimage.jpg'; 
+        }
+		
+		$ship1=$db->getSingleResult("select shippingcharge from $_TBL_PRODUCT where  id='$ppid'");
+			
+			?>
+ <div class="carlisting1main">
+                    <h6 class="my-0"><span class="prodcutname"><?php if(!empty($rowt['product_name'])){
+		echo $rowt['product_name']; } ?>  (Qty : <?php echo $rowt['quantity'];?> ) </span><span class="text-muted">-  ₦<?php if(!empty($rowt['cost'])){
+		echo $rowt['cost']; } ?>.00 <span class="text-muted btndel" title="Remove" pid="<?php echo $rowt['id'];?>">X</span></span></h6>
+                    
+                  
+				   
+                  
+		
+               
+             </div>                
+	<?php
+$ct++; 
+	  
+	   $grand_total=$grand_total+$rowt['prod_total'];
+	   $ship=$ship+$ship1;
+
+	}} ?>  </p></li> 
+
+
+	<li class="list-group-item d-flex justify-content-between border-top1px">
+                  <span class="product-name">Shipping &amp; Handling</span>
+                  <span class="product-price shiping">₦<?=number_format($ship,2,'.',',')?></span>
+                </li>
+                
+                
+                <li class="list-group-item d-flex justify-content-between">
+                  <span class="product-name success bold finalprice">Order Total</span>
+                  <span class="product-price bold finalprice gt">₦<?=number_format($grand_total+$ship,2,'.',',')?></span>
+                </li>
+                
+                <hr>
+              	<li><a href="checkout.php" class="btn btn-primary pull-right">Checkout</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+           
+        </div>
+      
 							</li>
+ 
+ 
 						</ul>
 					</nav>
 					<!--<li class="list-group-item d-flex justify-content-between ">
@@ -333,7 +526,7 @@ $ct++;
 					
 					<!--nav end-->
 					<div class="menu-btn">
-						<a href="#" title=""><i class="fa fa-bars"></i></a>
+						<a href="#" title="" ><i class="fa fa-bars"></i></a>
 					</div><!--menu-btn end-->
 					
 					<?php if(!empty($_SESSION['sess_name'])){
@@ -348,7 +541,7 @@ $ct++;
 						<?php }else{?>
 							<img src="upload/<?=$userspath?>" alt="" height="40" width="40">
 						<?php }?>
-							<a href="#" title=""><?=$_SESSION['sess_name']?></a>
+							<a href="#" title="" ><?=$_SESSION['sess_name']?></a>
 							<i class="la la-sort-down"></i>
 						</div>
 						<div class="user-account-settingss" id="users">
@@ -388,7 +581,10 @@ $ct++;
 								<li><a href="#" title="">Terms & Conditions</a></li>
 							</ul>
 							<h3 class="tc"><a href="company-page.php" title="">create page</a></h3>
-							<h3 class="tc"><a href="logout.php" title="">Logout</a></h3>
+							<h3 class="tc"><a href="logout.php" onclick="signOut();" title="">Logout</a></h3>
+							
+							<!--<h3 class="tc"><a href="javascript:void(0);" onclick="signOut();" title="">Logout</a></h3>-->
+							
 						</div><!--user-account-settingss end-->
 					</div>
 					<?php }else{?>

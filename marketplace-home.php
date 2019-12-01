@@ -862,13 +862,11 @@ if($dbt->numRows()>0)
             <div class="container">
                 <div class="main-section-data">
                     <div class="row">
-                        <div class="col-lg-3">
+                        <!--<div class="col-lg-3">
                         <a href=""><img src="img/ads1.png" alt="ads"></a>
-						    
-						<!--filter-secs end-->
-							
-                        </div>
-                        <div class="col-lg-9">
+						 
+                        </div>-->
+                        <div class="col-lg-12">
                             <div class="main-ws-sec">
                                 <div class="posts-section prodcutlisting">
                                     <div class="row searchrec">

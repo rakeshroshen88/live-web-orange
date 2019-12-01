@@ -22,13 +22,15 @@ $pageid=$FormData['pageid'];
 $pageid=0;	
 }
 $post_title=$FormData['selectfeel'];
+
+$fname=$db->getSingleResult('select catname from '.$_TBL_FEELINGC." where id=".$post_title);
 if(!empty($post_details)){
 		$arr=array(
 							"user_id"=>$_SESSION['sess_webid'],
 							"allpath"=>  $imgid,
-							"post_title"=>$post_title,
+							"post_title"=>$fname.' '.$fsubcatname,
 							"post_details"=>$post_details,
-							"postemos"=>$feeling.$fsubcatname,
+							"postemos"=>$feeling,
 							"tagfriends"=>$tagfriends,
 							"post_status"=>1,	
 							"pageid"=>$pageid,							

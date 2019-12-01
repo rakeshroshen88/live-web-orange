@@ -1973,6 +1973,13 @@ var chat_message = jQuery(this).attr('im');
 
 }	);	
 
+	jQuery(document).on("click", ".send_chatemoji1", function(e){
+	//var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji1").css("display", "block");
+	$(".wishlistcartemoji1").show();
+	
+
+}	);	
 	jQuery(document).on("click", "#close", function(e){
 	//var cid = jQuery(this).attr('cid');
 	$(".wishlistcartemoji").css("display", "none");
@@ -1981,6 +1988,15 @@ var chat_message = jQuery(this).attr('im');
 	
 
 });	
+
+	jQuery(document).on("click", "#close1", function(e){
+	//var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji1").css("display", "none");
+	$(".wishlistcartemoji1").hide();
+	
+	
+
+});
 
 ///////////
 $(document).on('keyup', '.cp', function(){
@@ -2065,3 +2081,34 @@ jQuery(".selectfeel").on('change', function() {
         });
 	
 	});	
+
+$(document).on('click', '.emoji1', function(){	
+	var uid = jQuery(this).attr('uid');
+	var mp3 = jQuery(this).attr('mp3');
+	//var c_id = jQuery(this).attr('cid');	
+	var pid = jQuery(this).attr('pid');
+	//var uid=jQuery("#uid"+c_id).val();		
+	var im = jQuery(this).attr('im');
+	var dataString ='pid='+pid+'&uid='+uid+'&postcomment='+postcomment+'&cimage='+im+'&mp3='+mp3;
+
+	$.ajax({
+			url:"insertemojiforcomment.php",
+			method:"POST",
+			data: dataString,
+			success:function(data){
+				//alert(data);
+			//	$('#chat_history_'+to_user_id).html(data);
+			
+				var auto='<audio src="emoji/'+mp3+'" controls autoplay style="width: 95%; opacity: 0;" ></audio>';
+				$('#autop').html(auto);
+				/* $(".chat_history").stop().animate({ scrollTop: $(".chat_history")[0].scrollHeight}, 1000); */
+				var chatwindow  = $('#chat_history_'+to_user_id);
+				var height = chatwindow[0].scrollHeight;
+				$("#chat_message_"+to_user_id).text('');
+				//chatwindow.scrollTop(height);
+				chatwindow.stop().animate({ scrollTop: height}, 500);
+				$(".wishlistcartemoji").hide();
+			}
+		})
+	/* 		jQuery("#emojiid").val('<img src="emoji/'+im+'" alt="" style="width:50px;" />');		jQuery("#files").html('<img src="emoji/'+im+'" alt="" style="width:50px; height:50px;" />');		var emojiid=jQuery("#emojiid").val();		//alert(emojiid);		$('<span id='+idd+'></span>').appendTo('#files').html('<img src="emoji/'+im+'" alt="" style="margin:5px;" />').addClass('success'); */});
+

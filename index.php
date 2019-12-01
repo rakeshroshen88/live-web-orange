@@ -29,6 +29,8 @@ include_once("includes/functions.php"); */
 	<link rel="stylesheet" type="text/css" href="lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/responsive.css">
+	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+	
 	 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<!--<script type="text/javascript" src="js/jquery-2.1.0.js"></script>-->
     <meta name="google-signin-scope" content="profile email">
@@ -90,7 +92,7 @@ jQuery("#complete").trigger("geocode");
 						  var data1 = jQuery.parseJSON(response);
 
 
-            		  // alert(response);
+            		   alert(response);
 
                        if(data1.status==true){
                            // $('#success').html('Added');
@@ -118,7 +120,15 @@ jQuery("#complete").trigger("geocode");
 		//window.relode();
       }
     </script>
-
+<a href="#" onclick="signOut();">Sign out</a>
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>
 
 <script>
   /*
@@ -157,14 +167,19 @@ jQuery("#complete").trigger("geocode");
 			<div class="signin-popup">
 				<div class="signin-pop">
 					<div class="row">
-						<div class="col-lg-6">
+						<div class="col-lg-6 signineleft">
 							<div class="cmp-info">
 								<div class="cm-logo">
 									<img src="images/cm-logo.png" alt="">
 									<p>OrangeState,  is a global  platform and social networking where businesses and independent professionals connect and collaborate remotely</p>
 								</div><!--cm-logo end-->
-								<img src="images/cm-main-img.png" alt="">
+								 
 							</div><!--cmp-info end-->
+
+							<div class="sign-tab-ling">
+								<h3>Chatting</h3>
+								<h5>Just Got Better!!</h5>
+							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="login-sec">
@@ -172,7 +187,7 @@ jQuery("#complete").trigger("geocode");
 									<li data-tab="tab-1" class="current"><a href="#" title="">Sign in</a></li>
 									<li data-tab="tab-2"><a href="#" title="">Sign up</a></li>
 								</ul>
-								<div class="sign_in_sec current" id="tab-1">
+								<div class="sign_in_sec current mainsignin" id="tab-1">
 
 									<h3>Sign in</h3>
 									<h4 style="color:#FF0000;"><?php
@@ -270,7 +285,7 @@ jQuery("#complete").trigger("geocode");
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<input id="dob" name="dob" placeholder="Dob" type="date" data-validation="required">
-														<i class="la la-date"></i>
+														<i class="la la-calendar-check-o"></i>
 													</div>
 													<span id="error_dob" class="text-danger"></span>
 												</div>
@@ -285,15 +300,7 @@ jQuery("#complete").trigger("geocode");
 													<span id="error_address" class="text-danger"></span>
 												</div>
 -->
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input id="state" name="state" placeholder="Start Name" type="text" data-validation="required" >
-														<i class="la la-state"></i>
-
-													</div>
-
-													<span id="error_state" class="text-danger"></span>
-												</div>
+												
 												<!--
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
@@ -312,7 +319,7 @@ jQuery("#complete").trigger("geocode");
 												<option value="Male" >Male</option>
 												<option value="Female" >Female</option>
 											</select>
-													<i class="la la-user"></i>
+													<i class="la la-male"></i>
 													</div>
 													<span id="error_gender" class="text-danger"></span>
 												</div>
@@ -350,6 +357,16 @@ jQuery("#complete").trigger("geocode");
 														<span><i class="fa fa-ellipsis-h"></i></span>
 													</div>
 												</div>-->
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input id="state" name="state" placeholder="State" type="text" data-validation="required" >
+														<i class="la la-database"></i>
+
+													</div>
+
+													<span id="error_state" class="text-danger"></span>
+												</div>
+
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<input type="password" name="password" id="password"  placeholder="Password">

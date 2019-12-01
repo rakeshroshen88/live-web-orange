@@ -7,14 +7,15 @@ if(isset($_POST['formData'])){
 				}
 		$post_id=$_POST['pid'];
 		$uid=$_POST['uid'];
-		$comment=$_POST['postcomment'];
+		$mp3=$_POST['mp3'];
 		$cimage=$_POST['cimage'];
-		if(!empty($comment)){
+		if(!empty($cimage)){
 		$arr=array(
 							"user_id"=>$uid,
 							"post_id"=>$post_id,
-							"comment"=>$comment,
+							"comment"=>'',
 							"cimage"=>$cimage,
+							"mp3"=>$mp3,
 							"comment_status"=>1,							
 							"cdate"=>date('Y-m-d H:i:s')
 			    );
@@ -42,10 +43,12 @@ if(isset($_POST['formData'])){
 											if(!empty($pimage)){
 											echo '<img src="upload/'.$pimage.'" alt="" height="40" width="40">';
 											 }else{ 
-											echo '<img src="images/clock.png" alt="">';
+											echo '<img src="images/resources/user.png" alt="">';
 											 }
-												if(!empty($rowc['cimage'])){ 
-													echo '<img src="upload/'.$rowc['cimage'].'" height="50" width="50"/>';
+												if(!empty($rowc['mp3'])){ 
+													echo '<img src="emoji/'.$rowc['cimage'].'" height="50" width="50"/>';
+													}else{
+														echo '<img src="upload/'.$rowc['cimage'].'" height="50" width="50"/>';
 													}
 													echo '<span class="user-name-in-coment">'.$username.'</span>';
 													if(!empty($rowc['comment'])){

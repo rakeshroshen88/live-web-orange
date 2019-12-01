@@ -46,12 +46,46 @@ width:25px; float:left; margin-right:6px
 				<div class="container">
 					<div class="main-section-data">
 						<div class="row">
-							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
+							<div class="col-lg-2 col-md-2 pd-left-none no-pd leftbar-mainlist">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
 										<div class="user-profile">
 											<div class="username-dt">
-												<div class="usr-pic">
+												<style type="text/css">
+
+												</style>
+
+												<div class="profile-newimg">
+													<div class="newimg-lfet">
+														<?php  $dbn=new DB();
+						$db2=new DB();
+						   $sqln="select * from user_profile where user_id =".$_SESSION['sess_webid'];
+						$dbn->query($sqln);
+						while($rowi=$dbn->fetchArray()){
+							 $impid=$rowi['image_id'];
+						}
+						?>
+						<?php if($impid=='' and empty($impid)){ echo "$impid";?>
+							<img src="images/resources/user.png"  alt="" >
+						<?php }else{?>
+							<img src="upload/<?=$impid?>" alt="" >
+						<?php }?>
+
+													 
+													</div>
+													<div class="profiledetailsname">
+														<h2><?=$_SESSION['sess_name']?></h2>
+														<p><?php 
+												echo $emp=$db->getSingleResult("SELECT current_company from user_profile where user_id=".$_SESSION['sess_webid']);
+												
+												?> Mutual Friends</p>
+													</div>
+
+												</div>
+
+
+
+												<!--<div class="usr-pic">
 						<?php  $dbn=new DB();
 						$db2=new DB();
 						   $sqln="select * from user_profile where user_id =".$_SESSION['sess_webid'];
@@ -66,36 +100,35 @@ width:25px; float:left; margin-right:6px
 							<img src="upload/<?=$impid?>" alt="" height="90" width="90">
 						<?php }?>
 												    
-												<!--	<img src="images/resources/user-pic.png" alt="">-->
+												 
 													
-												</div>
+												</div>  -->
 											</div><!--username-dt end-->
-											<div class="user-specs">
+											<!-- <div class="user-specs">
 												<h3><?=$_SESSION['sess_name']?></h3>
 												<span><?php 
 												echo $emp=$db->getSingleResult("SELECT current_company from user_profile where user_id=".$_SESSION['sess_webid']);
 												
 												?></span>
-											</div>
+											</div>-->
 										</div><!--user-profile end-->
 										<ul class="user-fw-status">
 											<li><!--javascript:void(0)" id="follow-->
-												<a href="my-profile.php"><h4>Following</h4></a>
-												<span><?php 
-												 $num1=$db->getSingleResult("SELECT * from followers where user_id=".$_SESSION['sess_webid']." limit 0,5");
+												<a href="my-profile.php"><h4><span class="foocat">Following </span><span class="follusingnumber"><?php 
+												 $num1=$db->getSingleResult("SELECT count(f_id) from followers where user_id=".$_SESSION['sess_webid']." limit 0,5");
 												if(empty($num1)){ echo "0";}else{ echo $num1; }
-												?></span>
-											</li>
+												?></span></h4></a>
+												
+											</li> 
 											<li>
-												<h4>Followers</h4>
-												<span><?php 
-												 $num=$db->getSingleResult("SELECT * from followers where follow=".$_SESSION['sess_webid']);
+												<h4><span class="foocat">Followers </span> <span class="follusingnumber"><?php 
+												 $num=$db->getSingleResult("SELECT count(f_id) from followers where follow=".$_SESSION['sess_webid']);
 												 if(empty($num)){ echo "0";}else{ echo $num; }
-												?></span>
+												?></span></h4>
+												
 											</li>
 											<li>
-												<a href="javascript:void(0);" id="message"><h4>Message</h4></a>
-												<span><?php 
+												<a href="javascript:void(0);" ><h4><span class="foocat">Message </span> <span class="follusingnumber"><?php 
 												 $query = "
 	SELECT * FROM chat_message 
 	WHERE from_user_id = '".$_SESSION['sess_webid']."'	
@@ -106,11 +139,12 @@ width:25px; float:left; margin-right:6px
 	echo $countm = $statement->rowCount();
 												// $message=$db->getSingleResult("SELECT * from message where user_id=".$_SESSION['sess_webid']);
 												 //if(empty($countm)){ echo "0";}
-												?></span>
+												?></span></h4></a>
+												
 											</li>
 
 											<li>
-												<a href="my-profile.php" title="">View Profile</a>
+												<a href="my-profile.php" title="" class="viewprobtn">View Profile</a>
 											</li>
 										</ul>
 									</div><!--user-data end-->
@@ -181,7 +215,7 @@ width:25px; float:left; margin-right:6px
 									</div><!--tags-sec end-->
 								</div><!--main-left-sidebar end-->
 							</div>
-							<div class="col-lg-6 col-md-8 no-pd">
+							<div class="col-lg-6 col-md-8 no-pd dashboardtimeline">
 								<div class="main-ws-sec">
 	<link href="lib/css/emoji.css" rel="stylesheet">
 									<!-- new post-st end-->
@@ -279,6 +313,19 @@ width:25px; float:left; margin-right:6px
 														</a>
 													</li>
 
+													<li>
+														<a  class="feeling">
+															 <img src="images/postloaction.png" alt="new location"> 
+															 
+														</a>
+													</li>
+
+													<li class="postbtnli">
+														<button type="submit" id="uploadpost" value="Post-Status" class="active postbtn">Post Status</button>
+													</li>
+
+
+
 													<!--<li>
 														<a>
 															<img src="images/record.png">Live Video	
@@ -289,14 +336,7 @@ width:25px; float:left; margin-right:6px
 											</ul>
  
 										</div>
-										<div class="post-st text-right">
-											<ul>
-												 
-												<li><!--<a class="active"  href="#" title="">Post Status</a>-->
-												<button type="submit" id="uploadpost" value="Post-Status" class="active postbtn">Post Status</button>
-												</li>
-											</ul>
-										</div><!--post-st end-->
+										 
 
 									</div> 
 </form>
@@ -310,17 +350,31 @@ width:25px; float:left; margin-right:6px
 									
 <div class="posts-section">
 									
-<?php $db1=new DB();
+<?php
+$db4=new DB();
+$l=array();
+$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
+$db4->query($sql4);
+if($db4->numRows()>0)
+{
+while($row4=$db4->fetchArray()){
+	$l[]=$row4['follow'];
+}
+}
+$allfriend=implode(',',$l);
+
+ $db1=new DB();
+$dblike=new DB();
 $dbr=new DB();
 $dbc=new DB();
 $dbu=new DB();
-$sql="SELECT * from user_post where user_id='".$_SESSION['sess_webid']."' and post_hide='0' order by post_id desc";
-$db->query($sql);
-if($db->numRows()>0)
+$dbp=new DB();
+ $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriend) and post_hide='0' order by post_id desc";
+$dbp->query($sqlp);
+if($dbp->numRows()>0)
 {
-while($row=$db->fetchArray()){
-$userimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$_SESSION['sess_webid']);
-$usernamepost=$db1->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$row['user_id']);
+while($row=$dbp->fetchArray()){
+
 //$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowc['user_id']);	
 $sqluser="SELECT * from user_profile where user_id=".$row['user_id'];
 $dbu->query($sqluser);
@@ -328,8 +382,8 @@ if($dbu->numRows()>0)
 {
 $userrow=$dbu->fetchArray();
 }
-$lcount=$db1->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id']);
-$ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$row['post_id']);
+$lcount=$dblike->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id']);
+$ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id='.$row['post_id']);
 ?>
 										<div class="post-bar">
 											<div class="post_topbar">
@@ -340,7 +394,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 												<img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40">
 												<?php }?>
 													<div class="usy-name">
-														<h3><?=$usernamepost?></h3>
+														<h3><?=$userrow['first_name']?></h3>
 														<span><img src="images/clock.png" alt=""><?php echo timeago($row['post_date']);?></span>
 													</div>
 												</div>
@@ -461,7 +515,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 											
 											<?php }?>
 														<img src="images/liked-img.png" alt="">
-														<span><?=$lcount?></span>
+														<span id="lcount<?=$row['post_id']?>"><?=$lcount?></span>
 													</li> 
 													<li><a href="javascript:void(0)" class="com" cid="<?=$row['post_id']?>"><i class="fas fa-comment-alt"></i> Comment <?=$ccount?></a></li>
 													<?php 
@@ -479,7 +533,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 														<?php if(!empty($userimage)){ ?>
 														<img src="upload/<?=$userimage?>"/>
 														<?php }else{?>
-														<img src="images/resources/bg-img4.png" alt="">
+														<img src="images/resources/user.png" alt="" height="40" width="40">
 														<?php } ?>
 													</div>
 													<li class="feeling-input">				
@@ -494,6 +548,30 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 													
 													<p class="lead emoji-picker-container">
 													<input type="text"  placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													<style>
+.wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
+.wishlistcartemoji1 li{display:inline;width:50px;}
+.wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
+#close{float: right; margin:10px;}
+</style>
+<ul class="wishlistcartemoji1" style="display:none;"  >
+<div id="close"><a href="javascript:void(0)">X</a></div>
+<?php 
+  $sql1="SELECT * FROM emoji order by id desc";
+$db->query($sql1)or die($db->error());
+while($row1=$db->fetchArray()){
+ $ext = pathinfo($row1['image'], PATHINFO_EXTENSION);	
+if($ext=='mp3'){
+	
+				$a.='';					 
+ }else{	
+				$b.='<li>
+							  <a href="javascript:void(0);" pid="'.$row['post_id'].'" im="'.$row1['image'].'"  mp3="'.$row1['mp3'].'"  uid="'.$row['user_id'].'" class="emoji1"><img src="emoji/'.$row1['image'].'" height="50" width="50" />
+						</a>
+						</li>';
+
+ } } echo $b;echo "</ul>"; ?>
+ <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
 													<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
 														</form>
 													</div>
@@ -517,13 +595,15 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
 											<?php if(!empty($pimage)){ ?>																	
 											<img src="upload/<?=$pimage?>" alt="" height="40" width="40"><?php }else{ ?>
-											<img src="images/clock.png" alt="">
+											<img src="images/resources/user.png" alt="" height="40" width="40">
 											<?php }?>
 													
 													
 
-													<?php if(!empty($rowc['cimage'])){ ?>
-													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/><?php }?>
+													<?php if(!empty($rowc['mp3'])){ ?>
+													<img src="emoji/<?=$rowc['cimage']?>" height="50" width="50"/><?php }else{ ?>
+													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/>
+													<?php }?>
 													<span class="user-name-in-coment"><?=$username?></span>
 													<span class="commword"><?=$rowc['comment']?> </span>
 													</span>
@@ -578,7 +658,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 																	<?php if(!empty($rpimage)){ ?>
 																	<img src="upload/<?=$rpimage?>" alt=""> 
 																	<?php }else{?>
-																	<img src="images/clock.png" alt="">
+																	<img src="images/resources/user.png" alt="" height="40" width="40">
 																	<?php }?>
 																	 
 																	<span class="user-name-in-coment"><?=$username1?> 1</span> 
@@ -772,7 +852,7 @@ while($row=$db->fetchArray()){?>
 									</div><!--posts-section end-->
 								</div><!--main-ws-sec end-->
 							</div>
-							<div class="col-lg-3 pd-right-none no-pd">
+							<div class="col-lg-2 pd-right-none no-pd pointbarmain">
 								<div class="right-sidebar">
 									<div class="widget widget-about">
 										  <div class="point-story" style="    padding: 40px;">
@@ -795,7 +875,7 @@ echo $reward=$dbrew->getSingleResult('select reward from '.$_TBL_USER." where us
 										 
 										 <div class="shop-homes1">
 										 		<ul>
-												<?php   $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,4";									
+												<?php   $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,10";									
 
 						$db->query($sql);
 
@@ -909,6 +989,399 @@ echo $reward=$dbrew->getSingleResult('select reward from '.$_TBL_USER." where us
 										</div>
 									</div>
 								</div>
+							</div>
+
+							<div class="col-lg-2 pd-right-none no-pd adpanelmain">
+									<div class="right-sidebar">
+									<div class="widget widget-about addwizards">
+										<div class="sd-title">
+											<h3>Adverts</h3>
+											 
+										</div>
+
+										<div class="adds-box">
+											<img src="img/newads.jpg" alt="ads">
+										</div>
+
+
+										 
+									</div><!--widget-about end-->
+
+									<div class="widget widget-about addwizards">
+										<div class="sd-title">
+										
+											<h3>Online Friends</h3>
+											 
+										</div> 
+										<div class="frindslist">
+											 <div class="chatfeature-leftbar open">
+     
+    <div id="user_detailsa">
+	
+	<?php 
+	
+ $query = "
+SELECT * FROM login
+WHERE user_id != '".$_SESSION['user_id']."'
+";
+
+$statement = $connect->prepare($query);
+
+$statement->execute();
+
+$result = $statement->fetchAll();
+
+$output = '
+<ul>
+';
+
+foreach($result as $rowc)
+{
+	$status = '';
+	$current_timestamp = strtotime(date("Y-m-d H:i:s") . '- 10 second');
+	$current_timestamp = date('Y-m-d H:i:s', $current_timestamp);
+	 $a=strtotime($current_timestamp); 
+	  $user_last_activity = fetch_user_last_activity($rowc['user_id'], $connect);
+	 
+	 
+	 $uid=$db->getSingleResult("select user_id from all_user where email_id='".$rowc['username']."'");
+	  $userfpath=$db->getSingleResult('select image_id from user_profile where user_id='.$uid);
+	  if(!empty($userfpath)){
+	  $upath='upload/'.$userfpath;
+	  }else{
+	  $upath='/images/resources/user3.png';
+	  }
+	 $fname=$db->getSingleResult('select first_name from all_user where user_id='.$uid); 
+	//$status =$row['status'];
+	if($user_last_activity > $current_timestamp)
+	{
+		$status = '<span class="greendot"></span>';
+	}
+	else
+	{
+		$status = '<span class="reddot"></span>';
+	}
+	
+	$output .= '
+	<li>
+	<button type="button" class="start_chat" data-touserid="'.$rowc['user_id'].'" data-tousername="'.$rowc['name'].'">
+		  <div class="chat-user-img"><img src="'.$upath.'"></div><div class="chat-user-name"><h3>'.$fname.' '.count_unseen_message($rowc['user_id'], $_SESSION['user_id'], $connect).' '.fetch_is_type_status($rowc['user_id'], $connect).'</h3></div>'.fetch_is_status($rowc['user_id'], $connect).'
+		  </button>
+	</li>';
+}
+//fetch_is_status($row['user_id'], $connect)
+$output .= '</ul>';
+
+echo $output;
+	
+	?>
+
+      <!--  <ul>
+
+            <li>
+                <button type="button" class="start_chat" data-touserid="28" data-tousername="VINOD">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>VINOD  </h3></div><span class="greendot"></span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="32" data-tousername="RAVI">
+                    <div class="chat-user-img"><img src="upload/704235011.jpg"></div>
+                    <div class="chat-user-name">
+                        <h3>RAVI  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="33" data-tousername="hdsflsdlf">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>hdsflsdlf  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="34" data-tousername="sachin">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>sachin  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="35" data-tousername="jdsfdsjfsdf">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>jdsfdsjfsdf  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="37" data-tousername="Agim">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Agim <span class="label label-success">1</span> </h3></div><span class="greendot"></span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="39" data-tousername="Andy">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Andy  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="41" data-tousername="Agim">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Agim <span class="label label-success">3</span> </h3></div><span class="reddot"></span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="42" data-tousername="shire">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>shire  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="44" data-tousername="shiren">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>shiren  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="45" data-tousername="shiren">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>shiren  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="46" data-tousername="Roy">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Roy  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="49" data-tousername="Mbuotidem">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Mbuotidem  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="51" data-tousername="Mbuotidem">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Mbuotidem  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="52" data-tousername="jhon">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>jhon  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="55" data-tousername="Agim">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Agim <span class="label label-success">1</span> </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="56" data-tousername="Ediene">
+                    <div class="chat-user-img"><img src="upload/6427IMG_0035.JPG"></div>
+                    <div class="chat-user-name">
+                        <h3>Ediene  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="57" data-tousername="Stephanie ">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Stephanie   </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="58" data-tousername="Solomon">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Solomon  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="59" data-tousername="Ada">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Ada  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="60" data-tousername="Tochukwu">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Tochukwu  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="61" data-tousername="Onyebuchi ">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Onyebuchi   </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="64" data-tousername="Amaka">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Amaka  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="68" data-tousername="Udochukwu">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Udochukwu  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="70" data-tousername="Anthony ">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Anthony   </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="75" data-tousername="Dike">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Dike  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="81" data-tousername="Anthony ">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Anthony   </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="86" data-tousername="Dike">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Dike  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="91" data-tousername="Chikwendu">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Chikwendu  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="94" data-tousername="Michael">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Michael  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="96" data-tousername="Irene">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Irene  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="98" data-tousername="Udochukwu">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Udochukwu  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="133" data-tousername="Amaka">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Amaka  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="135" data-tousername="ani">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>ani  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="147" data-tousername="KUBIAT">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>KUBIAT  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="148" data-tousername="Eddy ">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Eddy   </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="149" data-tousername="Orange State">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Orange State  </h3></div><span class="greendot"></span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="150" data-tousername="Chittaranjan Roy">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Chittaranjan Roy  </h3></div><span class="greendot"></span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="151" data-tousername="Queen Fidelis">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Queen Fidelis  </h3></div><span class="reddot"></span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="152" data-tousername="Jaja">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Jaja  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="162" data-tousername="Etietop Abang">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>Etietop Abang  </h3></div>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="start_chat" data-touserid="163" data-tousername="chittaranjan Roy">
+                    <div class="chat-user-img"><img src="/images/resources/user3.png"></div>
+                    <div class="chat-user-name">
+                        <h3>chittaranjan Roy  </h3></div><span class="greendot"></span>
+                </button>
+            </li>
+        </ul>
+   --> </div>
+</div>
+										</div>
+
+
+										 
+									</div><!--widget-about end-->
+
+									</div>
 							</div>
 						</div>
 					</div>

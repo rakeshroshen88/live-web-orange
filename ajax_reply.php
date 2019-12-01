@@ -43,7 +43,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 																	if(!empty($rpimage)){
 																	echo '<img src="upload/'.$rpimage.'" alt="">'; 
 																	}else{
-																	echo '<img src="images/clock.png" alt="">';
+																	echo '<img src="images/resources/user.png" alt="">';
 																	}
 																	 echo '</span>
 																	<h3>'.$username1.'</h3>';

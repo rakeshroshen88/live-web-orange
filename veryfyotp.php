@@ -1,6 +1,5 @@
 <?php include('header.php');
-session_start();
-include('chat/database_connection.php');
+
 if($_POST['submit1']=='Verify Contact & Continue')
  {	 
   $uid=$_POST['uid'];
@@ -16,7 +15,8 @@ if($db->numRows()>0)
 	if($result['uniqueid']==$otp)
 	{
 	 //////////////chat///////////////////
-				$data = array(
+	 $connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e");
+				 $data = array(
 					':username'		=>	$emial,
 					':name'		=>	$name,
 					':password'		=>	password_hash($p, PASSWORD_DEFAULT)
@@ -27,7 +27,7 @@ if($db->numRows()>0)
 				VALUES (:username, :password, :name)
 				";
 				$statement = $connect->prepare($query);
-				$statement->execute($data);
+				$statement->execute($data);  
 	//////////////////////////////////	
 	 $update=array( "user_status"=>'1');	
 	 $where=" email_id=".$_REQUEST['email1'];
@@ -262,5 +262,9 @@ if($db->numRows()>0)
 
 }	);
 </script>
+
+<style>
+	header nav,header .user-account{display: none}
+</style>
 
 <?php include('footer.php');?>
