@@ -5,16 +5,16 @@ include_once("config.inc.php");
 						$FormData = array();
 						$AllFormData = parse_str($_POST['postid'], $FormData);	
 				}  */
-$connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e");
+//$connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e");
 $dbu=new DB();				
 $followid=$_POST['followid'];
-$sqluser="SELECT * from user_profile where user_id=".$followid;
+$sqluser="SELECT * from user_profile where user_id=".$_SESSION['sess_webid'];
 $dbu->query($sqluser);
 if($dbu->numRows()>0)
 {
 $userrow=$dbu->fetchArray();
 }
-$emailid=$db->getSingleResult('select email_id from '.$_TBL_USER." where user_id=".$userrow['user_id']);
+/* $emailid=$db->getSingleResult('select email_id from '.$_TBL_USER." where user_id=".$userrow['user_id']); */
 				//if(!empty($post_id)){
  $sql="SELECT * from followers where user_id=".$_SESSION['sess_webid']." and follow=".$followid;
 $db->query($sql);
@@ -25,22 +25,13 @@ $follower=$row['follow'];
 $dsql="DELETE FROM followers where user_id=".$_SESSION['sess_webid']." and follow=".$followid;
 $db->query($dsql);
  echo $regmsg="follower Removed Successfully !";
-/* if (in_array($followid, $follower, true)) {
-   if (($key = array_search($followid, $follower)) !== false) {
+if (in_array($followid, $follower, true)) {
+/*    if (($key = array_search($followid, $follower)) !== false) {
     unset($array[$key]);
 	}
-}else{
-	
-} */
-/* if($row['do_like']==0){
-$sql1 = "UPDATE followers SET follow = '1' WHERE user_id=".$_SESSION['sess_webid'];
+
+$sql1 = "UPDATE user_profile SET allfriends = '".$friends"' WHERE user_id=".$_SESSION['sess_webid']; */
 $db->query($sql1);
-echo $regmsg="followers Successfully !";	
-}else{
-$sql1 = "UPDATE followers SET follow = '0' WHERE user_id=".$_SESSION['sess_webid'];
-$db->query($sql1);
-echo $regmsg="followers hide Successfully !";	
-} */
 	
 }else{
 		
@@ -54,7 +45,7 @@ echo $regmsg="followers hide Successfully !";
      $insid=insertData($arr, 'followers');
 	 //////////////chat///////////////////
 	 
-				 $data = array(
+				/*  $data = array(
 					':username'		=>	$emailid,
 					':name'		=>	$userrow['first_name'],
 					':password'		=>	password_hash('12abc', PASSWORD_DEFAULT),
@@ -66,10 +57,10 @@ echo $regmsg="followers hide Successfully !";
 				VALUES (:username, :password, :name, :f_userid)
 				";
 				$statement = $connect->prepare($query);
-				$statement->execute($data);  
+				$statement->execute($data);   */
 	//////////////////////////////////	
  ////////////////////////////////////
-$query = "
+/* $query = "
 		SELECT * FROM login
   		WHERE username = :username
 	";
@@ -95,7 +86,7 @@ $query = "
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
 				 $_SESSION['login_details_id'] = $connect->lastInsertId();	
-	}}
+	}} */
 /////////////////////////////////////////////////
 	 echo $regmsg="following";	
 }

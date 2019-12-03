@@ -14,28 +14,33 @@ if($db->numRows()>0)
 	$otp=$_POST['otp'];
 	if($result['uniqueid']==$otp)
 	{
-	 //////////////chat///////////////////
-	 /* $connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e");
-				 $data = array(
-					':username'		=>	$emial,
-					':name'		=>	$name,
-					':password'		=>	password_hash($p, PASSWORD_DEFAULT)
-				);
-				$query = "
-				INSERT INTO login 
-				(username, password, name) 
-				VALUES (:username, :password, :name)
-				";
-				$statement = $connect->prepare($query);
-				$statement->execute($data);   */
-	//////////////////////////////////	
+		////////////////////////////
 	 $update=array( "user_status"=>'1');	
 	 $where=" email_id=".$_REQUEST['email1'];
-	  $sql1="update $_TBL_USER set user_status='1' where email_id='$em'";
+	 $sql1="update $_TBL_USER set user_status='1' where email_id='$em'";
 	 $db->query($sql1);
 	 $dataupdate=updateData($update, $_TBL_USER, $where); 
 	 ////////////////////////////////////
-/* $query = "
+	 //////////////chat///////////////////
+	  $connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e");
+				//////////////chat///////////////////
+	 
+				 $data = array(
+					':username'		=>	$emailid,
+					':name'		=>	$userrow['first_name'],
+					':password'		=>	password_hash('12abc', PASSWORD_DEFAULT),
+					':f_userid'		=>	$followid,
+				);
+				$query = "
+				INSERT INTO login 
+				(username, password, name, f_userid) 
+				VALUES (:username, :password, :name, :f_userid)
+				";
+				$statement = $connect->prepare($query);
+				$statement->execute($data);  
+	//////////////////////////////////	
+	 
+ $query = "
 		SELECT * FROM login
   		WHERE username = :username
 	";
@@ -61,7 +66,7 @@ if($db->numRows()>0)
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
 				 $_SESSION['login_details_id'] = $connect->lastInsertId();	
-	}} */
+	}} 
 /////////////////////////////////////////////////	
 	 echo"<script>alert('Verification successfully done! ! ')</script>";	
 		

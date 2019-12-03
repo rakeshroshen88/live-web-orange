@@ -27,6 +27,28 @@
 				</ul>
 			</li>
 			
+			
+			
+			<li class="parent ">
+				<a href="#">
+					<span class="glyphicon glyphicon-chevron-right"></span> Feedback Management <span data-toggle="collapse" href="#sub-item-12" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+				</a>
+				<ul class="children collapse" id="sub-item-12">
+               
+					<li>
+						<a class="" href="main.php?mod=feedback">
+							<span class="glyphicon glyphicon-share-alt"></span> View Feedback
+						</a>
+					</li>
+				<!--	<li>
+						<a class="" href="main.php?mod=adduser&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add users
+						</a>
+					</li>-->
+					
+				</ul>
+			</li>
+			
 			<li class="parent ">
 				<a href="#">
 					<span class="glyphicon glyphicon-chevron-right"></span> Product Management <span data-toggle="collapse" href="#sub-item-1c" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 

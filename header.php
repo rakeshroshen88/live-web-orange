@@ -1,5 +1,5 @@
 <?php include("config.inc.php");
-include('chat/database_connection.php');
+//include('chat/database_connection.php');
 $dbu=new DB();
 $sqlu="select * from all_user where user_id =".$_SESSION['sess_webid'];
 $dbu->query($sqlu);
@@ -35,7 +35,7 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 	    <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="664380665812-8b9mqe830i9ibuer9b3g9l14tga0n0tl.apps.googleusercontent.com">
    
-	<a href="#" onclick="signOut();">Sign out</a>
+	<!--<a href="#" onclick="signOut();">Sign out</a>-->
 	<!--<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	
@@ -63,7 +63,7 @@ ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 					<div class="search-bar">
 						<form action="search.php" method="post" id="search_box" name="searchpage1">
 							<!--<input type="text" name="search" placeholder="Search..." onkeyup="showResult(this.value)">-->
-							<input type="text" id="search-box" class="search" name="searchpage" placeholder="Search for Products" />
+							<input type="text" id="search-box" class="search" name="searchpage" placeholder="Search for People" />
 							<button type="submit" name="seafrchsubmit"><i class="la la-search"></i></button>
 						</form>
 						<div id="suggesstion-box" class="searchrsult"></div>

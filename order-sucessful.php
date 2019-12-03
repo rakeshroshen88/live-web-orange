@@ -106,7 +106,13 @@ $ordarr=array(
 //print_r($ordarr);						
 				
 $insid=insertData($ordarr, $_TBL_ORDER);
-
+///////////////////////////////////////////////
+$tatalreward=$bill_row['reward'];
+if($_SESSION['sess_total']>2000){
+$pointcalculate=$_SESSION['sess_total']%2000;
+$db->query("update all_user set search=".($tatalreward+$pointcalculate)." where user_id=".$_SESSION['sess_webid']);
+}
+//////////////////////////////////////////////
 
 $del="delete  from ".$_TBL_TEMPORDER." where sessionid='".session_id()."'";
 $db->query($del); 

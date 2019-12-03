@@ -16,7 +16,6 @@ $post_details=$FormData['postid'];
 $imgid=$FormData['imgid'];
 $tagfriends=$FormData['tagfriends'];
 $fsubcatname=$FormData['fsubcatname'];
-$livelocationinput=$FormData['livelocationinput'];
 if(!empty($FormData['pageid'])){
 $pageid=$FormData['pageid'];
 }else{
@@ -34,8 +33,7 @@ if(!empty($post_details)){
 							"postemos"=>$feeling,
 							"tagfriends"=>$tagfriends,
 							"post_status"=>1,	
-							"pageid"=>$pageid,	
-							"livelocation"=>$livelocationinput,								
+							"pageid"=>$pageid,							
 							"post_date"=>date('Y-m-d H:i:s')
 			    );
 				//print_r($arr);
@@ -87,10 +85,7 @@ echo $datashow='<div class="post-bar">
 												if(!empty($userrow['current_company'])){
 													echo '<li><img src="images/icon8.png" alt=""><span>'.$userrow['current_company'].'</span></li>';
 												}
-												if(!empty($row['livelocation'])){
-													//livelocation
-													echo '<li><img src="images/icon9.png" alt=""><span>'.$userrow['livelocation'].'</span></li>';
-												}else{
+												if(!empty($userrow['current_city'])){
 													echo '<li><img src="images/icon9.png" alt=""><span>'.$userrow['current_city'].'</span></li>';
 												}
 												echo '</ul>';

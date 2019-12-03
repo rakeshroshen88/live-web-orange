@@ -280,9 +280,7 @@ width:25px; float:left; margin-right:6px
 												</li>
 																			</ul>
 										</div>
-	<input type="hidden" name="tagfriends" id="tagfriends" value="" />
-<input type="text" name="livelocationinput" id="livelocationinput" class="form-control livelocationinput" placeholder="where r u..?" value="" style="display:none" />	
-<div class="map_canvas1"></div>
+	<input type="hidden" name="tagfriends" id="tagfriends" value="" />									
 <div id="container" style="display:none">
 <div id="contentbox" contenteditable="true">
 </div>
@@ -316,7 +314,7 @@ width:25px; float:left; margin-right:6px
 													</li>
 
 													<li>
-														<a  class="livelocation">
+														<a  class="feeling">
 															 <img src="images/postloaction.png" alt="new location"> 
 															 
 														</a>
@@ -364,11 +362,6 @@ while($row4=$db4->fetchArray()){
 }
 }
 $allfriend=implode(',',$l);
-if(!empty($allfriend)){
-$allfriends=$allfriend;
-}else{
-$allfriends=0;	
-}
 
  $db1=new DB();
 $dblike=new DB();
@@ -376,7 +369,7 @@ $dbr=new DB();
 $dbc=new DB();
 $dbu=new DB();
 $dbp=new DB();
-  $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) and post_hide='0' order by post_id desc";
+ $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriend) and post_hide='0' order by post_id desc";
 $dbp->query($sqlp);
 if($dbp->numRows()>0)
 {
@@ -419,10 +412,8 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 												<ul class="descp">
 												<?php if(!empty($userrow['current_company'])){?>
 													<li><img src="images/icon8.png" alt=""><span><?=$userrow['current_company']?></span></li>
-													<?php } if(!empty($row['livelocation'])){?>
-													<li><img src="images/icon9.png" alt=""><span><?=$row['livelocation']?></span></li><?php }else{?>
-													<li><img src="images/icon9.png" alt=""><span><?=$userrow['current_city']?></span></li>
-													<?php } ?>
+													<?php } if(!empty($userrow['current_city'])){?>
+													<li><img src="images/icon9.png" alt=""><span><?=$userrow['current_city']?></span></li><?php }?>
 												</ul>
 												<!--<ul class="bk-links">
 													<li><a href="#" title=""><i class="la la-share"></i></a></li>
@@ -700,8 +691,6 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
 <?php } }
  ?>
-										
-										
 										<div class="top-profiles">
 											<div class="pf-hd">
 												<h3>Top Profiles</h3>
@@ -972,8 +961,7 @@ echo $reward=$dbrew->getSingleResult('select reward from '.$_TBL_USER." where us
 										<?php $dbuf=new DB();
 										
 										  //$sqln="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id IN(SELECT user_id from profieview order by MAX(viewcount) desc)";
-										  // $sqln="SELECT * FROM user_profile where user_id IN(SELECT user_id from user_profile order by search desc) limit 0,10";
-										  echo $sqln="SELECT * FROM user_profile  order by search desc limit 0,10";
+										   $sqln="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id IN(SELECT user_id from user_profile order by search desc) limit 0,10";
 										$db->query($sqln);
 										if($db->numRows()>0)
 										{
@@ -1032,9 +1020,9 @@ echo $reward=$dbrew->getSingleResult('select reward from '.$_TBL_USER." where us
 	
 	<?php 
 	
-  $query = "
+ $query = "
 SELECT * FROM login
-WHERE f_userid != '".$_SESSION['sess_webid']."'
+WHERE user_id != '".$_SESSION['user_id']."'
 ";
 
 $statement = $connect->prepare($query);
@@ -1047,23 +1035,23 @@ $output = '
 <ul>
 ';
 
-foreach($result as $rowchat)
+foreach($result as $rowc)
 {
 	$status = '';
 	$current_timestamp = strtotime(date("Y-m-d H:i:s") . '- 10 second');
 	$current_timestamp = date('Y-m-d H:i:s', $current_timestamp);
 	 $a=strtotime($current_timestamp); 
-	  $user_last_activity = fetch_user_last_activity($rowchat['user_id'], $connect);
+	  $user_last_activity = fetch_user_last_activity($rowc['user_id'], $connect);
 	 
 	 
-	 $uid=$db->getSingleResult("select user_id from all_user where email_id='".$rowchat['username']."'");
+	 $uid=$db->getSingleResult("select user_id from all_user where email_id='".$rowc['username']."'");
 	  $userfpath=$db->getSingleResult('select image_id from user_profile where user_id='.$uid);
 	  if(!empty($userfpath)){
 	  $upath='upload/'.$userfpath;
 	  }else{
 	  $upath='/images/resources/user3.png';
 	  }
-	 //$fname=$db->getSingleResult('select first_name from all_user where user_id='.$uid); 
+	 $fname=$db->getSingleResult('select first_name from all_user where user_id='.$uid); 
 	//$status =$row['status'];
 	if($user_last_activity > $current_timestamp)
 	{
@@ -1076,8 +1064,8 @@ foreach($result as $rowchat)
 	
 	$output .= '
 	<li>
-	<button type="button" class="start_chat" data-touserid="'.$rowchat['user_id'].'" data-tousername="'.$rowchat['name'].'">
-		  <div class="chat-user-img"><img src="'.$upath.'"></div><div class="chat-user-name"><h3>'.$rowchat['name'].' '.count_unseen_message($rowchat['user_id'], $_SESSION['user_id'], $connect).' '.fetch_is_type_status($rowchat['user_id'], $connect).'</h3></div>'.fetch_is_status($rowchat['user_id'], $connect).'
+	<button type="button" class="start_chat" data-touserid="'.$rowc['user_id'].'" data-tousername="'.$rowc['name'].'">
+		  <div class="chat-user-img"><img src="'.$upath.'"></div><div class="chat-user-name"><h3>'.$fname.' '.count_unseen_message($rowc['user_id'], $_SESSION['user_id'], $connect).' '.fetch_is_type_status($rowc['user_id'], $connect).'</h3></div>'.fetch_is_status($rowc['user_id'], $connect).'
 		  </button>
 	</li>';
 }
@@ -1402,8 +1390,7 @@ echo $output;
 			
 		</main>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&sensor=false&libraries=places&ver=0.4b" async defer></script>
-	<script type='text/javascript' src='js/jquery.geocomplete.js?ver=0.4b'></script>
+
  
 <script src="lib/js/config.js"></script>
     <script src="lib/js/util.js"></script>
@@ -1423,29 +1410,10 @@ echo $output;
         window.emojiPicker.discover();
       });
     </script>
- 
+
 
 <?php include('footer.php') ?>
-
 <script>
-jQuery(document).ready(function ($) {
-
-jQuery("#livelocationinput").attr("autocomplete","location17");
-
-jQuery("#livelocationinput").geocomplete({
-map: ".map_canvas1",
-details: "form",
-types: ["geocode", "establishment"],
-}).bind("geocode:result", function(event, result){
-//jQuery("#state").val(result.address_components[2].long_name);
-//console.log(result);
-
-});
-
-
-
-});
-
 function preview_image() 
 {
 var filename = $("#upload_file").val();

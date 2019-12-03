@@ -9,7 +9,7 @@ include('chksession.php');
     <section class="cover-sec">
 	<div class="cover-sec1">
 	<?php if(!empty($profilerow['cover_image_id'])){ ?>
-	<img src="upload/<?=$profilerow['cover_image_id']?>" alt="" id="coverid">
+	<img src="upload/<?=$profilerow['cover_image_id']?>" alt="" id="coverid" style="width:1920px; height:500px">
 	<?php }else{ ?>
         <img src="images/resources/company-cover.jpg" alt="" id="coverid">
 	<?php } ?>
@@ -30,9 +30,9 @@ include('chksession.php');
                                 <div class="user_profile">
                                     <div class="user-pro-img">
                                         <?php if($profilerow['image_id']=='' and empty($profilerow['image_id'])){ ?>
-                                            <img src="images/resources/user.png" id="rmvid" alt="">
+                                            <img src="images/resources/user.png" id="rmvid" alt="" height="120" width="120">
                                             <?php }else{?>
-                                                <img src="upload/<?=$profilerow['image_id']?>" id="rmvid" alt="">
+                                                <img src="upload/<?=$profilerow['image_id']?>" id="rmvid" alt="" height="120" width="120">
                                                 <?php }?>
 												<!-- <input type="file" id="file1">-->
 												
@@ -210,7 +210,7 @@ include('chksession.php');
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$frow['first_name']?></h3>
@@ -267,7 +267,7 @@ include('chksession.php');
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$usernamef?></h3>
@@ -325,7 +325,7 @@ include('chksession.php');
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$usernamef?></h3>
@@ -421,18 +421,32 @@ include('chksession.php');
 									
 <div class="posts-section">
 									
-<?php $db1=new DB();
+									
+<?php
+$db4=new DB();
+$l=array();
+$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
+$db4->query($sql4);
+if($db4->numRows()>0)
+{
+while($row4=$db4->fetchArray()){
+	$l[]=$row4['follow'];
+}
+}
+$allfriend=implode(',',$l);
+
+ $db1=new DB();
+$dblike=new DB();
 $dbr=new DB();
 $dbc=new DB();
 $dbu=new DB();
-$sql="SELECT * from user_post where post_hide='0' order by post_id desc limit 0,5";
-$db->query($sql);
-if($db->numRows()>0)
+$dbp=new DB();
+ $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriend) and post_hide='0' order by post_id desc";
+$dbp->query($sqlp);
+if($dbp->numRows()>0)
 {
-while($row=$db->fetchArray()){
-$userimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$_SESSION['sess_webid']);
+while($row=$dbp->fetchArray()){
 
-$usernamepost=$db1->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$row['user_id']);
 //$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowc['user_id']);	
 $sqluser="SELECT * from user_profile where user_id=".$row['user_id'];
 $dbu->query($sqluser);
@@ -440,19 +454,19 @@ if($dbu->numRows()>0)
 {
 $userrow=$dbu->fetchArray();
 }
-$lcount=$db1->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id']);
-$ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$row['post_id']);
+$lcount=$dblike->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id']);
+$ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id='.$row['post_id']);
 ?>
-										<div class="post-bar">
+									<div class="post-bar">
 											<div class="post_topbar">
 												<div class="usy-dt">
 												<?php if(empty($userrow['image_id'])){?>
-													<img src="images/resources/user.png" alt="">
+													<img src="images/resources/user.png" alt="" height="40" width="40">
 												<?php }else{?>
 												<img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40">
 												<?php }?>
 													<div class="usy-name">
-														<h3><?=$usernamepost?></h3>
+														<h3><?=$userrow['first_name']?></h3>
 														<span><img src="images/clock.png" alt=""><?php echo timeago($row['post_date']);?></span>
 													</div>
 												</div>
@@ -461,9 +475,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 													<ul class="ed-options">
 														<li><a href="javascript:void(0);" title="" data-toggle="modal" data-target="#myModal<?=$row['post_id']?>" id="editpost" editpostid="<?=$row['post_id']?>">Edit Post</a></li>
 														<li><a href="javascript:void(0);"  id="posthide" title="" hidepost="<?=$row['post_id']?>" >Hide</a></li>
-														<?php if($_SESSION['sess_webid']==$row['user_id']){?>
 														<li><a href="javascript:void(0);" class="deletepost" id="deletepost" title="" delpost="<?=$row['post_id']?>" >Delete</a></li>
-														<?php } ?>
 													</ul>
 												</div>
 											</div>
@@ -479,12 +491,46 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 													<li><a href="#" title=""><i class="la la-share"></i></a></li>
 													
 												</ul>-->
+												<?php /////////////?>
+												 <div class="overview-box" id="share-box">
+        <div class="overview-edit">
+            <h3>Share Now</h3>
+            <form id="formexp" method="post">
+                <input type="text" name="subject" id="subject" placeholder="Subject">
+                <textarea name="exp" id="exp"></textarea>
+                <button type="submit" id="expsave" class="save">Save</button>
+                <!--<button type="submit" class="save-add">Save & Add More</button>-->
+                <button type="submit" class="cancel">Cancel</button>
+            </form>
+            <a href="#" title="" class="close-box"><i class="la la-close"></i></a>
+        </div>
+        <!--overview-edit end-->
+    </div>
+		<?php /////////////?>
 											</div>
 											<div class="job_descp">
-												<h3 class="font-weight-500"><?=$row['post_title']?>:<span class="bold"> <?=$row['postemos']?> </span></h3>
+												<h3 class="font-weight-500"><?php 
+												if(!empty($row['post_title'])){
+												echo $row['post_title']; ?>:<span class="bold"> <?=$row['postemos']?> </span> <?php } ?></h3>
 												
 												 
 												<p><?=$row['post_details']?></p>
+												<?php if(!empty($row['tagfriends'])){
+													//$a=array();
+													 $tagf=$row['tagfriends'];
+													$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
+													$db2->query($sql2)or die($db12->error());
+												while($row1=$db2->fetchArray()){
+												 $a=$row1['first_name'].' ';?>
+												<a href="view-profile.php?uid=<?=base64_encode($row1['user_id'])?>"><?=$row1['first_name']?></a>
+												<?php }
+												}
+											
+											//$b=implode(',',$a);
+											//$c=explode(',',$a);
+											//print_r($b);
+											//print_r($c);
+												?>
 												<?php 
 												 $ext = pathinfo($row['allpath'], PATHINFO_EXTENSION);
 												 if($ext=='mp4' or $ext=='webm'){?>
@@ -531,16 +577,17 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 												<ul class="like-com">
 													<li>
 														 <?php 
+														
 														 $lucount=$db1->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id'].' and user_id='.$_SESSION['sess_webid'] );
 											if($lucount>0){
 												?>
-														<a href="javascript:void(0)" class="like2" id="like<?=$row['post_id']?>" like1="<?=$row['post_id']?>"><i class="fas fa-heart"></i> Un Like</a>
+														<a href="javascript:void(0)" class="like2" id="like<?=$row['post_id']?>" like1="<?=$row['post_id']?>"><i class="fas fa-heart"></i> Liked</a>
 											<?php }else{?>	
 											<a href="javascript:void(0)" class="like2" id="like<?=$row['post_id']?>" like1="<?=$row['post_id']?>"><i class="fas fa-heart"></i> Like</a>
 											
 											<?php }?>
 														<img src="images/liked-img.png" alt="">
-														<span><?=$lcount?></span>
+														<span id="lcount<?=$row['post_id']?>"><?=$lcount?></span>
 													</li> 
 													<li><a href="javascript:void(0)" class="com" cid="<?=$row['post_id']?>"><i class="fas fa-comment-alt"></i> Comment <?=$ccount?></a></li>
 													<?php 
@@ -550,8 +597,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 														<a href="#"><i class="fas fa-eye"></i>Views 50</a>
 													</li>
 												 <?php }?>
-												 
-												
+
 													<div id="commentdisplay<?=$row['post_id']?>" style="display:none;">
 													<div class="post-comment">
 													<div class="cm_img">
@@ -559,7 +605,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 														<?php if(!empty($userimage)){ ?>
 														<img src="upload/<?=$userimage?>"/>
 														<?php }else{?>
-														<img src="images/resources/bg-img4.png" alt="">
+														<img src="images/resources/user.png" alt="" height="40" width="40">
 														<?php } ?>
 													</div>
 													<li class="feeling-input">				
@@ -573,7 +619,31 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 													<input type="file" id="cimageupload" name="cimageupload" >
 													
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Post a comment" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													<input type="text"  placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													<style>
+.wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
+.wishlistcartemoji1 li{display:inline;width:50px;}
+.wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
+#close{float: right; margin:10px;}
+</style>
+<ul class="wishlistcartemoji1" style="display:none;"  >
+<div id="close"><a href="javascript:void(0)">X</a></div>
+<?php 
+  $sql1="SELECT * FROM emoji order by id desc";
+$db->query($sql1)or die($db->error());
+while($row1=$db->fetchArray()){
+ $ext = pathinfo($row1['image'], PATHINFO_EXTENSION);	
+if($ext=='mp3'){
+	
+				$a.='';					 
+ }else{	
+				$b.='<li>
+							  <a href="javascript:void(0);" pid="'.$row['post_id'].'" im="'.$row1['image'].'"  mp3="'.$row1['mp3'].'"  uid="'.$row['user_id'].'" class="emoji1"><img src="emoji/'.$row1['image'].'" height="50" width="50" />
+						</a>
+						</li>';
+
+ } } echo $b;echo "</ul>"; ?>
+ <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
 													<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
 														</form>
 													</div>
@@ -597,13 +667,15 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
 											<?php if(!empty($pimage)){ ?>																	
 											<img src="upload/<?=$pimage?>" alt="" height="40" width="40"><?php }else{ ?>
-											<img src="images/clock.png" alt="">
+											<img src="images/resources/user.png" alt="" height="40" width="40">
 											<?php }?>
 													
 													
 
-													<?php if(!empty($rowc['cimage'])){ ?>
-													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/><?php }?>
+													<?php if(!empty($rowc['mp3'])){ ?>
+													<img src="emoji/<?=$rowc['cimage']?>" height="50" width="50"/><?php }else{ ?>
+													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/>
+													<?php }?>
 													<span class="user-name-in-coment"><?=$username?></span>
 													<span class="commword"><?=$rowc['comment']?> </span>
 													</span>
@@ -627,7 +699,7 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 													<label class="cemeraicon" for="rimageupload"><i class="fa fa-camera" aria-hidden="true"></i></label>
 													<input type="file" id="rimageupload" name="rimageupload" >
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Reply on comment" name="rpostcomment" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
+													<input type="text"  placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
 													</p>
 													<button type="button" name="replyid" id="replyid<?=$rowc['c_id']?>" class="replyid" rid="<?=$rowc['c_id']?>">Send</button>
 														</form>
@@ -653,18 +725,23 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 	?>
 	
 																<div class="comment">
-																	
+																	<div class="commnt-bx">
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
 																	<?php if(!empty($rpimage)){ ?>
 																	<img src="upload/<?=$rpimage?>" alt=""> 
 																	<?php }else{?>
-																	<img src="images/clock.png" alt="">
+																	<img src="images/resources/user.png" alt="" height="40" width="40">
 																	<?php }?>
-																	<?php echo timeago($rowr['rdate']);?> </span>
-																	<h3><?=$username1?></h3>
+																	 
+																	<span class="user-name-in-coment"><?=$username1?> 1</span> 
 																	<?php if(!empty($rowr['rimage'])){ ?>
 																	<img src="upload/<?=$rowr['rimage']?>" height="50" width="50"/><?php }?>
-																	<p class="commword"><?=$rowr['r_comment']?> </p>
+																	<span class="commword"><?=$rowr['r_comment']?> 
+																	<br/>
+																	<span class="tim-dat1">
+																	<?php echo timeago($rowr['rdate']);?> </span></span>
+																	</span>
+																	</div>
 																</div>
 										
 <?php }} ///////////////?>
@@ -686,6 +763,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
 <?php } }
  ?>
+										
 									
 
 										<div class="process-comm">
@@ -742,7 +820,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                     <?php if(!empty($userfpath)){?>
                                                                         <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="">
+                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                             <?php }?>
                                                                                 <div class="usy-name">
                                                                                     <h3><?=$usernamef?></h3>
@@ -797,7 +875,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                     <?php if(!empty($userfpath)){?>
                                                                         <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="">
+                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                             <?php }?>
                                                                                 <div class="usy-name">
                                                                                     <h3><?=$usernamef?></h3>
@@ -852,7 +930,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                     <?php if(!empty($userfpath)){?>
                                                                         <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="">
+                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                             <?php }?>
                                                                                 <div class="usy-name">
                                                                                     <h3><?=$usernamef?></h3>
@@ -1040,7 +1118,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     <div class="post-bar">
                                         <div class="post_topbar">
                                             <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="">
+                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                 <div class="usy-name">
                                                     <h3>John Doe</h3>
                                                     <span><img src="images/clock.png" alt="">3 min ago</span>
@@ -1103,7 +1181,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     <div class="post-bar">
                                         <div class="post_topbar">
                                             <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="">
+                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                 <div class="usy-name">
                                                     <h3>John Doe</h3>
                                                     <span><img src="images/clock.png" alt="">3 min ago</span>
@@ -1166,7 +1244,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     <div class="post-bar">
                                         <div class="post_topbar">
                                             <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="">
+                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                 <div class="usy-name">
                                                     <h3>John Doe</h3>
                                                     <span><img src="images/clock.png" alt="">3 min ago</span>
@@ -1229,7 +1307,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     <div class="post-bar">
                                         <div class="post_topbar">
                                             <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="">
+                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                 <div class="usy-name">
                                                     <h3>John Doe</h3>
                                                     <span><img src="images/clock.png" alt="">3 min ago</span>
@@ -1394,7 +1472,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
              <form name="locationform" id="locationform" method="post">
                 <div class="datefm">
 				<div class="form-group">
-														<label>Currently Lives *</label>
+														<label>Current Lives *</label>
 														<input type="text" name="current_city" id="current_city" class="form-control1" value="<?=$profilerow['current_city']?>" required />
 
 													</div>

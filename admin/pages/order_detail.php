@@ -1,9 +1,4 @@
 <?php 
-
-if(!isset($_SESSION['sess_userid']) or empty($_SESSION['sess_userid']))
-	{
-	$_SESSION['sess_doc']="login.php";
-	}
 $err="";
 $orderid=$_REQUEST['id'];
 $db1=new DB();
@@ -16,14 +11,30 @@ if($_POST['jobstatus']=="0")
 	{
 	$sta="Pending";
 	}elseif($_POST['jobstatus']=="1"){
+		///////////////////////////////////////////////
+$tatalreward=$db->getSingleResult("SELECT reward FROM $_TBL_USER WHERE userid=".$_POST['userid']);
+
+if($_SESSION['sess_total']>2000){
+$pointcalculate=$_SESSION['sess_total']%2000;
+$db->query("update all_user set search=".($tatalreward-$pointcalculate)." where user_id=".$_POST['userid']);
+}
+//////////////////////////////////////////////
 	$sta1="Cancelled";
 	$cn=$_POST['comment'];
 	$sta=$sta1.'-'.$cn;
 	}elseif($_POST['jobstatus']=="2"){
-	$sta="Conformed";
+		
+	$sta="Confirmed";
 	}
 
-	
+				$updatearr1=array(	
+					 
+					 "order_status"=>$_POST['jobstatus'],
+					  "comment"=>$_POST['comment'],
+						);
+						
+						$whereClause=" orderid=".$_POST['invid'];
+					updateData($updatearr1, $_TBL_ORDER, $whereClause);
 		
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //code to implement api
@@ -77,42 +88,44 @@ if($db->numRows()>0)
 	$subtotalarr=explode(',',$row['subtotal']);
 	 $cn=count($prodarray)-1;
 
-$sql="select * from ".$_TBL_BILL." where id=".$row['userid'];
-$db1->query($sql);
-$shiprow=$db1->fetchArray();
+$sql="select * from billing_address where id=".$row['userid'];
+$db->query($sql);
+$shiprow=$db->fetchArray();
 
 
- $bsql="select * from ".$_TBL_USER." where id=".$row['userid'];
-$db1->query($bsql);
-$billrow=$db1->fetchArray();
+// $bsql="select * from ".$_TBL_USER." join ON user_profile where user_id=".$row['userid'];
+echo $sql22="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id=".$row['userid'];
+$db->query($sql22);
+$billrow=$db->fetchArray();
+echo $billrow['first_name'];
 ?>	
-	<table cellpadding="0" cellspacing="5" width="100%">
+	<table cellpadding="0" cellspacing="5" width="60%" style="float: right;">
 	<tr><td width="77%" align="left"><strong>User Address</strong></td>
-	<td width="23%" align="left" style="padding-right:5px;"><strong>Shipping Address</strong></td>
+	<td width="50%" align="left" style="padding-right:5px;"><strong>Shipping Address</strong></td>
 	</tr>
 	<tr><td align="left" valign="top" style="">
-    <?php if(!empty($billrow['name'])){ ?>
-	Name:<?=$billrow['name']?>	<br />
+    <?php if(!empty($billrow['first_name'])){ ?>
+	Name:<?=$billrow['first_name']?>	<br />
      <?php }?>
      <?php if(!empty($billrow['address'])){ ?>
 	Address:<?=$billrow['address']?><br />
      <?php }?>
-     <?php if(!empty($billrow['city'])){ ?>
+     <?php if(!empty($billrow['twon'])){ ?>
       
-	City:<?=$billrow['city']?><br />
+	City:<?=$billrow['town']?><br />
      <?php }?>
      <?php if(!empty($billrow['state'])){ ?>
       
 	State: <?=$billrow['state']?><br />
      <?php }?>
-     <?php if(!empty($billrow['zip'])){ ?>
-	Zip Code:<?=$billrow['zip']?><br />
+     <?php if(!empty($billrow['zip_code'])){ ?>
+	Zip Code:<?=$billrow['zip_code']?><br />
      <?php }?>
-     <?php if(!empty($billrow['phone'])){ ?>
-	Phone:<?=$billrow['phone']?><br />
+     <?php if(!empty($billrow['mobileno'])){ ?>
+	Phone:<?=$billrow['mobileno']?><br />
      <?php }?>
-	 <?php if(!empty($billrow['email'])){ ?>
-	E-Mail:<?=$billrow['email']?><br />
+	 <?php if(!empty($billrow['email_id'])){ ?>
+	E-Mail:<?=$billrow['email_id']?><br />
      <?php }?>
 	</td>
 	<td align="left" valign="top" style="padding-left:5px;">
@@ -172,8 +185,8 @@ $billrow=$db1->fetchArray();
 		?></td>
         <td valign="top"><strong><?=$prodarray[$i]?></strong></td>
 		
-		  <td width="13%" valign="top">$<?=$pricearr[$i]?></td>
-        <td align="right" valign="top"><strong>$<?=number_format($subtotalarr[$i],2,'.',',')?></strong></td>
+		  <td width="13%" valign="top">₦<?=$pricearr[$i]?></td>
+        <td align="right" valign="top"><strong>₦ <?=number_format($subtotalarr[$i],2,'.',',')?></strong></td>
        
       </tr>
 <?php
@@ -205,20 +218,20 @@ if(empty($row['used_coupone']))
        
         <td bgcolor="#F2F2F2">&nbsp;</td>
 		<td bgcolor="#F2F2F2">&nbsp;</td>
-		<td bgcolor="#F2F2F2" colspan="3" align="right">Sub-Total: $<?=number_format($subtotal,2,'.',',')?></td>
+		<td bgcolor="#F2F2F2" colspan="3" align="right">Sub-Total: ₦<?=number_format($subtotal,2,'.',',')?></td>
       
       </tr>
 	
 	  
 <?php
 $grand_total=$grand;
-if(!empty($row['tax']) and $row['tax']!=0.00)
+/* if(!empty($row['tax']) and $row['tax']!=0.00)
 	{
 	//$tax=($grand*9.25)/100;
-	$grand_total=($grand_total+$row['tax']);	
+	$grand_total=($grand_total+$row['tax']); */	
 ?>
 
-<?php	}
+<?php	//}
 $grand_total=($grand_total+(int)$shipcharges);
 	
 ?>
@@ -227,21 +240,12 @@ $grand_total=($grand_total+(int)$shipcharges);
        
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td align="right" colspan="3"><strong>Grand Total: $<?=number_format($row['totalprice'],2,'.',',')?></strong></td>
+		<td align="right" colspan="3"><strong>Grand Total: ₦<?=number_format($row['totalprice'],2,'.',',')?></strong></td>
      
       </tr>
 <?php } ?>
-      <tr>
-        
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-       <td>&nbsp;</td>
-		<td>&nbsp;</td>
-      </tr>
-         <tr>
-        <td colspan="7">&nbsp;</td>
-      </tr>
+      
+         
     	 </table>
 	
 	 </td>
@@ -249,14 +253,19 @@ $grand_total=($grand_total+(int)$shipcharges);
  </td>
 </table>
 </div>
-<table cellpadding="0" cellspacing="0">
-  <tr><td colspan="7" align="center"><input type="button" name="invoice" value="Print" onclick="invprint()" /></td></tr>
+<script>
+function myFunction() {
+  window.print();
+}
+</script>
+<table cellpadding="0" cellspacing="0" style="float: right;">
+  <tr><td colspan="7" align="center"><input type="button" name="invoice" value="print" onclick="myFunction()"  /></td></tr>
   
 <?php 
-$db2=new DB();
+/* $db2=new DB();
 $user="select * from $_TBL_STATUS where invoiceid='$orderid'";
 $db1->query($user);
-$row1=$db1->fetchArray();
+$row1=$db1->fetchArray(); */
 ?>
 								  <tr>
 								  	<td valign="top" align="left" colspan="7" style="padding:30px;">
@@ -272,9 +281,9 @@ $row1=$db1->fetchArray();
 											<td valign="top">Order Status:</td>
 											<td valign="top">
 											<select name="jobstatus">
-											<option value="0" selected="selected" <?php if($row1['order_status']=="0"){echo "selected";}?>>Pending</option>
-											<option value="1" <?php if($row1['order_status']=="1"){echo "selected";}?>>Cancelled</option>
-											<option value="2" <?php if($row1['order_status']=="2"){echo "selected";}?>>Conformed</option>
+											<option value="0" selected="selected" <?php if($row['order_status']=="0"){echo "selected";}?>>Pending</option>
+											<option value="1" <?php if($row['order_status']=="1"){echo "selected";}?>>Cancelled</option>
+											<option value="2" <?php if($row['order_status']=="2"){echo "selected";}?>>Confirmed</option>
 											</select>
 											</td>
 											</tr>
@@ -286,15 +295,11 @@ $row1=$db1->fetchArray();
 											<tr>
 											<td valign="top">Date:</td>
 											<td valign="top">
-											<?php $jd=explode(" ",$row1['order_status_date']);?>
+											<?php $jd=explode(" ",$row['order_date']);?>
 											
-										 <SCRIPT LANGUAGE="JavaScript" ID="js18">
-var cal18 = new CalendarPopup("testdiv1");
-cal18.setCssPrefix("TEST");
-</SCRIPT>
-<INPUT TYPE="text" NAME="jobstatusdate" VALUE="<?php echo $jd[0];?>" SIZE=10>
-<A HREF="javascript:void(0)" onClick="cal18.select(document.forms['frmstatus'].jobstatusdate,'anchor18','yyyy-MM-dd'); return false;" TITLE="" NAME="anchor18" ID="anchor18"><img src="<?=$_COM_IMGS?>cal.gif" align='top' border="0"></A>
-<DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color: #FFFFFF;layer-background-color:white; *margin-left:600px; margin-left:50px; margin-top:-20px; *margin-top:-10px; "></DIV>
+										
+
+
 										 </td>
 											</tr>
 											<tr>

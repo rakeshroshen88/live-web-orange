@@ -34,6 +34,8 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			
 			}elseif($module=="subsubcat"){		
 			include_once("pages/subsubcategory.php");
+			}elseif($module=="feedback"){		
+			include_once("pages/feedback.php");
 			}elseif($module=="add_subsubcat"){	
 			include_once("pages/add_edit_subsubcat.php");
 			}elseif($module=="viewproduct"){		

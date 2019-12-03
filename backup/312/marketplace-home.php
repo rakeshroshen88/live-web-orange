@@ -1005,10 +1005,22 @@ if($dbt->numRows()>0)
                             
 
                             <!-- Carousel items -->
-                            <div class="carousel-inner">
- <div class="carousel-item active">
+                        <div class="carousel-inner">
+						<div class="carousel-item active">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,4";									
+						<?php 
+						$db4=new DB();
+						$h=array();
+						$sql4="SELECT * from history where user_id=".$_SESSION['sess_webid'];
+						$db4->query($sql4);
+						if($db4->numRows()>0)
+						{
+						while($row4=$db4->fetchArray()){
+							$h[]=$row4['prod_id'];
+						}
+						}
+						$allpid=implode(',',$h);
+						 $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 0,4";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -1066,7 +1078,7 @@ if($dbt->numRows()>0)
 								
 								 <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql1="SELECT * from ".$_TBL_PRODUCT." limit 4,8";									
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 4,8";										
 						$db->query($sql1);
 						if($db->numRows()>0)
 						{

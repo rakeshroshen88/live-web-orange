@@ -6,7 +6,7 @@ $q=$_POST['searchword'];
 $q=str_replace("@","",$q);
 $q=str_replace(" ","%",$q);
 $db4=new DB();
-/* $l=array();
+$l=array();
 $sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
 $db4->query($sql4);
 if($db4->numRows()>0)
@@ -15,8 +15,8 @@ while($row4=$db4->fetchArray()){
 	$l[]=$row4['follow'];
 }
 }
-$allfriend=implode(',',$l); */
-
+$allfriend=implode(',',$l);
+//user_id IN ($allfriend) and 
  $sql="select * from all_user where first_name like '%$q%'  order by user_id ";
 $db->query($sql);
 if($db->numRows()>0)
