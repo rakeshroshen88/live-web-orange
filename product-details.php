@@ -250,7 +250,7 @@ if($dbt->numRows()>0)
                  <h3 class="title">Reviews <a href="feedback.php?pid=<?=$_REQUEST['pid']?>&page=<?=base64_encode('product')?>" class="pull-right writereviebtn">Write Review</a></h3>
 					<?php
 					$dbn=new DB();
-				    $sqln="select * from feedback where prod_id =".$pid;
+				    $sqln="select * from feedback where pages='product' prod_id =".$pid;
 					$dbn->query($sqln);
 					while($rowfeed=$dbn->fetchArray()){
 					$image_id=$db->getSingleResult("SELECT image_id from user_profile where user_id=".$rowfeed['user-id']);

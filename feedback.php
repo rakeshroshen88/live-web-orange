@@ -1,5 +1,28 @@
 <?php include('header.php');
-include('chksession.php');$pid=base64_decode($_REQUEST['pid']);$page=base64_decode($_REQUEST['page']); $sql="SELECT * from ".$_TBL_PROD1." where id='$pid'";	$db->query($sql);	if($db->numRows()>0)		{	$row=$db->fetchArray();		}	$path=$row['prod_large_image'];
+include('chksession.php');
+
+ $page=base64_decode($_REQUEST['page']);
+if($page=='product'){
+	$pid=base64_decode($_REQUEST['pid']);
+ $sql="SELECT * from ".$_TBL_PROD1." where id='$pid'";	
+ $db->query($sql);	
+ if($db->numRows()>0){
+$row=$db->fetchArray();	
+}
+$path=$row['prod_large_image'];
+$title=$row['prod_name'];
+}
+
+if($page=='destination'){
+	$pid=$_REQUEST['pid'];
+ $sql="SELECT * from ".$_TBL_DESTINATION." where id='$pid'";	
+ $db->query($sql);	
+ if($db->numRows()>0){
+$row=$db->fetchArray();	
+}
+$path=$row['picture'];
+$title=$row['title'];
+}
 ?>
 
 <style type="text/css">
@@ -17,7 +40,7 @@ include('chksession.php');$pid=base64_decode($_REQUEST['pid']);$page=base64_deco
                            <img  src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>">
                         </div>
                         <div class="productdnsefedabc">
-                            <h2><?=$row['prod_name']?> </h2>
+                            <h2><?=$title?> </h2>
                            
                         </div>
                     </div>

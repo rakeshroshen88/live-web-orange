@@ -181,6 +181,7 @@ function deladmin(id)
 						    <tr>
 
 						        <th data-field="state" data-checkbox="true" >chk ID</th>
+<th data-field="Orderid" data-sortable="true">Orderid </th>
 
 						        <th data-field="amount" data-sortable="true">Amount </th>
 
@@ -230,27 +231,37 @@ if($order_field=="")
 		{
 	while($row=$db->fetchArray()){
 	$num=$db1->getSingleResult('select count(*) from '.$_TBL_ORDER." where id=".$row['id']);
-	 $name=$db1->getSingleResult('select name from '.$_TBL_USER." where id=".$row[userid]);
+	 $name=$db1->getSingleResult('select first_name from all_user where user_id='.$row['userid']);
 	
 $arr1=@explode(' ',$row['buydate']);
 		$edate=@explode('-',$arr1[0]);
-		$stamp1=@mktime(0,0,0,$edate[2],$edate[1],$edate[0]);?>		
+		$stamp1=@mktime(0,0,0,$edate[2],$edate[1],$edate[0]);
+		if($row['order_status']=="0")
+	{
+	$sta="Pending";
+	}elseif($row['order_status']=="1"){
+		$sta="Cancelled";
+	}elseif($row['order_status']=="2"){
+		$sta="Confirmed";
+	}
+		
+		?>		
  					<tr>
 
 						<td></td>
 
                          <td><a href="main.php?mod=order_detail&id=<?=$row[orderid]?>"><?=$row['orderid']?></a></td>
-<td align='center'>INR<?=$row[totalprice]?></td>
+<td align='center'>₦ <?=$row[totalprice]?></td>
                            
-							<td valign="top" align="center"><?=date('dS'.' '.'M',$stamp1)?><?=date('Y',$stamp1)?></td>
-							<td align='center'><?php echo $name;?></td>	
+							<td ><?=date('dS'.' '.'M',$stamp1)?><?=date('Y',$stamp1)?></td>
+							<td ><?php echo $name;?></td>	
 							
 							
 							
-                           <td valign="top" align="center">
-					   <a href='<?=$_PAGE."?".$qryStr?>&act=dac&id=<?=$row[id]?>&stat=<?=$row[status]?>'><?=$row[status]==0?'Deactive':'Active'?></a>
+                           <td>
+					   <?php echo $sta;?>
 							  </td>
-                            <td align='center'><a href='javascript:deladmin("<?=$row[id]?>")'>Delete</a></td>
+                            <td><a href='javascript:deladmin("<?=$row[id]?>")'>Delete</a></td>
 
                      </tr>
 

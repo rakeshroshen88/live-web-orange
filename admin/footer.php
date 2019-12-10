@@ -3,7 +3,36 @@
 	<script src="js/bootstrap.min.js"></script>
 	
 	<script src="js/bootstrap-table.js"></script>
-	<script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&sensor=false&libraries=places&ver=0.4b" async defer></script>
+	<script type='text/javascript' src='../js/jquery.geocomplete.js?ver=0.4b'></script>
+<script>
+jQuery(document).ready(function ($) {
+
+jQuery("#address").attr("autocomplete","location16");
+
+jQuery("#address").geocomplete({
+map: ".map_canvas",
+details: "form",
+types: ["geocode", "establishment"],
+}).bind("geocode:result", function(event, result){
+//jQuery("#state").val(result.address_components[2].long_name);
+//console.log(result);
+
+});
+
+jQuery("#title").attr("autocomplete","title");
+
+jQuery("#title").geocomplete({
+map: ".map_canvas",
+details: "form",
+types: ["geocode", "establishment"],
+}).bind("geocode:result", function(event, result){
+//jQuery("#state").val(result.address_components[2].long_name);
+//console.log(result);
+
+});
+
+});
 jQuery(document).ready(function(){
   jQuery(".view").click(function(){
  var v=jQuery(this).attr('v');

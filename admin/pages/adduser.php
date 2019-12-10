@@ -1,5 +1,5 @@
 <?php
-$_TBL_USER='user';
+$_TBL_USER='all_user';
 
 $id=$_REQUEST['id'];
 $act=$_REQUEST['act'];
@@ -27,7 +27,8 @@ if($act=="edit")
 	
 	}
 $updatearr=array(	 
-					 "first_name"=>$_REQUEST['firstname'],											"last_name"=>$_REQUEST['lastname'],	
+					 "first_name"=>$_REQUEST['firstname'],
+					 "last_name"=>$_REQUEST['lastname'],	
 					 "email_id"=>$_REQUEST['email'],
 					 "mobile_no"=>$_REQUEST['userphone'],
 					 //"address"=>$_REQUEST['streetaddress'],
@@ -194,7 +195,7 @@ if(!empty($id))
                                         
                                     
                                     
-                                    	<!-- File input-->
+                                    	<!-- File input
                                         
                                          <div class="col-md-6">
                                     	<div class="form-group">

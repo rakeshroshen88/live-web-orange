@@ -28,6 +28,48 @@
 			</li>
 			
 			
+			<li class="parent ">
+				<a href="#">
+					<span class="glyphicon glyphicon-chevron-right"></span> Distination Management <span data-toggle="collapse" href="#sub-item-10" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+				</a>
+				<ul class="children collapse" id="sub-item-10">
+               
+					<li>
+						<a class="" href="main.php?mod=distination">
+							<span class="glyphicon glyphicon-share-alt"></span> View Distination
+						</a>
+					</li>
+					<li>
+						<a class="" href="main.php?mod=adddistination&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Distination
+						</a>
+					</li>
+					
+				</ul>
+			</li>
+			
+			
+			<li class="parent ">
+				<a href="#">
+					<span class="glyphicon glyphicon-chevron-right"></span> Event Management <span data-toggle="collapse" href="#sub-item-101" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+				</a>
+				<ul class="children collapse" id="sub-item-101">
+               
+					<li>
+						<a class="" href="main.php?mod=viewevent">
+							<span class="glyphicon glyphicon-share-alt"></span> View Event
+						</a>
+					</li>
+					<li>
+						<a class="" href="main.php?mod=addevent&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Event
+						</a>
+					</li>
+					
+				</ul>
+			</li>
+			
+			
 			
 			<li class="parent ">
 				<a href="#">

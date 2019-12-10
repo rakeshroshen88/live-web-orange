@@ -13,7 +13,8 @@ $billing_adress1=$_REQUEST['address2'];
 $billing_state=$_REQUEST['state'];
 $billing_city=$_REQUEST['city'];
 $billing_zip=$_REQUEST['zip'];
-$username=$_REQUEST['username'];	
+//$username=$_REQUEST['username'];	
+$discount=$_REQUEST['discount'];	
 	$billupdatearr=array(
 						"userid"=>$_SESSION['sess_webid'],
 						"billing_firstname"=>$billing_firstname,
@@ -25,7 +26,7 @@ $username=$_REQUEST['username'];
 						"billing_state"=>$billing_state,
 						"billing_city"=>$billing_city,
 						"billing_zip"=>$billing_zip,
-						//"username"=>$username,
+						"discount"=>$discount,
 						"billdate"=>date('Y-m-d h:i:s')																	
 				);	
 				//print_r($billupdatearr);die;
@@ -34,21 +35,21 @@ $username=$_REQUEST['username'];
 	
 
 if(matchExists($_TBL_BILL, $whereClause1))
-       {	 $bid=$db->getSingleResult("SELECT id from $_TBL_BILL where userid=".$_SESSION['sess_webid']);
+       {	
+   $bid=$db->getSingleResult("SELECT id from $_TBL_BILL where userid=".$_SESSION['sess_webid']);
 		   $_SESSION['billid']=$bid;
 			updateData($billupdatearr, $_TBL_BILL, $whereClause1);
 			redirect("order-sucessful.php");
 			
 		}else{
 
-	
 		$insid1=insertData($billupdatearr, $_TBL_BILL);
 		//redirect("pay.php");
 		$_SESSION['billid']=$insid1;
 		
 		if($insid1>0)
 		{
-			redirect("order-sucessful.php");
+			redirect("payment.php");
 		}
 }
 }
@@ -124,7 +125,7 @@ if($dbt->numRows()>0)
 		echo $rowt['sort_detail']; } ?></small>
                   </div>
                   <span class="text-muted">₦<?php if(!empty($rowt['cost'])){
-		echo $rowt['cost']; } ?></span>
+		echo number_format($rowt['cost'],2,'.',','); } ?></span>
                 </li>
                              
 	<?php
@@ -144,6 +145,7 @@ $shipb=$shipb+$ship3;
 				<?php 
 				if(empty($order_row)){
 					$famt=$grand_total+$shipb;
+					$discount=($famt-$famt*50/100);
 					$finalamoun=($famt-$famt*50/100);
 				}else{
 					$finalamoun=$grand_total+$shipb;
@@ -169,6 +171,7 @@ $shipb=$shipb+$ship3;
             <div class="card-content">
               <div class="card-body">
                 <form class="needs-validation" novalidate="" action="" method="post">
+				<input type="hidden" name="discount" value="<?=$discount?>" />
                   <div class="row">
 				  <?php if(!empty($bill_row['billing_firstname'])){
 					  $fname=$bill_row['billing_firstname'];

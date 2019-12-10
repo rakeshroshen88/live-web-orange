@@ -2,7 +2,7 @@
 //session_start();
 //database_connection.php
 
-$connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e");
+$connect = new PDO("mysql:host=localhost;dbname=chat;charset=utf8mb4", "root", "");
 
 //date_default_timezone_set('Asia/Kolkata');
 date_default_timezone_set("Africa/Lagos");

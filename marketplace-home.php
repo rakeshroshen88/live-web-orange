@@ -63,7 +63,7 @@ xmlhttp.send();
     <div class="newsearch11">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="categorie-search-box">
                        <form class="searchform" action="search1.php">
                             <div class="form-group">
@@ -78,35 +78,10 @@ xmlhttp.send();
 								?>
 								 <option value="<?=$catid?>"><?php echo $row1['catname'];?></option>
 								 <?php } ?>
-                                    <!--<option value="2">Arrivals</option>
-                                    <option value="3">Cameras</option>
-                                    <option value="4">Cords and Cables</option>
-                                    <option value="5">gps accessories</option>
-                                    <option value="6">Microphones</option>
-                                    <option value="7">Wireless Transmitters</option>
-                                    <option value="8">GamePad</option>
-                                    <option value="9">cube lifestyle hd</option>
-                                    <option value="10">Bags</option>
-                                    <option value="11">Bottoms</option>
-                                    <option value="12">Shirts</option>
-                                    <option value="13">Tailored</option>
-                                    <option value="14">Home &amp; Kitchen</option>
-                                    <option value="15">Large Appliances</option>
-                                    <option value="16">Armchairs</option>
-                                    <option value="17">Bunk Bed</option>
-                                    <option value="18">Mattress</option>
-                                    <option value="19">Sideboard</option>
-                                    <option value="20">Small Appliances</option>
-                                    <option value="21">Bootees Bags</option>
-                                    <option value="22">Jackets</option>
-                                    <option value="23">Shelf</option>
-                                    <option value="24">Shoes</option>
-                                    <option value="25">Phones &amp; Tablets</option>
-                                    <option value="26">Tablet</option>
-                                    <option value="27">phones</option>-->
+                                     
                                 </select>
                             </div>
-                            <!--<input type="text" name="search" placeholder="I’m shopping for...">-->
+                             
 							 <input type="text" name="search" class="search" id="searchid" onkeypress="return showUser(this.value);" placeholder="Search for Products" required />
 							 
                             <button><i class="lnr lnr-magnifier"></i></button>
@@ -115,9 +90,19 @@ xmlhttp.send();
 					</div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="cart-box mt-all-30">
-                        <ul class="d-flex justify-content-lg-end justify-content-center align-items-center">
+                        <ul class="d-flex justify-content-lg-end justify-content-center align-items-center newdarksarchlink">
+                            <li class="stylli">
+                                <a href=""> Buy Protection</a>
+                            </li>
+                            <li class="stylli">
+                                <a href=""> Coupon</a>
+                            </li>
+                            <li class="stylli">
+                                <a href=""> Deals</a>
+                            </li>
+
 <?php $ct=$db->getSingleResult("select count(*) from wishlish where user_id='".$_SESSION['sess_webid']."'"); ?>
                             <li class="wishmainlist"><a href="#"><i class="lnr lnr-heart"></i><span class="my-cart"><span>Wish</span><span>list (<?=$ct?>)</span></span></a>
 							<ul class="wishlistcart">
@@ -176,7 +161,7 @@ if($dbt->numRows()>0)
         <div class="container">
             <div class="row">
                 <!-- Vertical Menu Start Here -->
-                <div class="col-xl-3 col-lg-4 d-none d-lg-block">
+                <div class="col-xl-3 col-lg-4 d-none d-lg-block wdith20">
                     <div class="vertical-menu mb-all-30">
                         <nav>
                             <ul class="vertical-menu-list">
@@ -188,7 +173,7 @@ if($dbt->numRows()>0)
 								
 								$catid=$row1['id'];
 								?>
-                                <li class=""><a href="marketplace.php?cid=<?=$row1['id']?>"><span><img src="category/<?=$row1['icon']?>" ></span><?php echo $row1['catname'];?><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                <li class=""><a href="marketplace.php?cid=<?=$row1['id']?>"><span><img src="category/<?=$row1['icon']?>"   height="25px"></span><?php echo $row1['catname'];?><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 
                                     <ul class="ht-dropdown mega-child">
 									<?php  $sql2="SELECT * FROM subcategory where sub_status='1' and catid=".$row1['id'];
@@ -210,7 +195,7 @@ if($dbt->numRows()>0)
                 </div>
                 <!-- Vertical Menu End Here -->
                 <!-- Slider Area Start Here -->
-                <div class="col-xl-9 col-lg-8 slider_box">
+                <div class="col-xl-7 col-lg-7 slider_box">
                     <div class="slider-wrapper theme-default">
                         <!-- Slider Background  Image Start-->
                         <div class="bd-example maincarosal">
@@ -223,24 +208,15 @@ if($dbt->numRows()>0)
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <img src="img/la.jpg" class="d-block w-100" alt="...">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>First slide label</h5>
-                                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                                        </div>
+                                         
                                     </div>
                                     <div class="carousel-item">
                                         <img src="img/la.jpg" class="d-block w-100" alt="...">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>Second slide label</h5>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
+                                        
                                     </div>
                                     <div class="carousel-item">
                                         <img src="img/la.jpg" class="d-block w-100" alt="...">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>Third slide label</h5>
-                                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                                        </div>
+                                         
                                     </div>
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
@@ -257,11 +233,105 @@ if($dbt->numRows()>0)
                     </div>
                 </div>
                 <!-- Slider Area End Here -->
+
+                <div class="col-xl-2 col-lg-2 slider_adss wdith20">
+                    <div class="sliderad1">
+                        <a href="">
+                            <img src="img/ads1.JPG" alt="ads">
+                        </a>
+
+                        <a href="">
+                            <img src="img/ads1.JPG" alt="ads">
+                        </a>
+
+                    </div>
+
+                </div>
             </div>
             <!-- Row End -->
         </div>
         <!-- Container End -->
     </div>
+
+     <section class="sponiserlist">
+          <div class="container">
+
+            <div id="demo" class="carousel slide" data-ride="carousel">
+
+   
+
+  <!-- The slideshow -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <ul class="Sponsoredlist1">
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+
+                        </ul> 
+    </div>
+
+    <div class="carousel-item">
+      <ul class="Sponsoredlist1">
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+                            <li>
+                                <a href="#"> Sponsored Shops</a>
+                            </li>
+
+                        </ul> 
+    </div>
+
+    
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+ 
+          </div>
+    </section>
+
 
 
 
@@ -282,7 +352,7 @@ if($dbt->numRows()>0)
     </div>
     <div class="row">
     <div class="col-12">
-            <div class="timerproduct0">			<?php    $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,4";															$db->query($sql);						if($db->numRows()>0)						{						while($row=$db->fetchArray()){						$path=$row['prod_large_image'];						$goid=base64_encode($row['id']); 						$save=$row['prod_price']-$row['prod_sprice']; 									$mrp=$row['prod_price'];						$persen=$row['prod_price']-$row['prod_sprice'];						$discount=($persen*100)/$mrp;						$orgprice=$row['prod_sprice'];						$finalprice=$row['prod_sprice'];						$star=$row['star'];							?>
+            <div class="timerproduct0">			<?php    $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,5";															$db->query($sql);						if($db->numRows()>0)						{						while($row=$db->fetchArray()){						$path=$row['prod_large_image'];						$goid=base64_encode($row['id']); 						$save=$row['prod_price']-$row['prod_sprice']; 									$mrp=$row['prod_price'];						$persen=$row['prod_price']-$row['prod_sprice'];						$discount=($persen*100)/$mrp;						$orgprice=$row['prod_sprice'];						$finalprice=$row['prod_sprice'];						$star=$row['star'];							?>
                 <div class="product1ss">
                     <div class="prod-img1sn">
                         <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">
@@ -358,7 +428,7 @@ if($dbt->numRows()>0)
 
                                 <div class="carousel-item active">
                                     <div class="row">
-						<?php   $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,4";									
+						<?php   $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,5";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -372,7 +442,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -420,7 +490,7 @@ if($dbt->numRows()>0)
 
                                 <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." limit 4,8";						
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." limit 5,10";						
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -434,7 +504,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -517,7 +587,7 @@ if($dbt->numRows()>0)
 
                                  <div class="carousel-item active">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' limit 0,4";									
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' limit 0,5";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -531,7 +601,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -580,7 +650,7 @@ if($dbt->numRows()>0)
 								
 								  <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' limit 4,8";									
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' limit 5,10";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -594,7 +664,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -677,7 +747,7 @@ if($dbt->numRows()>0)
                               
 								  <div class="carousel-item active">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes' limit 4,8";									
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes' limit 5,10";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -691,7 +761,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -737,7 +807,7 @@ if($dbt->numRows()>0)
 								 
 								  <div class="carousel-item">
                                     <div class="row">
-						<?php   $sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes'  limit 4,8";									
+						<?php   $sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes'  limit 5,10";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -751,7 +821,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -858,6 +928,449 @@ if($dbt->numRows()>0)
 
 
     <main>
+       <div class="container">
+    <div class="topdealsbar">
+        <h3> <span class="listicon"><i class="fa fa-snowflake-o" aria-hidden="true"></i></span>Top Deals <span class="pull-right morevew">View  More</span> </h3>
+        <div class="topliest">
+            <ul>
+                <li class="dear1s">
+                    <div class="dealimg">
+                        <img src="img/prodcss222.jpg" alt="product 1">
+                    </div>
+                    <div class="productdeails1deals">
+                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
+                        <div class="dearbar">
+                            <div class="progress">
+                                <div class="progress-bar" style="width:70%"></div>
+                            </div>
+                        </div>
+                        <div class="nm-sold">135 Sold</div>
+                    </div>
+                </li>
+                <li class="dear1s">
+                    <div class="dealimg">
+                        <img src="https://cdn.shopify.com/s/files/1/0025/5082/5007/files/h5-banner3_570x.jpg?v=1539662924" alt="product 1">
+                    </div>
+                    <div class="productdeails1deals">
+                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
+                        <div class="dearbar">
+                            <div class="progress">
+                                <div class="progress-bar" style="width:70%"></div>
+                            </div>
+                        </div>
+                        <div class="nm-sold">135 Sold</div>
+                    </div>
+                </li>
+                <li class="dear1s">
+                    <div class="dealimg">
+                        <img src="img/prodcss111.jpg" alt="product 1">
+                    </div>
+                    <div class="productdeails1deals">
+                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
+                        <div class="dearbar">
+                            <div class="progress">
+                                <div class="progress-bar" style="width:70%"></div>
+                            </div>
+                        </div>
+                        <div class="nm-sold">135 Sold</div>
+                    </div>
+                </li>
+                <li class="dear1s">
+                    <div class="dealimg">
+                        <img src="img/prodcss33.jpg" alt="product 1">
+                    </div>
+                    <div class="productdeails1deals">
+                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
+                        <div class="dearbar">
+                            <div class="progress">
+                                <div class="progress-bar" style="width:10%"></div>
+                            </div>
+                        </div>
+                        <div class="nm-sold">135 Sold</div>
+                    </div>
+                </li>
+                <li class="dear1s">
+                    <div class="dealimg">
+                        <img src="img/3-262x343.jpg" alt="product 1">
+                    </div>
+                    <div class="productdeails1deals">
+                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
+                        <div class="dearbar">
+                            <div class="progress">
+                                <div class="progress-bar" style="width:90%"></div>
+                            </div>
+                        </div>
+                        <div class="nm-sold">135 Sold</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="topdealsbar topselection ">
+                <h3> <span class="listicon"><i class="fa fa-free-code-camp" aria-hidden="true"></i></span>Top Selection <span class="pull-right morevew">View  More</span> </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product1.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product2.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product3.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product4.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="topdealsbar topselection newforyou">
+                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span>New For You <span class="pull-right morevew">View  More</span> </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product5.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product6.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product7.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/prodcss33.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>NGN 6,5400 </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="topdealsbar topselection featuredband">
+                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span> Featured Brands<span class="pull-right morevew">View  More</span> </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/banner-02.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>Coming Soon </h5>
+                                <div class="nm-sold"> <i class="fa fa-clock-o" aria-hidden="true"></i> Sale Starts in: 5 Days</div>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/banner-03.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <h5>Big Sale are Coming</h5>
+                                <div class="nm-sold"> <i class="fa fa-clock-o" aria-hidden="true"></i> Sale Starts in: 5 Days</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="topdealsbar topselection featuredband">
+                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span> Stores You'll Love<span class="pull-right morevew">View  More</span> </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/newsimmes.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <div class="logobrantop">
+                                    <img src="img/calvin-klein.jpg">
+                                </div>
+                                <h5>Calvin Klenin </h5>
+                            </div>
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/newsimmes2.jpg" alt="product 1">
+                            </div>
+                            <div class="productdeails1deals">
+                                <div class="logobrantop">
+                                    <img src="img/addilogo.jpg">
+                                </div>
+                                <h5>Adidas</h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="big-adds0mill">
+                <img src="img/shortaddmiddle.jpg">
+
+
+            </div>
+
+
+        </div>
+        <div class="col-md-9 shotsliting">
+            <div class="row">
+                <div class="col-md-4">
+            <div class="topdealsbar topselection shortprofileshot">
+                <h3> Woman's Fashion </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product8.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product9.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product10.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="topdealsbar topselection shortprofileshot">
+                <h3> Phone & Accessories </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product11.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product12.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product13.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-4">
+            <div class="topdealsbar topselection shortprofileshot">
+                <h3> Renovation</h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product14.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product13.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product15.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-4">
+            <div class="topdealsbar topselection shortprofileshot">
+                <h3> Kids </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product16.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product17.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product158.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-4">
+            <div class="topdealsbar topselection shortprofileshot">
+                <h3> Beauty </h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product159.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product160.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product161.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="topdealsbar topselection shortprofileshot">
+                <h3> Vehicles</h3>
+                <div class="topliest">
+                    <ul>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product162.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/social_product163.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        <li class="dear1s">
+                            <div class="dealimg">
+                                <img src="img/prodcss111.jpg" alt="product 1">
+                            </div>
+                             
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        
+         
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
         <div class="main-section">
             <div class="container">
                 <div class="main-section-data">
@@ -1005,10 +1518,22 @@ if($dbt->numRows()>0)
                             
 
                             <!-- Carousel items -->
-                            <div class="carousel-inner">
- <div class="carousel-item active">
+                        <div class="carousel-inner">
+						<div class="carousel-item active">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,4";									
+						<?php 
+						$db4=new DB();
+						$h=array();
+						$sql4="SELECT * from history where user_id=".$_SESSION['sess_webid'];
+						$db4->query($sql4);
+						if($db4->numRows()>0)
+						{
+						while($row4=$db4->fetchArray()){
+							$h[]=$row4['prod_id'];
+						}
+						}
+						$allpid=implode(',',$h);
+						 $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 0,4";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -1066,7 +1591,7 @@ if($dbt->numRows()>0)
 								
 								 <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql1="SELECT * from ".$_TBL_PRODUCT." limit 4,8";									
+						<?php   $sql1="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 4,8";										
 						$db->query($sql1);
 						if($db->numRows()>0)
 						{
@@ -1080,7 +1605,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                     <div class="col-md-3">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -1106,7 +1631,6 @@ if($dbt->numRows()>0)
 																 <button class="_0a08a_3czMG addtocartnew1" type="button" pid="<?=$row['id']?>" tono="1">Add To Cart</button>
                                                                     
                                                                 </div>
-																
 																<div class="_2aac2_3bwnD _549f7_zvZ8u _49c0c_3Cv2D _977c5_2vBMq">
 																 <button class="_0a08a_3czMG addtowishlist" type="button" pid="<?=$row['id']?>" tono="1">Add To Wishlist</button>
                                                                     
@@ -1146,7 +1670,9 @@ if($dbt->numRows()>0)
         </div>
 
 					</div>
-                </div>
+              
+
+			  </div>
                 <!-- main-section-data end-->
             </div>
         </div>

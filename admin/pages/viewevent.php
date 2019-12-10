@@ -14,7 +14,7 @@ if($act=='dac')
 			$stat='no';
 		$sql="UPDATE $_TBL_EVENT SET estatus= '$stat' WHERE eid='$id'";
 		$db->query($sql);
-		redirect('main.php?mod=event');
+		redirect('main.php?mod=viewevent');
 	}
 
 if($act=='del')
@@ -22,7 +22,7 @@ if($act=='del')
 		
 		 $sql="DELETE FROM $_TBL_EVENT WHERE eid='$id'";
 		$db->query($sql);
-		redirect('main.php?mod=event');
+		redirect('main.php?mod=viewevent');
 	}
 
 ?>
@@ -31,7 +31,7 @@ function deladmin(id)
 {
 	if(confirm("Are you sure to delete?"))
 	{
-		location.href="main.php?mod=event&act=del&id="+id;
+		location.href="main.php?mod=viewevent&act=del&id="+id;
 	}
 }
 </script>
@@ -39,7 +39,7 @@ function deladmin(id)
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Canendar Management</li>
+				<li class="active">Event Management</li>
 			</ol>
 		</div><!--/.row   All count-->
         
@@ -54,7 +54,7 @@ function deladmin(id)
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
 							<div class="large"><?=$count=$db->getSingleResult("select count(*) from event");	?></div>
-							<div class="text-muted">Total Canendar</div>
+							<div class="text-muted">Total Event</div>
 						</div>
 					</div>
 				</div>
@@ -67,7 +67,7 @@ function deladmin(id)
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
 						<div class="large"><?=$count=$db->getSingleResult("select count(*) from event where status='1'");	?></div>
-							<div class="text-muted">Active Canendar</div>
+							<div class="text-muted">Active Event</div>
 						</div>
 					</div>
 				</div>
@@ -95,11 +95,11 @@ function deladmin(id)
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Canendar Management</div>
+					<div class="panel-heading">Event Management</div>
 					<div class="panel-body">
                     
                         <div class="add-pro">
-                            <a href="main.php?mod=addevent&act=add">Add Canendar</a>
+                            <a href="main.php?mod=addevent&act=add">Add Event</a>
                         
                         </div>
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
@@ -133,7 +133,7 @@ $db1=new DB();
 			}else{
 			$_LIST_LEN=$rec;
 			}
-	 $sql="SELECT * from event".$wherestr." order by eid desc";
+	 echo $sql="SELECT * from event".$wherestr." order by eid desc";
 	$db->query($sql);
 	$total_records=$db->numRows();
 	$page=new Page;
@@ -161,7 +161,7 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 							
                        
 						<td> <?php echo date('d M,Y',$st);?></td>
-                    <td> <a href='main.php?mod=event&act=dac&id=<?=$row['eid']?>&stat=<?=$row['estatus']?>'><?=$row['estatus']=='no'?'Deactive':'Active'?></a> </td>
+                    <td> <a href='main.php?mod=viewevent&act=dac&id=<?=$row['eid']?>&stat=<?=$row['estatus']?>'><?=$row['estatus']=='no'?'Deactive':'Active'?></a> </td>
                            
                         <td > <a href="main.php?mod=addevent&act=edit&id=<?=$row['eid']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['eid']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
 						</td>

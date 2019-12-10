@@ -275,7 +275,7 @@ width:25px; float:left; margin-right:6px
 												<li class="feeling-input">
 												 
 												<p class="lead emoji-picker-container">
-											  <input type="text" class="form-control" placeholder="what are you feeling..." data-emojiable="true" name="feeling">
+											  <input type="text" class="form-control emg" placeholder="what are you feeling..." data-emojiable="true" name="feeling">
 											</p>		
 												</li>
 																			</ul>
@@ -408,9 +408,13 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 												<div class="ed-opts">
 													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
 													<ul class="ed-options">
+													<?php if($_SESSION['sess_webid']==$row['user_id']){?>
 														<li><a href="javascript:void(0);" title="" data-toggle="modal" data-target="#myModal<?=$row['post_id']?>" id="editpost" editpostid="<?=$row['post_id']?>">Edit Post</a></li>
+													<?php } ?>
 														<li><a href="javascript:void(0);"  id="posthide" title="" hidepost="<?=$row['post_id']?>" >Hide</a></li>
+													<?php if($_SESSION['sess_webid']==$row['user_id']){?>
 														<li><a href="javascript:void(0);" class="deletepost" id="deletepost" title="" delpost="<?=$row['post_id']?>" >Delete</a></li>
+														<?php } ?>
 													</ul>
 												</div>
 											</div>
@@ -420,9 +424,10 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 												<?php if(!empty($userrow['current_company'])){?>
 													<li><img src="images/icon8.png" alt=""><span><?=$userrow['current_company']?></span></li>
 													<?php } if(!empty($row['livelocation'])){?>
-													<li><img src="images/icon9.png" alt=""><span><?=$row['livelocation']?></span></li><?php }else{?>
+													<li><img src="images/icon9.png" alt=""><span><?=$row['livelocation']?></span></li><?php }elseif(!empty($row['current_city'])){?>
 													<li><img src="images/icon9.png" alt=""><span><?=$userrow['current_city']?></span></li>
-													<?php } ?>
+													<?php }else{ ?><li></li>
+													<?php }?>
 												</ul>
 												<!--<ul class="bk-links">
 													<li><a href="#" title=""><i class="la la-share"></i></a></li>
@@ -443,12 +448,18 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
         </div>
         <!--overview-edit end-->
     </div>
-		<?php /////////////?>
+		<?php /////////////
+		$db21=new DB();
+		$feelingimgid=$row['feelingimgid'];
+		$feelingimgidpath=$db21->getSingleResult('select imgid from '.$_TBL_FEELINGS." where subcatname='".$feelingimgid."'");
+		?>
 											</div>
 											<div class="job_descp">
 												<h3 class="font-weight-500"><?php 
 												if(!empty($row['post_title'])){
-												echo $row['post_title']; ?>:<span class="bold"> <?=$row['postemos']?> </span> <?php } ?></h3>
+												echo $row['post_title']; }  if(!empty($feelingimgid)){?>:
+												<img src="allimg/<?=$feelingimgidpath;?>" height="20"width="20"> <?=$feelingimgid?> 
+												<span class="bold"> <?=$row['postemos']?> </span> <?php } ?></h3>
 												
 												 
 												<p><?=$row['post_details']?></p>
@@ -973,7 +984,7 @@ echo $reward=$dbrew->getSingleResult('select reward from '.$_TBL_USER." where us
 										
 										  //$sqln="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id IN(SELECT user_id from profieview order by MAX(viewcount) desc)";
 										  // $sqln="SELECT * FROM user_profile where user_id IN(SELECT user_id from user_profile order by search desc) limit 0,10";
-										  echo $sqln="SELECT * FROM user_profile  order by search desc limit 0,10";
+										   $sqln="SELECT * FROM user_profile  order by search desc limit 0,10";
 										$db->query($sqln);
 										if($db->numRows()>0)
 										{
@@ -1031,11 +1042,26 @@ echo $reward=$dbrew->getSingleResult('select reward from '.$_TBL_USER." where us
     <div id="user_detailsa">
 	
 	<?php 
+$db4=new DB();
+$l=array();
+$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
+$db4->query($sql4);
+if($db4->numRows()>0)
+{
+while($row4=$db4->fetchArray()){
+	$l[]=$row4['follow'];
+}
+}
+$allfriend=implode(',',$l);
 	
-  $query = "
+/*   $query = "
 SELECT * FROM login
 WHERE f_userid != '".$_SESSION['sess_webid']."'
-";
+"; */
+$query = "
+SELECT * FROM login
+WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN($allfriend)";
+
 
 $statement = $connect->prepare($query);
 

@@ -49,6 +49,12 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			}elseif($module=="add_subadmin"){
 				
 			include_once("pages/add_edit_user.php");
+			}elseif($module=="adddistination"){
+				
+			include_once("pages/adddistination.php");
+			}elseif($module=="distination"){
+				
+			include_once("pages/distination.php");
 			}elseif($module=="addservice"){
 				
 			include_once("pages/addservice.php");
@@ -222,6 +228,19 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			
 			}elseif($module=="viewevent"){
 				
+			include_once("pages/viewevent.php");
+			}elseif($module=="addevent"){
+
+				
+
+			include_once("pages/addevent.php");
+
+			
+
+			}elseif($module=="viewevent"){
+
+				
+
 			include_once("pages/viewevent.php");
 			}elseif($module=="add_inq"){
 				

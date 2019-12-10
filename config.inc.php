@@ -59,6 +59,8 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 	$_TBL_PRODUCT="product";
 	$_TBL_FEELINGC="feeling_ctivity_category";
 	$_TBL_FEELINGS="feeling_ctivity_subcategory";
+	$_TBL_DESTINATION="distination";
+	$_TBL_DESIMAGE="desimage";
 	/** Directories **/
 
 	 $_DIR_UPLOAD = $_DIR_PATH."uploaded_files/"; // Full path to upload directory 

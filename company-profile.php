@@ -1,7 +1,12 @@
 <?php include('header.php'); 
 include('chksession.php');
+if(!empty($_SESSION['com_webid'])){
+	$cid=$_SESSION['com_webid'];
+}else{
+	$cid=$_REQUEST['comid'];
+}
 						$dbn=new DB();
-						$sqln="select * from $_TBL_COMPANY where user_id =".$_SESSION['sess_webid'];
+						$sqln="select * from $_TBL_COMPANY where com_id =".$cid;
 						$dbn->query($sqln);
 						$profilerow=$dbn->fetchArray();
 						?>
@@ -44,16 +49,11 @@ include('chksession.php');
                                     <!--user-pro-img end-->
                                     <div class="user_pro_status">
                                         <ul class="flw-status">
-                                            <li>
-                                                <span>Following</span>
-                                                <b><?php 
-												echo $num=$db->getSingleResult("SELECT * from followers where user_id=".$_SESSION['sess_webid']);
-												?></b>
-                                            </li>
+                                            
                                             <li>
                                                 <span>Followers</span>
                                                 <b><?php 
-												 $num=$db->getSingleResult("SELECT * from followers where follow=".$_SESSION['sess_webid']);
+												 $num=$db->getSingleResult("SELECT * from followers where follow=".$cid);
 												 if(!empty($num)){ echo $num;}else{ echo "0";}
 												?></b>
                                             </li>
@@ -62,13 +62,8 @@ include('chksession.php');
                                     <!--user_pro_status end-->
                                     <ul class="social_links">
                                         <li><a href="#" title=""><i class="la la-globe"></i> www.example.com</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-facebook-square"></i> Http://www.facebook.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-twitter"></i> Http://www.Twitter.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-google-plus-square"></i> Http://www.googleplus.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-behance-square"></i> Http://www.behance.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-pinterest"></i> Http://www.pinterest.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-instagram"></i> Http://www.instagram.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-youtube"></i> Http://www.youtube.com/john...</a></li>
+                                        
+                                      
                                     </ul>
                                 </div>
                                 <!--user_profile end-->
@@ -417,13 +412,13 @@ include('chksession.php');
                                     </div>
                                 </div><?php ///////////////////////////////////?>
 								
-								<form  method="post" id="uploadForm" enctype="multipart/form-data">
-								<input type="hidden" name="pageid" id="pageid" value="<?=$profilerow['com_id']?>" />
+							<form  method="post" id="uploadForm" enctype="multipart/form-data">
+							<input type="hidden" name="pageid" id="pageid" value="<?=$profilerow['com_id']?>" />
 									<div class="post-topbar newpost1">
 										<h3>Create Post</h3>
 										<div class="user-picy">
 										<?php if(empty($userspath)){?>
-											<img src="images/resources/user-pic.png" alt="">
+											<img src="images/resources/user.png" alt="" width="60" height="60">
 										<?php }else{ ?>
 										<img src="upload/<?=$userspath?>" alt="" width="50" height="50" style="border-radius: 50%;">
 										<?php }?>
@@ -434,25 +429,56 @@ include('chksession.php');
 										<div class="post-img-list">
 											<div id="image_preview"></div>
 										</div>
-										<div class="Feelingpst">
+										<div class="Feelingpst" id="Feelingpst" style="display:none;">
 											<ul>
 												<li class="select-fee-select">
-													<select name="selectfeel">
-														<option value="Feeling">Feeling</option>
-														<option value="Celebriting">Celebriting</option>
+													<select name="selectfeel" id="selectfeel" class="selectfeel" >
+													<option value="">Select Feeling</option>
+													
+																														<?php $db1=new DB();
+
+								 $sql1="SELECT * FROM $_TBL_FEELINGC where status='yes'";
+
+								 $db1->query($sql1)or die($db1->error());
+
+								 while($row1=$db1->fetchArray()){
+
+								 $catid=$row1['id'];
+
+								?>
+
+								 <option value="<?=$catid?>"><?php echo $row1['catname'];?></option>
+
+								 <?php } ?>
+														
+														<!--<option value="Celebriting">Celebriting</option>
+														<option value="Watching">Watching</option>
+														<option value="Eating">Eating</option>
+														<option value="Drinking">Drinking</option>
+														<option value="Traveling">Traveling to</option>
+														<option value="Drinking">Attending</option>-->
 													</select>
 												</li>
-				<li class="feeling-input">
-				<p class="lead emoji-picker-container">
-              <input type="text" class="form-control" placeholder="what are you feeling..." data-emojiable="true" name="feeling">
-
-            </p>
-			
-	
-													<!--<input type="text" id="feeling" name="feeling" placeholder="what are you feeling..." name="">-->
+												<div  id="feelingtxtHint"></div>
+												<li class="feeling-input">
+												 
+												<p class="lead emoji-picker-container">
+											  <input type="text" class="form-control emg" placeholder="what are you feeling..." data-emojiable="true" name="feeling">
+											</p>		
 												</li>
-											</ul>
+																			</ul>
 										</div>
+	<input type="hidden" name="tagfriends" id="tagfriends" value="" />
+<input type="text" name="livelocationinput" id="livelocationinput" class="form-control livelocationinput" placeholder="where r u..?" value="" style="display:none" />	
+<div class="map_canvas1"></div>
+<div id="container" style="display:none">
+<div id="contentbox" contenteditable="true">
+</div>
+<div id='display'>
+</div>
+<div id="msgbox">
+</div>
+</div>
 										<div class="postoptions">
 											<ul>
 												<li>
@@ -464,41 +490,48 @@ include('chksession.php');
 													</li>
 
 													<li>
-														<a>
+														<a id="" class="tagshow">
 															<img src="images/users.png">Tag Friends	
 															 
 														</a>
 													</li>
 
 													<li>
-														<a>
+														<a  class="feeling">
 															<img src="images/emo.png">Feeling/Activity	
 															 
 														</a>
 													</li>
 
 													<li>
-														<a>
-															<img src="images/record.png">Live Video	
+														<a  class="livelocation">
+															 <img src="images/postloaction.png" alt="new location"> 
 															 
 														</a>
 													</li>
 
+													<li class="postbtnli">
+														<button type="submit" id="uploadpost" value="Post-Status" class="active postbtn">Post Status</button>
+													</li>
+
+
+
+													<!--<li>
+														<a>
+															<img src="images/record.png">Live Video	
+															 
+														</a>
+													</li>-->
+
 											</ul>
  
 										</div>
-										<div class="post-st text-right">
-											<ul>
-												 
-												<li><!--<a class="active"  href="#" title="">Post Status</a>-->
-												<button type="submit" id="uploadpost" value="Post-Status" class="active postbtn">Post Status</button>
-												</li>
-											</ul>
-										</div><!--post-st end-->
+										 
 
 									</div> 
 </form>
 									<!--new post-st end-->
+
 
 
 
@@ -510,18 +543,38 @@ include('chksession.php');
 									
 <div class="posts-section">
 									
-<?php $db1=new DB();
+<?php
+$db4=new DB();
+$l=array();
+$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
+$db4->query($sql4);
+if($db4->numRows()>0)
+{
+while($row4=$db4->fetchArray()){
+	$l[]=$row4['follow'];
+}
+}
+$allfriend=implode(',',$l);
+if(!empty($allfriend)){
+$allfriends=$allfriend;
+}else{
+$allfriends=0;	
+}
+
+ $db1=new DB();
+ $db2=new DB();
+ $dbf=new DB();
+$dblike=new DB();
 $dbr=new DB();
 $dbc=new DB();
 $dbu=new DB();
-$sql="SELECT * from user_post where post_hide='0' and pageid='".$profilerow['com_id']."' order by post_id desc limit 0,5";
-$db->query($sql);
-if($db->numRows()>0)
+$dbp=new DB();
+  $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) and post_hide='0' order by post_id desc";
+$dbp->query($sqlp);
+if($dbp->numRows()>0)
 {
-while($row=$db->fetchArray()){
-$userimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$_SESSION['sess_webid']);
+while($row=$dbp->fetchArray()){
 
-$usernamepost=$db1->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$row['user_id']);
 //$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowc['user_id']);	
 $sqluser="SELECT * from user_profile where user_id=".$row['user_id'];
 $dbu->query($sqluser);
@@ -529,28 +582,30 @@ if($dbu->numRows()>0)
 {
 $userrow=$dbu->fetchArray();
 }
-$lcount=$db1->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id']);
-$ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$row['post_id']);
+$lcount=$dblike->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id']);
+$ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id='.$row['post_id']);
 ?>
 										<div class="post-bar">
 											<div class="post_topbar">
 												<div class="usy-dt">
 												<?php if(empty($userrow['image_id'])){?>
-													<img src="images/resources/us-pic.png" alt="">
+													<img src="images/resources/user.png" alt="" height="40" width="40">
 												<?php }else{?>
 												<img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40">
 												<?php }?>
 													<div class="usy-name">
-														<h3><?=$usernamepost?></h3>
+														<h3><?=$userrow['first_name']?></h3>
 														<span><img src="images/clock.png" alt=""><?php echo timeago($row['post_date']);?></span>
 													</div>
 												</div>
 												<div class="ed-opts">
 													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
 													<ul class="ed-options">
+													<?php if($_SESSION['sess_webid']==$row['user_id']){?>
 														<li><a href="javascript:void(0);" title="" data-toggle="modal" data-target="#myModal<?=$row['post_id']?>" id="editpost" editpostid="<?=$row['post_id']?>">Edit Post</a></li>
+													<?php } ?>
 														<li><a href="javascript:void(0);"  id="posthide" title="" hidepost="<?=$row['post_id']?>" >Hide</a></li>
-														<?php if($_SESSION['sess_webid']==$row['user_id']){?>
+													<?php if($_SESSION['sess_webid']==$row['user_id']){?>
 														<li><a href="javascript:void(0);" class="deletepost" id="deletepost" title="" delpost="<?=$row['post_id']?>" >Delete</a></li>
 														<?php } ?>
 													</ul>
@@ -561,19 +616,62 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 												<ul class="descp">
 												<?php if(!empty($userrow['current_company'])){?>
 													<li><img src="images/icon8.png" alt=""><span><?=$userrow['current_company']?></span></li>
-													<?php } if(!empty($userrow['current_city'])){?>
-													<li><img src="images/icon9.png" alt=""><span><?=$userrow['current_city']?></span></li><?php }?>
+													<?php } if(!empty($row['livelocation'])){?>
+													<li><img src="images/icon9.png" alt=""><span><?=$row['livelocation']?></span></li><?php }elseif(!empty($row['current_city'])){?>
+													<li><img src="images/icon9.png" alt=""><span><?=$userrow['current_city']?></span></li>
+													<?php }else{ ?><li></li>
+													<?php }?>
 												</ul>
-												<ul class="bk-links">
+												<!--<ul class="bk-links">
 													<li><a href="#" title=""><i class="la la-share"></i></a></li>
 													
-												</ul>
+												</ul>-->
+												<?php /////////////?>
+												 <div class="overview-box" id="share-box">
+        <div class="overview-edit">
+            <h3>Share Now</h3>
+            <form id="formexp" method="post">
+                <input type="text" name="subject" id="subject" placeholder="Subject">
+                <textarea name="exp" id="exp"></textarea>
+                <button type="submit" id="expsave" class="save">Save</button>
+                <!--<button type="submit" class="save-add">Save & Add More</button>-->
+                <button type="submit" class="cancel">Cancel</button>
+            </form>
+            <a href="#" title="" class="close-box"><i class="la la-close"></i></a>
+        </div>
+        <!--overview-edit end-->
+    </div>
+		<?php /////////////
+		$db21=new DB();
+		$feelingimgid=$row['feelingimgid'];
+		$feelingimgidpath=$db21->getSingleResult('select imgid from '.$_TBL_FEELINGS." where subcatname='".$feelingimgid."'");
+		?>
 											</div>
 											<div class="job_descp">
-												<h3 class="font-weight-500"><?=$row['post_title']?>:<span class="bold"> <?=$row['postemos']?> </span></h3>
+												<h3 class="font-weight-500"><?php 
+												if(!empty($row['post_title'])){
+												echo $row['post_title']; }  if(!empty($feelingimgid)){?>:
+												<img src="allimg/<?=$feelingimgidpath;?>" height="20"width="20"> <?=$feelingimgid?> 
+												<span class="bold"> <?=$row['postemos']?> </span> <?php } ?></h3>
 												
 												 
 												<p><?=$row['post_details']?></p>
+												<?php if(!empty($row['tagfriends'])){
+													//$a=array();
+													 $tagf=$row['tagfriends'];
+													$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
+													$db2->query($sql2)or die($db12->error());
+												while($row1=$db2->fetchArray()){
+												 $a=$row1['first_name'].' ';?>
+												<a href="view-profile.php?uid=<?=base64_encode($row1['user_id'])?>"><?=$row1['first_name']?></a>
+												<?php }
+												}
+											
+											//$b=implode(',',$a);
+											//$c=explode(',',$a);
+											//print_r($b);
+											//print_r($c);
+												?>
 												<?php 
 												 $ext = pathinfo($row['allpath'], PATHINFO_EXTENSION);
 												 if($ext=='mp4' or $ext=='webm'){?>
@@ -620,21 +718,26 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 												<ul class="like-com">
 													<li>
 														 <?php 
+														
 														 $lucount=$db1->getSingleResult('select count(like_id) from post_like where post_id='.$row['post_id'].' and user_id='.$_SESSION['sess_webid'] );
 											if($lucount>0){
 												?>
-														<a href="javascript:void(0)" class="like2" id="like<?=$row['post_id']?>" like1="<?=$row['post_id']?>"><i class="fas fa-heart"></i> Un Like</a>
+														<a href="javascript:void(0)" class="like2" id="like<?=$row['post_id']?>" like1="<?=$row['post_id']?>"><i class="fas fa-heart"></i> Liked</a>
 											<?php }else{?>	
 											<a href="javascript:void(0)" class="like2" id="like<?=$row['post_id']?>" like1="<?=$row['post_id']?>"><i class="fas fa-heart"></i> Like</a>
 											
 											<?php }?>
 														<img src="images/liked-img.png" alt="">
-														<span><?=$lcount?></span>
+														<span id="lcount<?=$row['post_id']?>"><?=$lcount?></span>
 													</li> 
 													<li><a href="javascript:void(0)" class="com" cid="<?=$row['post_id']?>"><i class="fas fa-comment-alt"></i> Comment <?=$ccount?></a></li>
+													<?php 
+												 $ext = pathinfo($row['allpath'], PATHINFO_EXTENSION);
+												 if($ext=='mp4' or $ext=='webm'){?>
 													<li class="pull-right">
 														<a href="#"><i class="fas fa-eye"></i>Views 50</a>
 													</li>
+												 <?php }?>
 
 													<div id="commentdisplay<?=$row['post_id']?>" style="display:none;">
 													<div class="post-comment">
@@ -643,7 +746,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 														<?php if(!empty($userimage)){ ?>
 														<img src="upload/<?=$userimage?>"/>
 														<?php }else{?>
-														<img src="images/resources/bg-img4.png" alt="">
+														<img src="images/resources/user.png" alt="" height="40" width="40">
 														<?php } ?>
 													</div>
 													<li class="feeling-input">				
@@ -657,7 +760,31 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 													<input type="file" id="cimageupload" name="cimageupload" >
 													
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Post a comment" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													<input type="text"  placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													<style>
+.wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
+.wishlistcartemoji1 li{display:inline;width:50px;}
+.wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
+#close{float: right; margin:10px;}
+</style>
+<ul class="wishlistcartemoji1" style="display:none;"  >
+<div id="close"><a href="javascript:void(0)">X</a></div>
+<?php 
+  $sql1="SELECT * FROM emoji order by id desc";
+$dbf->query($sql1)or die($dbf->error());
+while($row1=$dbf->fetchArray()){
+ $ext = pathinfo($row1['image'], PATHINFO_EXTENSION);	
+if($ext=='mp3'){
+	
+				$a.='';					 
+ }else{	
+				$b.='<li>
+							  <a href="javascript:void(0);" pid="'.$row['post_id'].'" im="'.$row1['image'].'"  mp3="'.$row1['mp3'].'"  uid="'.$row['user_id'].'" class="emoji1"><img src="emoji/'.$row1['image'].'" height="50" width="50" />
+						</a>
+						</li>';
+
+ } } echo $b;echo "</ul>"; ?>
+ <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
 													<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
 														</form>
 													</div>
@@ -681,13 +808,15 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
 											<?php if(!empty($pimage)){ ?>																	
 											<img src="upload/<?=$pimage?>" alt="" height="40" width="40"><?php }else{ ?>
-											<img src="images/clock.png" alt="">
+											<img src="images/resources/user.png" alt="" height="40" width="40">
 											<?php }?>
 													
 													
 
-													<?php if(!empty($rowc['cimage'])){ ?>
-													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/><?php }?>
+													<?php if(!empty($rowc['mp3'])){ ?>
+													<img src="emoji/<?=$rowc['cimage']?>" height="50" width="50"/><?php }else{ ?>
+													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/>
+													<?php }?>
 													<span class="user-name-in-coment"><?=$username?></span>
 													<span class="commword"><?=$rowc['comment']?> </span>
 													</span>
@@ -711,7 +840,7 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 													<label class="cemeraicon" for="rimageupload"><i class="fa fa-camera" aria-hidden="true"></i></label>
 													<input type="file" id="rimageupload" name="rimageupload" >
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Reply on comment" name="rpostcomment" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
+													<input type="text"  placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
 													</p>
 													<button type="button" name="replyid" id="replyid<?=$rowc['c_id']?>" class="replyid" rid="<?=$rowc['c_id']?>">Send</button>
 														</form>
@@ -737,18 +866,23 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 	?>
 	
 																<div class="comment">
-																	
+																	<div class="commnt-bx">
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
 																	<?php if(!empty($rpimage)){ ?>
 																	<img src="upload/<?=$rpimage?>" alt=""> 
 																	<?php }else{?>
-																	<img src="images/clock.png" alt="">
+																	<img src="images/resources/user.png" alt="" height="40" width="40">
 																	<?php }?>
-																	<?php echo timeago($rowr['rdate']);?> </span>
-																	<h3><?=$username1?></h3>
+																	 
+																	<span class="user-name-in-coment"><?=$username1?> 1</span> 
 																	<?php if(!empty($rowr['rimage'])){ ?>
 																	<img src="upload/<?=$rowr['rimage']?>" height="50" width="50"/><?php }?>
-																	<p class="commword"><?=$rowr['r_comment']?> </p>
+																	<span class="commword"><?=$rowr['r_comment']?> 
+																	<br/>
+																	<span class="tim-dat1">
+																	<?php echo timeago($rowr['rdate']);?> </span></span>
+																	</span>
+																	</div>
 																</div>
 										
 <?php }} ///////////////?>
@@ -770,18 +904,171 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
 <?php } }
  ?>
-									
+										
+										
+										<div class="top-profiles">
+											<div class="pf-hd">
+												<h3>Top Profiles</h3>
+												<i class="la la-ellipsis-v"></i>
+											</div>
+											<div class="profiles-slider">
+												<div class="user-profy">
+													<img src="images/resources/user1.png" alt="">
+													<h3>Uduak Umoh</h3>
+													<span>Graphic Designer</span>
+													<ul>
+														<li><a href="#" title="" class="followw">Follow</a></li>
+														<li><a href="#" title="" class="envlp"><img src="images/envelop.png" alt=""></a></li>
+														
+													</ul>
+													<a href="#" title="">View Profile</a>
+												</div><!--user-profy end-->
+												<div class="user-profy">
+													<img src="images/resources/user2.png" alt="">
+													<h3>Uduak Umoh</h3>
+													<span>Graphic Designer</span>
+													<ul>
+														<li><a href="#" title="" class="followw">Follow</a></li>
+														<li><a href="#" title="" class="envlp"><img src="images/envelop.png" alt=""></a></li>
+														
+													</ul>
+													<a href="#" title="">View Profile</a>
+												</div><!--user-profy end-->
+												<div class="user-profy">
+													<img src="images/resources/user3.png" alt="">
+													<h3>Uduak Umoh</h3>
+													<span>Graphic Designer</span>
+													<ul>
+														<li><a href="#" title="" class="followw">Follow</a></li>
+														<li><a href="#" title="" class="envlp"><img src="images/envelop.png" alt=""></a></li>
+														
+													</ul>
+													<a href="#" title="">View Profile</a>
+												</div><!--user-profy end-->
+												<div class="user-profy">
+													<img src="images/resources/user1.png" alt="">
+													<h3>Uduak Umoh</h3>
+													<span>Graphic Designer</span>
+													<ul>
+														<li><a href="#" title="" class="followw">Follow</a></li>
+														<li><a href="#" title="" class="envlp"><img src="images/envelop.png" alt=""></a></li>
+														
+													</ul>
+													<a href="#" title="">View Profile</a>
+												</div><!--user-profy end-->
+												<div class="user-profy">
+													<img src="images/resources/user2.png" alt="">
+													<h3>Uduak Umoh</h3>
+													<span>Graphic Designer</span>
+													<ul>
+														<li><a href="#" title="" class="followw">Follow</a></li>
+														<li><a href="#" title="" class="envlp"><img src="images/envelop.png" alt=""></a></li>
+														
+													</ul>
+													<a href="#" title="">View Profile</a>
+												</div><!--user-profy end-->
+												<div class="user-profy">
+													<img src="images/resources/user3.png" alt="">
+													<h3>Uduak Umoh</h3>
+													<span>Graphic Designer</span>
+													<ul>
+														<li><a href="#" title="" class="followw">Follow</a></li>
+														<li><a href="#" title="" class="envlp"><img src="images/envelop.png" alt=""></a></li>
+														
+													</ul>
+													<a href="#" title="">View Profile</a>
+												</div><!--user-profy end-->
+											</div><!--profiles-slider end-->
+										</div><!--top-profiles end-->
 
+<?php $dbnew=new DB();
+ $sql="SELECT * FROM user_post WHERE user_id IN (SELECT user_id FROM all_user WHERE user_id ='".$_SESSION['sess_webid']."');";
+$dbnew->query($sql);
+if($dbnew->numRows()>0)
+{
+while($row=$dbnew->fetchArray()){?>
+	
+
+
+ 
+										<div class="post-bar">
+											<div class="post_topbar">
+												<div class="usy-dt">
+													<img src="images/resources/user.png" alt="" height="40" width="40">
+													<div class="usy-name">
+														<h3>Uduak Umoh</h3>
+														<span><img src="images/clock.png" alt="">3 min ago</span>
+													</div>
+												</div>
+												<div class="ed-opts">
+													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
+													<ul class="ed-options">
+														<li><a href="#" title="">Edit Post</a></li>
+														<li><a href="#" title="">Unsaved</a></li>
+														<li><a href="#" title="">Unbid</a></li>
+														<li><a href="#" title="">Close</a></li>
+														<li><a href="#" title="">Hide</a></li>
+													</ul>
+												</div>
+											</div>
+											<div id="show"></div>
+											<div class="epi-sec">
+												<ul class="descp">
+													<li><img src="images/icon8.png" alt=""><span>Webz Engine</span></li>
+													<li><img src="images/icon9.png" alt=""><span>India</span></li>
+												</ul>
+												<ul class="bk-links">
+													<li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
+													<li><a href="#" title=""><i class="la la-envelope"></i></a></li>
+												</ul>
+											</div>
+											<div class="job_descp">
+												<h3>Red Sea Fight Night is LIVE NOW</h3>
+												 
+												<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using ...</p>
+
+												<!-- video link -->
+
+												<video id='my-video' class='video-js' controls preload='auto'  poster='images/oceans.png' data-setup='{}' width='640' height='264'>
+													<source src='images/oceans.mp4' type='video/mp4'>
+													<source src='images/oceans.webm' type='video/webm'>
+													<p class='vjs-no-js'>
+												      To view this video please enable JavaScript, and consider upgrading to a web browser that
+												      <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
+												    </p>
+												  </video>
+
+												<!-- video link -->
+
+												
+											</div>
+											<div class="job-status-bar">
+												<ul class="like-com">
+													<li>
+														<a href="#"><i class="fas fa-heart"></i> Like</a>
+														<img src="images/liked-img.png" alt="">
+														<span>25</span>
+													</li> 
+													<li><a href="#" class="com"><i class="fas fa-comment-alt"></i> Comment 15</a></li>
+												</ul>
+												<a href="#"><i class="fas fa-eye"></i>Views 50</a>
+											</div>
+										</div><!--post-bar end-->
+
+<?php } }
+ ?>    <!--
 										<div class="process-comm">
 											<div class="spinner">
 												<div class="bounce1"></div>
 												<div class="bounce2"></div>
 												<div class="bounce3"></div>
 											</div>
-										</div><!--process-comm end-->
+										</div> process-comm end-->
 									</div><!--posts-section end-->
 								</div><!--main-ws-sec end-->
-	                              <!--main-ws-sec end-->
+							</div>
+					
+                             <!--main-ws-sec end-->
 
                             </div>
                             <!--product-feed-tab end-->
