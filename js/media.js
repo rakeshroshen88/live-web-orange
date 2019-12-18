@@ -1,12 +1,12 @@
 $(document).ready(function(){
 	/*Swal.fire({
-  title: "<i>Title</i>", 
-  html: "Testno  sporocilo za objekt: <b>test</b>",  
-  confirmButtonText: "V <u>redu</u>", 
+  title: "<i>Title</i>",
+  html: "Testno  sporocilo za objekt: <b>test</b>",
+  confirmButtonText: "V <u>redu</u>",
 });*/
 	 $('input[type="checkbox"]').click(function(){
             if($(this).prop("checked") == true){
-                
+
             }
             else if($(this).prop("checked") == false){
 				$("#c2").css("border-color", "#FF0000");
@@ -15,8 +15,8 @@ $(document).ready(function(){
                 //alert("Checkbox is unchecked.");
             }
         });
-	
-	//var BASEURL='http://localhost/live-web-orange/';
+
+	//var BASEURL='http://orangestate.ng/';
 		$flag=1;
     	$("#myName").focusout(function(){
 
@@ -61,9 +61,9 @@ $(document).ready(function(){
        }); */
         /* $("#gender").focusout(function(){
         	$(this).css("border-color", "#2eb82e");
-       
+
        }); */
-	   
+
 			function IsEmail(email) {
 			  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 			  if(!regex.test(email)) {
@@ -73,7 +73,7 @@ $(document).ready(function(){
 			  }
 			}
 			$("#email").focusout(function(){
-			var email = $('#email').val();	
+			var email = $('#email').val();
 			if(IsEmail(email)==false){
 			$('#submit').attr('disabled',true);
 			$("#error_age").text("* You have to enter your Email!");
@@ -91,7 +91,7 @@ $(document).ready(function(){
         		$("#error_email").text("");
 
         	}*/
-			
+
     		if($(this).val()==''){
         		$(this).css("border-color", "#FF0000");
         			$('#submit').attr('disabled',true);
@@ -105,7 +105,7 @@ $(document).ready(function(){
 
         	}
         	});
-			
+
 			////////////////////////////////////////
 			$("#password").focusout(function(){
     		if($(this).val()==''){
@@ -123,6 +123,44 @@ $(document).ready(function(){
         	});
 			
 			
+			/* $("#CaptchaInput").focusout(function(){
+    		if($(this).val()==''){
+        		$(this).css("border-color", "#FF0000");
+        			$('#submit').attr('disabled',true);
+        			$("#error_CaptchaInput").text("* You have to enter your Captcha!");
+        	}
+        	else
+        	{
+        		$(this).css({"border-color":"#2eb82e"});
+        		$('#submit').attr('disabled',false);
+        		$("#error_CaptchaInput").text("");
+
+        	}
+        	}); */
+
+	$("#password").focusout(function(){
+	var p = $("#password" ).val();
+	//alert(p);
+    var errors = [];
+    if (p.length < 8) {
+        errors.push("Your password must be at least 8 characters");
+    }
+    if (p.search(/[a-z]/i) < 0) {
+        errors.push("Your password must contain at least one letter.");
+    }
+    if (p.search(/[0-9]/) < 0) {
+        errors.push("Your password must contain at least one digit.");
+    }
+    if (errors.length > 0) {
+        //alert(errors.join("\n"));
+		$("#password").css("border-color", "#FF0000");
+        $('#submit').attr('disabled',true);
+        $("#error_password").text(errors.join("\n"));
+        return false;
+    }
+			 });
+
+
 			$("#repeat-password").focusout(function(){
     		if($(this).val()==''){
         		$(this).css("border-color", "#FF0000");
@@ -145,8 +183,8 @@ $(document).ready(function(){
         			$('#submit').attr('disabled',true);
         			$("#error_phone").text("* You have to enter your Phone Number!");
         	}
-        	else if ($pho.length!=20)
-        	{   
+        	else if ($pho.length!=10)
+        	{
                     $(this).css("border-color", "#FF0000");
         			$('#submit').attr('disabled',true);
         			$("#error_phone").text("* Lenght of Phone Number Should Be Ten");
@@ -155,7 +193,7 @@ $(document).ready(function(){
         	{
         	        $(this).css("border-color", "#FF0000");
         			$('#submit').attr('disabled',true);
-        			$("#error_phone").text("* Phone Number Should Be Numeric");  
+        			$("#error_phone").text("* Phone Number Should Be Numeric");
         	}
         	else{
         		$(this).css({"border-color":"#2eb82e"});
@@ -190,22 +228,22 @@ $(document).ready(function(){
         			$('#submit').attr('disabled',true);
         			 $("#error_email").text("* You have to enter your Email!");
         	}
-			
+
 			var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
 			if (testEmail.test($("#email" ).val())){
-				
+
 			// Do whatever if it passes.
 			}else{ $("#email").css("border-color", "#FF0000");
         		$('#submit').attr('disabled',true);
         		$("#error_email").text("* You have to enter your Email!");}
-				
+
         	if($("#phone" ).val()=='')
    			{
         		$("#phone").css("border-color", "#FF0000");
         			$('#submit').attr('disabled',true);
         			 $("#error_phone").text("* You have to enter your Phone Number!");
         	}
-			
+
 			////////////////////////////////////
 			if($("#password" ).val()=='')
    			{
@@ -213,7 +251,7 @@ $(document).ready(function(){
         		$('#submit').attr('disabled',true);
         		$("#error_password").text("* You have to enter your password!");
         	}
-			
+
 	$("#password").focusout(function(){
 	var p = $("#password" ).val();
 	//alert(p);
@@ -222,7 +260,7 @@ $(document).ready(function(){
         errors.push("Your password must be at least 8 characters");
     }
     if (p.search(/[a-z]/i) < 0) {
-        errors.push("Your password must contain at least one letter."); 
+        errors.push("Your password must contain at least one letter.");
     }
     if (p.search(/[0-9]/) < 0) {
         errors.push("Your password must contain at least one digit.");
@@ -235,7 +273,7 @@ $(document).ready(function(){
         return false;
     }
 			 });
-			
+
 			if($("#repeat-password" ).val()=='')
    			{
         		$("#repeat-password").css("border-color", "#FF0000");
@@ -247,17 +285,39 @@ $(document).ready(function(){
         			$('#submit').attr('disabled',true);
         			 $("#error_repeat-password").text("* You have to enter your repeat password!");
 			}
-			
-			
-			
+
+			/* if($("#CaptchaInput" ).val()=='')
+   			{
+        		$("#CaptchaInput").css("border-color", "#FF0000");
+        		$('#submit').attr('disabled',true);
+        		$("#error_CaptchaInput").text("* You have to enter Captcha!");
+        	}
+
+			var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
+			var str2 = removeSpaces(document.getElementById('CaptchaInput').value);
+			if (str1 == str2){
+			return true;
+			}else{
+				$("#CaptchaInput").css("border-color", "#FF0000");
+        		$('#submit').attr('disabled',true);
+        		$("#error_CaptchaInput").text("* Captcha not match!");
+			return false;
+			} */
 			///////////////////
 			});
+
+
+
+
+function removeSpaces(string){
+return string.split(' ').join('');
+}
 jQuery(document).on("click", "#submit ", function(e){
 /////////////////////////////////Register document////////////////////////////////////
-	
-		var BASEURL='http://localhost/live-web-orange/';
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_signup.php';
-		
+
+		var BASEURL='http://orangestate.ng/';
+		var social_AjaxURL='http://orangestate.ng/ajax_signup.php';
+
 			e.preventDefault();
 			//jQuery(".saveit").text("uploading..").attr("disabled",true);
 
@@ -275,64 +335,65 @@ jQuery(document).on("click", "#submit ", function(e){
 					background: 'none'
 				}
 			});
-		
+
 					var name = $("#myName").val();
 					var email = $("#email").val();
 					var password = $("#password").val();
 					var lastname = $("#lastname").val();
-					var phone = $("#phone").val();					
+					var phone = $("#phone").val();
+					//var postal_code = $("#postal_code").val();
+					//var location = $("#location1").val();
+					var state = $("#state").val();
 					var countrycode = $("#countrycode").val();
 					var country = $("input[name=country]").val();
-					var dataString = 'name1='+ name + '&email1='+ email + '&password1='+ password + '&lastname='+ lastname + '&phoneno='+ phone + '&country='+ country+'&countrycode='+ countrycode;
-					
+					var dataString = 'name1='+ name + '&email1='+ email + '&password1='+ password + '&lastname='+ lastname + '&phoneno='+ phone + '&country='+ country + '&countrycode='+ countrycode + '&state='+ state;
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
 					 data: dataString,
-            	    type: 'POST',			
+            	    type: 'POST',
             	    success: function (response) {
 						el.unblock();
-						
+
 						  var data1 = jQuery.parseJSON(response);
-      
-			
+
+
             		  // alert(response);
-            		   
+
                        if(data1.status==true){
-                           // $('#success').html('Added');  
-                             window.location = "http://localhost/live-web-orange/veryfyotp.php";
-                             window.location.href = "http://localhost/live-web-orange/veryfyotp.php";
+                           // $('#success').html('Added');
+                             window.location = "http://orangestate.ng/veryfyotp.php";
+                             window.location.href = "http://orangestate.ng/veryfyotp.php";
                          // window.location.href= MEDIA_URL+'veryfyotp.php';
             		    }else{
-            		         $('#success').html(data1.message);  
-            		         
-            		        
+            		         $('#success').html(data1.message);
+
+
 						//   window.location.href= MEDIA_URL+'veryfyotp.php';
-            		        
+
             		    }
-            		    
-            		  
-            		   
+
+
+
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             	         //alert("Error While this addiing a record");
             				el.unblock();
-            		    
+
             	    }
             	});
-            	
-            	
-	 
+
+
+
 	});
 	////////////////////////////////Register company////////////////////////////////////
-	jQuery(document).on("click", "#companysubmit ", function(e){
-		//alert('hello');
-			$("#company-name").focusout(function(){
+	$("#company-name").focusout(function(){
     		if($(this).val()==''){
         		$(this).css("border-color", "#FF0000");
-        			$('#company-name').attr('disabled',true);
+        			$('#companysubmit').attr('disabled',true);
         			$("#error_com").text("* You have to enter your repeat password!");
         	}
         	else
@@ -343,19 +404,56 @@ jQuery(document).on("click", "#submit ", function(e){
 
         	}
         	});
-		
+	jQuery(document).on("click", "#companysubmit ", function(e){
+		//alert('hello');
+			$("#company-name").focusout(function(){
+    		if($(this).val()==''){
+        		$(this).css("border-color", "#FF0000");
+        			$('#companysubmit').attr('disabled',true);
+        			$("#error_com").text("* You have to enter your repeat password!");
+        	}
+        	else
+        	{
+        		$(this).css({"border-color":"#2eb82e"});
+        		$('#companysubmit').attr('disabled',false);
+        		$("#error_com").text("");
+
+        	}
+        	});
+
 			if($("#company-name" ).val()=='')
    			{
         		$("#company-name").css("border-color", "#FF0000");
-        			$('#companysubmit').attr('disabled',true);
-        			 $("#error_com").text("* You have to enter your page name!");
-        	}
-	
-		var BASEURL='http://localhost/live-web-orange/';
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_page_creation.php';
-		
-			e.preventDefault();
+        		$('#companysubmit').attr('disabled',true);
+				$("#error_com").text("* You have to enter your page name!");
+				return false;
+        	}else{
+				$(this).css({"border-color":"#2eb82e"});
+        		$('#companysubmit').attr('disabled',false);
+        		$("#error_com").text("");
+			}
 			
+			 $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+
+            }
+            else if($(this).prop("checked") == false){
+				$("#c2").css("border-color", "#FF0000");
+        		$('#submit').attr('disabled',true);
+        		$("#error_c3").text("* You have to check term & condition!");
+                //alert("Checkbox is unchecked.");
+            }else{
+				$(this).css({"border-color":"#2eb82e"});
+        		$('#companysubmit').attr('disabled',false);
+        		$("#error_c3").text("");
+			}
+        });
+
+		var BASEURL='http://orangestate.ng/';
+		var social_AjaxURL='http://orangestate.ng/ajax_page_creation.php';
+
+			e.preventDefault();
+
 			var el = jQuery("#companysubmit");
 			el.block({
 				overlayCSS: {
@@ -368,65 +466,62 @@ jQuery(document).on("click", "#submit ", function(e){
 					background: 'none'
 				}
 			});
-		
+
 					var companyname = $("#company-name").val();
-					var category = $("#category").val();					
+					var category = $("#category").val();
 					var country = $("#country1").val();
 					var dataString ='companyname=' + companyname + '&category='+ category + '&country='+ country;
-					
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
 					 data: dataString,
-            	    type: 'POST',			
+            	    type: 'POST',
             	    success: function (data) {
-            		   //data=data.replace(/\s+/g,"");
-					   //alert(data);
-            		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		
                        if(data != 0){
-						   
+
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data,
+						  text: 'Company Page Successfully Created !',
 						  showConfirmButton: false,
 						  timer: 1000
-						  
-						}); 
-						   
-						   $('#company_error').html(data);  
+
+						});
+						$('#company_error').html(data);
+						window.location = "http://orangestate.ng/company-profile.php";
             			 //window.location.reload(true);
             		    }
             		    else {
-            		   	//$('#company_error').html('Page not created !'); 
+            		   	//$('#company_error').html('Page not created !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
-	
+
+
 	////////////////////////////////User Profile////////////////////////////////////
-	
-	
+
+
 jQuery("#file").on('change', function() {
-  
+
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://localhost/live-web-orange/upload/';
-	var social_AjaxURL='http://localhost/live-web-orange/imageupload.php';
+	var BASEURL='http://orangestate.ng/upload/';
+	var social_AjaxURL='http://orangestate.ng/imageupload.php';
         var fd = new FormData();
         var files = $('#file')[0].files[0];
-       
+		$('#submit').attr('disabled',true);
         fd.append('file',files);
 
         $.ajax({
@@ -436,14 +531,15 @@ jQuery("#file").on('change', function() {
             contentType: false,
             processData: false,
             success: function(response){
-               
+
                 if(response != 0){
                     //alert(response);
                     jQuery("#rmvid").hide();
                     jQuery(".left-uploaded-img").html('<img src="'+BASEURL + response +'" />');
-                    
+
                    // jQuery("#imgid").val(data.result.attach_id);
-                 jQuery('#imgid').val(response); 
+                 jQuery('#imgid').val(response);
+				 $('#submit').attr('disabled',false);
                 }else{
                     jQuery('#file').focus();
                     //alert('file not uploaded');
@@ -452,71 +548,68 @@ jQuery("#file").on('change', function() {
         });
     });
 
-	
+
 jQuery(document).on("click", "#profilesubmit ", function(e){
-  
+
 		var form=jQuery("#formuserprofile");
-		
+
 		var img=jQuery("#profileimg").val();
-		
-		var BASEURL ='http://localhost/live-web-orange/';
-		
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_user_profile.php';
-		
+
+		var BASEURL ='http://orangestate.ng/';
+
+		var social_AjaxURL='http://orangestate.ng/ajax_user_profile.php';
 		var selected = new Array();
 
 
 $("input:checkbox[name=area]:checked").each(function(){
     selected.push($(this).val());
 });
-
-		
 			e.preventDefault();
-		
+
 			var el = jQuery("#formuserprofile");
-			
-			
-					
+
+
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
 					type: 'POST',
-					data:  {		
+					data:  {
 						"formData" : form.serialize(),
 						"area" :selected
 							},
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		   data=data.replace(/\s+/g,"");
 					   //alert(data);
             		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		   //$('#loadimg').html('<img src="../images/load.gif">');
                        if(data != 0){
-						   $('#p_error').html(data);  
+						   $('#p_error').html(data);
 						   window.location.href= BASEURL+'index.php';
             			 //window.location.reload(true);
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
-	//////////////////////Multiple file Upload for post/////////////////////// 
+
+	//////////////////////Multiple file Upload for post///////////////////////
 	jQuery("#upload_file").on('change', function() {
-   var social_AjaxURL='http://localhost/live-web-orange/upload.php';
+   var social_AjaxURL='http://orangestate.ng/upload.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -527,7 +620,7 @@ $("input:checkbox[name=area]:checked").each(function(){
 
    // AJAX request
    $.ajax({
-     url: social_AjaxURL, 
+     url: social_AjaxURL,
      type: 'post',
      data: form_data,
      dataType: 'json',
@@ -535,7 +628,7 @@ $("input:checkbox[name=area]:checked").each(function(){
      processData: false,
      success: function (response) {
 		 //alert(response);
-		jQuery('#imgid').val(response); 
+		jQuery('#imgid').val(response);
        /* for(var index = 0; index < response.length; index++) {
          var src = response[index];
 		alert(src);
@@ -549,65 +642,69 @@ $("input:checkbox[name=area]:checked").each(function(){
 });
 ///////////post submit/////////////////
 jQuery(document).on("click", "#uploadpost ", function(e){
-  
-		var form=jQuery("#uploadForm");		
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_post.php';
-		
+
+		var form=jQuery("#uploadForm");
+		var social_AjaxURL='http://orangestate.ng/ajax_post.php';
+
 			e.preventDefault();
-		
+
 			var el = jQuery("#uploadForm");
-			
-			
-					
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
 					type: 'POST',
-					data:  {		
+					data:  {
 						"formData" : form.serialize()
 							},
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		   //data=data.replace(/\s+/g,"");
 					   //alert(data);
             		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		   //$('#loadimg').html('<img src="../images/load.gif">');
                        if(data != 0){
-						   $('#postshow').html(data);  
+						   $('#postid').val('');
+						   $('#imgid').val('');
+						   $('#image_preview').html('');
+						   $('#tagfriends').val('');
+						   $('.emg').val('');
+						   $('#livelocationinput').val('');
+						   $('#postshow').html(data);
 						   //window.location.href= MEDIA_URL+'index.php';
             			 //window.location.reload(true);
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
-	
+
+
 	});
-	
+
 
 ///////////post like/////////////////
-jQuery(document).on("click", ".like2", function(e){ 
-		
+jQuery(document).on("click", ".like2", function(e){
+
 		var l_id = jQuery(this).attr('like1');
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_like.php';
+
+		var social_AjaxURL='http://orangestate.ng/ajax_like.php';
 		var dataString ='postid='+l_id ;
-		
+
 			e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -616,53 +713,48 @@ jQuery(document).on("click", ".like2", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-						$(".like2").html('');
-						$("#like2"+l_id).html("liked");
-						$(".like2").addClass("likes");
-						   if(data != 0){
-						 swal.fire({
-						  type: 'success',
-						  title: '',
-						  text: data,
-						  showConfirmButton: false,
-						  timer: 1000
-						  
-						}); 
-						 setTimeout(function(){
-							//window.location.reload(true);
-						   }, 1000); 
+						 var data1 = jQuery.parseJSON(data);
+						$("#like2").html('');
+						$("#like"+l_id).html('<i class="fas fa-heart"></i>'+data1.message);
+						$("#lcount"+l_id).html('');
+						$("#lcount"+l_id).html(data1.countid);
+						//$(".like2").addClass("likes");
+
 						   //window.location.href= MEDIA_URL+'index.php';
             			 //window.location.reload(true);
-            		    }
+            		   /*  }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
-            		    }
+
+            		    } */
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
-	
-	
-	
+
+
+
+
+
+
+
 	///////////post follow/////////////////
 jQuery(document).on("click", "#follow", function(e){
-  
-		
+
+
 		var f_id = jQuery(this).attr('fid');
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_follow.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_follow.php';
 		var dataString ='fid =' + f_id ;
 			e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -671,42 +763,42 @@ jQuery(document).on("click", "#follow", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		   data=data.replace(/\s+/g,"");
 					   //alert(data);
             		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		   //$('#loadimg').html('<img src="../images/load.gif">');
                        if(data != 0){
-						   $('#postshow').html(data);  
+						   $('#postshow').html(data);
 						   //window.location.href= MEDIA_URL+'index.php';
             			 //window.location.reload(true);
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
-	
-	
+
+
+
 	///////////post follow/////////////////
 //jQuery(document).on("click", ".follownew", function(e){
   $(".follownew").on('click', function(event){
-		
-		var f_id = jQuery(this).attr('fid');		
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_follow.php';
+
+		var f_id = jQuery(this).attr('fid');
+		var social_AjaxURL='http://orangestate.ng/ajax_follow.php';
 		var dataString ='followid=' + f_id ;
-	
+
     	$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -715,47 +807,47 @@ jQuery(document).on("click", "#follow", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-						
+
             		   //data=data.replace(/\s+/g,"");
 					   //alert(data);
             		   //var spancontainer=$('span#record'+catids);
             		   $('#follownew'+f_id).html('');
-					   $('#follownew'+f_id).html('following');					   
+					   $('#follownew'+f_id).html('following');
                       /*  if(data != 0){
 						   Swal.fire({
 						  type: 'success',
 						  title: '',
 						  text: data
-						  
+
 						}); */
-						  // $('#postshow').html(data);  
+						  // $('#postshow').html(data);
 						   //window.location.href= MEDIA_URL+'index.php';
             			 //window.location.reload(true);
-            		    
+
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            
+
 	});
-	
-	
+
+
 ///////////post comment/////////////////
 jQuery(document).on("click", ".commentid ", function(e){
-		var c_id = jQuery(this).attr('cid');	
+		var c_id = jQuery(this).attr('cid');
 		var postcomment=jQuery("#postcomment"+c_id).val();
 		var pid=jQuery("#pid"+c_id).val();
-		var uid=jQuery("#uid"+c_id).val();		
+		var uid=jQuery("#uid"+c_id).val();
 		var cimage=jQuery("#cimage"+c_id).val();
 		var dataString ='pid='+pid+'&uid='+uid+'&postcomment='+postcomment+'&cimage='+cimage;
 		//var form=jQuery("#commentForm");
 		//var rcom=jQuery("#rpostcomment").val();
-		
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_comment.php';
-		
+
+		var social_AjaxURL='http://orangestate.ng/ajax_comment.php';
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -763,19 +855,19 @@ jQuery(document).on("click", ".commentid ", function(e){
             	    //data: {catid: catids},
 					type: 'POST',
 					data: dataString,
-					
+
             	    success: function (data) {
-						
+
             		   //data=data.replace(/\s+/g,"");
 					  // $('.comment-listing').html(data);
-						$('#commentdisplay'+c_id).html(data);					   
+						$('#commentdisplay'+c_id).html(data);
                        if(data != 0){
-						 
+
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -783,22 +875,22 @@ jQuery(document).on("click", ".commentid ", function(e){
             	    }
             	});
 	});
-	
-	
+
+
 	///////////post reply/////////////////
 jQuery(document).on("click", ".replyid ", function(e){
-  
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_reply.php';
-		var c_id = jQuery(this).attr('rid');	
+
+		var social_AjaxURL='http://orangestate.ng/ajax_reply.php';
+		var c_id = jQuery(this).attr('rid');
 		var postcomment=jQuery("#rpostcomment"+c_id).val();
 		var pid=jQuery("#pid"+c_id).val();
 		var cid=jQuery("#cid"+c_id).val();
-		var uid=jQuery("#uid"+c_id).val();		
+		var uid=jQuery("#uid"+c_id).val();
 		var rimage=jQuery("#rimage"+c_id).val();
 		var dataString ='pid='+pid+'&uid='+uid+'&rpostcomment='+postcomment+'&rimage='+rimage+'&cid='+cid;
-		
-			
-					
+
+
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -806,36 +898,26 @@ jQuery(document).on("click", ".replyid ", function(e){
             	    //data: {catid: catids},
 					type: 'POST',
 					data: dataString,
-            	    			
-            	    success: function (data) {  
-					
+
+            	    success: function (data) {
+
                        if(data != 0){
-						  $('#replydisplay'+c_id).html(data);  	 
-						  swal.fire({
-						  type: 'success',
-						  title: '',
-						  //text: data,
-						  showConfirmButton: false,
-						  timer: 1000
-						  
-						});
-						setTimeout(function(){
-							//window.location.reload(true);
-						   }, 10000);
+						  $('#replydisplay'+c_id).html(data);
+
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
 jQuery(document).on("click", ".com", function(e){
 	var cid = jQuery(this).attr('cid');
@@ -845,20 +927,20 @@ jQuery(document).on("click", ".com", function(e){
 }	);
 
 jQuery(document).on("click", "#replyiddiv", function(e){
-	
+
 	var cid = jQuery(this).attr('cid');
-	
+
 	$("#replydisplay"+cid).css("display", "block");
 	jQuery('#replydisplay'+cid).focus();
 
 }	);
-//////////////////comment Image//////////////////////	
+//////////////////comment Image//////////////////////
 jQuery("#cimageupload").on('change', function() {
 
-var social_AjaxURL='http://localhost/live-web-orange/commentimageupload.php';
+var social_AjaxURL='http://orangestate.ng/commentimageupload.php';
         var fd = new FormData();
         var files = $('#cimageupload')[0].files[0];
-       
+
         fd.append('file',files);
 
         $.ajax({
@@ -873,9 +955,9 @@ var social_AjaxURL='http://localhost/live-web-orange/commentimageupload.php';
                     //alert(response);
                    // jQuery("#rmvid").hide();
                     //jQuery(".left-uploaded-img").html('<img src="'+MEDIA_URL + response +'" />');
-                    
+
                    // jQuery("#imgid").val(data.result.attach_id);
-                 jQuery('#cimage').val(data); 
+                 jQuery('#cimage').val(data);
                 }else{
                     jQuery('#file').focus();
                     //alert('file not uploaded');
@@ -883,15 +965,15 @@ var social_AjaxURL='http://localhost/live-web-orange/commentimageupload.php';
             },
         });
     });
-	
+
 	///////////////////////reply Image////////////////////////
-	
+
 	jQuery("#rimageupload").on('change', function() {
- 
-var social_AjaxURL='http://localhost/live-web-orange/replyimageupload.php';
+
+var social_AjaxURL='http://orangestate.ng/replyimageupload.php';
         var fd = new FormData();
         var files = $('#rimageupload')[0].files[0];
-       
+
         fd.append('file',files);
 
         $.ajax({
@@ -906,9 +988,9 @@ var social_AjaxURL='http://localhost/live-web-orange/replyimageupload.php';
                     //alert(response);
                     //jQuery("#rmvid").hide();
                     //jQuery(".left-uploaded-img").html('<img src="'+MEDIA_URL + response +'" />');
-                    
+
                    // jQuery("#imgid").val(data.result.attach_id);
-                 jQuery('#rimage').val(data); 
+                 jQuery('#rimage').val(data);
                 }else{
                     jQuery('#file').focus();
                     //alert('file not uploaded');
@@ -923,14 +1005,14 @@ var social_AjaxURL='http://localhost/live-web-orange/replyimageupload.php';
 
 ///////////post delete/////////////////
 jQuery(document).on("click", ".posthide", function(e){
-  
-		
+
+
 		var p_id = jQuery(this).attr('hidepost');
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_post_hide.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_post_hide.php';
 		var dataString ='postid='+p_id ;
-		
+
 			e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -939,46 +1021,46 @@ jQuery(document).on("click", ".posthide", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		   data=data.replace(/\s+/g,"");
 					   //alert(data);
             		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		   //$('#loadimg').html('<img src="../images/load.gif">');
                        if(data != 0){
-						  // $('#like').html(data);  
+						  // $('#like').html(data);
 						   //window.location.href= MEDIA_URL+'index.php';
             			 window.location.reload(true);
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
+
 ///////////post Hide/////////////////
 jQuery(document).on("click", ".deletepost", function(e){
-  
-		
+
+
 		var d_id = jQuery(this).attr('delpost');
-		
-		
+
+
 		//var img=jQuery("#profileimg").val();
-		
-		
-		
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_post_delete.php';
+
+
+
+		var social_AjaxURL='http://orangestate.ng/ajax_post_delete.php';
 		var dataString ='postid='+d_id ;
-		
+
 			e.preventDefault();
 				Swal.fire({
 				  title: 'Are you sure?',
@@ -998,21 +1080,21 @@ jQuery(document).on("click", ".deletepost", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		   data=data.replace(/\s+/g,"");
 					   //alert(data);
             		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		   //$('#loadimg').html('<img src="../images/load.gif">');
                        if(data != 0){
-						  // $('#like').html(data);  
+						  // $('#like').html(data);
 						   //window.location.href= MEDIA_URL+'index.php';
             			 //window.location.reload(true);
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1024,31 +1106,31 @@ jQuery(document).on("click", ".deletepost", function(e){
 					  type: 'error',
 					  title: 'Oops...',
 					  text: 'Something went wrong!'
-					 
+
 					})
 				}
 				})
-        
-    	
-	});
-	
 
-	
+
+	});
+
+
+
 	///////////Load post /////////////////
 jQuery(document).on("click", "#editpost", function(e){
-  
-		
+
+
 		var e_id = jQuery(this).attr('editpostid');
-		
+
 		//var img=jQuery("#profileimg").val();
-		
-		
-		
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_editpost_form.php';
+
+
+
+		var social_AjaxURL='http://orangestate.ng/ajax_editpost_form.php';
 		var dataString ='postid='+e_id ;
-		
+
 			e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1057,15 +1139,15 @@ jQuery(document).on("click", "#editpost", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		   //data=data.replace(/\s+/g,"");
 					   //alert(data);
             		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		   //$('#loadimg').html('<img src="../images/load.gif">');
                        if(data != 0){
 						   $('#myModal').modal('show');
-						$('#post_body').html(data);  
+						$('#post_body').html(data);
 						//window.location.href= MEDIA_URL+'index.php';
             			// window.location.reload(true);
             		    }
@@ -1074,85 +1156,85 @@ jQuery(document).on("click", "#editpost", function(e){
   type: 'error',
   title: 'Oops...',
   text: 'Something went wrong!'
-  
+
 })
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
 
-//////////////////////Multiple file Upload for post/////////////////////// 
-	
-	
+//////////////////////Multiple file Upload for post///////////////////////
+
+
 jQuery(document).on("click", "#addproduct ", function(e){
-  
+
 		var form=jQuery("#AddForm");
-	
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_add_product.php';
-		
+
+		var social_AjaxURL='http://orangestate.ng/ajax_add_product.php';
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
 					type: 'POST',
-					data:  {		
+					data:  {
 						"formData" : form.serialize()
 							},
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
 						$("#experience-box").removeClass("open");
 						$(".wrapper").removeClass("overlay");
-         	 
+
                        if(data != 0){
 						  Swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data						  
-						}); 
-            			 
+						  text: data
+						});
+
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
+
 	///////////buy now /////////////////
 //jQuery(document).on("click", ".bid_now11", function(e){
-	jQuery(document).on("click", ".bid_now11", function(e){  
- 
-		
+	jQuery(document).on("click", ".bid_now11", function(e){
+
+
 		var id = jQuery(this).attr('pid');
-		
+
 		//var img=jQuery("#profileimg").val();
-		
-		
-	
-		var social_AjaxURL='http://localhost/live-web-orange/loadpopup.php';
+
+
+
+		var social_AjaxURL='http://orangestate.ng/loadpopup.php';
 		var dataString ='id=' + id;
-		
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1161,50 +1243,50 @@ jQuery(document).on("click", "#addproduct ", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-            		  
-                       if(data != 0){					
+
+                       if(data != 0){
 						//$('#popupid').html(data);
 						$('.abc').html(data);
-						$("#overview-box").addClass("open");					  
+						$("#overview-box").addClass("open");
 					   $(".wrapper").addClass("overlay");
             		    }
             		    else {
-							
+
 							$('#popupid').html('error');
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
 
 		///////////by now/////////////////
 jQuery(document).on("click", ".addtocart", function(e){
-  
-		
+
+
 		var id = jQuery(this).attr('pid');
 		//var id1 = $("#id"+id).val();
 		var task = 'task';//$("#task"+id).val();
 		//var tono = $("#tono"+id).val();
-		
+
 		//var img=jQuery("#profileimg").val();
-		
-		
-		
-		var social_AjaxURL='http://localhost/live-web-orange/task.php';
+
+
+
+		var social_AjaxURL='http://orangestate.ng/task.php';
 		var dataString ='id=' + id + '&task=' + task + '&tono=1';
-		
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1213,9 +1295,9 @@ jQuery(document).on("click", ".addtocart", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-            		  
+
                        if(data != 0){
 						Swal.fire({
   position: 'top-end',
@@ -1223,12 +1305,12 @@ jQuery(document).on("click", ".addtocart", function(e){
   title: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
 						 setTimeout(function(){
-							window.location.href= BASEURL+'checkout.php';	
+							window.location.href= BASEURL+'checkout.php';
 						   }, 2000);
-				
+
             		    }
             		    else {
 							Swal.fire({
@@ -1237,37 +1319,37 @@ jQuery(document).on("click", ".addtocart", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
 
 
 	///////////Load post /////////////////
 jQuery(document).on("click", ".btndel", function(e){
-  
-		
+
+
 		var id = jQuery(this).attr('pid');
 		var task='del';
-		
+
 		//var img=jQuery("#profileimg").val();
-		
-		
-		
-		var social_AjaxURL='http://localhost/live-web-orange/cartempty.php';
+
+
+
+		var social_AjaxURL='http://orangestate.ng/cartempty.php';
 		var dataString ='id=' + id + '&task=' + task ;
-		
+
 			//e.preventDefault();
 		Swal.fire({
 				  title: 'Are you sure?',
@@ -1278,7 +1360,7 @@ jQuery(document).on("click", ".btndel", function(e){
 				  cancelButtonColor: '#d33',
 				  confirmButtonText: 'Yes, delete it!'
 				}).then((result) => {
-				  if (result.value) {	
+				  if (result.value) {
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1287,9 +1369,9 @@ jQuery(document).on("click", ".btndel", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-            		  
+
                        if(data != 0){
 						Swal.fire({
   position: 'top-end',
@@ -1297,12 +1379,12 @@ jQuery(document).on("click", ".btndel", function(e){
   title: 'Delated',
   showConfirmButton: false,
   timer: 1500
-  
+
 });
 						 setTimeout(function(){
-							window.location.href= BASEURL+'checkout.php';	
+							window.location.href= BASEURL+'checkout.php';
 						   }, 2000);
-				
+
             		    }
             		    else {
 							Swal.fire({
@@ -1311,11 +1393,11 @@ jQuery(document).on("click", ".btndel", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1323,13 +1405,13 @@ jQuery(document).on("click", ".btndel", function(e){
             	    }
             	});
             }
-				})	
-        
-    	
+				})
+
+
 	});
-	
-	
-	
+
+
+
 			///////////Search record /////////////////
 //jQuery(document).on("click", ".pricelowtohigh", function(e){
   jQuery('#pricelowtohigh').on('change', function() {
@@ -1346,11 +1428,11 @@ jQuery(document).on("click", ".btndel", function(e){
 			var maxval='';
 		}
 		//var id = jQuery(this).attr('pricelowtohigh');
-		var social_AjaxURL='http://localhost/live-web-orange/searchdone.php';
+		var social_AjaxURL='http://orangestate.ng/searchdone.php';
 		var dataString ='pricelowtohigh=' + pricelowtohigh+'&min=' + min+'&max=' + max;
-		
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1359,13 +1441,13 @@ jQuery(document).on("click", ".btndel", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-            		  
+
                        if(data != 0){
 						$('.searchrec').html('');
 						$('.searchrec').html(data);
-				
+
             		    }
             		    else {
 							Swal.fire({
@@ -1374,20 +1456,20 @@ jQuery(document).on("click", ".btndel", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
 
  //jQuery('#pricelowtohigh').on('change', function() {
@@ -1410,10 +1492,10 @@ jQuery(document).on("click", ".btndel", function(e){
 			var maxval=max;
 		}
 		//var id = jQuery(this).attr('pricelowtohigh');
-		var social_AjaxURL='http://localhost/live-web-orange/searchdone.php';
+		var social_AjaxURL='http://orangestate.ng/searchdone.php';
 		var dataString ='pricelowtohigh=' + pricelowtohigh+'&min=' + minval+'&max=' + maxval;
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1422,13 +1504,13 @@ jQuery(document).on("click", ".btndel", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-            		  
+
                        if(data != 0){
 						$('.searchrec').html('');
 						$('.searchrec').html(data);
-				
+
             		    }
             		    else {
 							Swal.fire({
@@ -1437,20 +1519,20 @@ jQuery(document).on("click", ".btndel", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
 	$("#max").keyup(function(e){
 	//jQuery( "#max" ).mouseout(function() {
@@ -1471,11 +1553,11 @@ jQuery(document).on("click", ".btndel", function(e){
 			var maxval=max;
 		}
 		//var id = jQuery(this).attr('pricelowtohigh');
-		var social_AjaxURL='http://localhost/live-web-orange/searchdone.php';
+		var social_AjaxURL='http://orangestate.ng/searchdone.php';
 		var dataString ='pricelowtohigh=' + pricelowtohigh+'&min=' + minval+'&max=' + maxval;
-		
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1484,13 +1566,13 @@ jQuery(document).on("click", ".btndel", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-            		  
+
                        if(data != 0){
 						$('.searchrec').html('');
 						$('.searchrec').html(data);
-				
+
             		    }
             		    else {
 							Swal.fire({
@@ -1499,27 +1581,27 @@ jQuery(document).on("click", ".btndel", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
-	
-	
+
+
 			///////////Load post /////////////////
 jQuery(document).on("click", ".addtocartnew", function(e){
-  
-		
+
+
 		var id = jQuery(this).attr('pid');
 		//var id1 = $("#id"+id).val();
 		var task = 'task';//$("#task"+id).val();
@@ -1528,14 +1610,14 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 			tono=1;
 		}
 		//var img=jQuery("#profileimg").val();
-		
-		
-		
-		var social_AjaxURL='http://localhost/live-web-orange/tasknew.php';
+
+
+
+		var social_AjaxURL='http://orangestate.ng/tasknew.php';
 		var dataString ='id=' + id + '&task=' + task + '&tono='+tono;
-		
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1544,18 +1626,20 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		  var data1 = jQuery.parseJSON(data);
-      
-			
+
+
             		  // alert(response);
-            		   
+
                        if(data1.status==true){
 						   $('#tempshow').html('');
-							$('#tempshow').html(data1.tempitem); 
+							$('#tempshow').html(data1.tempitem);
 							$('.card-title').html('');
 							$('.card-title').html('Your cart('+data1.totalcount+')');
+							$('.cartnumber').html('');
+							$('.cartnumber').html(data1.totalcount);
 							$('.my-cart-badge').html('');
 							$('.my-cart-badge').html(data1.totalcount);
 							$('.gt').html('');
@@ -1568,10 +1652,10 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 						  title: data1.message,
 						  showConfirmButton: false,
 						  timer: 1000
-						  
+
 						});
 					   }
-					   
+
 					   if(data1.status==false){
 						  Swal.fire({
 						  type: 'error',
@@ -1579,11 +1663,11 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 						   title: data1.message,
 						  showConfirmButton: false,
 						  timer: 1000
-						  
-						}); 
-						   
+
+						});
+
 					   }
-                       
+
             		   /* else {
 							Swal.fire({
   type: 'error',
@@ -1591,37 +1675,37 @@ jQuery(document).on("click", ".addtocartnew", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }*/
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-				});            	
-        
-  
+				});
+
+
   jQuery(document).on("click", ".addtocartnew1", function(e){
-  
-		
+
+
 		var id = jQuery(this).attr('pid');
 		//var id1 = $("#id"+id).val();
 		var task = 'task';//$("#task"+id).val();
 		var tono = 1;
-		
+
 		//var img=jQuery("#profileimg").val();
-		
-		
-		
-		var social_AjaxURL='http://localhost/live-web-orange/tasknew.php';
+
+
+
+		var social_AjaxURL='http://orangestate.ng/tasknew.php';
 		var dataString ='id=' + id + '&task=' + task + '&tono='+tono;
-		
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1630,18 +1714,20 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
             		  var data1 = jQuery.parseJSON(data);
-      
-			
+
+
             		  // alert(response);
-            		   
+
                        if(data1.status==true){
 						   $('#tempshow').html('');
-							$('#tempshow').html(data1.tempitem); 
+							$('#tempshow').html(data1.tempitem);
 							$('.card-title').html('');
 							$('.card-title').html('Your cart('+data1.totalcount+')');
+							$('.cartnumber').html('');
+							$('.cartnumber').html(data1.totalcount);
 							$('.my-cart-badge').html('');
 							$('.my-cart-badge').html(data1.totalcount);
 							$('.gt').html('');
@@ -1654,10 +1740,10 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 						  title: data1.message,
 						  showConfirmButton: false,
 						  timer: 1000
-						  
+
 						});
 					   }
-					   
+
 					   if(data1.status==false){
 						  Swal.fire({
 						  type: 'error',
@@ -1665,11 +1751,11 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 						   title: data1.message,
 						  showConfirmButton: false,
 						  timer: 1000
-						  
-						}); 
-						   
+
+						});
+
 					   }
-                       
+
             		   /* else {
 							Swal.fire({
   type: 'error',
@@ -1677,29 +1763,29 @@ jQuery(document).on("click", ".addtocartnew", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }*/
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-				});            	
-   
-  
+				});
+
+
   jQuery(document).on("click", ".allclear", function(e){
 	  $('#min').val('');
 	   $('#max').val('');
-	   
-	   var social_AjaxURL='http://localhost/live-web-orange/searchdone.php';
+
+	   var social_AjaxURL='http://orangestate.ng/searchdone.php';
 		var dataString ='all=all';
-		
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1708,13 +1794,13 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
-            		  
+
                        if(data != 0){
 						$('.searchrec').html('');
 						$('.searchrec').html(data);
-				
+
             		    }
             		    else {
 							Swal.fire({
@@ -1723,27 +1809,27 @@ jQuery(document).on("click", ".addtocartnew", function(e){
   text: data,
   showConfirmButton: false,
   timer: 1500
-  
+
 });
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-	   
- 
-  }); 
-  
-  
+
+
+
+
+  });
+
+
    $(function(){
         var dtToday = new Date();
-    
+
         var month = dtToday.getMonth() + 1;// jan=0; feb=1 .......
         var day = dtToday.getDate();
         var year = dtToday.getFullYear() - 18;
@@ -1756,14 +1842,14 @@ jQuery(document).on("click", ".addtocartnew", function(e){
     	$('#dob').attr('max', maxDate);
     });
 ///////////post view count/////////////////
-jQuery(document).on("click", ".vcount", function(e){ 
-		
+jQuery(document).on("click", ".vcount", function(e){
+
 		var video = jQuery(this).attr('videoid');
-		var social_AjaxURL='http://localhost/live-web-orange/ajax_view.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_view.php';
 		var dataString ='postid='+video ;
-		
+
 			e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1772,49 +1858,213 @@ jQuery(document).on("click", ".vcount", function(e){
 					type: 'POST',
 					 data: dataString,
 					 //data: profileuploadtn,
-            	    			
+
             	    success: function (data) {
 						$(".video1"+video).html('');
 						$(".video1"+video).html("data");
-						
+
 						   if(data != 0){
-						
-						
+
+
             		    }
             		    else {
-            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
             			  //  alert("Error While this deleting a record");
-            				
+
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
             	    }
             	});
-            	
-        
-    	
+
+
+
 	});
+
+
+		///////////by now/////////////////
+jQuery(document).on("click", ".addtowishlist", function(e){
+
+
+		var id = jQuery(this).attr('pid');
+		//var id1 = $("#id"+id).val();
+		var task = 'task';//$("#task"+id).val();
+		//var tono = $("#tono"+id).val();
+
+		//var img=jQuery("#profileimg").val();
+
+
+
+		var social_AjaxURL='http://orangestate.ng/wish.php';
+		var dataString ='id=' + id + '&task=' + task;
+
+			//e.preventDefault();
+
+					$.ajax({
+            	    url: social_AjaxURL,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+
+            	    success: function (data) {
+
+                       if(data != 0){
+						Swal.fire({
+  position: 'top-end',
+  type: 'success',
+  title: data,
+  showConfirmButton: false,
+  timer: 1000
+
+});
+setTimeout(function(){
+							window.location.reload(true);
+						   }, 1000);
+
+
+            		    }
+            		    else {
+							Swal.fire({
+  type: 'error',
+  title: 'Oops...',
+  text: data,
+  showConfirmButton: false,
+  timer: 1500
+
+});
+setTimeout(function(){
+							window.location.reload(true);
+						   }, 1000);
+            		   //	$('#p_error').html('Please fill Mandatory Fields !');
+            			  //  alert("Error While this deleting a record");
+
+            		    }
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+
+
+
+	});
+$(document).on('click', '.emoji', function(){
+	var chat_message = jQuery(this).attr('im');
+	var to_user_id = jQuery(this).attr('uidnew');
+	var mp3 = jQuery(this).attr('mp3');
+
+	$.ajax({
+			url:"insertemoji.php",
+			method:"POST",
+			data:{to_user_id:to_user_id, chat_message:chat_message, mp3:mp3},
+			success:function(data){
+				//alert(data);
+			//	$('#chat_history_'+to_user_id).html(data);
+			var chat = '<img src="emoji/'+chat_message+'" width="100"></br>';
+			$('#chat_history_'+to_user_id+'> ul').append('<li id="scroll" style="" class="chat-listing1"><p><b class="text-success yournamechat">You</b> - '+chat+'<div class="chatmsgtime">- <small> Now</small></div></p></li>');
+				var auto='<audio src="emoji/'+mp3+'" controls autoplay style="width: 95%; opacity: 0;" ></audio>';
+				$('#autop').html(auto);
+				/* $(".chat_history").stop().animate({ scrollTop: $(".chat_history")[0].scrollHeight}, 1000); */
+				var chatwindow  = $('#chat_history_'+to_user_id);
+				var height = chatwindow[0].scrollHeight;
+				$("#chat_message_"+to_user_id).text('');
+				//chatwindow.scrollTop(height);
+				chatwindow.stop().animate({ scrollTop: height}, 500);
+				$(".wishlistcartemoji").hide();
+			}
+		})
+	/* 		jQuery("#emojiid").val('<img src="emoji/'+im+'" alt="" style="width:50px;" />');		jQuery("#files").html('<img src="emoji/'+im+'" alt="" style="width:50px; height:50px;" />');		var emojiid=jQuery("#emojiid").val();		//alert(emojiid);		$('<span id='+idd+'></span>').appendTo('#files').html('<img src="emoji/'+im+'" alt="" style="margin:5px;" />').addClass('success'); */});
+
+$(document).on('click', '.emoji1', function(){	
+	var uid = jQuery(this).attr('uid');
+	var mp3 = jQuery(this).attr('mp3');
+	//var c_id = jQuery(this).attr('cid');	
+	var pid = jQuery(this).attr('pid');
+	//var uid=jQuery("#uid"+c_id).val();		
+	var im = jQuery(this).attr('im');
+	var dataString ='pid='+pid+'&uid='+uid+'&cimage='+im+'&mp3='+mp3;
+
+	$.ajax({
+			url:"insertemojiforcomment.php",
+			method:"POST",
+			data: dataString,
+			success:function(data){
+				//alert(data);
+			//	$('#chat_history_'+to_user_id).html(data);
+				$('#commentdisplay'+pid).html(data);
+				var auto='<audio src="emoji/'+mp3+'" controls autoplay style="width: 95%; opacity: 0;" ></audio>';
+				$('#autop').html(auto);	
+				$(".wishlistcartemoji1").hide();
+			}
+		})
+	/* 		jQuery("#emojiid").val('<img src="emoji/'+im+'" alt="" style="width:50px;" />');		jQuery("#files").html('<img src="emoji/'+im+'" alt="" style="width:50px; height:50px;" />');		var emojiid=jQuery("#emojiid").val();		//alert(emojiid);		$('<span id='+idd+'></span>').appendTo('#files').html('<img src="emoji/'+im+'" alt="" style="margin:5px;" />').addClass('success'); */});
+
+
+
+jQuery(document).on("click", ".send_chatemoji", function(e){
+	//var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji").css("display", "block");
+	$(".wishlistcartemoji").show();
+
+
+}	);
+
+	jQuery(document).on("click", "#close", function(e){
+	//var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji").css("display", "none");
+	$(".wishlistcartemoji").hide();
+
+
+
+}	);
+
+///////////
+$(document).on('keyup', '.cp', function(){
+    if (event.keyCode == 13) {
+	$('.commentid').click();
+      return false;
+    }
+  });
+
+  $(document).on('keyup', '.rp', function(){
+    if (event.keyCode == 13) {
+	$('.replyid').click();
+      return false;
+    }
+  });
+
 
 jQuery(document).on("click", ".tagshow", function(e){
 	//var cid = jQuery(this).attr('cid');
-	$("#container").css("display", "block");
+	/* $("#container").css("display", "block");
 	$("#container").show();
 	jQuery('#container').focus();
-	$("#Feelingpst").hide();
+	$("#Feelingpst").hide(); */
+	 $("#container").toggle();
 
-}	);	
+}	);
 
+jQuery(document).on("click", ".livelocation", function(e){
+	
+	 $(".locationdiv").toggle();
 
+}	);
 jQuery(document).on("click", ".feeling", function(e){
 	//var cid = jQuery(this).attr('cid');
-	$("#container").css("display", "none");
-	jQuery('#container').hide();
-	$("#Feelingpst").show();
-	$("#Feelingpst").css("display", "block");
+	/* $("#container").css("display", "none");
+	jQuery('#container').hide(); */
+	//$("#Feelingpst").show();
+	//$("#Feelingpst").css("display", "block");
+	//$("button").click(function(){
+    $("#Feelingpst").toggle();
+  //});
 
-}	);		
-	
+}	);
+
 /////////////////Tag frind///////////////////
 
  jQuery(document).ready(function()
@@ -1852,19 +2102,26 @@ jQuery("#display").html(data).show();
 }
 }
 return false;
-}); 
+});
 
  //Adding result name to content box.
 //jQuery(".addname").live("click",function()
 //{
-var frnd = []; 
+var frnd = [];
 var allfrnd;
 jQuery(document).on("click", ".addname", function(e){
 var username=$(this).attr('title');
 var userid=$(this).attr('userid');
+
 var u=$("#tagfriends").val();
-allfrnd=frnd.push( $(this).data(userid) );
-$("#tagfriends").val(u+','+allfrnd);
+frnd.push( $(this).data(userid) );
+if(u==''){
+$("#tagfriends").val(userid);
+}else{
+$("#tagfriends").val(u+','+userid);
+}
+
+
 var old=$("#contentbox").html();
 var content=old.replace(word," "); //replacing @abc to (" ") space
 jQuery("#contentbox").html(content);
@@ -1873,26 +2130,20 @@ jQuery("#contentbox").append(E);
 jQuery("#display").hide();
 jQuery("#msgbox").hide();
 });
-});	 
+});
 
-		///////////by now/////////////////
-jQuery(document).on("click", ".addtowishlist", function(e){
-  
-		
-		var id = jQuery(this).attr('pid');
-		//var id1 = $("#id"+id).val();
-		var task = 'task';//$("#task"+id).val();
-		//var tono = $("#tono"+id).val();
-		
-		//var img=jQuery("#profileimg").val();
-		
-		
-		
-		var social_AjaxURL='http://localhost/live-web-orange/wish.php';
-		var dataString ='id=' + id + '&task=' + task;
-		
+
+
+jQuery(".selectfeel").on('change', function() {
+
+//$("#profilesubmit").click(function(){
+	var BASEURL='http://orangestate.ng/upload/';
+	var social_AjaxURL='http://orangestate.ng/ajfeeling.php';
+       var f=jQuery('#selectfeel').val();
+			var dataString ='f=' + f;
+
 			//e.preventDefault();
-		
+
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -1900,41 +2151,93 @@ jQuery(document).on("click", ".addtowishlist", function(e){
             	    //data: {catid: catids},
 					type: 'POST',
 					 data: dataString,
+					success: function(response){
+
+                if(response != 0){
+                 jQuery('#feelingtxtHint').html(response);
+                }else{
+                    jQuery('#file').focus();
+                    //alert('file not uploaded');
+                }
+            },
+        });
+    });
+
+   jQuery(".countrynew").on('change', function() {
+	 var c=jQuery('#country').val();
+	 var social_AjaxURL='http://orangestate.ng/counterycode.php';
+	 var dataString ='c=' + c;
+	 $.ajax({
+            	    url: social_AjaxURL,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					success: function(response){
+						jQuery('#countrycode').val('');
+						jQuery('#countrycode').val(response);
+					},
+        });
+
+	});
+	
+	
+	jQuery(document).on("click", ".send_chatemoji1", function(e){
+	//var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji1").css("display", "block");
+	$(".wishlistcartemoji1").show();
+	
+
+}	);	
+
+jQuery(document).on("click", "#close1", function(e){
+	//var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji1").css("display", "none");
+	$(".wishlistcartemoji1").hide();
+	
+	
+
+});
+
+///////////Product Feedback/////////////////
+jQuery(document).on("click", ".productfeedback", function(e){  
+		var form=jQuery("#feedback");
+			
+		var social_AjaxURL='http://orangestate.ng/ajax_feedback.php';
+		
+		
+			e.preventDefault();
+		
+					$.ajax({
+            	    url: social_AjaxURL,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data:  {		
+						"formData" : form.serialize()
+							},
 					 //data: profileuploadtn,
             	    			
-            	    success: function (data) {
-            		  
-                       if(data != 0){
-						Swal.fire({
-  position: 'top-end',
-  type: 'success',
-  title: data,
-  showConfirmButton: false,
-  timer: 1000
-  
-});
-setTimeout(function(){
-							window.location.reload(true);
-						   }, 1000);
+            	    success: function (data) {						
 						
-				
-            		    }
-            		    else {
-							Swal.fire({
-  type: 'error',
-  title: 'Oops...',
-  text: data,
-  showConfirmButton: false,
-  timer: 1500
-  
-});
-setTimeout(function(){
+            		 
+                       if(data != 0){
+						   swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: 'Thank you for rating Us !',
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						  setTimeout(function(){
 							window.location.reload(true);
-						   }, 1000);
-            		   //	$('#p_error').html('Please fill Mandatory Fields !'); 
-            			  //  alert("Error While this deleting a record");
-            				
-            		    }
+						   }, 5000);
+						
+            		    } 
+            		    
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
@@ -1944,101 +2247,19 @@ setTimeout(function(){
         
     	
 	});
-
-
-$(document).on('click', '.emoji', function(){		
-var chat_message = jQuery(this).attr('im');		
-	var to_user_id = jQuery(this).attr('uidnew');
-	var mp3 = jQuery(this).attr('mp3');	
-	
-	$.ajax({
-			url:"insertemoji.php",
-			method:"POST",
-			data:{to_user_id:to_user_id, chat_message:chat_message, mp3:mp3},
-			success:function(data){
-				//alert(data);
-				$('#chat_history_'+to_user_id).html(data);
-				var auto='<audio src="emoji/'+mp3+'" controls autoplay style="width: 95%; opacity: 0;" ></audio>';
-				$('#autop').html(auto);
-			}
-		})
-	/* 		jQuery("#emojiid").val('<img src="emoji/'+im+'" alt="" style="width:50px;" />');		jQuery("#files").html('<img src="emoji/'+im+'" alt="" style="width:50px; height:50px;" />');		var emojiid=jQuery("#emojiid").val();		//alert(emojiid);		$('<span id='+idd+'></span>').appendTo('#files').html('<img src="emoji/'+im+'" alt="" style="margin:5px;" />').addClass('success'); */});
 	
 	
-	jQuery(document).on("click", ".send_chatemoji", function(e){
-	//var cid = jQuery(this).attr('cid');
-	$(".wishlistcartemoji").css("display", "block");
-	$(".wishlistcartemoji").show();
 	
+	///////////post like/////////////////
+jQuery(document).on("click", ".comfollow", function(e){
 
-}	);	
+		var com_id = jQuery(this).attr('com');
 
-	jQuery(document).on("click", ".send_chatemoji1", function(e){
-	//var cid = jQuery(this).attr('cid');
-	$(".wishlistcartemoji1").css("display", "block");
-	$(".wishlistcartemoji1").show();
-	
+		var social_AjaxURL='http://orangestate.ng/ajax_comlike.php';
+		var dataString ='com_id='+com_id ;
 
-}	);	
-	jQuery(document).on("click", "#close", function(e){
-	//var cid = jQuery(this).attr('cid');
-	$(".wishlistcartemoji").css("display", "none");
-	$(".wishlistcartemoji").hide();
-	
-	
+			e.preventDefault();
 
-});	
-
-	jQuery(document).on("click", "#close1", function(e){
-	//var cid = jQuery(this).attr('cid');
-	$(".wishlistcartemoji1").css("display", "none");
-	$(".wishlistcartemoji1").hide();
-	
-	
-
-});
-
-///////////
-$(document).on('keyup', '.cp', function(){
-    if (event.keyCode == 13) {
-	$('.commentid').click();    
-      return false;
-    }
-  });
-  
-  $(document).on('keyup', '.rp', function(){
-    if (event.keyCode == 13) {
-	$('.replyid').click();    
-      return false;
-    }
-  });
-  
-$(document).ready(function() {
-  var start = new Date();
-
-$(window).unload(function() {
-      var end = new Date();
-	 
-      $.ajax({ 
-        url: "log.php",
-        data: {'timeSpent': end - start},
-        async: false
-      })
-   });
-});
-
-
-
-jQuery(".selectfeel").on('change', function() {
-  
-//$("#profilesubmit").click(function(){
-	var BASEURL='http://localhost/live-web-orange/upload/';
-	var social_AjaxURL='http://localhost/live-web-orange/ajfeeling.php';
-       var f=jQuery('#selectfeel').val();
-			var dataString ='f=' + f;
-		
-			//e.preventDefault();
-		
 					$.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -2046,69 +2267,35 @@ jQuery(".selectfeel").on('change', function() {
             	    //data: {catid: catids},
 					type: 'POST',
 					 data: dataString,
-					success: function(response){
-               
-                if(response != 0){                 
-                 jQuery('#feelingtxtHint').html(response); 
-                }else{
-                    jQuery('#file').focus();
-                    //alert('file not uploaded');
-                }
-            },
-        });
-    });
+					 //data: profileuploadtn,
 
-    jQuery("#category").on('change', function() {
-	 var f=jQuery('#category').val();
-	 var social_AjaxURL='http://localhost/live-web-orange/counterycode.php';
-	 var dataString ='c=' + c;
-	$.ajax({
-            	    url: social_AjaxURL,
-            	    async: true,
-            	    cache: false,
-            	    //data: {catid: catids},
-					type: 'POST',
-					 data: dataString,
-					success: function(response){
-               
-					if(response != 0){                 
-						jQuery('#countrycode').html(response); 
-					}else{
-						jQuery('#countrycode').focus();
-                    //alert('file not uploaded');
-                }
-            },
-        });
+            	    success: function (data) {
+						 var data1 = jQuery.parseJSON(data);
+						$("#f"+com_id).html('');
+						//$("#f"+com_id).html('<i class="fas fa-heart"></i>'+data1.message);
+						$("#f"+com_id).html(data1.message);
+						//$("#f"+com_id).html(data1.countid);
+						//$(".like2").addClass("likes");
+
+						   //window.location.href= MEDIA_URL+'index.php';
+            			 //window.location.reload(true);
+            		   /*  }
+            		    else {
+            		   	$('#p_error').html('Please fill Mandatory Fields !');
+            			  //  alert("Error While this deleting a record");
+
+            		    } */
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+
+
+
+	});
+
+
+
 	
-	});	
-
-$(document).on('click', '.emoji1', function(){	
-	var uid = jQuery(this).attr('uid');
-	var mp3 = jQuery(this).attr('mp3');
-	//var c_id = jQuery(this).attr('cid');	
-	var pid = jQuery(this).attr('pid');
-	//var uid=jQuery("#uid"+c_id).val();		
-	var im = jQuery(this).attr('im');
-	var dataString ='pid='+pid+'&uid='+uid+'&postcomment='+postcomment+'&cimage='+im+'&mp3='+mp3;
-
-	$.ajax({
-			url:"insertemojiforcomment.php",
-			method:"POST",
-			data: dataString,
-			success:function(data){
-				//alert(data);
-			//	$('#chat_history_'+to_user_id).html(data);
-			
-				var auto='<audio src="emoji/'+mp3+'" controls autoplay style="width: 95%; opacity: 0;" ></audio>';
-				$('#autop').html(auto);
-				/* $(".chat_history").stop().animate({ scrollTop: $(".chat_history")[0].scrollHeight}, 1000); */
-				var chatwindow  = $('#chat_history_'+to_user_id);
-				var height = chatwindow[0].scrollHeight;
-				$("#chat_message_"+to_user_id).text('');
-				//chatwindow.scrollTop(height);
-				chatwindow.stop().animate({ scrollTop: height}, 500);
-				$(".wishlistcartemoji").hide();
-			}
-		})
-	/* 		jQuery("#emojiid").val('<img src="emoji/'+im+'" alt="" style="width:50px;" />');		jQuery("#files").html('<img src="emoji/'+im+'" alt="" style="width:50px; height:50px;" />');		var emojiid=jQuery("#emojiid").val();		//alert(emojiid);		$('<span id='+idd+'></span>').appendTo('#files').html('<img src="emoji/'+im+'" alt="" style="margin:5px;" />').addClass('success'); */});
-
+	

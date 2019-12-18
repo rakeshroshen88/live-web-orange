@@ -1,6 +1,12 @@
 <?php include('header.php'); 
 include('chksession.php');
 						$uid=base64_decode($_REQUEST['uid']);
+						echo "SELECT user_id FROM user_profile
+WHERE user_id IN (
+    SELECT user_id FROM followers WHERE user_id ='".$_SESSION['sess_webid']."'
+) AND user_id IN (
+    SELECT user_id FROM followers WHERE user_id = '".$uid."'
+)";
 						$dbn=new DB();
 						$sqln="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id = '".$uid."'";
 						$dbn->query($sqln);
@@ -46,9 +52,9 @@ include('chksession.php');
                                 <div class="user_profile">
                                     <div class="user-pro-img">
                                         <?php if($profilerow['image_id']=='' and empty($profilerow['image_id'])){ ?>
-                                            <img src="images/resources/user.png" id="rmvid" alt="" height="100" width="100">
+                                            <img src="images/resources/user.png" id="rmvid" alt="" height="190" width="190">
                                             <?php }else{?>
-                                                <img src="upload/<?=$profilerow['image_id']?>" id="rmvid" alt="">
+                                                <img src="upload/<?=$profilerow['image_id']?>" id="rmvid" alt="" height="190" width="190">
                                                 <?php }?>
 												<!-- <input type="file" id="file1">-->
 												
@@ -60,30 +66,26 @@ include('chksession.php');
                                             <li>
                                                 <span>Following</span>
                                                 <b><?php 
-												 $num1=$db->getSingleResult("SELECT * from followers where user_id=".$uid);
+												 $num1=$db->getSingleResult("SELECT count(f_id) from followers where user_id=".$uid);
 												if(!empty($num1)){ echo $num1;}else{ echo "0";}
 												?></b>
                                             </li>
                                             <li>
                                                 <span>Followers</span>
                                                 <b><?php 
-												 $num=$db->getSingleResult("SELECT * from followers where follow=".$uid);
+												 $num=$db->getSingleResult("SELECT count(f_id) from followers where follow=".$uid);
 												 if(!empty($num)){ echo $num;}else{ echo "0";}
 												?></b>
                                             </li>
                                         </ul>
                                     </div>
                                     <!--user_pro_status end-->
+									<?php if(!empty($profilerow['website'])){?>
                                     <ul class="social_links">
-                                        <li><a href="#" title=""><i class="la la-globe"></i> www.example.com</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-facebook-square"></i> Http://www.facebook.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-twitter"></i> Http://www.Twitter.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-google-plus-square"></i> Http://www.googleplus.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-behance-square"></i> Http://www.behance.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-pinterest"></i> Http://www.pinterest.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-instagram"></i> Http://www.instagram.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-youtube"></i> Http://www.youtube.com/john...</a></li>
+                                        <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
+                                        
                                     </ul>
+									<?php } ?>
                                 </div>
                                 <!--user_profile end-->
                                 <div class="suggestions full-width">
@@ -224,7 +226,7 @@ include('chksession.php');
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$frow['first_name']?></h3>
@@ -281,7 +283,7 @@ include('chksession.php');
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$usernamef?></h3>
@@ -339,7 +341,7 @@ include('chksession.php');
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$usernamef?></h3>
@@ -396,7 +398,7 @@ include('chksession.php');
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$usernamef?></h3>
@@ -495,10 +497,28 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 												</ul>
 											</div>
 											<div class="job_descp">
+												<?php if(!empty($row['post_title'])){?>
 												<h3 class="font-weight-500"><?=$row['post_title']?>:<span class="bold"> <?=$row['postemos']?> </span></h3>
+											<?php }?>
 												
 												 
 												<p><?=$row['post_details']?></p>
+												<?php if(!empty($row['tagfriends'])){
+													//$a=array();
+													 $tagf=$row['tagfriends'];
+													$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
+													$db2->query($sql2)or die($db12->error());
+												while($row1=$db2->fetchArray()){
+												 $a=$row1['first_name'].' ';?>
+												<a href="view-profile.php?uid=<?=base64_encode($row1['user_id'])?>"><?=$row1['first_name']?></a>
+												<?php }
+												}
+											
+											//$b=implode(',',$a);
+											//$c=explode(',',$a);
+											//print_r($b);
+											//print_r($c);
+												?>
 												<?php 
 												 $ext = pathinfo($row['allpath'], PATHINFO_EXTENSION);
 												 if($ext=='mp4' or $ext=='webm'){?>
@@ -756,7 +776,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                     <?php if(!empty($userfpath)){?>
                                                                         <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="">
+                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                             <?php }?>
                                                                                 <div class="usy-name">
                                                                                     <h3><?=$usernamef?></h3>
@@ -811,7 +831,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                     <?php if(!empty($userfpath)){?>
                                                                         <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="">
+                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                             <?php }?>
                                                                                 <div class="usy-name">
                                                                                     <h3><?=$usernamef?></h3>
@@ -866,7 +886,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                     <?php if(!empty($userfpath)){?>
                                                                         <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="">
+                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                             <?php }?>
                                                                                 <div class="usy-name">
                                                                                     <h3><?=$usernamef?></h3>
@@ -921,7 +941,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                         <?php if(!empty($userfpath)){?>
                                                                             <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$usernamef?></h3>
@@ -1054,7 +1074,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     <div class="post-bar">
                                         <div class="post_topbar">
                                             <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="">
+                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                 <div class="usy-name">
                                                     <h3>John Doe</h3>
                                                     <span><img src="images/clock.png" alt="">3 min ago</span>
@@ -1117,7 +1137,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     <div class="post-bar">
                                         <div class="post_topbar">
                                             <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="">
+                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                 <div class="usy-name">
                                                     <h3>John Doe</h3>
                                                     <span><img src="images/clock.png" alt="">3 min ago</span>
@@ -1180,7 +1200,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     <div class="post-bar">
                                         <div class="post_topbar">
                                             <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="">
+                                                <img src="images/resources/user.png" alt="" height="40" width="40">
                                                 <div class="usy-name">
                                                     <h3>John Doe</h3>
                                                     <span><img src="images/clock.png" alt="">3 min ago</span>

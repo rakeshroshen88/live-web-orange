@@ -46,7 +46,7 @@ $address=$FormData['address'];
 $aboutus=$FormData['aboutus'];
 $postal_code=$FormData['postal_code'];
 $intrest_area=implode(',', $_POST["area"]);
-print_r($intrest_area);
+//print_r($intrest_area);
 if(!empty($current_city)){
 		$arr=array(
 							"user_id"=>$_SESSION['sess_webid'],
@@ -67,7 +67,7 @@ if(!empty($current_city)){
 							"termandcondition"=>'1',
 							"update_date"=>date('Y-m-d H:i:s')
 			    );
-				print_r($arr);
+				//print_r($arr);
 		 $whereClause=" user_id=".$_SESSION['sess_webid'];
 		 updateData($arr, 'user_profile', $whereClause);		
     // $insid=insertData($arr, 'user_profile');

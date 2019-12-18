@@ -36,14 +36,32 @@
 
 <div class="chatfeature-leftbar">
 	<div class="open-chat-bttm">
-		<h3 ><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat (<?php  $query = "
+		<h3 ><i class="fa fa-commenting-o" aria-hidden="true"></i> Chat (<?php 
+$db4=new DB();
+$l=array();
+$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
+$db4->query($sql4);
+if($db4->numRows()>0)
+{
+while($row4=$db4->fetchArray()){
+	$l[]=$row4['follow'];
+}
+}
+$allfriend=implode(',',$l);
+
+/* 	$query = "
 	SELECT * FROM login_details
 	WHERE status = 'Online' group by user_id
-	";
+	"; */
+	
+	 $query = "
+SELECT * FROM login
+WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN($allfriend)";
+
 	$statement = $connect->prepare($query);
 	$statement->execute();
 	 $count = $statement->rowCount();
-	 echo $count-1;
+	 echo $count;
 //echo $c=fetch_is_statusonline($_SESSION['user_id'], $connect);
 	?>) </h3>
 	</div>
@@ -115,7 +133,7 @@ $(document).ready(function(){
 	fetch_user();
 
 
-/*  setInterval(function(){
+/*   setInterval(function(){
 
 		update_last_activity();
 		fetch_user();
@@ -124,7 +142,7 @@ $(document).ready(function(){
 
 		fetch_group_chat_history();
 		log();
-	}, 5000); */
+	}, 5000);  */
 
 	 setInterval(function(){
 
@@ -182,7 +200,7 @@ $(document).ready(function(){
 	function make_chat_dialog_box(to_user_id, to_user_name)
 	{
 
-		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt=""><h3>'+to_user_name+'<span class="status-info"></span></h3></div><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
+		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
 		modal_content += '<div class="chat_history" data-touserid="'+to_user_id+'" id="chat_history_'+to_user_id+'">';
 		modal_content += fetch_user_chat_history(to_user_id);
 		modal_content += fetch_user_chat_history1(to_user_id);

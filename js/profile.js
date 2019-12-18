@@ -2,7 +2,7 @@
 jQuery(document).on("click", "#overviewsave", function(e){  
 		
 		var overview = jQuery('#overview').val();		
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='overview='+overview ;
 		
 			e.preventDefault();
@@ -28,7 +28,9 @@ jQuery(document).on("click", "#overviewsave", function(e){
 						  swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						setTimeout(function(){
@@ -58,9 +60,9 @@ jQuery(document).on("click", "#overviewsave", function(e){
 ///////////updte exp profile/////////////////
 jQuery(document).on("click", "#expsave", function(e){  
 		
-		var exp = jQuery('#exp').val();	
-		var subject = jQuery('#subject').val();			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var exp = jQuery('#exp2').val();	
+		var subject = jQuery('#subject2').val();			
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='exp='+exp+'&subject='+subject+'&add=add';
 		
 			e.preventDefault();
@@ -78,15 +80,14 @@ jQuery(document).on("click", "#expsave", function(e){
 						//$("#experience-box").hide();
 						$("#experience-box").removeClass("open");
 						$(".wrapper").removeClass("overlay");
-            		   //data=data.replace(/\s+/g,"");
-					   //alert(data);
-            		   //var spancontainer=$('span#record'+catids);
-            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+            		   	 
                        if(data != 0){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -119,7 +120,7 @@ jQuery(document).on("click", "#expsave", function(e){
 jQuery(document).on("click", "#coninfosave", function(e){  
 		var form=jQuery("#contactinfoform");
 			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		
 		
 			e.preventDefault();
@@ -145,7 +146,9 @@ jQuery(document).on("click", "#coninfosave", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -173,7 +176,7 @@ jQuery(document).on("click", "#coninfosave", function(e){
 jQuery(document).on("click", "#educationsave", function(e){  
 		var form=jQuery("#educationinfoform");
 			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_add_education.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_add_education.php';
 		
 		
 			e.preventDefault();
@@ -199,7 +202,9 @@ jQuery(document).on("click", "#educationsave", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -227,7 +232,7 @@ jQuery(document).on("click", "#skillssave", function(e){
 		
 		var skills = jQuery('#skills').val();
 			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='skills='+skills;
 		
 			e.preventDefault();
@@ -250,7 +255,9 @@ jQuery(document).on("click", "#skillssave", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -280,7 +287,7 @@ jQuery(document).on("click", "#savelocation", function(e){
 		
 		var current_city = jQuery('#current_city').val();	
 		var hometown = jQuery('#hometown').val();			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='current_city='+current_city+'&hometown='+hometown;
 		
 			e.preventDefault();
@@ -307,7 +314,9 @@ jQuery(document).on("click", "#savelocation", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -341,7 +350,7 @@ jQuery(document).on("click", "#savelocation", function(e){
 		//jQuery(document).on("click", "#upload_file2", function(e){  
 	
 	
-   var social_AjaxURL='http://localhost/orangeraponew/uploadgallery.php';
+   var social_AjaxURL='http://orangestate.ng/uploadgallery.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -381,7 +390,7 @@ jQuery(document).on("click", "#gallerysave", function(e){
 		
 		var galleryname = jQuery('#galleryname').val();	
 		var imgid = jQuery('#imgid').val();			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='galleryname='+galleryname;
 		
 			e.preventDefault();
@@ -404,7 +413,9 @@ jQuery(document).on("click", "#gallerysave", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -428,10 +439,10 @@ jQuery(document).on("click", "#gallerysave", function(e){
 	});
 	
 jQuery("#file1").on('change', function() {
-  
+ // alert('');
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://localhost/orangeraponew/upload/';
-	var social_AjaxURL='http://localhost/orangeraponew/profileimageupload.php';
+	var BASEURL='http://orangestate.ng/upload/';
+	var social_AjaxURL='http://orangestate.ng/profileimageupload.php';
         var fd = new FormData();
         var files = $('#file1')[0].files[0];
        
@@ -464,8 +475,8 @@ jQuery("#file1").on('change', function() {
 jQuery("#file2").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://localhost/orangeraponew/upload/';
-	var social_AjaxURL='http://localhost/orangeraponew/coverimageupload.php';
+	var BASEURL='http://orangestate.ng/upload/';
+	var social_AjaxURL='http://orangestate.ng/coverimageupload.php';
         var fd = new FormData();
         var files = $('#file2')[0].files[0];
        
@@ -501,7 +512,7 @@ jQuery(document).on("click", ".skillsdel", function(e){
  
 		
 		var delid = jQuery(this).attr('delid');		
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='delid=' + delid ;
 			e.preventDefault();
 		Swal.fire({
@@ -534,9 +545,14 @@ jQuery(document).on("click", ".skillsdel", function(e){
 						   Swal.fire({
   type: 'success',
   title: '',
-  text: data
+  text: data,
+  showConfirmButton: false,
+timer: 1500
   
-})
+});
+ setTimeout(function(){
+							window.location.reload(true);
+						   }, 10000);
 						  // $('#postshow').html(data);  
 						   //window.location.href= MEDIA_URL+'index.php';
             			 //window.location.reload(true);
@@ -578,7 +594,7 @@ jQuery(document).on("click", "#educationupdate", function(e){
 	
 			var id = jQuery(this).attr('eid');
 		
-		var social_AjaxURL='http://localhost/orangeraponew/educationupdate.php';
+		var social_AjaxURL='http://orangestate.ng/educationupdate.php';
 		//var social_AjaxURL='http://localhost/orangeraponew/ajax_add_education.php';
 		
 			//e.preventDefault();
@@ -616,7 +632,7 @@ jQuery(document).on("click", "#educationupdate", function(e){
 jQuery(document).on("click", "#educationeditupdate", function(e){  
 		var form=jQuery("#educationupdateform");
 			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_add_education.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_add_education.php';
 		
 		
 			//e.preventDefault();
@@ -642,7 +658,9 @@ jQuery(document).on("click", "#educationeditupdate", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -671,7 +689,7 @@ jQuery(document).on("click", ".exp_open1", function(e){
 	
 			var id = jQuery(this).attr('eid');
 		
-		var social_AjaxURL='http://localhost/orangeraponew/expupdate.php';
+		var social_AjaxURL='http://orangestate.ng/expupdate.php';
 		//var social_AjaxURL='http://localhost/orangeraponew/ajax_add_education.php';
 		
 			//e.preventDefault();
@@ -710,7 +728,7 @@ jQuery(document).on("click", "#updateexpsave", function(e){
 		var exp = jQuery('#exp1').val();	
 		var expid = jQuery('#expid1').val();
 		var subject = jQuery('#subject1').val();
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='exp='+exp+'&subject='+subject+'&expid='+expid;
 		
 			e.preventDefault();
@@ -734,7 +752,9 @@ jQuery(document).on("click", "#updateexpsave", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -764,7 +784,7 @@ jQuery(document).on("click", ".gallerydel", function(e){
  
 		
 		var delidg = jQuery(this).attr('delidg');		
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_user_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
 		var dataString ='delidg=' + delidg ;
 			e.preventDefault();
 		Swal.fire({
@@ -793,7 +813,9 @@ jQuery(document).on("click", ".gallerydel", function(e){
 						   Swal.fire({
   type: 'success',
   title: '',
-  text: data
+  text: data,
+  showConfirmButton: false,
+						  timer: 1500
   
 });
 
@@ -837,12 +859,13 @@ setTimeout(function(){
 	});
 	
 	
+	
 	/////////////unfollow user//////////////////
 	  $(".follownew1").on('click', function(event){
 		
 		var f_id = jQuery(this).attr('fid');
-	
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_unfollow.php';
+		
+		var social_AjaxURL='http://orangestate.ng/ajax_unfollow.php';
 		var dataString ='followid=' + f_id ;
 			
 		Swal.fire({
@@ -916,14 +939,15 @@ setTimeout(function(){
         
     	
 	});
-
-
+	
+	
+	
 ///////////////////////////////////////
 jQuery("#file4").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://localhost/orangeraponew/upload/';
-	var social_AjaxURL='http://localhost/orangeraponew/compcoverimageupload.php';
+	var BASEURL='http://orangestate.ng/upload/';
+	var social_AjaxURL='http://orangestate.ng/compcoverimageupload.php';
         var fd = new FormData();
         var files = $('#file4')[0].files[0];
        
@@ -955,8 +979,8 @@ jQuery("#file4").on('change', function() {
 jQuery("#file3").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://localhost/orangeraponew/upload/';
-	var social_AjaxURL='http://localhost/orangeraponew/companyprofileimageupload.php';
+	var BASEURL='http://orangestate.ng/upload/';
+	var social_AjaxURL='http://orangestate.ng/companyprofileimageupload.php';
         var fd = new FormData();
         var files = $('#file3')[0].files[0];
        
@@ -992,7 +1016,7 @@ jQuery(document).on("click", "#comoverviewsave", function(e){
 		var overview = jQuery('#overview').val();
 		var comid = jQuery(this).attr('cid');	
 	
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_comp_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
 		var dataString ='overview='+overview+'&cid='+comid ;
 		
 			e.preventDefault();
@@ -1018,7 +1042,9 @@ jQuery(document).on("click", "#comoverviewsave", function(e){
 						  swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						setTimeout(function(){
@@ -1048,7 +1074,7 @@ jQuery(document).on("click", "#comoverviewsave", function(e){
 jQuery(document).on("click", "#compinfosave", function(e){  
 		var form=jQuery("#contactinfoform");
 			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_comp_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
 		
 		
 			e.preventDefault();
@@ -1074,7 +1100,9 @@ jQuery(document).on("click", "#compinfosave", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -1102,9 +1130,9 @@ jQuery(document).on("click", "#compinfosave", function(e){
 		var cid = jQuery(this).attr('cid');	
 		
 		var imgid = jQuery('#imgid').val();			
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_comp_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
 		var dataString ='cid='+cid;
-		alert(dataString);
+		//alert(dataString);
 			e.preventDefault();
 		
 					$.ajax({
@@ -1125,7 +1153,9 @@ jQuery(document).on("click", "#compinfosave", function(e){
 						   swal.fire({
 						  type: 'success',
 						  title: '',
-						  text: data
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
 						  
 						});
 						  setTimeout(function(){
@@ -1154,7 +1184,7 @@ jQuery(document).on("click", "#compinfosave", function(e){
 		//jQuery(document).on("click", "#upload_file2", function(e){  
 	
 	
-   var social_AjaxURL='http://localhost/orangeraponew/uploadcompgallery.php';
+   var social_AjaxURL='http://orangestate.ng/uploadcompgallery.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -1193,7 +1223,7 @@ jQuery(document).on("click", ".cgallerydel", function(e){
 		
 		var delidg = jQuery(this).attr('delidcg');
 var img = jQuery(this).attr('img');		
-		var social_AjaxURL='http://localhost/orangeraponew/ajax_comp_update.php';
+		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
 		var dataString ='delidg=' + delidg+ '&img=' + img ;
 			e.preventDefault();
 		Swal.fire({
@@ -1222,7 +1252,9 @@ var img = jQuery(this).attr('img');
 						   Swal.fire({
   type: 'success',
   title: '',
-  text: data
+  text: data,
+  showConfirmButton: false,
+						  timer: 1500
   
 });
 
@@ -1269,8 +1301,8 @@ setTimeout(function(){
 jQuery("#p").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://localhost/orangeraponew/product/';
-	var social_AjaxURL='http://localhost/orangeraponew/prodimg.php';
+	var BASEURL='http://orangestate.ng/product/';
+	var social_AjaxURL='http://orangestate.ng/prodimg.php';
         var fd = new FormData();
         var files = $('#p')[0].files[0];
        
@@ -1301,7 +1333,7 @@ jQuery("#p").on('change', function() {
 
 	//////////////////////Multiple file product Upload for post/////////////////////// 
 	jQuery("#mp").on('change', function() {
-   var social_AjaxURL='http://localhost/orangeraponew/mproduct.php';
+   var social_AjaxURL='http://orangestate.ng/mproduct.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -1327,3 +1359,113 @@ jQuery("#p").on('change', function() {
    });
 
 });
+
+///////////Socail link/////////////////
+jQuery(document).on("click", "#socalsave", function(e){  
+		
+		var link = jQuery('#link').val();
+			
+		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
+		var dataString ='link='+link;
+		
+			e.preventDefault();
+		
+					$.ajax({
+            	    url: social_AjaxURL,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {
+						//$("#experience-box").hide();
+						$("#skills-box1").removeClass("open");
+						$(".wrapper").removeClass("overlay");
+            		   
+                       if(data != 0){
+						   swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						  setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
+						//window.location.reload(true);
+						
+            		    }
+            		    else {
+            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            			  //  alert("Error While this deleting a record");
+            				
+            		    }
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
+		
+///////////Socail link/////////////////
+jQuery(document).on("click", "#csocalsave", function(e){  
+		
+		var clink = jQuery('#clink').val();
+			var cuserid = jQuery('#cuserid').val();
+			
+		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
+		var dataString ='clink='+clink+'&cuserid='+cuserid;
+		
+			e.preventDefault();
+		
+					$.ajax({
+            	    url: social_AjaxURL,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {
+						//$("#experience-box").hide();
+						$("#skills-box1").removeClass("open");
+						$(".wrapper").removeClass("overlay");
+            		   
+                       if(data != 0){
+						   swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						  setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
+						//window.location.reload(true);
+						
+            		    }
+            		    else {
+            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            			  //  alert("Error While this deleting a record");
+            				
+            		    }
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
+		

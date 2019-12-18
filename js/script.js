@@ -255,14 +255,14 @@ $(window).on("load", function() {
     //  ============ Notifications Open =============
 
     $(".not-box-open").on("click", function(){$("#message").hide();
-        $(".user-account-settingss").hide();
+        //$(".user-account-settingss").hide();
         $(this).next("#notification").toggle();
     });
 
      //  ============ Messages Open =============
 
     $(".not-box-openm").on("click", function(){$("#notification").hide();
-        $(".user-account-settingss").hide();
+        //$(".user-account-settingss").hide();
         $(this).next("#message").toggle();
     });
 
@@ -274,13 +274,13 @@ $(".user-info").on("click", function(){$("#users").hide();
         $(this).next("#notification").toggle();
     });
     
-	*/
+	*//*
 	$( ".user-info" ).click(function() {
   $( ".user-account-settingss" ).slideToggle( "fast");
 	  $("#message").not($(this).next("#message")).slideUp();
 	  $("#notification").not($(this).next("#notification")).slideUp();
     // Animation complete.
-  });
+  }); */
  
 
     //  ============= FORUM LINKS MOBILE MENU FUNCTION =========
@@ -477,6 +477,19 @@ $(window).on("load", function() {
         return false;
     });
 
+
+  //  ============= Social EDIT FUNCTION =========
+
+    $(".skills-open1").on("click", function(){
+        $("#skills-box1").addClass("open");
+        $(".wrapper").addClass("overlay");
+        return false;
+    });
+    $(".close-box").on("click", function(){
+        $("#skills-box1").removeClass("open");
+        $(".wrapper").removeClass("overlay");
+        return false;
+    });
     //  ============= ESTABLISH EDIT FUNCTION =========
 
     $(".esp-bx-open").on("click", function(){
@@ -562,14 +575,14 @@ $(window).on("load", function() {
     //  ============ Notifications Open =============
 
     $(".not-box-open").on("click", function(){$("#message").hide();
-        $(".user-account-settingss").hide();
+       // $(".user-account-settingss").hide();
         $(this).next("#notification").toggle();
     });
 
      //  ============ Messages Open =============
 
     $(".not-box-openm").on("click", function(){$("#notification").hide();
-        $(".user-account-settingss").hide();
+       //$(".user-account-settingss").hide();
         $(this).next("#message").toggle();
     });
 

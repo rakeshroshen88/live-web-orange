@@ -206,7 +206,7 @@ $wherestr=" ";
 	//if(!empty($wherestr)){$wherestr.=" and catname='Story'";}else{$wherestr=" where catname='Story'";}
 	if(!empty($_REQUEST['innumber']) or isset($_REQUEST['innumber']))
 		{
-		$wherestr=" where orderid like '%$innumber%'";
+		$wherestr=" and orderid like '%$innumber%'";
 		}
 		if(empty($rec))
 			{
@@ -218,7 +218,7 @@ if($order_field=="")
 	{
 	$order_field=" order by id desc";
 	}
-	$sql="SELECT * from ".$_TBL_ORDER.$wherestr.$order_field;
+	$sql="SELECT * from ".$_TBL_ORDER.' where order_status=1'.$wherestr.$order_field;
 	$db->query($sql);
 	$total_records=$db->numRows();
 	$page=new Page;

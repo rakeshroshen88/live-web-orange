@@ -41,13 +41,13 @@ include("chksession.php");
 
  $makearr=array();
 $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
- $orderid=(string)rand(10000,999999).rand(100,9999).$_SESSION['sess_webid'];
+/*  $orderid=(string)rand(10000,999999).rand(100,9999).$_SESSION['sess_webid'];
 $whereClause=" orderid='".$orderid."'" ;	
 if(matchExists($_TBL_ORDER, $whereClause))
 		{
 			
 		      $orderid=(string)rand(1000,99999).$_SESSION['sess_webid'];
-		}
+		} */
 
 
 /*   $sql="select * from ".$_TBL_PRODUCT." where id=".$id;
@@ -89,30 +89,25 @@ $errMsg="";
   $dbu->query($u);
   $dbu->numRows();
   $billrow1=$dbu->fetchArray();
-
-
+$approvel=$_REQUEST['response'];
+$orderid=$_SESSION['sess_orderid'];
 $ordarr=array(
 						"userid"=>$_SESSION['sess_webid'],
 						"prodid"=>$prodid,						
-						"orderid"=>$orderid,
+						"orderid"=>$_SESSION['sess_orderid'],
 						"billid"=>$_SESSION['billid'],
 						"product_name"=>$prodname,
 						"price"=>$cost,
 						//"used_coupone"=>$_SESSION['sess_coupcode'],
 						"quantity"=>$quantity,
 						"subtotal"=>$total,
+						"approvel"=>$approvel,
 						"totalprice"=>$_SESSION['sess_total'],						
 						"buydate"=>date('Y-m-d H:i:s'));
 //print_r($ordarr);						
 				
 $insid=insertData($ordarr, $_TBL_ORDER);
-///////////////////////////////////////////////
-$tatalreward=$bill_row['reward'];
-if($_SESSION['sess_total']>2000){
-$pointcalculate=$_SESSION['sess_total']%2000;
-$db->query("update all_user set search=".($tatalreward+$pointcalculate)." where user_id=".$_SESSION['sess_webid']);
-}
-//////////////////////////////////////////////
+$_SESSION['sess_oid']=$insid;
 
 $del="delete  from ".$_TBL_TEMPORDER." where sessionid='".session_id()."'";
 $db->query($del); 
@@ -150,8 +145,11 @@ $userrow=$db1->fetchArray();
   $bdate=explode(' ',$row['buydate']);
   $newbdate=explode(' ',$bdate[0]);
   $date= $newbdate[0].'/'.$newbdate[0].'/'.$newbdate[0];
-
- 
+if(!empty($billrow['discount'])){
+ $discount=$billrow['discount'];
+}else{
+$discount=0;	
+}
  
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //code to implement api
@@ -224,7 +222,7 @@ $userrow=$db1->fetchArray();
    <tr>
     <td> Address:'.$billrow['billing_adress'].'<br />'.$billrow['billing_adress1'].'<br />State:'.$billrow['billing_state'].' <br />Phone:'.$billrow['billing_phone'].'<br />E-Mail:'.$billrow['billing_email'].'</td>
     <td>Order Total:</td>
-    <td  align="right">₦'.$row['totalprice'].'</td>
+    <td  align="right">₦'.($row['totalprice']-$discount).'</td>
   </tr>
   
   
@@ -249,7 +247,7 @@ $userrow=$db1->fetchArray();
   <tr>
     <td></td>
     <td style="padding: 10px 0;"><strong>Amount: </strong>   </td>
-    <td style="padding: 10px 0;"  align="right"> <strong>₦'.$row['totalprice'].' </strong></td>
+    <td style="padding: 10px 0;"  align="right"> <strong>₦'.($row['totalprice']-$discount).' </strong></td>
   </tr>
   
   <tr>
@@ -341,7 +339,7 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
     						<td colspan="2" style="width:10%; color: #585858;padding: 10px; text-align:center;    font-size: 13px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"><b> Net Amount</b> <p>
 </p>
 (Including applicable shipping cost & tex) </td>   					
-                            <td style="width:20%;     border-right: 2px solid #ccc; color: #585858; text-align:center;padding: 10px;    border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" > ₦'.number_format($grand_total+$shipb,2,'.',',').'</td>
+                            <td style="width:20%;     border-right: 2px solid #ccc; color: #585858; text-align:center;padding: 10px;    border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" > ₦'.number_format(($grand_total+$shipb-$discount),2,'.',',').'</td>
     					
     				</tr>
                     
@@ -377,7 +375,7 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
 	  		}
 	 								$to=$_SESSION['sess_webmail'];
 			 						$adminto="info@orangestate.com";
-									echo  $message=$invdetail;		die;
+									echo  $message=$invdetail;		//die;
 									$from='shop '.$adminto;
 									$subject="Order No.".$orderid;			
 									$headers  = "MIME-Version: 1.0\r\n";
@@ -403,215 +401,13 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
 								
 		
 	
-	echo "<h2>Thanku you for purchaseing with Abcbookkart.com!</h2>";	
+	echo "<h2>Thanku you for purchaseing with ORANGE STATE!</h2>";	
 
 ?>
-<?php include("footer.php"); ?>
+  
 	  
 	  
-	  
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body">
-            <div class="d-flex justify-content-around lh-condensed">
-              <div class="order-details text-center">
-                <div class="order-title">Order Number</div>
-                <div class="order-info">#CV45632</div>
-              </div>
-              <div class="order-details text-center">
-                <div class="order-title">Date</div>
-                <div class="order-info">10<sup>th</sup> Oct, 2018</div>
-              </div>
-              <div class="order-details text-center">
-                <div class="order-title">Amount Paid</div>
-                <div class="order-info">$2550</div>
-              </div>
-              <div class="order-details text-center">
-                <div class="order-title">Payment Method</div>
-                <div class="order-info">Credit Card</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <h4 class="mb-0"><strong>My Orders</strong></h4>
-        </div>
-      </div>
-      <div class="card pull-up">
-        <div class="card-header">
-          <div class="float-left">
-            <a href="#" class="btn btn-info">#CV45632</a>
-          </div>
-          <div class="float-right">
-            <a href="#" class="btn btn-outline-info mr-1"><i class="la la-question"></i> Need Help</a>
-            
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="card-body py-2">
-            <div class="d-flex justify-content-between lh-condensed">
-              <div class="order-details text-center">
-                <div class="product-img d-flex align-items-center">
-                  <img class="img-fluid" src="images/shop4.jpg" alt="Card image cap">
-                </div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">Fitbit Alta HR Special Edition x 1</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <div class="order-details">
-                <div class="order-info">$250</div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">Delivered on Sun, Oct 15th 2018</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer border-top-blue-grey border-top-lighten-5 text-muted">
-          <span class="float-left">
-            <span class="text-muted">Ordered On</span>
-            <strong>Wed, Oct 3rd 2018</strong>
-          </span>
-          <span class="float-right">
-            <span class="text-muted">Ordered Amount</span>
-            <strong>$250</strong>
-          </span>
-        </div>
-      </div>
-      <div class="card pull-up">
-        <div class="card-header">
-          <div class="float-left">
-            <a href="#" class="btn btn-info">#CV65472</a>
-          </div>
-          <div class="float-right">
-            <a href="#" class="btn btn-outline-info mr-1"><i class="la la-question"></i> Need Help</a>
-            
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="card-body py-2">
-            <div class="d-flex justify-content-between lh-condensed">
-              <div class="order-details text-center">
-                <div class="product-img d-flex align-items-center">
-                  <img class="img-fluid" src="images/shop4.jpg" alt="Card image cap">
-                </div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">Mackbook pro 19'' x 1</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <div class="order-details">
-                <div class="order-info">$1150</div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">Delivered on Mon, Oct 16th 2018</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer border-top-blue-grey border-top-lighten-5 text-muted">
-          <span class="float-left">
-            <span class="text-muted">Ordered On</span>
-            <strong>Wed, Oct 3rd 2018</strong>
-          </span>
-          <span class="float-right">
-            <span class="text-muted">Ordered Amount</span>
-            <strong>$1150</strong>
-          </span>
-        </div>
-      </div>
-      <div class="card pull-up">
-        <div class="card-header">
-          <div class="float-left">
-            <a href="#" class="btn btn-info">#CV78645</a>
-          </div>
-          <div class="float-right">
-            <a href="#" class="btn btn-outline-info mr-1"><i class="la la-question"></i> Need Help</a>
-            
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="card-body py-2">
-            <div class="d-flex justify-content-between lh-condensed">
-              <div class="order-details text-center">
-                <div class="product-img d-flex align-items-center">
-                  <img class="img-fluid" src="images/shop4.jpg" alt="Card image cap">
-                </div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">VR Headset x 2</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <div class="order-details">
-                <div class="order-info">$700</div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">Delivered on Tue, Oct 17th 2018</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer border-top-blue-grey border-top-lighten-5 text-muted">
-          <span class="float-left">
-            <span class="text-muted">Ordered On</span>
-            <strong>Wed, Oct 3rd 2018</strong>
-          </span>
-          <span class="float-right">
-            <span class="text-muted">Ordered Amount</span>
-            <strong>$700</strong>
-          </span>
-        </div>
-      </div>
-      <div class="card pull-up">
-        <div class="card-header">
-          <div class="float-left">
-            <a href="#" class="btn btn-info">#CV84123</a>
-          </div>
-          <div class="float-right">
-            <a href="#" class="btn btn-outline-info mr-1"><i class="la la-question"></i> Need Help</a>
-            
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="card-body py-2">
-            <div class="d-flex justify-content-between lh-condensed">
-              <div class="order-details text-center">
-                <div class="product-img d-flex align-items-center">
-                  <img class="img-fluid" src="images/shop4.jpg" alt="Card image cap">
-                </div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">Smart Watch with LED x 1</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <div class="order-details">
-                <div class="order-info">$700</div>
-              </div>
-              <div class="order-details">
-                <h6 class="my-0">Delivered on Wed, Oct 18th 2018</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer border-top-blue-grey border-top-lighten-5 text-muted">
-          <span class="float-left">
-            <span class="text-muted">Ordered On</span>
-            <strong>Wed, Oct 3rd 2018</strong>
-          </span>
-          <span class="float-right">
-            <span class="text-muted">Ordered Amount</span>
-            <strong>$700</strong>
-          </span>
-        </div>
-      </div>      
-    </div>
       </div>
 
 

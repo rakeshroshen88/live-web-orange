@@ -42,16 +42,14 @@ if(isset($_POST['formData'])){
 											if(!empty($pimage)){
 											echo '<img src="upload/'.$pimage.'" alt="" height="40" width="40">';
 											 }else{ 
-											echo '<img src="images/clock.png" alt="">';
+											echo '<img src="images/resources/user.png" alt="" height="40" width="40">';
 											 }
 												if(!empty($rowc['cimage'])){ 
 													echo '<img src="upload/'.$rowc['cimage'].'" height="50" width="50"/>';
 													}
-													echo '<span class="user-name-in-coment">'.$username.'</span>';
-													if(!empty($rowc['comment'])){
-													echo '<span class="commword">'.$rowc['comment'].'</span>';
-													}
-													echo '</span>
+													echo '<span class="user-name-in-coment">'.$username.'</span>
+													<span class="commword">'.$rowc['comment'].'</span>
+													</span>
 												</div>
 												 <div class="action-like-acti">
 													<a href="javascript:void(0)" title="" class="active" id="replyiddiv" cid="'.$rowc['c_id'].'"><i class="fa fa-reply-all"></i>Reply</a>

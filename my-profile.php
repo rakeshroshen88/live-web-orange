@@ -30,9 +30,9 @@ include('chksession.php');
                                 <div class="user_profile">
                                     <div class="user-pro-img">
                                         <?php if($profilerow['image_id']=='' and empty($profilerow['image_id'])){ ?>
-                                            <img src="images/resources/user.png" id="rmvid" alt="" height="120" width="120">
+                                            <img src="images/resources/user.png" id="rmvid" alt="" height="190" width="190">
                                             <?php }else{?>
-                                                <img src="upload/<?=$profilerow['image_id']?>" id="rmvid" alt="" height="120" width="120">
+                                                <img src="upload/<?=$profilerow['image_id']?>" id="rmvid" alt="" height="190" width="190">
                                                 <?php }?>
 												<!-- <input type="file" id="file1">-->
 												
@@ -47,70 +47,96 @@ include('chksession.php');
                                             <li>
                                                 <span>Following</span>
                                                 <b><?php 
-												echo $num=$db->getSingleResult("SELECT * from followers where user_id=".$_SESSION['sess_webid']);
+												 $num1=$db->getSingleResult("SELECT count(f_id) from followers where user_id=".$_SESSION['sess_webid']." limit 0,5");
+												if(empty($num1)){ echo "0";}else{ echo $num1; }
 												?></b>
                                             </li>
                                             <li>
                                                 <span>Followers</span>
                                                 <b><?php 
-												 $num=$db->getSingleResult("SELECT * from followers where follow=".$_SESSION['sess_webid']);
+												
+												 $num=$db->getSingleResult("SELECT count(f_id) from followers where follow=".$_SESSION['sess_webid']);
 												 if(!empty($num)){ echo $num;}else{ echo "0";}
 												?></b>
                                             </li>
                                         </ul>
                                     </div>
                                     <!--user_pro_status end-->
+                                  <?php if(!empty($profilerow['website'])){?>
                                     <ul class="social_links">
-                                        <li><a href="#" title=""><i class="la la-globe"></i> www.example.com</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-facebook-square"></i> Http://www.facebook.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-twitter"></i> Http://www.Twitter.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-google-plus-square"></i> Http://www.googleplus.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-behance-square"></i> Http://www.behance.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-pinterest"></i> Http://www.pinterest.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-instagram"></i> Http://www.instagram.com/john...</a></li>
-                                        <li><a href="#" title=""><i class="fa fa-youtube"></i> Http://www.youtube.com/john...</a></li>
-                                    </ul>
-                                </div>
-                                <!--user_profile end-->
+                                        <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
+                                        
+                                    
+									<?php } ?>
+									
+									<?php  $dbs=new DB();
+									  $sqls="select * from social_link where user_id =".$_SESSION['sess_webid'];
+									  $db->query($sqls);
+									  while($rows=$db->fetchArray()){?>
+                                        <li><a href="#" title=""><i class="la la-globe"></i><?=$rows['slink']?></a></li>
+									<?php }?>
+
+									</ul>
+							   </div>
+							   
+							   <div class="suggestions full-width">
+										<div class="sd-title">
+											<h3>Following</h3>
+											<i class="la la-ellipsis-v"></i>
+										</div><!--sd-title end-->
+										<div class="suggestions-list">
+										<?php  
+										/* $sqlres = "SELECT * from {$wpdb->prefix}carer_information where status=1  and carer_info_id IN ({$carer_id}) "; */
+										$dbuf=new DB();
+										 $sql="SELECT * from followers where user_id=".$_SESSION['sess_webid']." order by user_id limit 0,5";
+										$db->query($sql);
+										if($db->numRows()>0)
+										{
+										while($frow=$db->fetchArray()){
+										$usernamef=$dbuf->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$frow['follow']);
+
+										$woorking=$dbuf->getSingleResult('select current_company from user_profile where user_id='.$frow['follow']);
+										$userfpath=$dbuf->getSingleResult('select image_id from user_profile where user_id='.$frow['follow']);										
+											
+										/* $sqluserf="SELECT * from user_profile where user_id=".$row['user_id'];
+										$dbuf->query($sqluserf);
+										if($dbuf->numRows()>0)
+										{
+										$userrowf=$dbuf->fetchArray();
+										} */
+											
+											?>
+											<div class="suggestion-usd">
+											<?php if(!empty($userfpath)){?>
+												<img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+											<?php }else{ ?>
+											<img src="images/resources/user.png" alt="" height="40" width="40">
+											<?php }?>
+												<div class="sgt-text">
+													<h4><?=$usernamef?></h4>
+													<span><?=$woorking?></span>
+												</div>
+												 
+											</div>
+											
+										<?php }}else{ echo "Data Not Availablle";} ?>
+											
+											
+											
+											<div class="view-more">
+												<a href="my-profile.php" title="">View More</a>
+											</div>
+										</div><!--suggestions-list end-->
+									</div><!--suggestions end-->
+									
+                                <!--user_profile end
                                 <div class="suggestions full-width">
                                     <div class="sd-title">
                                         <h3>Following </h3>
                                         <i class="la la-ellipsis-v"></i>
                                     </div>
-                                    <!--sd-title end-->
-                                    <div class="suggestions-list">
-									  <?php 
-										$dbuf=new DB();
-										$sql="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
-										$db->query($sql);
-										if($db->numRows()>0)
-										{
-										 while($frow=$db->fetchArray()){
-										$usernamef=$dbuf->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$frow['follow']);
-
-										$woorking=$dbuf->getSingleResult('select current_company from user_profile where user_id='.$frow['follow']);
-										$userfpath=$dbuf->getSingleResult('select image_id from user_profile where user_id='.$frow['follow']);
-										?>
-                                        <div class="suggestion-usd">
-                                            <?php if(!empty($userfpath)){?>
-                                          <img src="upload/<?=$userfpath?>" alt="" height="40" width="40">
-                                            <?php }else{ ?>
-                                            <img src="images/resources/user.png" alt=""  height="40" width="40">
-                                             <?php }?>
-                                            <div class="sgt-text">
-                                               <h4><?=$usernamef?></h4>
-                                                <span><?=$woorking?></span>
-                                            </div>
-                                            <!--<span><i class="la la-plus follownew" id="follownew<?=$frow['f_id']?>" fid="<?=$frow['follow']?>"></i></span>-->
-                                        </div>
-										<?php }} ?>
-                                      
-									  <div class="view-more">
-                                            <a href="#" title="">View More</a>
-                                        </div>
-                                    </div>
-                                    <!--suggestions-list end-->
-                                </div>
+                                   
+                                </div>-->
                                 <!--suggestions end-->
                             </div>
                             <!--main-left-sidebar end-->
@@ -423,6 +449,8 @@ include('chksession.php');
 									
 									
 <?php
+
+
 $db4=new DB();
 $l=array();
 $sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
@@ -434,14 +462,17 @@ while($row4=$db4->fetchArray()){
 }
 }
 $allfriend=implode(',',$l);
-
+if(empty($allfriend)){
+	$allfriend=0;
+}
  $db1=new DB();
+  $db2=new DB();
 $dblike=new DB();
 $dbr=new DB();
 $dbc=new DB();
 $dbu=new DB();
 $dbp=new DB();
- $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriend) and post_hide='0' order by post_id desc";
+   $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriend) and post_hide='0' order by post_id desc";
 $dbp->query($sqlp);
 if($dbp->numRows()>0)
 {
@@ -673,7 +704,7 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 													
 
 													<?php if(!empty($rowc['mp3'])){ ?>
-													<img src="emoji/<?=$rowc['cimage']?>" height="50" width="50"/><?php }else{ ?>
+													<img src="emoji/<?=$rowc['cimage']?>" height="50" width="50"/><?php }elseif(!empty($rowc['cimage'])){ ?>
 													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/>
 													<?php }?>
 													<span class="user-name-in-coment"><?=$username?></span>
@@ -766,13 +797,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 										
 									
 
-										<div class="process-comm">
-											<div class="spinner">
-												<div class="bounce1"></div>
-												<div class="bounce2"></div>
-												<div class="bounce3"></div>
-											</div>
-										</div><!--process-comm end-->
+										
 									</div><!--posts-section end-->
 								</div><!--main-ws-sec end-->
 	                              <!--main-ws-sec end-->
@@ -835,13 +860,14 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                                     </div>
                                                                                 </div>
                                                                 </div>
-                                                                <div class="job_descp noborder">
+                                                <div class="job_descp noborder">
 
-                                                                    <div class="devepbtn appliedinfo noreply">
-                                                                        <a class="clrbtn follownew" id="follownew<?=$frow['f_id']?>" fid="<?=$frow['follow']?>" href="javascript:void(0);"> Follow</a>
+                                               <div class="devepbtn appliedinfo noreply">
+                                                <a class="clrbtn follownew" id="follownew<?=$frow['f_id']?>" fid="<?=$frow['follow']?>" href="javascript:void(0);"> Follow</a>
 
-                                                                    </div>
-                                                                </div>
+                                                </div>
+                                                
+												</div>
                                                             </div>
                                                         </div>
 
@@ -1109,6 +1135,24 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                         <li><a href="#" title="">Corel Draw</a></li>-->
                                     </ul>
                                 </div>
+								
+								
+								   <div class="user-profile-ov">
+								
+    
+                                    <h3><a href="#" title="" class="skills-open1">Social Link <i class="fa fa-plus-square"></i></a></h3>
+                                    <ul>
+									<?php  $dbs=new DB();
+									  $sqls="select * from social_link where user_id =".$_SESSION['sess_webid'];
+									  $db->query($sqls);
+									  while($rows=$db->fetchArray()){?>
+                                        <li><a href="jsvsscript:void(0);" title="" class="skillsdel1" delid="<?=$rows['id']?>"><?=$rows['slink']?></a></li>
+<?php }?>
+                                     
+                                    </ul>
+                                </div>
+								
+								 
                                 <!--user-profile-ov end-->
                             </div>
                             <!--product-feed-tab end-->
@@ -1377,9 +1421,9 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                             <!--product-feed-tab end-->
                             <div class="product-feed-tab" id="portfolio-dd">
                                 <div class="portfolio-gallery-sec">
-                                    <h3>Gallery</h3>
+                                    <h3>All Picture</h3>
                                     <div class="portfolio-btn">
-                                        <a href="#" title=""><i class="fas fa-plus-square"></i> Add Gallery</a>
+                                        <a href="#" title=""><i class="fas fa-plus-square"></i> Add Picture</a>
                                     </div>
                                     <div class="gallery_pf">
                                         <div class="row">
@@ -1520,6 +1564,24 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
         <!--overview-edit end-->
     </div>
     <!--overview-box end-->
+	
+	<div class="overview-box" id="skills-box1">
+        <div class="overview-edit">
+            <h3>Socal Media Link</h3>
+             <form name="" id="" method="post">
+                <input type="text" name="link" id="link" placeholder="Socal Media Link">
+                <button type="submit" name="" id="socalsave" class="save">Save</button>
+                <!--<button type="submit" class="save-add">Save & Add More</button>-->
+                <button type="submit" class="cancel">Cancel</button>
+            </form>
+            <a href="#" title="" class="close-box"><i class="la la-close"></i></a>
+        </div>
+        <!--overview-edit end-->
+    </div>
+	
+	
+	
+	
 	
     <div class="overview-box" id="education-box">
         <div class="overview-edit">

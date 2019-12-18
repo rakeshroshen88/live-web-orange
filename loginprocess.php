@@ -6,7 +6,7 @@ include("config.inc.php");
 $db1=new DB();
 $Password=base64_encode($_POST['txtPassword']);
 $Password1=$_POST['txtPassword'];
-  $sql1="select * from ".$_TBL_USER." where (email_id='".$_POST['txtUserName']."' or mobile_no='".$_POST['txtUserName']."') and password='".$Password."'"; //die;
+ $sql1="select * from ".$_TBL_USER." where (email_id='".$_POST['txtUserName']."' or mobile_no='".$_POST['txtUserName']."') and password='".$Password."'";//die;
 $db->query($sql1);
 if($db->numRows()> 0)
 	{
@@ -32,7 +32,51 @@ setcookie ("password","");
 			$_SESSION['sess_webmail']=$result['email_id'];	
 			$_SESSION['sess_name']=$result['first_name'];
 ////////////////////////////////////
-$query = "
+ $query = "
+		SELECT * FROM login
+  		WHERE username = :username
+	";
+	$statement = $connect->prepare($query);
+	$statement->execute(
+		array(
+			':username' => $result['email_id']
+		)
+	);
+	$count = $statement->rowCount();
+	if($count > 0)
+	{
+		$result1 = $statement->fetchAll();
+		foreach($result1 as $row)
+		{
+			 $_SESSION['user_id'] = $row['user_id'];
+			 $_SESSION['username'] = $row['username'];
+				 $sub_query = "
+				INSERT INTO login_details
+	     		(user_id,status)
+	     		VALUES ('".$row['user_id']."','Online')
+				";
+				$statement = $connect->prepare($sub_query);
+				$statement->execute();
+				 $_SESSION['login_details_id'] = $connect->lastInsertId();	
+	}}else{
+		//////////////chat///////////////////
+	 
+				 $data = array(
+					':username'		=>	$result['email_id'],
+					':name'		=>	$result['first_name'],
+					':password'		=>	password_hash('12abc', PASSWORD_DEFAULT),
+					':f_userid'		=>	$result['user_id']
+				);
+				 $query = "
+				INSERT INTO login 
+				(username, password, name, f_userid) 
+				VALUES (:username, :password, :name, :f_userid)
+				";
+				$statement = $connect->prepare($query);
+				$statement->execute($data);  
+	//////////////////////////////////	
+	 
+ $query = "
 		SELECT * FROM login
   		WHERE username = :username
 	";
@@ -58,7 +102,10 @@ $query = "
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
 				 $_SESSION['login_details_id'] = $connect->lastInsertId();	
-	}}
+	}} 
+/////////////////////////////////////////////////	
+		
+	}
 	/////////////////////////////////////////////////	
 
 			redirect("dashboard.php");

@@ -39,7 +39,7 @@ if(matchExists($_TBL_BILL, $whereClause1))
    $bid=$db->getSingleResult("SELECT id from $_TBL_BILL where userid=".$_SESSION['sess_webid']);
 		   $_SESSION['billid']=$bid;
 			updateData($billupdatearr, $_TBL_BILL, $whereClause1);
-			redirect("order-sucessful.php");
+			redirect("payment.php");
 			
 		}else{
 
@@ -147,8 +147,10 @@ $shipb=$shipb+$ship3;
 					$famt=$grand_total+$shipb;
 					$discount=($famt-$famt*50/100);
 					$finalamoun=($famt-$famt*50/100);
+					$_SESSION['finalamoun']=$finalamoun;
 				}else{
 					$finalamoun=$grand_total+$shipb;
+					$_SESSION['finalamoun']=$finalamoun;
 				}
 				?>
                 <li class="list-group-item d-flex justify-content-between">

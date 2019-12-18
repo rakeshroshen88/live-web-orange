@@ -147,7 +147,7 @@
 					
 					
 					
-					<li>
+					<!--<li>
 						<a class="" href="main.php?mod=subsubcat">
 							<span class="glyphicon glyphicon-share-alt"></span> View Sub Subcategory
 						</a>
@@ -156,7 +156,7 @@
 						<a class="" href="main.php?mod=add_subsubcat&act=add">
 							<span class="glyphicon glyphicon-share-alt"></span> Add Sub Subcategory
 						</a>
-					</li>
+					</li>-->
 					
 					</ul>
 			</li>
@@ -225,6 +225,12 @@
 						</a>
 					</li>
 					
+					<li>
+						<a class="" href="main.php?mod=neworder">
+							<span class="glyphicon glyphicon-share-alt"></span> New Order
+						</a>
+					</li>
+					
 					
 				</ul>
 			</li>
@@ -250,6 +256,26 @@
 				</ul>
 			</li>
            
+		   
+		   <li class="parent ">
+				<a href="#">
+					<span class="glyphicon glyphicon-chevron-right"></span> Support Management <span data-toggle="collapse" href="#sub-item-1s" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+				</a>
+				<ul class="children collapse" id="sub-item-1s">
+               
+					<li>
+						<a class="" href="main.php?mod=support">
+							<span class="glyphicon glyphicon-share-alt"></span> View Ticket
+						</a>
+					</li>
+					<!--<li>
+						<a class="" href="main.php?mod=adduser&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add users
+						</a>
+					</li>-->
+					
+				</ul>
+			</li>
 		   <!--
             
             	<li class="parent ">
@@ -298,6 +324,13 @@
 					<li>
 						<a class="" href="main.php?mod=home">
 							<span class="glyphicon glyphicon-share-alt"></span> Service
+						</a>
+					</li>
+					
+					
+					<li>
+						<a class="" href="main.php?mod=addemoji">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Emoji
 						</a>
 					</li>
 					

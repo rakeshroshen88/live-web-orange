@@ -223,14 +223,16 @@ if($dbt->numRows()>0)
 
                                                 <button class="btn btn-lg btn-outline-primary text-uppercase add-btnbtn11 my-cart-btn addtocartnew" pid="<?=$row['id']?>" data-id="1" data-name="product 1" data-summary="summary 1" data-price="10" data-quantity="1" data-image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/252820/1320x580-78.jfif">Add to Cart</button>
                                                 <!-- row.// -->
-												</hr>
- <div class="addthis_inline_share_toolbox"></div>
+												</hr></br>
+										<div class="addthis_inline_share_toolbox"></div>
                                                 <div class="detila-prodcs-descroption">
                                                     <h3>Description</h3>
                                                     <div class="scrsss">
                                                         <?=$row['prod_detail']?>
                                                     </div>
                                                 </div>
+												
+												<h3><a href="feedback.php?pid=<?=$_REQUEST['pid']?>&page=<?=base64_encode('product')?>" class="pull-right writereviebtn">Write Review</a></h3>
 
                                     </div>
 
@@ -247,7 +249,7 @@ if($dbt->numRows()>0)
             <div class="row">
             <div class="col-md-8">
 
-                 <h3 class="title">Reviews <a href="feedback.php?pid=<?=$_REQUEST['pid']?>&page=<?=base64_encode('product')?>" class="pull-right writereviebtn">Write Review</a></h3>
+                 <h3 class="title">Reviews </h3>
 					<?php
 					$dbn=new DB();
 				    $sqln="select * from feedback where pages='product' prod_id =".$pid;
@@ -478,7 +480,7 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 								
 								 <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 4,8";										
+						<?php  $sql1="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 4,8";										
 						$db->query($sql1);
 						if($db->numRows()>0)
 						{
@@ -492,7 +494,7 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                         <div class="col-md-3">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -518,7 +520,6 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 																 <button class="_0a08a_3czMG addtocartnew1" type="button" pid="<?=$row['id']?>" tono="1">Add To Cart</button>
                                                                     
                                                                 </div>
-																
 																<div class="_2aac2_3bwnD _549f7_zvZ8u _49c0c_3Cv2D _977c5_2vBMq">
 																 <button class="_0a08a_3czMG addtowishlist" type="button" pid="<?=$row['id']?>" tono="1">Add To Wishlist</button>
                                                                     

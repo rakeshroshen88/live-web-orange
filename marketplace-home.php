@@ -104,7 +104,7 @@ xmlhttp.send();
                             </li>
 
 <?php $ct=$db->getSingleResult("select count(*) from wishlish where user_id='".$_SESSION['sess_webid']."'"); ?>
-                            <li class="wishmainlist"><a href="#"><i class="lnr lnr-heart"></i><span class="my-cart"><span>Wish</span><span>list (<?=$ct?>)</span></span></a>
+                            <li class="wishmainlist"><a href="wishlist.php"><i class="lnr lnr-heart"></i><span class="my-cart"><span>Wish</span><span>list (<?=$ct?>)</span></span></a>
 							<ul class="wishlistcart">
 							<?php $dbt=new DB;
 $sqlt="select * from wishlish where user_id='".$_SESSION['sess_webid']."'";
@@ -236,12 +236,12 @@ if($dbt->numRows()>0)
 
                 <div class="col-xl-2 col-lg-2 slider_adss wdith20">
                     <div class="sliderad1">
-                        <a href="">
-                            <img src="img/ads1.JPG" alt="ads">
+                        <a href="#">
+                            <img src="img/ads1.jpg" alt="ads">
                         </a>
 
-                        <a href="">
-                            <img src="img/ads1.JPG" alt="ads">
+                        <a href="#">
+                            <img src="img/ads1.jpg" alt="ads"> 
                         </a>
 
                     </div>

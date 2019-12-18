@@ -10,8 +10,8 @@ $state=$_POST['state'];
 $phoneno=$_POST['phoneno'];
 $country=$_POST['country'];
 $countrycode=$_POST['countrycode'];
-$location=$_POST['location'];
-$postal_code=$_POST['postal_code'];
+//$location=$_POST['location'];
+//$postal_code=$_POST['postal_code'];
 if(!empty($countrycode)){
 	$phoneno1=$countrycode.'-'.$phoneno;
 }else{
@@ -50,8 +50,8 @@ $password=base64_encode($_POST['password1']);
 					"last_name"=>$lastname,
 					"dob"=>$dob,
 					"gender"=>$gender,
-					"address"=>$location,
-					"zip_code"=>$postal_code,
+					//"address"=>$location,
+					//"zip_code"=>$postal_code,
 					"state"=>$state,					
 					"update_date"=>date("Y-m-d")
 						);

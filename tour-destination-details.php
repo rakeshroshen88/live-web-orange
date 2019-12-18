@@ -67,7 +67,7 @@ $db2=new DB();
                                     <!-- The slideshow -->
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
-                                          <?php if(!empty($row['picture'])){ ?>														<img src="destination/<?=$row['picture']?>" alt="image destinations">														<?php }else{ ?>														<img src="img/tours/img-01.jpg" alt="image destinations">														<?php } ?>
+                                          <?php if(!empty($row['picture'])){ ?>														<img src="destination/<?=$row['picture']?>" alt="image destinations" style="width: 100%;">														<?php }else{ ?>														<img src="img/tours/img-01.jpg" alt="image destinations">														<?php } ?>
                                         </div>										<?php 																				$sql2="SELECT * FROM $_TBL_DESIMAGE WHERE item_id=".$_REQUEST['tourid'];										$db->query($sql2)or die($db2->error());										if($db->numRows()>0)												{												$inum=0;														while($imagerow=$db->fetchArray()){										?>
                                         <div class="carousel-item">
                                             <img src="<?=$_SITE_PATH?>destination/thumb/<?=$imagerow['image']?>" alt="<?=$row['title']?>">
@@ -89,7 +89,16 @@ $db2=new DB();
 
                         <div class="col-md-4">
                             <div class="map-detail-features">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3505.507048677982!2d77.18333191508015!3d28.52447538246043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1e0667819b4f%3A0x834995f160759db8!2sQutub%20Minar!5e0!3m2!1sen!2sin!4v1574005286101!5m2!1sen!2sin" width="100%" height="295" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+							<div class="shadow_box" ><div id="map_canvas" style="width:100%; height:295px; position: static !important; overflow: initial !important;">Google Map</div></div>
+    
+       
+       
+       <input id="address"  type="hidden" value="<?=$row['address']?>">
+      <!-- <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCHjEdSo36jq0S-tEF1Ksn-JGSKjnEn6Qw&sensor=true">
+</script>-->
+
+							
+                                <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3505.507048677982!2d77.18333191508015!3d28.52447538246043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1e0667819b4f%3A0x834995f160759db8!2sQutub%20Minar!5e0!3m2!1sen!2sin!4v1574005286101!5m2!1sen!2sin" width="100%" height="295" frameborder="0" style="border:0;" allowfullscreen=""></iframe>-->
                             </div>
                         </div>
                     </div>
@@ -279,3 +288,41 @@ $db2=new DB();
     </main>
 
     <?php include('footer.php') ?>
+	
+	
+	
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&sensor=true">
+</script>
+   <script type="text/javascript">
+     var geocoder;
+ var map;
+ function initialize() {
+   geocoder = new google.maps.Geocoder();
+   var latlng = new google.maps.LatLng(28.24, 77.18);
+   var myOptions = {
+     zoom: 15,
+     center: latlng,
+     mapTypeId: google.maps.MapTypeId.ROADMAP
+   }
+   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+codeAddress();
+ }
+
+ function codeAddress() {
+   var address = document.getElementById("address").value;
+   geocoder.geocode( { 'address': address}, function(results, status) {
+     if (status == google.maps.GeocoderStatus.OK) {
+       map.setCenter(results[0].geometry.location);
+       var marker = new google.maps.Marker({
+           map: map,
+           position: results[0].geometry.location
+       });
+     } else {
+     alert("Geocode was not successful for the following reason: " + status);
+     }
+   });
+ }
+ 
+ google.maps.event.addDomListener(window, 'load', initialize);  
+
+   </script>

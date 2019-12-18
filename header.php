@@ -1,5 +1,5 @@
 <?php include("config.inc.php");
-//include('chat/database_connection.php');
+include('chat/database_connection.php');
 $dbu=new DB();
 $sqlu="select * from all_user where user_id =".$_SESSION['sess_webid'];
 $dbu->query($sqlu);
@@ -8,6 +8,31 @@ $makearr=array();
 $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 
 ?>
+
+<?php 
+// Program to display complete URL     
+      
+if(isset($_SERVER['HTTPS']) &&  
+            $_SERVER['HTTPS'] === 'on') 
+    $link = "https"; 
+    else
+        $link = "http"; 
+  
+// Here append the common URL  
+// characters. 
+$link .= "://"; 
+      
+// Append the host(domain name, 
+// ip) to the URL. 
+$link .= $_SERVER['HTTP_HOST']; 
+      
+// Append the requested resource 
+// location to the URL 
+$link .= $_SERVER['PHP_SELF']; 
+      
+// Display the link 
+ //$link; 
+?> 
 <!DOCTYPE html>
 <html>
  
@@ -40,10 +65,10 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	
 	<script type="text/javascript" src="ttps://code.jquery.com/jquery-3.1.0.js"></script>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	-->
-	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>-->
 	
+	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
 	<script>
 	   		var BASEURL='http://orangestate.ng/';
 			//var BASEURL='http://localhost/orange_state/';
@@ -61,13 +86,17 @@ ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 					</div><!--logo end-->
 					
 					<div class="search-bar">
+					<?php if($link !='http://orangestate.ng/marketplace-home.php'){?>
 						<form action="search.php" method="post" id="search_box" name="searchpage1">
 							<!--<input type="text" name="search" placeholder="Search..." onkeyup="showResult(this.value)">-->
 							<input type="text" id="search-box" class="search" name="searchpage" placeholder="Search for People" />
 							<button type="submit" name="seafrchsubmit"><i class="la la-search"></i></button>
 						</form>
 						<div id="suggesstion-box" class="searchrsult"></div>
-					</div><!--search-bar end-->
+						<?php }?>
+					</div>
+					
+					<!--search-bar end-->
 					
       
 <script>
@@ -147,7 +176,7 @@ $("#suggesstion-box").hide();
 									Tourism
 								</a>
 								<ul>
-									<li><a href=" " title="">Tourist sites</a></li>
+									<li><a href="tour-destination-list.php" title="">Tourist sites</a></li>
 									<li><a href=" " title="">History</a></li>
 									<li><a href=" " title="">Events</a></li>
 								</ul>
@@ -581,6 +610,8 @@ $ct++;
 								<li><a href="#" title="">Terms & Conditions</a></li>
 							</ul>
 							<h3 class="tc"><a href="company-page.php" title="">create page</a></h3>
+							
+							<h3 class="tc"><a href="company-list.php" title="">View page</a></h3>
 							<h3 class="tc"><a href="logout.php" onclick="signOut();" title="">Logout</a></h3>
 							
 							<!--<h3 class="tc"><a href="javascript:void(0);" onclick="signOut();" title="">Logout</a></h3>-->

@@ -2,7 +2,7 @@
 //session_start();
 //database_connection.php
 
-$connect = new PDO("mysql:host=localhost;dbname=chat;charset=utf8mb4", "root", "");
+$connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e");
 
 //date_default_timezone_set('Asia/Kolkata');
 date_default_timezone_set("Africa/Lagos");
@@ -56,7 +56,7 @@ function fetch_user_chat_history($from_user_id, $to_user_id, $connect)
 			else
 			{
 				$ext = pathinfo($row['chat_message'], PATHINFO_EXTENSION);
-				if($ext=='png' or $ext=='png'){
+				if($ext=='png' or $ext=='png' or $ext=='gif' or $ext=='GIF'){
 					if($row['aplay']==1 and $row['status']==1){ $ap='autoplay';}else{$ap='';}
 				$query = "UPDATE chat_message SET aplay = '0' WHERE mp3 = '".$row['mp3']."' AND status = '1'";
 				$statement = $connect->prepare($query);
@@ -383,7 +383,7 @@ function fetch_user_chat_history_json($to_user_id, $from_user_id, $connect)
 		$i++;
 
 				$ext = pathinfo($row['chat_message'], PATHINFO_EXTENSION);
-				if($ext=='png' or $ext=='png'){
+				if($ext=='png' or $ext=='png' or $ext=='gif' or $ext=='GIF'){
 
 
 

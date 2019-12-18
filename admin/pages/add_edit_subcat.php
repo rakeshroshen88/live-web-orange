@@ -4,8 +4,7 @@ $subid=$_REQUEST['id'];
 $act=$_REQUEST['act'];
 $errMsg='';
 $makearr1=array();
-$makearr1=getValuesArr( $_TBL_CAT, "id","catname","", "" );
-
+$makearr1=getValuesArr( 'category', "id","catname","", "" );
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
 
@@ -108,24 +107,7 @@ if(!empty($subid) and $act=="edit")
 		$row=$db->fetchArray();	
 	}
 ?>
-<SCRIPT>
-function formValidator(theForm)
-{
 
-	if(is_empty(theForm.catname.value))
-		{
-			alert("Please fill the subcategory name !")
-			theForm.catname.focus();
-			return false;
-		}
-	/*if(is_empty(theForm.catdesc.value))
-		{
-			alert("Please fill the category description !")
-			theForm.catdesc.focus();
-			return false;
-		}*/
-}
-</SCRIPT>
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
 		<div class="row">
 			<ol class="breadcrumb">
@@ -204,7 +186,7 @@ tinymce.init({
                                         
                                     
                                   
-                                      
+                                      <!--
                                     	<div class="form-group">
         									<label class="col-md-3 control-label"> Image</label>
         									<div class="col-md-9">
@@ -219,7 +201,7 @@ tinymce.init({
                                                 <input type="file" name="largeimage1" id="largeimage1"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['bimg']){?><a href="javascript:void(0)" onclick="javascript:window.open('allimg.php?img=<?=$row['bimg']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
         									 
         									</div>
-        								</div>
+        								</div>-->
                 							
                                          
                                             	<div class="form-group">

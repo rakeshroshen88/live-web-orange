@@ -1,3 +1,50 @@
+<div class="shadow_box" style="text-align:center; margin-top:35px; " align="right"><div id="map_canvas" style="height:350px; width:900px;" >Google Map</div></div>
+    
+       
+       
+       <input id="address"  type="hidden" value="c 7/4 , NITHARI, NOIDA SECTOR 31, UP, INDA">
+       <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCHjEdSo36jq0S-tEF1Ksn-JGSKjnEn6Qw&sensor=true">
+</script>
+   <script type="text/javascript">
+     var geocoder;
+ var map;
+ function initialize() {
+   geocoder = new google.maps.Geocoder();
+   var latlng = new google.maps.LatLng(28.24, 77.18);
+   var myOptions = {
+     zoom: 15,
+     center: latlng,
+     mapTypeId: google.maps.MapTypeId.ROADMAP
+   }
+   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+codeAddress();
+ }
+
+ function codeAddress() {
+   var address = document.getElementById("address").value;
+   geocoder.geocode( { 'address': address}, function(results, status) {
+     if (status == google.maps.GeocoderStatus.OK) {
+       map.setCenter(results[0].geometry.location);
+       var marker = new google.maps.Marker({
+           map: map,
+           position: results[0].geometry.location
+       });
+     } else {
+     alert("Geocode was not successful for the following reason: " + status);
+     }
+   });
+ }
+ 
+ google.maps.event.addDomListener(window, 'load', initialize);  
+
+   </script>
+
+  
+  
+  
+  
+  
+
 <!--<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>

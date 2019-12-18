@@ -8,7 +8,7 @@
                         <option>Select feeling</option><?php
 		while($row1=$db1->fetchArray()){
 		    $row1['imgid'];
-		?> <option value='<img src="allimg/<?php echo $row1['imgid'];?>"><?=$row1['subcatname']?>' style="height: 20px;"><?=$row1['subcatname']?></option>
+		?> <option value='<?=$row1['subcatname']?>'><?=$row1['subcatname']?></option>
        <?php }?>
 				   </select>
 				   

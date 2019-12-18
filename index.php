@@ -92,7 +92,7 @@ jQuery("#complete").trigger("geocode");
 						  var data1 = jQuery.parseJSON(response);
 
 
-            		   alert(response);
+            		   //alert(response);
 
                        if(data1.status==true){
                            // $('#success').html('Added');
@@ -120,7 +120,7 @@ jQuery("#complete").trigger("geocode");
 		//window.relode();
       }
     </script>
-<a href="#" onclick="signOut();">Sign out</a>
+
 <script>
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
@@ -128,6 +128,9 @@ jQuery("#complete").trigger("geocode");
       console.log('User signed out.');
     });
   }
+
+
+
 </script>
 
 <script>
@@ -381,6 +384,27 @@ jQuery("#complete").trigger("geocode");
 													</div>
 													<span id="error_repeat-password" class="text-danger"></span>
 												</div>
+												
+												<?php /////////////////// ?>
+												<!-- START CAPTCHA
+												<div class="col-lg-12 no-pdd">
+												<div class="capbox">
+
+												<div id="CaptchaDiv"></div>
+
+												<div class="capbox-inner">
+												Type the above number:<br>
+
+												<input type="hidden" id="txtCaptcha">
+												<input type="text" name="CaptchaInput" id="CaptchaInput">
+
+												</div>
+												</div>
+												<span id="error_CaptchaInput" class="text-danger"></span>
+												</div>-->
+												<!-- END CAPTCHA -->
+												<?php /////////////////// ?>
+												
 												<div class="col-lg-12 no-pdd">
 													<div class="checky-sec st2">
 														<div class="fgt-sec">
@@ -487,8 +511,56 @@ jQuery("#complete").trigger("geocode");
 
 
 	</div><!--theme-layout end-->
+<style>
+.capbox {
+	
+	border-width: 0px 12px 0px 0px;
+	
+	*display: inline; zoom: 1; /* FOR IE7-8 */
+	padding: 8px 40px 8px 8px;
+	}
+
+.capbox-inner {
+	font: bold 11px arial, sans-serif;
+	color: #000000;
+	
+	margin: 5px auto 0px auto;
+	padding: 3px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	}
+
+#CaptchaDiv {
+	font: bold 17px verdana, arial, sans-serif;
+	font-style: italic;
+	color: #000000;
+	background-color: #FFFFFF;
+	padding: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	}
+
+#CaptchaInput { margin: 1px 0px 1px 0px; }
+
+</style>
+<script>
+  var a = Math.ceil(Math.random() * 9)+ '';
+var b = Math.ceil(Math.random() * 9)+ '';
+var c = Math.ceil(Math.random() * 9)+ '';
+var d = Math.ceil(Math.random() * 9)+ '';
+var e = Math.ceil(Math.random() * 9)+ '';
+
+var code = a + b + c + d + e;
+//alert(code);
+document.getElementById("txtCaptcha").value = code;
+jQuery('#CaptchaDiv').html(code);
+//document.getElementById("CaptchaDiv").innerHTML = code;
+		
 
 
+</script>
 
 <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <script type="text/javascript" src="js/popper.js"></script>

@@ -70,7 +70,7 @@ function insertData($arr, $tableName) {
         foreach($arr as $key => $value ) {
           $query .= "$key='$value',";
         }
-        $query = " insert into $tableName set ".substr($query,0,-1);
+               $query = " insert into $tableName set ".substr($query,0,-1);
 		$mysql_db->query($query);
         return $mysql_db->insertID(); ######## RETURNS LAST INSERTED ID
 } # END OF FUNCTION

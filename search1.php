@@ -118,7 +118,7 @@ xmlhttp.send();
 										if($db->numRows()> 0)
 											{
 											while($result=$db->fetchArray()){?>
-										<li><a href="?cid=<?=$result['id']?>"><img src="category/<?=$result['icon']?>" > <small><?=$result['catname']?></small> </a>
+										<li><a href="?cid=<?=$result['id']?>"><img src="category/<?=$result['icon']?>" height="25px" > <small><?=$result['catname']?></small> </a>
 										</li>
 											<?php }} ?>
 										<!--<li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i> <small>Electronics</small> </a>

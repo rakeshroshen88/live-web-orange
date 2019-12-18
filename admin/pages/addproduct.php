@@ -1,5 +1,4 @@
 <?php
-
 $_TBL_PROD1="product";
 $rdb=new DB();
 $makearr1=array();
@@ -56,7 +55,7 @@ $rnd=round();
 	
 
 	
-$link = mysqli_connect("localhost", "root", "", "social_media");
+$link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
 $prod_detail = mysqli_real_escape_string($link, $_REQUEST['prod_desc']);
 $prodname = mysqli_real_escape_string($link, $_REQUEST['prodname']);
 $sort_detail = mysqli_real_escape_string($link, $_REQUEST['sort_detail']);

@@ -67,30 +67,34 @@ $password=$_POST['password1'];
 						{
 							$updatear1=array(	 
 								"user_id"=>$insid,
+								"first_name"=>$name,
+								"last_name"=>$lastname,
 								"dob"=>'',
 								"gender"=>'',						 
 								"update_date"=>date("Y-m-d")
 
 						);
+						$insidm=insertData($updatear1, 'user_profile');
 				////////////////chat///////////////////////
 				/* $connect = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e"); */
 							$data = array(
 							':username'		=>	$emial,
 							':name'		=>	$name,
-							':password'		=>	password_hash($password, PASSWORD_DEFAULT)
+							':password'		=>	password_hash($password, PASSWORD_DEFAULT),
+							':f_userid'		=>	$insid
 							);
 
 						$query = "
 							INSERT INTO login 
-							(username, password, name) 
-							VALUES (:username, :password, :name)
+							(username, password, name, f_userid) 
+							VALUES (:username, :password, :name, :f_userid)
 							";
 							$statement = $connect->prepare($query);
 							$statement->execute($data);
 				
 						////////////////////////////////////////
 						
-					$insidm=insertData($updatear1, 'user_profile');
+					
 					
 					if($insid !== false){
 					$status = true;

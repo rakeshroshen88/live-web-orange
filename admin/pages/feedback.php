@@ -8,10 +8,10 @@ $rec=$_REQUEST['rec'];
  $qryStr="catname=$catname&mod=$mod";
 if($act=='dac')
 	{
-		if($stat=='no')
-			$stat='yes';
+		if($stat=='0')
+			$stat='1';
 		else
-			$stat='no';
+			$stat='0';
 		$sql="UPDATE feedback SET status='$stat' WHERE id='$catid'";
 		$db->query($sql);
 		redirect('main.php?mod=feedback');
@@ -95,7 +95,7 @@ function deladmin(id)
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Category Management</div>
+					<div class="panel-heading">Feedback Management</div>
 					<div class="panel-body">
                     
                         <div class="add-pro">
@@ -108,9 +108,11 @@ function deladmin(id)
 						    <tr>
 						        <th data-field="state" data-checkbox="true" >chk ID</th>
 						        <th data-field="id" data-sortable="true">Title </th>
+								
 						       
 						        <th data-field="Date" data-sortable="true">Date</th>
                                 <th data-field="Status" data-sortable="true">Status</th>
+								<th data-field="Review" data-sortable="true">Review </th>
                                 <th data-field="Action" data-sortable="true">Action</th>
 						    </tr>
 						    </thead>
@@ -147,7 +149,7 @@ $db1=new DB();
 	while($row=$db->fetchArray()){
 	//$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']);
 	
-$date=explode('-',$row['feedbabck_date']);
+$date=explode('-',$row['feedback_date']);
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 	if(empty($num))
 		{
@@ -161,9 +163,10 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 							
                    
 						<td> <?php echo date('d M,Y',$st);?></td>
-                    <td> <a href='main.php?mod=feedback&act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']=='no'?'Deactive':'Active'?></a> </td>
-                           
-                        <td > <a href="main.php?mod=add_feedback&act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+                    <td> <a href='main.php?mod=feedback&act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']=='0'?'Deactive':'Active'?></a> </td>
+                          <td><a href="javascript:void(0);" class="view" id="view<?=$row['id']?>" v="<?=$row['id']?>">view</a></td> 
+						   <div id="review<?=$row['id']?>" style="display:none"><?=$row['review']?></div> 
+                        <td > <a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
 						</td>
                      </tr>
 <?php } ?>
@@ -171,8 +174,8 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 	
 ?>  
 						<tr><td colspan="4" valign="top" align="center">Not found any Record !</td></tr>                      
- <?php   } ?>   					  
-	
+ <?php   } ?> 
+
 						</table>
 					</div>
 				</div>

@@ -2,6 +2,7 @@
 $err="";
 $orderid=$_REQUEST['id'];
 $db1=new DB();
+$db2=new DB();
 if(isset($_GET['errMsg'])){$errMsg=$_GET['errMsg'];}else{$errMsg="";}
 
 if(isset($_POST['submit']))
@@ -81,29 +82,59 @@ if($db->numRows()>0)
 	{
 	$grand_total=0;
 	$row=$db->fetchArray();
-	$prodidarr=explode(',',$row['prodid']);
-	$prodarray=explode(',',$row['product_name']);
-	$qtyarr=explode(',',$row['quantity']);
+	 $prodidarr=explode(',',$row['prodid']);
+	 $prodarray=explode(',',$row['product_name']);
+	 $qtyarr=explode(',',$row['quantity']);
 	$pricearr=explode(',',$row['price']);	
 	$subtotalarr=explode(',',$row['subtotal']);
 	 $cn=count($prodarray)-1;
 
-$sql="select * from billing_address where id=".$row['userid'];
+$sql="select * from billing_address where userid=".$row['userid'];
 $db->query($sql);
 $shiprow=$db->fetchArray();
 
 
 // $bsql="select * from ".$_TBL_USER." join ON user_profile where user_id=".$row['userid'];
-echo $sql22="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id=".$row['userid'];
+ $sql22="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id=".$row['userid'];
 $db->query($sql22);
 $billrow=$db->fetchArray();
-echo $billrow['first_name'];
+ $billrow['first_name'];
 ?>	
-	<table cellpadding="0" cellspacing="5" width="60%" style="float: right;">
-	<tr><td width="77%" align="left"><strong>User Address</strong></td>
-	<td width="50%" align="left" style="padding-right:5px;"><strong>Shipping Address</strong></td>
+
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+
+		<div class="row">
+
+			<ol class="breadcrumb">
+
+				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+
+				<li class="active">Order Detail</li>
+
+			</ol>
+
+		</div><!--/.row   All count-->
+
+        
+
+ 
+		<div class="row">
+
+			<div class="col-lg-12">
+
+				<div class="panel panel-default">
+
+					<div class="panel-heading">Order Detail</div>
+
+					<div class="panel-body">
+
+<table cellpadding="0" cellspacing="5" >
+	<tr>
+	<td><strong>User Address</strong></td>
+	<td><strong>Shipping Address</strong></td>
 	</tr>
-	<tr><td align="left" valign="top" style="">
+	<tr><td>
     <?php if(!empty($billrow['first_name'])){ ?>
 	Name:<?=$billrow['first_name']?>	<br />
      <?php }?>
@@ -155,10 +186,9 @@ echo $billrow['first_name'];
 	</table>
 
 </td></tr>
-  <tr>
-    <td valign="top">    
-    <td height="320" valign="top" align="center">
-	<table width="95%" border="0" cellspacing="1" cellpadding="3">
+  </table>
+  
+	<table width="100%" border="0" cellspacing="1" cellpadding="3">
       <tr>
         <td width="7%" bgcolor="#f2f2f2">Image</td>
         <td width="19%" bgcolor="#f2f2f2">Quantity</td>
@@ -178,7 +208,7 @@ echo $billrow['first_name'];
 		<?php
 		$pic=$db1->getSingleResult("select prod_large_image from ".$_TBL_PRODUCT." where id=".$prodidarr[$i]);
 		?>
-		<img src="<?php echo $_SITE_PATH.'product/'.$pic;?>" alt="" />		</td>
+		<img src="<?php echo $_SITE_PATH.'product/'.$pic;?>" alt="" height="100" width="100" />		</td>
         <td valign="top">
 		<?php 		
 		echo $qtyarr[$i];		
@@ -197,7 +227,7 @@ echo $billrow['first_name'];
 ?>	
 <?php 
 $grand_total=$row['totalprice'];
-if(empty($row['used_coupone']))
+/* if(empty($row['used_coupone']))
 	{
 	$dis='0.00';
 	$grand=($subtotal-$dis);
@@ -212,7 +242,7 @@ if(empty($row['used_coupone']))
 			}
 				//$dis=($subtotal*$coup)/100;
 				$grand=($subtotal-$dis);
-				}
+				} */
 ?>  
       <tr>
        
@@ -248,17 +278,14 @@ $grand_total=($grand_total+(int)$shipcharges);
          
     	 </table>
 	
-	 </td>
-  </tr>
- </td>
-</table>
-</div>
+	
 <script>
 function myFunction() {
   window.print();
 }
 </script>
-<table cellpadding="0" cellspacing="0" style="float: right;">
+
+<table cellpadding="0" cellspacing="0" >
   <tr><td colspan="7" align="center"><input type="button" name="invoice" value="print" onclick="myFunction()"  /></td></tr>
   
 <?php 
@@ -268,7 +295,7 @@ $db1->query($user);
 $row1=$db1->fetchArray(); */
 ?>
 								  <tr>
-								  	<td valign="top" align="left" colspan="7" style="padding:30px;">
+								  	<td >
 
 									<form action="" method="post" name="frmstatus" onsubmit="return validatejob();">
 									<input type="hidden" name="invmsg" value="" />
@@ -292,12 +319,7 @@ $row1=$db1->fetchArray(); */
 											<td valign="top">
 											<textarea name="comment" cols="50" rows="10"></textarea></td>
 											</tr>
-											<tr>
-											<td valign="top">Date:</td>
-											<td valign="top">
-											<?php $jd=explode(" ",$row['order_date']);?>
 											
-										
 
 
 										 </td>
@@ -315,3 +337,19 @@ $row1=$db1->fetchArray(); */
 </table>
 
  
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div><!--/.row-->	
+
+		 <!--/.row-->	
+
+		
+
+		
+
+	</div>

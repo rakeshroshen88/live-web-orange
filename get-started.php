@@ -394,10 +394,6 @@ if($_SESSION['sess_webid']==''){
 
 
 
-
-
-<?php include('footer.php') ?>
- <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&sensor=false&libraries=places&ver=0.4b" async defer></script>
 	<script type='text/javascript' src='js/jquery.geocomplete.js?ver=0.4b'></script>
 <script>
@@ -428,7 +424,14 @@ types: ["geocode", "establishment"],
 });
 
 });
-	/*getting started wizard*/
+	
+
+
+</script>
+
+<?php include('footer.php') ?>
+
+	<script>/*getting started wizard*/
 
 	$('.next').click(function(){
 
@@ -461,3 +464,5 @@ types: ["geocode", "establishment"],
 
 
 </script>
+ 
+ <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->

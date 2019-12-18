@@ -1,5 +1,6 @@
 <?php 
   include('config.inc.php');
+  include('chksession.php');
 $makearr1=array();
 $makearr1=getValuesArr( 'com_category', "id","catname","", "" );
 //if(!empty($_SESSION['sess_webid'])){redirect("dashboard.php");}
@@ -50,10 +51,10 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 						</div>
 						<div class="col-lg-6">
 							<div class="login-sec">
-								<ul class="sign-control">
+								<!--<ul class="sign-control">
 													
 									<li data-tab="tab-2"><a href="#" title="">Sign up</a></li>				
-								</ul>			
+								</ul>-->			
 								<div class="sign_in_sec current" id="tab-1">
 									
 									
@@ -65,7 +66,7 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 									
 								</div><!--sign_in_sec end-->
 								
-								<div class="sign_in_sec" id="tab-2">
+								<div class="sign_in_sec" id="tab-2" style="display:block">
 									<div class="signup-tab">
 									<h4 style="color:#FF0000;" id="company_error"></h4>
 										<i class="fa fa-long-arrow-left"></i>
@@ -77,7 +78,7 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 									</div>
 									<div id="success"></div>
 									 
-									<div class="dff-tab" id="tab-4">
+									<div class="dff-tab" id="tab-4" style="display:block">
 										<form name="companyform" id="companyform" action="" method="post">
 											<div class="row">
 												<div class="col-lg-12 no-pdd">
@@ -130,7 +131,7 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
-													<button type="submit" id="companysubmit" value="submit">Get Started</button>
+													<button type="button" id="companysubmit" value="submit">Get Started</button>
 												</div>
 											</div>
 										</form>
@@ -176,6 +177,8 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 
 <script src="js/ui-elements.js"></script>
 <script src="js/blockUI/jquery.blockUI.js"></script>
+<script src="js/sweetalert2@8.js"></script>
 <script src="js/media.js"></script>
+
 </body> 
 </html>

@@ -17,23 +17,33 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			}elseif($module=="adduser"){
 				
 			include_once("pages/adduser.php");
+			}elseif($module=="addemoji"){
+				
+			include_once("pages/addemoji.php");
 			}elseif($module=="setting"){
 				
 			include_once("pages/setting.php");
 			}elseif($module=="subadmin"){
 				
-			include_once("pages/user.php");		
+			include_once("pages/user.php");	
+			}elseif($module=="add_support"){
+				
+			include_once("pages/add_support.php");
 			}elseif($module=="subcat"){	
 			include_once("pages/subcategory.php");	
 			}elseif($module=="add_subcat"){	
 			include_once("pages/add_edit_subcat.php");
-}elseif($module=="fsubcat"){	
+			}elseif($module=="fsubcat"){	
 			include_once("pages/fsubcategory.php");	
+			}elseif($module=="support"){	
+			include_once("pages/support.php");	
 			}elseif($module=="add_fsubcat"){	
 			include_once("pages/add_edit_fsubcat.php");
 			
 			}elseif($module=="subsubcat"){		
 			include_once("pages/subsubcategory.php");
+			}elseif($module=="neworder"){		
+			include_once("pages/neworder.php");
 			}elseif($module=="feedback"){		
 			include_once("pages/feedback.php");
 			}elseif($module=="add_subsubcat"){	
