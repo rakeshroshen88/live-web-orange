@@ -163,12 +163,7 @@ width:25px; float:left; margin-right:6px
 											</li>
 										</ul>
 										
-										<?php if(!empty($profilerow['website'])){?>
-                                    <ul class="social_links">
-                                        <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
-                                        
-                                    </ul>
-									<?php } ?>
+										
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
 										<div class="sd-title">
@@ -210,7 +205,7 @@ width:25px; float:left; margin-right:6px
 												 
 											</div>
 											
-										<?php }}else{ echo "Data Not Availablle";} ?>
+										<?php }}else{ echo "&nbsp; Data Not Availablle";} ?>
 											
 											
 											
@@ -218,18 +213,18 @@ width:25px; float:left; margin-right:6px
 												<a href="my-profile.php" title="">View More</a>
 											</div>
 											
-											<?php if(!empty($profilerow['website'])){?>
+											
                                     <ul class="social_links">
-                                        <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
-                                        
+                                       <!-- <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
+                                        -->
                                     
-									<?php } ?>
+									
 									
 									<?php  $dbs=new DB();
 									  $sqls="select * from social_link where user_id =".$_SESSION['sess_webid'];
 									  $db->query($sqls);
 									  while($rows=$db->fetchArray()){?>
-                                        <li><a href="#" title=""><i class="la la-globe"></i><?=$rows['slink']?></a></li>
+                                        <li><a href="<?=$rows['slink']?>" title="" target="_blank"><i class="la la-globe"></i><?=$rows['slink']?></a></li>
 									<?php }?>
 
 									</ul>
@@ -627,7 +622,7 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 													<input type="file" id="cimageupload" name="cimageupload" >
 													
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													<input type="text" cid="<?=$row['post_id']?>" placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
 													<style>
 .wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
 .wishlistcartemoji1 li{display:inline;width:50px;}
@@ -707,7 +702,7 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 													<label class="cemeraicon" for="rimageupload"><i class="fa fa-camera" aria-hidden="true"></i></label>
 													<input type="file" id="rimageupload" name="rimageupload" >
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
+													<input type="text"  rid="<?=$rowc['c_id']?>"  placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
 													</p>
 													<button type="button" name="replyid" id="replyid<?=$rowc['c_id']?>" class="replyid" rid="<?=$rowc['c_id']?>">Send</button>
 														</form>
@@ -1327,7 +1322,7 @@ $allfriends2=0;
 												</div>
 												<!--<a class="follownew" id="follownew<?=$frow['f_id']?>"  fid="<?=$frow['follow']?>" href="javascript:void(0);">--><span class="follownew" id="follownew<?=$frow['f_id']?>"  fid="<?=$frow['follow']?>"><i class="la la-plus"></i></span><!--</a>-->
 											</div>
-										<?php } }else{ echo "Data Not Availablle";} //} ?>
+										<?php } }else{ echo "&nbsp; Data Not Availablle";} //} ?>
 											<!--<div class="view-more">
 												<a href="#" title="">View More</a>
 											</div>-->

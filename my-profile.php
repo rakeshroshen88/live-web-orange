@@ -73,7 +73,7 @@ include('chksession.php');
 									  $sqls="select * from social_link where user_id =".$_SESSION['sess_webid'];
 									  $db->query($sqls);
 									  while($rows=$db->fetchArray()){?>
-                                        <li><a href="#" title=""><i class="la la-globe"></i><?=$rows['slink']?></a></li>
+                                        <li><a href="<?=$rows['slink']?>" title="" target="_blank"><i class="la la-globe"></i><?=$rows['slink']?></a></li>
 									<?php }?>
 
 									</ul>
@@ -529,7 +529,7 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
             <form id="formexp" method="post">
                 <input type="text" name="subject" id="subject" placeholder="Subject">
                 <textarea name="exp" id="exp"></textarea>
-                <button type="submit" id="expsave" class="save">Save</button>
+                <button type="button" id="expsave" class="save">Save</button>
                 <!--<button type="submit" class="save-add">Save & Add More</button>-->
                 <button type="submit" class="cancel">Cancel</button>
             </form>
@@ -650,7 +650,7 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 													<input type="file" id="cimageupload" name="cimageupload" >
 													
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													<input type="text" cid="<?=$row['post_id']?>"  placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true" ></p>
 													<style>
 .wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
 .wishlistcartemoji1 li{display:inline;width:50px;}
@@ -675,7 +675,7 @@ if($ext=='mp3'){
 
  } } echo $b;echo "</ul>"; ?>
  <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
-													<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
+		<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
 														</form>
 													</div>
 												</div>
@@ -730,7 +730,7 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 													<label class="cemeraicon" for="rimageupload"><i class="fa fa-camera" aria-hidden="true"></i></label>
 													<input type="file" id="rimageupload" name="rimageupload" >
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
+													<input type="text"  rid="<?=$rowc['c_id']?>" placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
 													</p>
 													<button type="button" name="replyid" id="replyid<?=$rowc['c_id']?>" class="replyid" rid="<?=$rowc['c_id']?>">Send</button>
 														</form>
@@ -1501,7 +1501,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
             <span>5000 character left</span>
             <form id="formoverview" method="post">
                 <textarea name="overview" id="overview"><?=$profilerow['about_user']?></textarea>
-                <button type="submit" class="save" id="overviewsave">Save</button>
+                <button type="button" class="save" id="overviewsave">Save</button>
                 <button type="submit" class="cancel">Cancel</button>
             </form>
             <a href="#" title="" class="close-box"><i class="la la-close"></i></a>
@@ -1541,7 +1541,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                     </select>
                     <i class="fa fa-map-marker"></i>-->
                 </div>
-                <button type="submit" class="save" id="savelocation">Save</button>
+                <button type="button" class="save" id="savelocation">Save</button>
                 <button type="submit" class="cancel">Cancel</button>
             </form>
             <a href="#" title="" class="close-box"><i class="la la-close"></i></a>
@@ -1555,7 +1555,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
             <h3>Skills</h3>
              <form name="" id="" method="post">
                 <input type="text" name="skills" id="skills" placeholder="Skills">
-                <button type="submit" name="" id="skillssave" class="save">Save</button>
+                <button type="button" name="" id="skillssave" class="save">Save</button>
                 <!--<button type="submit" class="save-add">Save & Add More</button>-->
                 <button type="submit" class="cancel">Cancel</button>
             </form>
@@ -1659,7 +1659,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
             <form id="formexp" method="post">
                 <input type="text" name="subject" id="subject" placeholder="Subject">
                 <textarea name="exp" id="exp"></textarea>
-                <button type="submit" id="expsave" class="save">Save</button>
+                <button type="button" id="expsave" class="save">Save</button>
                 <!--<button type="submit" class="save-add">Save & Add More</button>-->
                 <button type="submit" class="cancel">Cancel</button>
             </form>
@@ -1721,7 +1721,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                     </div>
                 </div>
 
-                <button type="submit" class="save" id="coninfosave">Save</button>
+                <button type="button" class="save" id="coninfosave">Save</button>
                 <button type="submit" class="cancel">Cancel</button>
             </form>
             <a href="#" title="" class="close-box"><i class="la la-close"></i></a>
@@ -1735,7 +1735,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
             <form id="formexp" method="post">
                 <input type="text" name="subject2" id="subject2" placeholder="Subject">
                 <textarea name="exp2" id="exp2"></textarea>
-                <button type="submit" id="expsave" class="save">Save</button>
+                <button type="button" id="expsave" class="save">Save</button>
                 <!--<button type="submit" class="save-add">Save & Add More</button>-->
                 <button type="submit" class="cancel">Cancel</button>
             </form>
@@ -1761,7 +1761,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                     <img src="images/resources/np.png" alt="">
                 </div>-->
               
-                <button type="submit" class="save" id="gallerysave">Save</button>
+                <button type="button" class="save" id="gallerysave">Save</button>
                 <button type="submit" class="cancel">Cancel</button>
             </form>
             <a href="#" title="" class="close-box"><i class="la la-close"></i></a>

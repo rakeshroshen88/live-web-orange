@@ -8,7 +8,7 @@ if(isset($_POST['formData'])){
 
 //print_r($FormData);
 $link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
-
+print_r($FormData);
 $feeling=$FormData['feeling'];
 $post_details=$FormData['postid'];
 $imgid=$FormData['imgid'];

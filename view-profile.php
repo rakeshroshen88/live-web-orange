@@ -1,12 +1,22 @@
 <?php include('header.php'); 
 include('chksession.php');
 						$uid=base64_decode($_REQUEST['uid']);
-						echo "SELECT user_id FROM user_profile
-WHERE user_id IN (
-    SELECT user_id FROM followers WHERE user_id ='".$_SESSION['sess_webid']."'
-) AND user_id IN (
-    SELECT user_id FROM followers WHERE user_id = '".$uid."'
-)";
+						//echo "SELECT user_id FROM user_profile WHERE user_id IN (    SELECT user_id FROM followers WHERE user_id ='".$_SESSION['sess_webid']."') AND user_id IN (    SELECT user_id FROM followers WHERE user_id = '".$uid."')";
+						//SELECT user_id FROM followers WHERE (user_id<>'331' OR follow='331') AND (user_id<>'289' OR follow <>'289')
+
+//echo $find_friends = "SELECT user_id FROM followers WHERE (user_id='".$uid."' OR follow='".$uid."') AND (user_id<>'".$_SESSION['sess_webid']."' OR follow <>'".$_SESSION['sess_webid']."')";
+/* select first_name from all_user where user_id IN(SELECT IF(user_id = '289' OR follow = '331', follow, user_id) FROM followers WHERE ((user_id = '289' OR follow = '331') OR (follow ='289' OR follow = '331'))) */
+ $msql="select first_name from all_user where user_id IN(SELECT IF(user_id = '".$_SESSION['sess_webid']."' OR follow = '".$uid."', follow, user_id)
+FROM followers
+WHERE ((user_id = '".$_SESSION['sess_webid']."' OR follow = '".$uid."') OR (follow ='".$_SESSION['sess_webid']."' OR follow = '".$uid."')))";
+$db->query($msql);
+$mflist=array();
+while($mrow=$db->fetchArray()){
+	 $mflist[]=$mrow['first_name'];
+	  }
+	  $mf=implode(', ',$mflist);
+
+
 						$dbn=new DB();
 						$sqln="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id = '".$uid."'";
 						$dbn->query($sqln);
@@ -77,7 +87,15 @@ WHERE user_id IN (
 												 if(!empty($num)){ echo $num;}else{ echo "0";}
 												?></b>
                                             </li>
+											
                                         </ul>
+                                    </div>
+									 <div class="user_pro_status">
+                                        <ul class="flw-status">
+										<li>
+											<span>Mutual Friends</span>
+											<b><?=$mf?></b></li>
+										 </ul>
                                     </div>
                                     <!--user_pro_status end-->
 									<?php if(!empty($profilerow['website'])){?>
@@ -119,11 +137,11 @@ WHERE user_id IN (
                                             </div>
                                             <!--<span><i class="la la-plus follownew" id="follownew<?=$frow['f_id']?>" fid="<?=$frow['follow']?>"></i></span>-->
                                         </div>
-										<?php }} ?>
+										<?php }}else{ echo "&nbsp; Data Not Availablle";} ?>
                                       
-									  <div class="view-more">
+									  <!--<div class="view-more">
                                             <a href="#" title="">View More</a>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <!--suggestions-list end-->
                                 </div>

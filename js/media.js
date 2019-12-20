@@ -315,8 +315,8 @@ return string.split(' ').join('');
 jQuery(document).on("click", "#submit ", function(e){
 /////////////////////////////////Register document////////////////////////////////////
 
-		var BASEURL='http://orangestate.ng/';
-		var social_AjaxURL='http://orangestate.ng/ajax_signup.php';
+		
+		var social_AjaxURL1=social_AjaxURL+'ajax_signup.php';
 
 			e.preventDefault();
 			//jQuery(".saveit").text("uploading..").attr("disabled",true);
@@ -349,7 +349,7 @@ jQuery(document).on("click", "#submit ", function(e){
 					var dataString = 'name1='+ name + '&email1='+ email + '&password1='+ password + '&lastname='+ lastname + '&phoneno='+ phone + '&country='+ country + '&countrycode='+ countrycode + '&state='+ state;
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -394,7 +394,7 @@ jQuery(document).on("click", "#submit ", function(e){
     		if($(this).val()==''){
         		$(this).css("border-color", "#FF0000");
         			$('#companysubmit').attr('disabled',true);
-        			$("#error_com").text("* You have to enter your repeat password!");
+        			$("#error_com").text("* You have to enter your company name!");
         	}
         	else
         	{
@@ -410,7 +410,7 @@ jQuery(document).on("click", "#submit ", function(e){
     		if($(this).val()==''){
         		$(this).css("border-color", "#FF0000");
         			$('#companysubmit').attr('disabled',true);
-        			$("#error_com").text("* You have to enter your repeat password!");
+        			$("#error_com").text("* You have to enter your company name!");
         	}
         	else
         	{
@@ -425,7 +425,7 @@ jQuery(document).on("click", "#submit ", function(e){
    			{
         		$("#company-name").css("border-color", "#FF0000");
         		$('#companysubmit').attr('disabled',true);
-				$("#error_com").text("* You have to enter your page name!");
+				$("#error_com").text("* You have to enter your company name!");
 				return false;
         	}else{
 				$(this).css({"border-color":"#2eb82e"});
@@ -449,8 +449,8 @@ jQuery(document).on("click", "#submit ", function(e){
 			}
         });
 
-		var BASEURL='http://orangestate.ng/';
-		var social_AjaxURL='http://orangestate.ng/ajax_page_creation.php';
+	
+		var social_AjaxURL1=social_AjaxURL+'ajax_page_creation.php';
 
 			e.preventDefault();
 
@@ -473,7 +473,7 @@ jQuery(document).on("click", "#submit ", function(e){
 					var dataString ='companyname=' + companyname + '&category='+ category + '&country='+ country;
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -517,15 +517,15 @@ jQuery(document).on("click", "#submit ", function(e){
 jQuery("#file").on('change', function() {
 
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://orangestate.ng/upload/';
-	var social_AjaxURL='http://orangestate.ng/imageupload.php';
+	var BASEURL1=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'imageupload.php';
         var fd = new FormData();
         var files = $('#file')[0].files[0];
 		$('#submit').attr('disabled',true);
         fd.append('file',files);
 
         $.ajax({
-            url: social_AjaxURL,
+            url: social_AjaxURL1,
             type: 'post',
             data: fd,
             contentType: false,
@@ -535,7 +535,7 @@ jQuery("#file").on('change', function() {
                 if(response != 0){
                     //alert(response);
                     jQuery("#rmvid").hide();
-                    jQuery(".left-uploaded-img").html('<img src="'+BASEURL + response +'" />');
+                    jQuery(".left-uploaded-img").html('<img src="'+BASEURL1 + response +'" />');
 
                    // jQuery("#imgid").val(data.result.attach_id);
                  jQuery('#imgid').val(response);
@@ -555,9 +555,9 @@ jQuery(document).on("click", "#profilesubmit ", function(e){
 
 		var img=jQuery("#profileimg").val();
 
-		var BASEURL ='http://orangestate.ng/';
+		
 
-		var social_AjaxURL='http://orangestate.ng/ajax_user_profile.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_profile.php';
 		var selected = new Array();
 
 
@@ -571,7 +571,7 @@ $("input:checkbox[name=area]:checked").each(function(){
 
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -609,7 +609,7 @@ $("input:checkbox[name=area]:checked").each(function(){
 
 	//////////////////////Multiple file Upload for post///////////////////////
 	jQuery("#upload_file").on('change', function() {
-   var social_AjaxURL='http://orangestate.ng/upload.php';
+   var social_AjaxURL1=social_AjaxURL+'upload.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -620,7 +620,7 @@ $("input:checkbox[name=area]:checked").each(function(){
 
    // AJAX request
    $.ajax({
-     url: social_AjaxURL,
+     url: social_AjaxURL1,
      type: 'post',
      data: form_data,
      dataType: 'json',
@@ -644,13 +644,13 @@ $("input:checkbox[name=area]:checked").each(function(){
 jQuery(document).on("click", "#uploadpost ", function(e){
 
 		var form=jQuery("#uploadForm");
-		var social_AjaxURL='http://orangestate.ng/ajax_post.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_post.php';
 
 			e.preventDefault();
 
 			var el = jQuery("#uploadForm");
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -700,13 +700,13 @@ jQuery(document).on("click", ".like2", function(e){
 
 		var l_id = jQuery(this).attr('like1');
 
-		var social_AjaxURL='http://orangestate.ng/ajax_like.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_like.php';
 		var dataString ='postid='+l_id ;
 
 			e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -751,12 +751,12 @@ jQuery(document).on("click", "#follow", function(e){
 
 
 		var f_id = jQuery(this).attr('fid');
-		var social_AjaxURL='http://orangestate.ng/ajax_follow.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_follow.php';
 		var dataString ='fid =' + f_id ;
 			e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -796,11 +796,11 @@ jQuery(document).on("click", "#follow", function(e){
   $(".follownew").on('click', function(event){
 
 		var f_id = jQuery(this).attr('fid');
-		var social_AjaxURL='http://orangestate.ng/ajax_follow.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_follow.php';
 		var dataString ='followid=' + f_id ;
 
     	$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -838,6 +838,7 @@ jQuery(document).on("click", "#follow", function(e){
 ///////////post comment/////////////////
 jQuery(document).on("click", ".commentid ", function(e){
 		var c_id = jQuery(this).attr('cid');
+		alert(c_id);
 		var postcomment=jQuery("#postcomment"+c_id).val();
 		var pid=jQuery("#pid"+c_id).val();
 		var uid=jQuery("#uid"+c_id).val();
@@ -846,10 +847,10 @@ jQuery(document).on("click", ".commentid ", function(e){
 		//var form=jQuery("#commentForm");
 		//var rcom=jQuery("#rpostcomment").val();
 
-		var social_AjaxURL='http://orangestate.ng/ajax_comment.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_comment.php';
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -880,7 +881,7 @@ jQuery(document).on("click", ".commentid ", function(e){
 	///////////post reply/////////////////
 jQuery(document).on("click", ".replyid ", function(e){
 
-		var social_AjaxURL='http://orangestate.ng/ajax_reply.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_reply.php';
 		var c_id = jQuery(this).attr('rid');
 		var postcomment=jQuery("#rpostcomment"+c_id).val();
 		var pid=jQuery("#pid"+c_id).val();
@@ -892,7 +893,7 @@ jQuery(document).on("click", ".replyid ", function(e){
 
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -937,14 +938,14 @@ jQuery(document).on("click", "#replyiddiv", function(e){
 //////////////////comment Image//////////////////////
 jQuery("#cimageupload").on('change', function() {
 
-var social_AjaxURL='http://orangestate.ng/commentimageupload.php';
+var social_AjaxURL1=social_AjaxURL+'commentimageupload.php';
         var fd = new FormData();
         var files = $('#cimageupload')[0].files[0];
 
         fd.append('file',files);
 
         $.ajax({
-            url: social_AjaxURL,
+            url: social_AjaxURL1,
             type: 'post',
             data: fd,
             contentType: false,
@@ -970,14 +971,14 @@ var social_AjaxURL='http://orangestate.ng/commentimageupload.php';
 
 	jQuery("#rimageupload").on('change', function() {
 
-var social_AjaxURL='http://orangestate.ng/replyimageupload.php';
+var social_AjaxURL1=social_AjaxURL+'replyimageupload.php';
         var fd = new FormData();
         var files = $('#rimageupload')[0].files[0];
 
         fd.append('file',files);
 
         $.ajax({
-            url: social_AjaxURL,
+            url: social_AjaxURL1,
             type: 'post',
             data: fd,
             contentType: false,
@@ -1008,13 +1009,13 @@ jQuery(document).on("click", ".posthide", function(e){
 
 
 		var p_id = jQuery(this).attr('hidepost');
-		var social_AjaxURL='http://orangestate.ng/ajax_post_hide.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_post_hide.php';
 		var dataString ='postid='+p_id ;
 
 			e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1058,7 +1059,7 @@ jQuery(document).on("click", ".deletepost", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/ajax_post_delete.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_post_delete.php';
 		var dataString ='postid='+d_id ;
 
 			e.preventDefault();
@@ -1073,7 +1074,7 @@ jQuery(document).on("click", ".deletepost", function(e){
 				}).then((result) => {
 				  if (result.value) {
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1126,13 +1127,13 @@ jQuery(document).on("click", "#editpost", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/ajax_editpost_form.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_editpost_form.php';
 		var dataString ='postid='+e_id ;
 
 			e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1179,10 +1180,10 @@ jQuery(document).on("click", "#addproduct ", function(e){
 
 		var form=jQuery("#AddForm");
 
-		var social_AjaxURL='http://orangestate.ng/ajax_add_product.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_add_product.php';
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1230,13 +1231,13 @@ jQuery(document).on("click", "#addproduct ", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/loadpopup.php';
+		var social_AjaxURL1=social_AjaxURL+'loadpopup.php';
 		var dataString ='id=' + id;
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1282,13 +1283,13 @@ jQuery(document).on("click", ".addtocart", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/task.php';
+		var social_AjaxURL1=social_AjaxURL+'task.php';
 		var dataString ='id=' + id + '&task=' + task + '&tono=1';
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1347,7 +1348,7 @@ jQuery(document).on("click", ".btndel", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/cartempty.php';
+		var social_AjaxURL1=social_AjaxURL+'cartempty.php';
 		var dataString ='id=' + id + '&task=' + task ;
 
 			//e.preventDefault();
@@ -1362,7 +1363,7 @@ jQuery(document).on("click", ".btndel", function(e){
 				}).then((result) => {
 				  if (result.value) {
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1428,13 +1429,13 @@ jQuery(document).on("click", ".btndel", function(e){
 			var maxval='';
 		}
 		//var id = jQuery(this).attr('pricelowtohigh');
-		var social_AjaxURL='http://orangestate.ng/searchdone.php';
+		var social_AjaxURL1=social_AjaxURL+'searchdone.php';
 		var dataString ='pricelowtohigh=' + pricelowtohigh+'&min=' + min+'&max=' + max;
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1492,12 +1493,12 @@ jQuery(document).on("click", ".btndel", function(e){
 			var maxval=max;
 		}
 		//var id = jQuery(this).attr('pricelowtohigh');
-		var social_AjaxURL='http://orangestate.ng/searchdone.php';
+		var social_AjaxURL1=social_AjaxURL+'searchdone.php';
 		var dataString ='pricelowtohigh=' + pricelowtohigh+'&min=' + minval+'&max=' + maxval;
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1553,13 +1554,13 @@ jQuery(document).on("click", ".btndel", function(e){
 			var maxval=max;
 		}
 		//var id = jQuery(this).attr('pricelowtohigh');
-		var social_AjaxURL='http://orangestate.ng/searchdone.php';
+		var social_AjaxURL1=social_AjaxURL+'searchdone.php';
 		var dataString ='pricelowtohigh=' + pricelowtohigh+'&min=' + minval+'&max=' + maxval;
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1613,13 +1614,13 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/tasknew.php';
+		var social_AjaxURL1=social_AjaxURL+'tasknew.php';
 		var dataString ='id=' + id + '&task=' + task + '&tono='+tono;
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1701,13 +1702,13 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/tasknew.php';
+		var social_AjaxURL1=social_AjaxURL+'tasknew.php';
 		var dataString ='id=' + id + '&task=' + task + '&tono='+tono;
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1781,13 +1782,13 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 	  $('#min').val('');
 	   $('#max').val('');
 
-	   var social_AjaxURL='http://orangestate.ng/searchdone.php';
+	   var social_AjaxURL1=social_AjaxURL+'searchdone.php';
 		var dataString ='all=all';
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1845,13 +1846,13 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 jQuery(document).on("click", ".vcount", function(e){
 
 		var video = jQuery(this).attr('videoid');
-		var social_AjaxURL='http://orangestate.ng/ajax_view.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_view.php';
 		var dataString ='postid='+video ;
 
 			e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1896,13 +1897,13 @@ jQuery(document).on("click", ".addtowishlist", function(e){
 
 
 
-		var social_AjaxURL='http://orangestate.ng/wish.php';
+		var social_AjaxURL1=social_AjaxURL+'wish.php';
 		var dataString ='id=' + id + '&task=' + task;
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -2137,15 +2138,15 @@ jQuery("#msgbox").hide();
 jQuery(".selectfeel").on('change', function() {
 
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://orangestate.ng/upload/';
-	var social_AjaxURL='http://orangestate.ng/ajfeeling.php';
+	var BASEURL1=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'ajfeeling.php';
        var f=jQuery('#selectfeel').val();
 			var dataString ='f=' + f;
 
 			//e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -2165,10 +2166,10 @@ jQuery(".selectfeel").on('change', function() {
 
    jQuery(".countrynew").on('change', function() {
 	 var c=jQuery('#country').val();
-	 var social_AjaxURL='http://orangestate.ng/counterycode.php';
+	 var social_AjaxURL1=social_AjaxURL+'counterycode.php';
 	 var dataString ='c=' + c;
 	 $.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -2204,13 +2205,13 @@ jQuery(document).on("click", "#close1", function(e){
 jQuery(document).on("click", ".productfeedback", function(e){  
 		var form=jQuery("#feedback");
 			
-		var social_AjaxURL='http://orangestate.ng/ajax_feedback.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_feedback.php';
 		
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -2255,13 +2256,13 @@ jQuery(document).on("click", ".comfollow", function(e){
 
 		var com_id = jQuery(this).attr('com');
 
-		var social_AjaxURL='http://orangestate.ng/ajax_comlike.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_comlike.php';
 		var dataString ='com_id='+com_id ;
 
 			e.preventDefault();
 
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},

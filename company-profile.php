@@ -9,6 +9,7 @@ if(!empty($_SESSION['com_webid'])){
 						 $sqln="select * from $_TBL_COMPANY where com_id =".$cid;
 						$dbn->query($sqln);
 						$profilerow=$dbn->fetchArray();
+						$uid=$dbn->$profilerow->user_id;
 						?>
 
     <section class="cover-sec">
@@ -41,7 +42,7 @@ if(!empty($_SESSION['com_webid'])){
                                                 <img src="upload/<?=$profilerow['imgid']?>" id="rmvid" alt="" style="width: 200px; height:200px;">
                                                 <?php }?>
                                                     <!-- <input type="file" id="file1">-->
-                                                    <?php if($_SESSION['com_webid']==$cid){?>
+                                                    <?php if($_SESSION['sess_webid']==$uid){?>
                                                         <div class="add-dp" id="OpenImgUpload">
                                                             <input type="file" id="file3">
                                                             <label for="file3"><i class="fas fa-camera"></i></label>
@@ -600,6 +601,7 @@ if(!empty($_SESSION['com_webid'])){
                                             </div>
 
                                         </div>
+										<input type="hidden" name="pageid" id="pageid" value="<?=$cid?>"  />
                                     </form>
 
                                     <div class="posts-section" id="postshow">
@@ -612,7 +614,7 @@ if(!empty($_SESSION['com_webid'])){
                                             <?php
 $db4=new DB();
 $l=array();
-$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
+$sql4="SELECT user_id from com_like where com_id=".$cid;
 $db4->query($sql4);
 if($db4->numRows()>0)
 {
@@ -635,7 +637,10 @@ $dbr=new DB();
 $dbc=new DB();
 $dbu=new DB();
 $dbp=new DB();
-  $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) and post_hide='0' order by post_id desc";
+  // $sqlp="SELECT * from user_post where pageid=".$cid." and FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) and user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) and post_hide='0'  order by post_id desc";
+      
+	   $sqlp="SELECT * from user_post where pageid=".$cid." and user_id='".$_SESSION['sess_webid']."' and post_hide='0'  order by post_id desc";
+   
 $dbp->query($sqlp);
 if($dbp->numRows()>0)
 {
@@ -701,7 +706,7 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
                                                                     <form id="formexp" method="post">
                                                                         <input type="text" name="subject" id="subject" placeholder="Subject">
                                                                         <textarea name="exp" id="exp"></textarea>
-                                                                        <button type="submit" id="expsave" class="save">Save</button>
+                                                                        <button type="button" id="expsave" class="save">Save</button>
                                                                         <!--<button type="submit" class="save-add">Save & Add More</button>-->
                                                                         <button type="submit" class="cancel">Cancel</button>
                                                                     </form>
@@ -1251,7 +1256,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                         <div class="product-feed-tab" id="info-dd">
                             <div class="user-profile-ov">
                                 <h3><a href="#" title="" class="overview-open">Overview</a>
-	<?php if($_SESSION['com_webid']==$cid){?>
+	<?php if($_SESSION['sess_webid']==$uid){?>
 									<a href="#" title="" class="overview-open"><i class="fa fa-pencil"></i></a>
 	<?php }?>
 									</h3>
@@ -1265,24 +1270,24 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
                                 <ul class="list-tab-contact">
                                     <li><span class="lable"> <h3>Establish Since </h3></span> <span class="details"><?=$profilerow['establish']?></span> <span class="eidt-list">
-											<?php if($_SESSION['com_webid']==$cid){?>
+											<?php if($_SESSION['sess_webid']==$uid){?>
 										<a href="#" title="" class="contact-box-open"><i class="fa fa-pencil"></i></a>
 											<?php } ?>
 										</span></li>
 
                                     <li><span class="lable"> <h3>Email </h3></span> <span class="details"><?=$profilerow['email_id']?></span> <span class="eidt-list">
 
-									<?php if($_SESSION['com_webid']==$cid){?>
+									<?php if($_SESSION['sess_webid']==$uid){?>
 										<a href="#" title="" class="contact-box-open"><i class="fa fa-pencil"></i></a>
 											<?php } ?>
 
 										</span></li>
 
-                                    <li><span class="lable"> <h3>Location </h3></span> <span class="details"><?=$profilerow['location']?></span> <span class="eidt-list"><?php if($_SESSION['com_webid']==$cid){?>
+                                    <li><span class="lable"> <h3>Location </h3></span> <span class="details"><?=$profilerow['location']?></span> <span class="eidt-list"><?php if($_SESSION['sess_webid']==$uid){?>
 										<a href="#" title="" class="contact-box-open"><i class="fa fa-pencil"></i></a>
 											<?php } ?></span></li>
 
-                                    <li><span class="lable"> <h3>Total Employees </h3></span> <span class="details"><?=$profilerow['totalemp']?></span> <span class="eidt-list"><?php if($_SESSION['com_webid']==$cid){?>
+                                    <li><span class="lable"> <h3>Total Employees </h3></span> <span class="details"><?=$profilerow['totalemp']?></span> <span class="eidt-list"><?php if($_SESSION['sess_webid']==$uid){?>
 										<a href="#" title="" class="contact-box-open"><i class="fa fa-pencil"></i></a>
 											<?php } ?></span></li>
 

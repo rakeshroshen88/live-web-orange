@@ -95,7 +95,7 @@ echo $regmsg="Location saved!";
 
 $com_id=$_POST['cid'];
 if(!empty($com_id)){
-  echo $sql1 = "UPDATE company_document SET com_id = '".$com_id."' WHERE user_id='".$_SESSION['sess_webid']."' and ses_id='".$_SESSION['sess_ses_id']."'";
+   $sql1 = "UPDATE company_document SET com_id = '".$com_id."' WHERE user_id='".$_SESSION['sess_webid']."' and ses_id='".$_SESSION['sess_ses_id']."'";
 $db->query($sql1);
 echo $regmsg="Gallery saved!";
 

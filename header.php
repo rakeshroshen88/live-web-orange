@@ -70,7 +70,8 @@ ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
 	<script>
-	   		var BASEURL='http://orangestate.ng/';
+	   		var BASEURL='//orangestate.ng/';
+			var social_AjaxURL='//orangestate.ng/';
 			//var BASEURL='http://localhost/orange_state/';
 	</script>
 </head>

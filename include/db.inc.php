@@ -5,10 +5,10 @@ class DB
 
 
        var $host="localhost";
-        var $user="orangestate_uorange";
-        var $pwd="MN9Ydvr,Hg!!";
+        var $user="root";
+        var $pwd="";
         var $persist=false;
-        var $database="orangestate_orange";
+        var $database="social_media";
 
         var $conn1=NULL;
         var $result=false;
