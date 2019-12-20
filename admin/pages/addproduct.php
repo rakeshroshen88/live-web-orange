@@ -59,20 +59,42 @@ $link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "oran
 $prod_detail = mysqli_real_escape_string($link, $_REQUEST['prod_desc']);
 $prodname = mysqli_real_escape_string($link, $_REQUEST['prodname']);
 $sort_detail = mysqli_real_escape_string($link, $_REQUEST['sort_detail']);
+$shipping = mysqli_real_escape_string($link, $_REQUEST['shipping']);
+$warranty = mysqli_real_escape_string($link, $_REQUEST['warranty']);
+$return = mysqli_real_escape_string($link, $_REQUEST['return-policy']);
 //$prod_detail=$_REQUEST['prod_desc'];
+$array_values="";
+if (isset($_POST["input_array_name"]) && is_array($_POST["input_array_name"])){ 
+	$input_array_name = array_filter($_POST["input_array_name"]); 
+    foreach($input_array_name as $field_value){
+        $array_values .= $field_value."<br />";
+    }
+}
+
+$array_values1="";
+if (isset($_POST["input_array_size"]) && is_array($_POST["input_array_size"])){ 
+	$input_array_size = array_filter($_POST["input_array_size"]); 
+    foreach($input_array_size as $field_value1){
+        $array_values1 .= $field_value1."<br />";
+    }
+}
+
 
 $updatearr=array(	 
 				 	 "catid"=>$_REQUEST['category'],									 
 					 "prod_sku"=>$_REQUEST['sku'],
 					 "subcatid"=>$_REQUEST['subcategory'],
 					 "userid"=>0,
-					 //"subsubcatid"=>$_REQUEST['subsubcategory'],
+					 "color"=>$array_values,
+					 "allsize"=>$array_values1,
 					 "quantity"=>$_REQUEST['quantity'],
 					 "total"=>$_REQUEST['quantity'],
 					 "prod_name"=>$prodname,					
 					 "prod_price"=>$_REQUEST['prodprice'],
 					 "prod_detail"=>$prod_detail,					
-					 //"shippingcharge"=>$_REQUEST['shippingcharge'],					 
+					 "shipping"=>$shipping,
+					 "warranty"=>$warranty,		
+					 "rpolicy"=>$return,						 
 					 "prod_large_image"=>$ppath,						
 					 "prod_sprice"=>$_REQUEST['sprodprice'],
 					 "prod_date"=>date('Y-m-d h:i:s'),
@@ -86,11 +108,11 @@ $updatearr=array(
 					 "populer"=>$_REQUEST['populer'],	
 					 "shippingcharge"=>$_REQUEST['shippingcharge'],
 					 "sort_detail"=>$sort_detail,
-					 "featured"=>$featured,
+					 "featured"=>$_REQUEST['featured'],
 					 "star"=>$_REQUEST['star']
 					 
 				 );
-			//print_r($updatearr);die;
+			print_r($updatearr);//die;
 if($act=="edit")
 		{
 		$whereClause=" id!=".$_REQUEST['prodid']." and prod_sku=".$_REQUEST['sku'];
@@ -286,7 +308,7 @@ if($act=="edit")
 					if($insid>0)
 						{
 						$errMsg='<br><b>Product Added Successfully!</b><br>';
-						redirect('main.php?mod=viewproduct');
+						//redirect('main.php?mod=viewproduct');
 						}
 					
 				   }
@@ -406,59 +428,11 @@ function deladmin1(id2)
 
 
 function showUser(str)
-
-
-
-
-
 {
-
-
-
-
-
-	
-
-
-
-
-
-if (str=="sheet")
-
-
-
-
-
+if (str=="sheet
   {
-
-
-
-
-
- // document.getElementById("vidid1").style.display = "table-row";
-
-
-
-
-
   document.getElementById("vidid").style.display = "block";
-
-
-
-
-
   }
-
-
-
-
-
-  
-
-
-
-
-
   }
 
 
@@ -607,10 +581,17 @@ if (str=="sheet")
                                         <div class="col-md-6">
 					   
     <input name="star" type="text" class="form-control" value="<?=$row['star']?>" placeholder="1-5"/>     
+                                        </div>
 
+                                    </div>
+									
+									 <div class="form-group">
 
-                                       
+                                        <label class="col-md-3 control-label" for="name"> Color</label>
 
+                                        <div class="col-md-6">
+					   
+    <input name="color" type="text" class="form-control" value="<?=$row['color']?>" placeholder="Color"/>     
                                         </div>
 
                                     </div>
@@ -674,20 +655,39 @@ if (str=="sheet")
 
                                     </div>
 									
+								<div class="form-group">
 								
+								<?php //echo $array_values; ?>
+								 <label class="col-md-3 control-label" for="size"> Add Color</label>
+				<div class="col-md-6">
+				<div class="wrapper">
+					<div><input type="text" name="input_array_name[]" placeholder="Input Color" /></div>
+						</div>
+					<br/>
+					<p><button class="add_fields">Add More</button></p>
+					</div>
+					</div>
 									
 							
-
+<div class="form-group">
+								
+								<?php //echo $array_values; ?>
+								 <label class="col-md-3 control-label" for="size"> Add Size</label>
+				<div class="col-md-6">
+				<div class="wrapper1">
+					<div><input type="text" name="input_array_size[]" placeholder="Input Size" /></div>
+						</div>
+					<br/>
+					<p><button class="add_fields1">Add More</button></p>
+					</div>
+					</div>
 									
 
 										<div class="form-group">
-        									<label class="col-md-3 control-label"> Sort Detail </label>
+        									<label class="col-md-3 control-label"> Over View</label>
             									<div class="col-md-9">
 
                                                       <textarea name="sort_detail" class="form-control"><?=$row['sort_detail']?></textarea>
-
-            									 
-
             									</div>
 
         								</div>
@@ -698,24 +698,33 @@ if (str=="sheet")
         							
 
                                     	<div class="form-group">
-
-        									<label class="col-md-3 control-label"> Detail </label>
-
+        									<label class="col-md-3 control-label"> Description </label>
             									<div class="col-md-9">
-
                                                       <textarea name="prod_desc" class="form-control"><?=$row['prod_detail']?></textarea>
-
-            									 
-
             									</div>
-
-        								</div>																																									<div class="form-group">        
+        								</div>												
+										<div class="form-group">
+        									<label class="col-md-3 control-label"> Shipping </label>
+            									<div class="col-md-9">
+                                                      <textarea name="shipping" class="form-control"><?=$row['shipping']?></textarea>
+            									</div>
+        								</div>
 										
+										<div class="form-group">
+        									<label class="col-md-3 control-label"> Warranty </label>
+            									<div class="col-md-9">
+                                                      <textarea name="warranty" class="form-control"><?=$row['warranty']?></textarea>
+            									</div>
+        								</div>
 										
-										
+										<div class="form-group">
+        									<label class="col-md-3 control-label"> Return Policy </label>
+            									<div class="col-md-9">
+                                                      <textarea name="return-policy" class="form-control"><?=$row['return-policy']?></textarea>
+            									</div>
+        								</div>
 
-                                   
-
+										<div class="form-group">
                                          <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script><script>tinymce.init({    selector: "textarea",            height: 250,    theme: "modern",    plugins: [        "advlist autolink lists link image charmap print preview hr anchor pagebreak",        "searchreplace wordcount visualblocks visualchars code fullscreen",        "insertdatetime media nonbreaking save table contextmenu directionality",        "emoticons template paste textcolor"    ],            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons",    image_advtab: true,    templates: [        { title: 'Test template 1', content: 'Test 1' },        { title: 'Test template 2', content: 'Test 2' }    ]});</script>  
 
                                         
@@ -932,8 +941,6 @@ if (str=="sheet")
 
 								 
 
-								<!-- Form actions -->
-
 								<div class="form-group">
 
 									<div class="col-md-12 widget-right">
@@ -975,3 +982,61 @@ if (str=="sheet")
 		</div><!--/.row-->
 
 	</div>
+	
+	
+	
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+//Add Input Fields
+$(document).ready(function() {
+    var max_fields = 10; //Maximum allowed input fields 
+    var wrapper    = $(".wrapper"); //Input fields wrapper
+    var add_button = $(".add_fields"); //Add button class or ID
+	var x = 1; //Initlal input field is set to 1
+	
+	//When user click on add input button
+	$(add_button).click(function(e){
+        e.preventDefault();
+		//Check maximum allowed input fields
+        if(x < max_fields){ 
+            x++; //input field increment
+			 //add input field
+            $(wrapper).append('<div><input type="text" name="input_array_name[]" placeholder="Input Other Color" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div>');
+        }
+    });
+	
+    //when user click on remove button
+    $(wrapper).on("click",".remove_field", function(e){ 
+        e.preventDefault();
+		$(this).parent('div').remove(); //remove inout field
+		x--; //inout field decrement
+    })
+});
+
+
+$(document).ready(function() {
+    var max_fields = 10; //Maximum allowed input fields 
+    var wrapper    = $(".wrapper1"); //Input fields wrapper
+    var add_button = $(".add_fields1"); //Add button class or ID
+	var x = 1; //Initlal input field is set to 1
+	
+	//When user click on add input button
+	$(add_button).click(function(e){
+        e.preventDefault();
+		//Check maximum allowed input fields
+        if(x < max_fields){ 
+            x++; //input field increment
+			 //add input field
+            $(wrapper).append('<div><input type="text" name="input_array_size[]" placeholder="Input Other Size" /> <a href="javascript:void(0);" class="remove_field1">Remove</a></div>');
+        }
+    });
+	
+    //when user click on remove button
+    $(wrapper).on("click",".remove_field1", function(e){ 
+        e.preventDefault();
+		$(this).parent('div').remove(); //remove inout field
+		x--; //inout field decrement
+    })
+});
+</script>

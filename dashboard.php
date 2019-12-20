@@ -605,8 +605,8 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 													<div class="post-comment">
 													<div class="cm_img">
 														<!--<img src="images/resources/bg-img4.png" alt="">-->
-														<?php if(!empty($userimage)){ ?>
-														<img src="upload/<?=$userimage?>"/>
+														<?php if(!empty($userrow['image_id'])){ ?>
+														<img src="upload/<?=$userrow['image_id']?>"/>
 														<?php }else{?>
 														<img src="images/resources/user.png" alt="" height="40" width="40">
 														<?php } ?>
@@ -691,7 +691,11 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 										<div id="replydisplay<?=$rowc['c_id']?>" style="display:none;">
 													<div class="post-comment">
 													<div class="cm_img">
-														<img src="upload/<?=$userimage?>" alt="">
+														<?php if(!empty($userrow['image_id'])){ ?>
+														<img src="upload/<?=$userrow['image_id']?>"/>
+														<?php }else{?>
+														<img src="images/resources/user.png" alt="" height="40" width="40">
+														<?php } ?>
 													</div>
 													<div class="comment_box">
 													<form id="replyForm" method="post">
@@ -996,8 +1000,8 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 													<div class="post-comment">
 													<div class="cm_img">
 														<!--<img src="images/resources/bg-img4.png" alt="">-->
-														<?php if(!empty($userimage)){ ?>
-														<img src="upload/<?=$userimage?>"/>
+														<?php if(!empty($userrow['image_id'])){ ?>
+														<img src="upload/<?=$userrow['image_id']?>"/>
 														<?php }else{?>
 														<img src="images/resources/user.png" alt="" height="40" width="40">
 														<?php } ?>
@@ -1082,7 +1086,11 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 										<div id="replydisplay<?=$rowc['c_id']?>" style="display:none;">
 													<div class="post-comment">
 													<div class="cm_img">
-														<img src="upload/<?=$userimage?>" alt="">
+														<?php if(!empty($userrow['image_id'])){ ?>
+														<img src="upload/<?=$userrow['image_id']?>"/>
+														<?php }else{?>
+														<img src="images/resources/user.png" alt="" height="40" width="40">
+														<?php } ?>
 													</div>
 													<div class="comment_box">
 													<form id="replyForm" method="post">

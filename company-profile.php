@@ -835,7 +835,7 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
                                                                                         <input type="file" id="cimageupload" name="cimageupload">
 
                                                                                         <p class="lead emoji-picker-container">
-                                                                                            <input type="text" placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true">
+                                                                                            <input type="text" cid="<?=$row['post_id']?>" placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true">
                                                                                         </p>
                                                                                         <style>
                                                                                             .wishlistcartemoji1 {
@@ -931,7 +931,7 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
                                                                                                         <label class="cemeraicon" for="rimageupload"><i class="fa fa-camera" aria-hidden="true"></i></label>
                                                                                                         <input type="file" id="rimageupload" name="rimageupload">
                                                                                                         <p class="lead emoji-picker-container">
-                                                                                                            <input type="text" placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
+                                                                                                            <input type="text" rid="<?=$rowc['c_id']?>" placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
                                                                                                         </p>
                                                                                                         <button type="button" name="replyid" id="replyid<?=$rowc['c_id']?>" class="replyid" rid="<?=$rowc['c_id']?>">Send</button>
                                                                                                     </form>
