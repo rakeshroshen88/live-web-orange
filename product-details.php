@@ -60,16 +60,16 @@ $subsubid=base64_decode($_REQUEST['subsubid']);
                                                                 <img class="d-block w-100" src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>">
                                                             </div>
 
-                                                            <?php $dbt=new DB;
+<?php $dbt=new DB;
 $sqlt="select * from productimage where pid='".$row['id']."'";
 $dbt->query($sqlt);
 if($dbt->numRows()>0)
 	{
 
 	while($rowt=$dbt->fetchArray()){
-		$pathslider=$rowt['prod_large_image'];?>
+		$pathslider=$rowt['imgid'];?>
        <div class="carousel-item">
-           <img class="d-block w-100" src="product/<?=$pathslider?>" alt="Second slide">
+           <img class="d-block w-100" src="<?=$_SITE_PATH?>product/<?=$pathslider?>" alt="Second slide">
         </div>
 
         <?php }} ?>
@@ -101,7 +101,7 @@ if($dbt->numRows()>0)
 
 	while($rowt=$dbt->fetchArray()){
 		$pathslider=$rowt['imgid'];?>
-                                                                <li data-target="#carousel-thumb" data-slide-to="1"><img class="d-block w-100" src="product/<?=$pathslider?>" class="img-fluid"></li>
+                                                                <li data-target="#carousel-thumb" data-slide-to="1"><img class="d-block w-100" src="<?=$_SITE_PATH?>product/<?=$pathslider?>" class="img-fluid"></li>
                                                                 <?php }} ?>
                                                         </ol>
                                                     </div>
@@ -396,21 +396,20 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 							 
 
 
+
+							 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+				
+				
 					<div class="row">
 					 <div class="col-md-12">
+					  <h4>View History</h4><br/>
             <div class="row  productsslider">
-                <h4>View History</h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="blogCarousel1" class="carousel slide" data-ride="carousel">
-
-                            
-
-                            <!-- Carousel items -->
-                        <div class="carousel-inner">
-						<div class="carousel-item active">
-                                    <div class="row">
-						<?php 
+			<?php 
 						$db4=new DB();
 						$h=array();
 						$sql4="SELECT * from history where user_id=".$_SESSION['sess_webid'];
@@ -422,6 +421,21 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 						}
 						}
 						$allpid=implode(',',$h);
+						
+						?>
+               
+						
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="blogCarousel1" class="carousel slide" data-ride="carousel">
+
+                            
+
+                            <!-- Carousel items -->
+                        <div class="carousel-inner">
+						<div class="carousel-item active">
+                                    <div class="row">
+						<?php
 						 $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 0,4";									
 						$db->query($sql);
 						if($db->numRows()>0)
@@ -436,7 +450,7 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -477,7 +491,7 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
                                     </div>
                                     
                                 </div>
-								
+								<!--
 								 <div class="carousel-item">
                                     <div class="row">
 						<?php  $sql1="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 4,8";										
@@ -535,10 +549,11 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
                                     </div>
                                     
                                 </div>
-                                 
+                                --> 
                             </div>
                             <!--.carousel-inner-->
-                            <div class="prodcutcarosalnav">
+							<?php if($allpid>0){ ?>
+                            <!--<div class="prodcutcarosalnav">
                                 <a class="carousel-control-prev" href="#blogCarousel1" role="button" data-slide="prev">
                                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                                     <span class="sr-only">Previous</span>
@@ -547,7 +562,8 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
                                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                     <span class="sr-only">Next</span>
                                 </a>
-                            </div>
+                            </div>-->
+							<?php } ?>
 
                         </div>
                         <!--.Carousel-->
@@ -561,13 +577,6 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 					</div>
               
 
-
-							 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
                     <?php 
                  function setRecentlyViewed ( $item, $url,$path ) {
     //@session_start();

@@ -133,7 +133,7 @@ $(document).ready(function(){
 	fetch_user();
 
 
-/*   setInterval(function(){
+   setInterval(function(){
 
 		update_last_activity();
 		fetch_user();
@@ -142,7 +142,7 @@ $(document).ready(function(){
 
 		fetch_group_chat_history();
 		log();
-	}, 5000);  */
+	}, 10000);  
 
 	 setInterval(function(){
 

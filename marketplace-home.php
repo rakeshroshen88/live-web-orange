@@ -1510,18 +1510,7 @@ if($dbt->numRows()>0)
 					<div class="row">
 					 <div class="col-md-12">
             <div class="row  productsslider">
-                <h4>View History</h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="blogCarousel1" class="carousel slide" data-ride="carousel">
-
-                            
-
-                            <!-- Carousel items -->
-                        <div class="carousel-inner">
-						<div class="carousel-item active">
-                                    <div class="row">
-						<?php 
+			<?php 
 						$db4=new DB();
 						$h=array();
 						$sql4="SELECT * from history where user_id=".$_SESSION['sess_webid'];
@@ -1533,6 +1522,20 @@ if($dbt->numRows()>0)
 						}
 						}
 						$allpid=implode(',',$h);
+						if($allpid>0){ ?>
+                <h4>View History</h4>
+						<?php } ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="blogCarousel1" class="carousel slide" data-ride="carousel">
+
+                            
+
+                            <!-- Carousel items -->
+                        <div class="carousel-inner">
+						<div class="carousel-item active">
+                                    <div class="row">
+						<?php
 						 $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 0,4";									
 						$db->query($sql);
 						if($db->numRows()>0)
@@ -1649,6 +1652,7 @@ if($dbt->numRows()>0)
                                  
                             </div>
                             <!--.carousel-inner-->
+							<?php if($allpid>0){ ?>
                             <div class="prodcutcarosalnav">
                                 <a class="carousel-control-prev" href="#blogCarousel1" role="button" data-slide="prev">
                                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -1659,7 +1663,7 @@ if($dbt->numRows()>0)
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-
+							<?php } ?>
                         </div>
                         <!--.Carousel-->
 
