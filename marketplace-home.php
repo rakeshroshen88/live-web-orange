@@ -15,7 +15,12 @@ $makearr2=getValuesArr( $_TBL_SUBCAT, "id","subcatname","", "" );
     <style>
         /* 2.2 Header Middle CSS
 /*----------------------------------------*/
-       
+       .af885_1iPzH {
+    height: 45px;
+}
+.posts-section.prodcutlisting .bbe45_3oExY._22339_3gQb9 {
+    width: 24% !important;
+}
     </style>
 	<script>
 
@@ -352,11 +357,24 @@ if($dbt->numRows()>0)
     </div>
     <div class="row">
     <div class="col-12">
-            <div class="timerproduct0">			<?php    $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,5";															$db->query($sql);						if($db->numRows()>0)						{						while($row=$db->fetchArray()){						$path=$row['prod_large_image'];						$goid=base64_encode($row['id']); 						$save=$row['prod_price']-$row['prod_sprice']; 									$mrp=$row['prod_price'];						$persen=$row['prod_price']-$row['prod_sprice'];						$discount=($persen*100)/$mrp;						$orgprice=$row['prod_sprice'];						$finalprice=$row['prod_sprice'];						$star=$row['star'];							?>
+            <div class="timerproduct0">			<?php 
+			$sql="SELECT * from ".$_TBL_PRODUCT." ORDER BY rand() limit 0,5 ";
+			$db->query($sql);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];							?>
                 <div class="product1ss">
                     <div class="prod-img1sn">
                         <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">
-                        <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>`">
+                        <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>" height="240">
                           <div class="simple-timer"></div>
                     </a>
                     </div>
@@ -428,7 +446,11 @@ if($dbt->numRows()>0)
 
                                 <div class="carousel-item active">
                                     <div class="row">
-						<?php   $sql="SELECT * from ".$_TBL_PRODUCT." limit 0,5";									
+						<?php    
+						$dbc=new DB();
+						$cnt=$dbc->getSingleResult("SELECT count(*) FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand()");
+						
+						$sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 0,5";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -442,7 +464,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 wdith20a">
+                                        <div class="col-md-3"><!--wdith20a-->
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -481,16 +503,16 @@ if($dbt->numRows()>0)
                                             </div>
                                         </div>
                                 
-						<?php }}else{ echo "Result Not Found !";} ?>								
+						<?php }}else{ echo "<div class='blackscreen'>Product not Available !</div>";} ?>								
                                     </div>
                                     <!--.row-->
                                 </div>
                                 <!--.item-->
-							
+							<?php if($cnt>5){?>
 
                                 <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." limit 5,10";						
+						<?php  $sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 5,10";						
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -543,14 +565,15 @@ if($dbt->numRows()>0)
                                             </div>
                                         </div>
                                 
-						<?php }}else{ echo "Result Not Found !";}  ?>								
+						<?php }}else{ echo "<div class='blackscreen'>Product not Available !</div>";}  ?>								
                                     </div>
                                     <!--.row-->
                                 </div>
                                 <!--.item-->
-                                 
+                                 <?php } ?>
                             </div>
                             <!--.carousel-inner-->
+							<?php if($cnt>5){?>
                             <div class="prodcutcarosalnav">
                                 <a class="carousel-control-prev" href="#blogCarousel" role="button" data-slide="prev">
                                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -561,6 +584,7 @@ if($dbt->numRows()>0)
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
+							<?php } ?>
 
                         </div>
                         <!--.Carousel-->
@@ -587,7 +611,10 @@ if($dbt->numRows()>0)
 
                                  <div class="carousel-item active">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' limit 0,5";									
+						<?php  
+						$cnt1=$dbc->getSingleResult("SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18'");
+						
+						$sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18' ORDER BY rand() limit 0,5";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -646,11 +673,11 @@ if($dbt->numRows()>0)
                                     <!--.row-->
                                 </div>
                                 <!--.item-->
-								
+								<?php if($cnt1>5){?>
 								
 								  <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' limit 5,10";									
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18'and catid='19' ORDER BY rand() limit 5,10";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -708,9 +735,10 @@ if($dbt->numRows()>0)
                                 </div>
                                 <!--.item-->
 
-                                 
+								<?php } ?>
                             </div>
                             <!--.carousel-inner-->
+								<?php if($cnt1>5){?>
                             <div class="prodcutcarosalnav">
                                 <a class="carousel-control-prev" href="#blogCarousel2" role="button" data-slide="prev">
                                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -721,6 +749,7 @@ if($dbt->numRows()>0)
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
+								<?php } ?>
 
                         </div>
                         <!--.Carousel-->
@@ -747,7 +776,9 @@ if($dbt->numRows()>0)
                               
 								  <div class="carousel-item active">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes' limit 5,10";									
+						<?php  
+						$cnt2=$dbc->getSingleResult("SELECT * from ".$_TBL_PRODUCT." where populer='yes'");
+						$sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes' limit 5,10";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -803,7 +834,7 @@ if($dbt->numRows()>0)
                                     
                                 </div>
                                 <!--.item-->
-                                 
+                                 <?php if($cnt2>5){ ?>
 								 
 								  <div class="carousel-item">
                                     <div class="row">
@@ -863,8 +894,10 @@ if($dbt->numRows()>0)
                                     <!--.row-->
                                 </div>
                                 <!--.item-->
+								 <?php }?>
                             </div>
                             <!--.carousel-inner-->
+							<?php if($cnt2>0){ ?>
                             <div class="prodcutcarosalnav">
                                 <a class="carousel-control-prev" href="#blogCarousel3" role="button" data-slide="prev">
                                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -875,7 +908,7 @@ if($dbt->numRows()>0)
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-
+							<?php } ?>
                         </div>
                         <!--.Carousel-->
 
@@ -902,22 +935,22 @@ if($dbt->numRows()>0)
         <div class="container">
             <div class="lisging-c-aro-home">
                 <ul>
-                <?php $db1=new DB();
-     $sql1="SELECT * FROM $_TBL_CAT where status='yes'";
-     $db1->query($sql1)or die($db1->error());
+                <?php $db2=new DB();
+     $sql2="SELECT * FROM $_TBL_CAT where status='yes'";
+     $db2->query($sql2)or die($db2->error());
      ?>
-    <?php while($row1=$db1->fetchArray()){
-        $price=$db->getSingleResult("SELECT MIN(prod_sprice) from ".$_TBL_PRODUCT." where catid='".$row1['id']."'");
+    <?php while($row2=$db2->fetchArray()){
+        $price=$db->getSingleResult("SELECT MIN(prod_sprice) from ".$_TBL_PRODUCT." where catid='".$row2['id']."'");
     
-    $catid=$row1['id'];
+    $catid=$row2['id'];
     ?>
                     <li>
                         <div class="catetgor-tios">
-                            <div class="img-cat-sling"><a href="marketplace.php?cid=<?=$row1['id']?>"><img src="category/<?php echo $row1['imgid'];?>" alt="ca" /></a></div>
-                            <span class="minprice"><span class="pricelistin3">Price Starting </span>- ₦ <?=number_format($price,2);?></span>
+                            <div class="img-cat-sling"><a href="marketplace.php?cid=<?=$row2['id']?>"><img src="category/<?=$row2['imgid'];?>" alt="<?php echo $row2['catname'];?>" /></a></div>
+                            <span class="minprice"><span class="pricelistin3">Price Starting </span> ₦ <?=number_format($price,2);?></span>
                         </div>
                         <div class="catename">
-                            <h4><a href="marketplace.php?cid=<?=$row1['id']?>"><?php echo $row1['catname'];?></a></h4>
+                            <h4><a href="marketplace.php?cid=<?=$row2['id']?>"><?php echo $row2['catname'];?></a></h4>
                         </div>
                     </li>
                         <?php } ?>
@@ -1509,6 +1542,7 @@ if($dbt->numRows()>0)
 					
 					<div class="row">
 					 <div class="col-md-12">
+					  <h4>View History</h4> <br/>
             <div class="row  productsslider">
 			<?php 
 						$db4=new DB();
@@ -1522,9 +1556,9 @@ if($dbt->numRows()>0)
 						}
 						}
 						$allpid=implode(',',$h);
-						if($allpid>0){ ?>
-                <h4>View History</h4>
-						<?php } ?>
+						//if($allpid>0){ ?>
+               
+						<?php //} ?>
                 <div class="row">
                     <div class="col-md-12">
                         <div id="blogCarousel1" class="carousel slide" data-ride="carousel">
@@ -1557,7 +1591,7 @@ if($dbt->numRows()>0)
                                                         <div class="_7e903_3FsI6">
 														 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>" pid="<?=$row['id']?>">
 												                    <picture>
-												                           <img   class="f5e10_VzEXF _59c59_3-MyH lazyloaded" src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></picture>
+												                           <img   class="f5e10_VzEXF _59c59_3-MyH lazyloaded" src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>" height="240"></picture>
 												                </a>
                                                           
                                                           
@@ -1592,7 +1626,7 @@ if($dbt->numRows()>0)
                                     
                                 </div>
 								
-								 <div class="carousel-item">
+								<!-- <div class="carousel-item">
                                     <div class="row">
 						<?php   $sql1="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 4,8";										
 						$db->query($sql1);
@@ -1648,12 +1682,12 @@ if($dbt->numRows()>0)
 						<?php }} ?>								
                                     </div>
                                     
-                                </div>
+                                </div>-->
                                  
                             </div>
                             <!--.carousel-inner-->
 							<?php if($allpid>0){ ?>
-                            <div class="prodcutcarosalnav">
+                           <!-- <div class="prodcutcarosalnav">
                                 <a class="carousel-control-prev" href="#blogCarousel1" role="button" data-slide="prev">
                                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                                     <span class="sr-only">Previous</span>
@@ -1662,7 +1696,7 @@ if($dbt->numRows()>0)
                                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                     <span class="sr-only">Next</span>
                                 </a>
-                            </div>
+                            </div>-->
 							<?php } ?>
                         </div>
                         <!--.Carousel-->

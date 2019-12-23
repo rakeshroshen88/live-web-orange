@@ -223,7 +223,7 @@ if($dbt->numRows()>0)
 
                                                 <button class="btn btn-lg btn-outline-primary text-uppercase add-btnbtn11 my-cart-btn addtocartnew" pid="<?=$row['id']?>" data-id="1" data-name="product 1" data-summary="summary 1" data-price="10" data-quantity="1" data-image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/252820/1320x580-78.jfif">Add to Cart</button>
                                                 <!-- row.// -->
-												</hr></br>
+												</hr></br><br/>
 										<div class="addthis_inline_share_toolbox"></div>
                                                 <div class="detila-prodcs-descroption">
                                                     <h3>Description</h3>
@@ -349,11 +349,11 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 		<?php ////////////////////////////////////////?>
                             <!-- new code -->
                             <div class="container" >
-                                <div class="_3aadb_LRmas _3aadb_LRmas1">Similar Items You May Like</div>
+                                <div class="_3aadb_LRmas _3aadb_LRmas1"><!--Similar Items You May Like-->New for you</div>
                                 <section class="_588b5_3MtNs">
                                     <section class="morepdlisting">
                                         <ul class="b49ee_2pjyI _6a0fe_3Mm35">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where catid='".$row[ 'catid']."' ORDER BY RAND()";						
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where catid='".$row['catid']."' ORDER BY RAND()";						
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -370,7 +370,7 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
                                                 <a class="a2cf5_2S5q5 ae72d_3tPQG" href="product-details.php?pid=<?=base64_encode($row['id'])?>">
                                                     <div class="fd0b5_20IbM">
                                                         <picture>
-                                                            <img data-expand="100" data-src="product/<?=$path?>" alt="Extra Bass Booster Bluetooth Wireless Headphone With Fm-red." class="f5e10_VzEXF _59c59_3-MyH lazyloaded " src="product/<?=$path?>"></picture>
+                                                            <img data-expand="100" data-src="product/<?=$path?>" alt="<?=$row['prod_name']?>" class="f5e10_VzEXF _59c59_3-MyH lazyloaded " src="product/<?=$path?>" height=""></picture>
                                                     </div>
                                                     <div>
                                                         <h3 class="_25677_1VXsu"><?=$row['prod_name']?></h3>
@@ -450,14 +450,14 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
                                                         <div class="_7e903_3FsI6">
 														 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>" pid="<?=$row['id']?>">
 												                    <picture>
-												                           <img   class="f5e10_VzEXF _59c59_3-MyH lazyloaded" src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></picture>
+												                           <img   class="f5e10_VzEXF _59c59_3-MyH lazyloaded" src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>" height="240"></picture>
 												                </a>
                                                           
                                                           

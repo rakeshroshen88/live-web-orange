@@ -75,11 +75,11 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
             
             }elseif($module=="sliderr"){
 				
-			include_once("pages/viewsliderrs.php");
+			include_once("pages/viewsliders.php");
 			
 			}elseif($module=="add_sliderr"){
 				
-			include_once("pages/add_edit_sliderrs.php");
+			include_once("pages/add_edit_sliders.php");
 			}elseif($module=="article"){
 				
 			include_once("pages/viewarticle.php");

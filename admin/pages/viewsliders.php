@@ -1,5 +1,5 @@
 <?php
-$_TBL_SLIDER='slider';
+$_TBL_SLIDER='slider_add';
 $mod=$_REQUEST['mod'];
 $firstname=$_REQUEST['firstname'];
 $id=$_REQUEST['id'];
@@ -15,7 +15,7 @@ if($act=='dac')
 			$stat='0';
 		$sql="UPDATE $_TBL_SLIDER SET homestatus= '$stat' WHERE id='$id'";
 		$db->query($sql);
-		redirect('main.php?mod=slider');
+		redirect('main.php?mod=sliderr');
 	}
 
 if($act=='del')
@@ -23,7 +23,7 @@ if($act=='del')
 		
 		 $sql="DELETE FROM $_TBL_SLIDER WHERE id='$id'";
 		$db->query($sql);
-		redirect('main.php?mod=slider');
+		redirect('main.php?mod=sliderr');
 	}
 
 ?>
@@ -32,7 +32,7 @@ function deladmin(id)
 {
 	if(confirm("Are you sure to delete?"))
 	{
-		location.href="main.php?mod=slider&act=del&id="+id;
+		location.href="main.php?mod=sliderr&act=del&id="+id;
 	}
 }
 </script>
@@ -108,7 +108,8 @@ function deladmin(id)
                             
 						    <tr>
 						        <th data-field="state" data-checkbox="true" >chk ID</th>
-						        <th data-field="id" data-sortable="true">Title </th>
+						        <th data-field="id" data-sortable="true">Type </th>
+								 <th data-field="url" data-sortable="true">Url </th>
 						       
 						        <th data-field="Date" data-sortable="true">Date</th>
                                 <th data-field="Status" data-sortable="true">Status</th>
@@ -158,13 +159,13 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 ?>	
  					<tr>
 						<td></td>
-                        <td> <a href="main.php?mod=add_slider&act=edit&id=<?=$row['id']?>"><?=$row['pagetitle']?></a></td>
+                        <td> <a href="main.php?mod=add_sliderr&act=edit&id=<?=$row['id']?>"><?=$row['img_type']?></a></td>
 							
-                   
+                   <td> <?=$row['addlink']?></td>
 						<td> <?php echo date('d M,Y',$st);?></td>
-                    <td> <a href='main.php?mod=slider&act=dac&id=<?=$row['id']?>&stat=<?=$row['homestatus']?>'><?=$row['homestatus']=='0'?'Deactive':'Active'?></a> </td>
+                    <td> <a href='main.php?mod=sliderr&act=dac&id=<?=$row['id']?>&stat=<?=$row['homestatus']?>'><?=$row['homestatus']=='0'?'Deactive':'Active'?></a> </td>
                            
-                        <td > <a href="main.php?mod=add_slider&act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+                        <td > <a href="main.php?mod=add_sliderr&act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
 						</td>
                      </tr>
 <?php } ?>

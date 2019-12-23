@@ -8,7 +8,7 @@ if(isset($_POST['formData'])){
 
 //print_r($FormData);
 $link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
-print_r($FormData);
+//print_r($FormData);
 $feeling=$FormData['feeling'];
 $post_details=$FormData['postid'];
 $imgid=$FormData['imgid'];
@@ -70,8 +70,21 @@ echo $datashow='<div class="post-bar">
 												}else{
 												echo '<img src="upload/'.$userrow['image_id'].'" alt="" width="40" height="40">'; }
 													echo '<div class="usy-name">
-														<h3>'.$usernamepost.'</h3>
-														<span><img src="images/clock.png" alt="">'.timeago($row['post_date']).'</span>
+														<h3>'.$usernamepost.'</h3>';
+														if(!empty($row['tagfriends'])){
+														echo '<span class="withfrnd">- with </span>';
+														$tagf=$row['tagfriends'];
+																	$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
+																	$db2->query($sql2)or die($db12->error());
+																while($row1=$db2->fetchArray()){
+																$useridnew=base64_encode($row1['user_id']);
+										echo '<a href="view-profile.php?uid='.$useridnew.'" class="tagsrfnds11">'.$row1['first_name'].'</a>';
+														}
+														}
+														
+														
+														
+														echo '<span><img src="images/clock.png" alt="">'.timeago($row['post_date']).'</span>
 													</div>
 												</div>
 												<div class="ed-opts">
@@ -92,7 +105,7 @@ echo $datashow='<div class="post-bar">
 												if(!empty($row['livelocation'])){
 													//livelocation
 													echo '<li><img src="images/icon9.png" alt=""><span>'.$row['livelocation'].'</span></li>';
-												}else if(!empty($row['current_city'])){
+												}else if(!empty($userrow['current_city'])){
 													echo '<li><img src="images/icon9.png" alt=""><span>'.$userrow['current_city'].'</span></li>';
 												}else{
 													echo '<li></li>';
@@ -109,7 +122,7 @@ echo $datashow='<div class="post-bar">
 												if(!empty($feelingimgid)){
 												echo ': <img src="allimg/'.$feelingimgidpath.'" height="20"width="20">'.$feelingimgid.'  '.$row['postemos'].'</h3>';
 											}
-											if(!empty($row['tagfriends'])){
+											/* if(!empty($row['tagfriends'])){
 													//$a=array();
 													 $tagf=$row['tagfriends'];
 													$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
@@ -117,7 +130,7 @@ echo $datashow='<div class="post-bar">
 												while($row1=$db2->fetchArray()){
 												echo $a=$row1['first_name'].' ';
 												}
-												}
+												} */
 												echo '<p>'.$row['post_details'].'</p>';
 												$ext = pathinfo($row['allpath'], PATHINFO_EXTENSION);
 												 if($ext=='mp4' or $ext=='webm'){
@@ -178,15 +191,15 @@ echo '<div id="commentdisplay'.$row['post_id'].'" style="display:none;">
 													<input type="file" id="cimageupload" name="cimageupload" >
 													
 													<p class="lead emoji-picker-container">
-													<input type="text"  placeholder="Post a comment" class="cp" id="postcomment'.$row['post_id'].'" name="postcomment'.$row['post_id'].'" data-emojiable="true"></p>
+													<input type="text" cid="'.$row['post_id'].'"  placeholder="Post a comment" class="cp" id="postcomment'.$row['post_id'].'" name="postcomment'.$row['post_id'].'" data-emojiable="true"></p>
 													<style>
 .wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
 .wishlistcartemoji1 li{display:inline;width:50px;}
 .wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
-#close{float: right; margin:10px;}
+#close1{float: right; margin:10px;}
 </style>
-<ul class="wishlistcartemoji1" style="display:none;"  >
-<div id="close"><a href="javascript:void(0)">X</a></div>';
+<ul class="wishlistcartemoji1" style="display:none;" cid="'.$row['post_id'].'" >
+<div id="close1" cid="'.$row['post_id'].'"><a href="javascript:void(0)">X</a></div>';
 
   $sql1="SELECT * FROM emoji order by id desc";
 $db->query($sql1)or die($db->error());
@@ -202,7 +215,7 @@ if($ext=='mp3'){
 						</li>';
 
  } } echo $b;echo "</ul>";
- echo '<a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1'.$row['post_id'].'" uid="'.$row['post_id'].'"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
+ echo '<a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1'.$row['post_id'].'" uid="'.$row['post_id'].'" cid="'.$row['post_id'].'"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
 													<button type="button" id="commentid'.$row['post_id'].'" class="commentid" cid="'.$row['post_id'].'">Send</button>
 														</form>
 													</div>

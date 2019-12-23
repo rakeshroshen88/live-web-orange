@@ -448,10 +448,11 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 												<?php }?>
 													<div class="usy-name">
 														<h3><?=$userrow['first_name']?> 
-															<span class="withfrnd">- with </span> 
+															
 															<?php if(!empty($row['tagfriends'])){
-																
-																	//$a=array();
+																?>
+																<span class="withfrnd">- with </span> 
+														<?php 	//$a=array();
 																	 $tagf=$row['tagfriends'];
 																	$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
 																	$db2->query($sql2)or die($db12->error());
@@ -627,10 +628,10 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 .wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
 .wishlistcartemoji1 li{display:inline;width:50px;}
 .wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
-#close{float: right; margin:10px;}
+#close1{float: right; margin:10px;}
 </style>
-<ul class="wishlistcartemoji1" style="display:none;"  >
-<div id="close"><a href="javascript:void(0)">X</a></div>
+<ul class="wishlistcartemoji1" style="display:none;" cid="<?=$row['post_id']?>" >
+<div id="close1" cid="<?=$row['post_id']?>"><a href="javascript:void(0)">X</a></div>
 <?php 
   $sql1="SELECT * FROM emoji order by id desc";
 $db->query($sql1)or die($db->error());
@@ -646,7 +647,7 @@ if($ext=='mp3'){
 						</li>';
 
  } } echo $b;echo "</ul>"; ?>
- <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
+ <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>" cid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
 													<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
 														</form>
 													</div>

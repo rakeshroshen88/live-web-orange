@@ -1,8 +1,8 @@
 <?php 
+$_TBL_SLIDER='slider_add';
 $prodid=$_REQUEST['id'];
 $act=$_REQUEST['act'];
 $errMsg='';
-$_TBL_SLIDER='slider';
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
 $up=new UPLOAD();
@@ -27,12 +27,12 @@ if($act=="edit")
 	
 	}
 
- $prod_detail=$_REQUEST['prod_desc'];
+ //$prod_detail=$_REQUEST['prod_desc'];
 $updatearr=array(	
-					 "pagetitle"=>mysql_real_escape_string($_REQUEST['title']),				 
-					 "picture"=>$largeimage,
-					 "description"=>mysql_real_escape_string($prod_detail),
+					"picture"=>$largeimage,
+					"addlink"=>$_REQUEST['link'],
 					 "homestatus"=>$_REQUEST['pstatus'],
+					 "img_type"=>$_REQUEST['type'],	
 					 "homedate"=>date('Y-m-d')
 					 );
 
@@ -49,7 +49,7 @@ $updatearr=array(
 					if($insid>0)
 						{
 							$errMsg='<br><b>Added Successfully!</b><br>';
-							redirect('main.php?mod=slider');
+							redirect('main.php?mod=sliderr');
 							
 						}
 					
@@ -91,11 +91,23 @@ if(!empty($prodid))
                         <input type="hidden" name="image3" value="<?=$row['picture']?>" />
 							<fieldset>
 								<!-- Name input-->
-                               
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name"> Title</label>
+                               <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Add/Slider Type</label>
                                         <div class="col-md-9">
-                                        <input id="title" name="title" type="text" placeholder="Slider Title" class="form-control" value="<?=$row['pagetitle']?>">
+                                        <select name="type" id="type" class="form-control" >
+  <option value="">Select</option>
+  <option value="slider" <?php if($row['img_type']=='slider'){ echo "selected";}?>>Slider</option>
+  <option value="advertisement" <?php if($row['img_type']=='advertisement'){ echo "selected";}?>>Advertisement</option>
+ 
+</select>
+                                        </div>
+                                    </div>
+							   
+							   
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Add/Slider Url</label>
+                                        <div class="col-md-9">
+                                        <input id="link" name="link" type="text" placeholder="Slider Url" class="form-control" value="<?=$row['addlink']?>">
                                         </div>
                                     </div>
 							
@@ -107,14 +119,14 @@ if(!empty($prodid))
 
 
 
-        							
+        							<!--
                                     	<div class="form-group">
         									<label class="col-md-3 control-label"> Detail</label>
             									<div class="col-md-9">
                                                       <textarea name="prod_desc" class="form-control"><?=$row['description']?></textarea>
             									 
             									</div>
-        								</div>
+        								</div>-->
                                                                             <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script><script>tinymce.init({    selector: "textarea",            height: 250,    theme: "modern",    plugins: [        "advlist autolink lists link image charmap print preview hr anchor pagebreak",        "searchreplace wordcount visualblocks visualchars code fullscreen",        "insertdatetime media nonbreaking save table contextmenu directionality",        "emoticons template paste textcolor"    ],            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons",    image_advtab: true,    templates: [        { title: 'Test template 1', content: 'Test 1' },        { title: 'Test template 2', content: 'Test 2' }    ]});</script>  
                                         
                                          

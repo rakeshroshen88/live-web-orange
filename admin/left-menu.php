@@ -315,6 +315,18 @@
 							<span class="glyphicon glyphicon-share-alt"></span> Add Company Category
 						</a>
 					</li>
+					
+					<li>
+						<a class="" href="main.php?mod=add_sliderr&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Slider/Add
+						</a>
+					</li>
+					
+					<li>
+						<a class="" href="main.php?mod=sliderr">
+							<span class="glyphicon glyphicon-share-alt"></span> View Slider/Add
+						</a>
+					</li>
                
 					<li>
 						<a class="" href="main.php?mod=about">
