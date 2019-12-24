@@ -211,18 +211,29 @@ if($dbt->numRows()>0)
                                     <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
                                 </ol>
                                 <div class="carousel-inner">
+								<?php 
+								 $sql1="SELECT * FROM slider_add where img_type='slider' limit 0,1";
+								 $db1->query($sql1)or die($db1->error());
+								 while($row1=$db1->fetchArray()){?>
                                     <div class="carousel-item active">
-                                        <img src="img/la.jpg" class="d-block w-100" alt="...">
+                                        <img src="slider/<?=$row1['picture']?>" class="d-block w-100" alt="...">
                                          
                                     </div>
+								 <?php } ?>
+									
+                                    <?php 
+								 $sql1="SELECT * FROM slider_add where img_type='slider' limit 1,4";
+								 $db1->query($sql1)or die($db1->error());
+								 while($row1=$db1->fetchArray()){?>
                                     <div class="carousel-item">
-                                        <img src="img/la.jpg" class="d-block w-100" alt="...">
-                                        
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="img/la.jpg" class="d-block w-100" alt="...">
+                                        <img src="slider/<?=$row1['picture']?>" class="d-block w-100" alt="...">
                                          
                                     </div>
+								 <?php } ?>
+                                   <!-- <div class="carousel-item">
+                                        <img src="img/la.jpg" class="d-block w-100" alt="...">
+                                         
+                                    </div>-->
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -241,13 +252,14 @@ if($dbt->numRows()>0)
 
                 <div class="col-xl-2 col-lg-2 slider_adss wdith20">
                     <div class="sliderad1">
-                        <a href="#">
-                            <img src="img/ads1.jpg" alt="ads">
+					 <?php 
+								 $sql1="SELECT * FROM slider_add where img_type='advertisement' limit 0,2";
+								 $db1->query($sql1)or die($db1->error());
+								 while($row1=$db1->fetchArray()){?>
+                        <a href="<?=$row1['picture']?>" target="_blank">
+                            <img src="slider/<?=$row1['picture']?>" alt="ads">
                         </a>
-
-                        <a href="#">
-                            <img src="img/ads1.jpg" alt="ads"> 
-                        </a>
+								 <?php } ?>
 
                     </div>
 
@@ -269,6 +281,7 @@ if($dbt->numRows()>0)
   <div class="carousel-inner">
     <div class="carousel-item active">
       <ul class="Sponsoredlist1">
+							
                             <li>
                                 <a href="#"> Sponsored Shops</a>
                             </li>
@@ -963,15 +976,31 @@ if($dbt->numRows()>0)
     <main>
        <div class="container">
     <div class="topdealsbar">
-        <h3> <span class="listicon"><i class="fa fa-snowflake-o" aria-hidden="true"></i></span>Top Deals <span class="pull-right morevew">View  More</span> </h3>
+        <h3> <span class="listicon"><i class="fa fa-snowflake-o" aria-hidden="true"></i></span>Top Deals <span class="pull-right morevew"><a href="marketplace.php?cid=21">View  More</a></span> </h3>
         <div class="topliest">
             <ul>
+			
+			<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid='21' ORDER BY rand() limit 0,5";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
                 <li class="dear1s">
                     <div class="dealimg">
-                        <img src="img/prodcss222.jpg" alt="product 1">
+                       <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                     </div>
                     <div class="productdeails1deals">
-                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
+                        <h5>NGN <?=number_format($orgprice,2);?> <span><?=$persen?>% Off</span> </h5>
                         <div class="dearbar">
                             <div class="progress">
                                 <div class="progress-bar" style="width:70%"></div>
@@ -980,7 +1009,8 @@ if($dbt->numRows()>0)
                         <div class="nm-sold">135 Sold</div>
                     </div>
                 </li>
-                <li class="dear1s">
+			<?php }} ?>	
+              <!--  <li class="dear1s">
                     <div class="dealimg">
                         <img src="https://cdn.shopify.com/s/files/1/0025/5082/5007/files/h5-banner3_570x.jpg?v=1539662924" alt="product 1">
                     </div>
@@ -1036,25 +1066,42 @@ if($dbt->numRows()>0)
                         <div class="nm-sold">135 Sold</div>
                     </div>
                 </li>
-            </ul>
+           -->
+		   </ul>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <div class="topdealsbar topselection ">
-                <h3> <span class="listicon"><i class="fa fa-free-code-camp" aria-hidden="true"></i></span>Top Selection <span class="pull-right morevew">View  More</span> </h3>
+                <h3> <span class="listicon"><i class="fa fa-free-code-camp" aria-hidden="true"></i></span>Top Selection <span class="pull-right morevew"><a href="marketplace.php?cid=22">View  More</a></span> </h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." ORDER BY rand() limit 0,4";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+$cnt=$db->getSingleResult("select count(*) from feedback where pages='product' prod_id =".$row['id']);
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product1.jpg" alt="product 1">
+                                 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                             <div class="productdeails1deals">
-                                <h5>NGN 6,5400 </h5>
-                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                                <h5>NGN <?=number_format($orgprice,2);?> </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> <?=$cnt?></div>
                             </div>
                         </li>
-                        <li class="dear1s">
+			<?php }} ?>
+                       <!-- <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product2.jpg" alt="product 1">
                             </div>
@@ -1081,52 +1128,47 @@ if($dbt->numRows()>0)
                                 <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
                             </div>
                         </li>
-                    </ul>
+                    -->
+					
+					</ul>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="topdealsbar topselection newforyou">
-                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span>New For You <span class="pull-right morevew">View  More</span> </h3>
+                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span>New For You <span class="pull-right morevew"><a href="marketplace.php?cid=19">View  More</a></span> </h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where newrelease='yes' ORDER BY rand() limit 0,5";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+				$cnt=$db->getSingleResult("select count(*) from feedback where pages='product' prod_id =".$row['id']);
+
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product5.jpg" alt="product 1">
+                               <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                             <div class="productdeails1deals">
-                                <h5>NGN 6,5400 </h5>
-                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
+                                <h5>NGN <?=number_format($orgprice,2);?> </h5>
+                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> <?=$cnt?></div>
                             </div>
                         </li>
-                        <li class="dear1s">
-                            <div class="dealimg">
-                                <img src="img/social_product6.jpg" alt="product 1">
-                            </div>
-                            <div class="productdeails1deals">
-                                <h5>NGN 6,5400 </h5>
-                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
-                            </div>
-                        </li>
-                        <li class="dear1s">
-                            <div class="dealimg">
-                                <img src="img/social_product7.jpg" alt="product 1">
-                            </div>
-                            <div class="productdeails1deals">
-                                <h5>NGN 6,5400 </h5>
-                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
-                            </div>
-                        </li>
-                        <li class="dear1s">
-                            <div class="dealimg">
-                                <img src="img/prodcss33.jpg" alt="product 1">
-                            </div>
-                            <div class="productdeails1deals">
-                                <h5>NGN 6,5400 </h5>
-                                <div class="nm-sold"> <i class="fa fa-smile-o" aria-hidden="true"></i> 880</div>
-                            </div>
-                        </li>
-                    </ul>
+						
+			<?php }} ?>
+                       
+
+				   </ul>
                 </div>
             </div>
         </div>
@@ -1137,7 +1179,7 @@ if($dbt->numRows()>0)
                     <ul>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/banner-02.jpg" alt="product 1">
+                               <img src="img/banner-03.jpg" alt="product 1">
                             </div>
                             <div class="productdeails1deals">
                                 <h5>Coming Soon </h5>
@@ -1164,7 +1206,7 @@ if($dbt->numRows()>0)
                     <ul>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/newsimmes.jpg" alt="product 1">
+                                 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                             <div class="productdeails1deals">
                                 <div class="logobrantop">
@@ -1198,12 +1240,19 @@ if($dbt->numRows()>0)
     
     <div class="row">
         <div class="col-md-3">
+		<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid=10 ORDER BY rand() limit 0,1";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']);?>
             <div class="big-adds0mill">
-                <img src="img/shortaddmiddle.jpg">
+			
+                 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
 
 
             </div>
-
+			<?php }} ?>
 
         </div>
         <div class="col-md-9 shotsliting">
@@ -1213,13 +1262,29 @@ if($dbt->numRows()>0)
                 <h3> Woman's Fashion </h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid='15' ORDER BY rand() limit 0,3";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product8.jpg" alt="product 1">
+                                 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                              
                         </li>
-                        <li class="dear1s">
+			<?php }} ?>
+                       <!-- <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product9.jpg" alt="product 1">
                             </div>
@@ -1230,7 +1295,7 @@ if($dbt->numRows()>0)
                                 <img src="img/social_product10.jpg" alt="product 1">
                             </div>
                              
-                        </li>
+                        </li>-->
                         
                     </ul>
                 </div>
@@ -1243,12 +1308,30 @@ if($dbt->numRows()>0)
                 <h3> Phone & Accessories </h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid='16' ORDER BY rand() limit 0,3";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
+					
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product11.jpg" alt="product 1">
+                                <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                              
                         </li>
+			<?php }} ?>
+						<!--
                         <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product12.jpg" alt="product 1">
@@ -1260,7 +1343,7 @@ if($dbt->numRows()>0)
                                 <img src="img/social_product13.jpg" alt="product 1">
                             </div>
                              
-                        </li>
+                        </li>-->
                         
                     </ul>
                 </div>
@@ -1274,13 +1357,30 @@ if($dbt->numRows()>0)
                 <h3> Renovation</h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid=13  ORDER BY rand() limit 0,3";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product14.jpg" alt="product 1">
+                                <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                              
                         </li>
-                        <li class="dear1s">
+						
+			<?php }} ?>
+                     <!--   <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product13.jpg" alt="product 1">
                             </div>
@@ -1291,7 +1391,7 @@ if($dbt->numRows()>0)
                                 <img src="img/social_product15.jpg" alt="product 1">
                             </div>
                              
-                        </li>
+                        </li>-->
                         
                     </ul>
                 </div>
@@ -1305,13 +1405,29 @@ if($dbt->numRows()>0)
                 <h3> Kids </h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid='7' ORDER BY rand() limit 0,3";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product16.jpg" alt="product 1">
+                                 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                              
                         </li>
-                        <li class="dear1s">
+			<?php }} ?>
+                       <!-- <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product17.jpg" alt="product 1">
                             </div>
@@ -1322,7 +1438,7 @@ if($dbt->numRows()>0)
                                 <img src="img/social_product158.jpg" alt="product 1">
                             </div>
                              
-                        </li>
+                        </li>-->
                         
                     </ul>
                 </div>
@@ -1336,13 +1452,30 @@ if($dbt->numRows()>0)
                 <h3> Beauty </h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid=8 ORDER BY rand() limit 0,3";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product159.jpg" alt="product 1">
+                                <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                              
                         </li>
-                        <li class="dear1s">
+						
+			<?php }} ?>
+                       <!-- <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product160.jpg" alt="product 1">
                             </div>
@@ -1353,7 +1486,7 @@ if($dbt->numRows()>0)
                                 <img src="img/social_product161.jpg" alt="product 1">
                             </div>
                              
-                        </li>
+                        </li>-->
                         
                     </ul>
                 </div>
@@ -1365,13 +1498,29 @@ if($dbt->numRows()>0)
                 <h3> Vehicles</h3>
                 <div class="topliest">
                     <ul>
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid=6 and subcatid=3 ORDER BY rand() limit 0,3";
+			$db->query($sqltop);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$path=$row['prod_large_image'];	
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                <img src="img/social_product162.jpg" alt="product 1">
+                                <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
                              
                         </li>
-                        <li class="dear1s">
+			<?php }} ?>
+                        <!--<li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product163.jpg" alt="product 1">
                             </div>
@@ -1382,7 +1531,7 @@ if($dbt->numRows()>0)
                                 <img src="img/prodcss111.jpg" alt="product 1">
                             </div>
                              
-                        </li>
+                        </li>-->
                         
                     </ul>
                 </div>

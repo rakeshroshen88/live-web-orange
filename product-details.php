@@ -249,12 +249,15 @@ if($dbt->numRows()>0)
             <div class="row">
             <div class="col-md-8">
 
-                 <h3 class="title">Reviews </h3>
+                 
 					<?php
 					$dbn=new DB();
 				    $sqln="select * from feedback where pages='product' prod_id =".$pid;
 					$dbn->query($sqln);
-					while($rowfeed=$dbn->fetchArray()){
+					if($dbn->numRows()>0){	
+					?>
+					<h3 class="title">Reviews </h3>
+					<?php while($rowfeed=$dbn->fetchArray()){
 					$image_id=$db->getSingleResult("SELECT image_id from user_profile where user_id=".$rowfeed['user-id']);
 					$first_name=$db->getSingleResult("SELECT first_name from all_user where user_id=".$rowfeed['user-id']);
 					?>
@@ -302,7 +305,7 @@ if($dbt->numRows()>0)
                            <p><?=$rowfeed['review']?></p>
                         </div>
                     </div>
-					<?php } ?>
+					<?php }} ?>
 
 <!--
                     <div class="feedbackbox background-white">
@@ -349,7 +352,7 @@ He get 5 gold stars from us. I didn't know about this company and how much it gi
 		<?php ////////////////////////////////////////?>
                             <!-- new code -->
                             <div class="container" >
-                                <div class="_3aadb_LRmas _3aadb_LRmas1"><!--Similar Items You May Like-->New for you</div>
+                                <div class="_3aadb_LRmas _3aadb_LRmas1">Similar Items You May Like<!--New for you--></div>
                                 <section class="_588b5_3MtNs">
                                     <section class="morepdlisting">
                                         <ul class="b49ee_2pjyI _6a0fe_3Mm35">
