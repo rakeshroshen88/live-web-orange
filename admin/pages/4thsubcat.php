@@ -146,7 +146,7 @@ function deladmin(id)
 
 				<div class="panel panel-default">
 
-					<div class="panel-heading">3rd category Management</div>
+					<div class="panel-heading">4th category Management</div>
 
 					<div class="panel-body">
 
@@ -154,7 +154,7 @@ function deladmin(id)
 
                         <div class="add-pro">
 
-                            <a href="main.php?mod=add_subsubcat&act=add">Add 3rd category</a>
+                            <a href="main.php?mod=add_4thsubcat&act=add">Add 4th category</a>
 
                         
 

@@ -8,6 +8,9 @@ $makearr1=getValuesArr( $_TBL_CAT, "id","catname","", "" );
 $makearr2=array();
 $makearr2=getValuesArr( $_TBL_SUBCAT, "id","subcatname","", "" );
 
+$makearr3=array();
+$makearr3=getValuesArr( $_TBL_SUBSUBCAT, "id","subsubcatname","", "" );
+
 
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
@@ -55,16 +58,17 @@ if($act=="edit")
 $updatearr=array(	 
 					 "catid"=>$_REQUEST['category'],
 					 "subcatid"=>$_REQUEST['subcategory'],
-					  //"imgid"=>$largeimage,
-					    //"bimg"=>$largeimage1,
-					 "subsubcatname"=>$_REQUEST['catname'],
-					 //"subsubdesc"=>$_REQUEST['cat_desc'],
-					 "subcatdate"=>date('Y-m-d'),
-					 "sub_status"=>$_REQUEST['catstatus']
+					// "imgid"=>$largeimage,
+					 "3rdcatid"=>$_REQUEST['subsubcategory'],
+					 //"bimg"=>$largeimage1,
+					 "3rdsubcatname"=>$_REQUEST['catname'],
+					 //"3rdsubdesc"=>$_REQUEST['cat_desc'],
+					 "3rdcatdate"=>date('Y-m-d'),
+					 "3rd_status"=>$_REQUEST['catstatus']
 						);
 	if($act=="edit")
 		{
-		$whereClause=" catid=".$_REQUEST['category']." and subcatname='".$_REQUEST['catname']."' and id!=".$_REQUEST['id'] ;
+		$whereClause=" catid=".$_REQUEST['category']." and subcatid=".$_REQUEST['subcategory']." and 3rdcatid=".$_REQUEST['subsubcategory']." and 3rdsubcatname='".$_REQUEST['catname']."' and id!=".$_REQUEST['id'] ;
 		}elseif($act=="add"){
 		$whereClause=" catid=".$_REQUEST['category']." and subcatname='".$_REQUEST['catname']."'" ;
 		}
@@ -77,14 +81,14 @@ $updatearr=array(
 			if($act=="edit")
 				{
 					$whereClause=" id=".$subid;
-					updateData($updatearr, $_TBL_SUBSUBCAT, $whereClause);
+					updateData($updatearr, '4thsubcategory', $whereClause);
 					
 					
 				
 					$errMsg='<br><b>Update Successfully!</b><br>';
 				}elseif($act=="add"){
 				
-					$insid=insertData($updatearr, $_TBL_SUBSUBCAT);
+					$insid=insertData($updatearr, '4thsubcategory');
 				
 				
 					if($insid>0)
@@ -100,7 +104,7 @@ $updatearr=array(
 	}
 if(!empty($subid) and $act=="edit")
 	{
-		$sql="SELECT * FROM $_TBL_SUBSUBCAT WHERE id=$subid";
+		$sql="SELECT * FROM 4thsubcategory WHERE id=$subid";
 		$db->query($sql)or die($db->error());
 		$row=$db->fetchArray();	
 	}
@@ -148,6 +152,13 @@ if(!empty($subid) and $act=="edit")
                                         </div>
                                     </div>
 									
+									 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Select 3rd Category:</label>
+                                        <div class="col-md-9">
+                                        <?php echo createComboBox($makearr3,'subsubcategory',$row['3rdcatid'],' class="form-control"')?>    
+                                        </div>
+                                    </div>
+									
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="name"> Title</label>
                                         <div class="col-md-9">
@@ -159,7 +170,7 @@ if(!empty($subid) and $act=="edit")
                                     
                                    
                                   
-        				<!--			
+        							<!--
                                     	<div class="form-group">
         									<label class="col-md-3 control-label"> Detail</label>
             									<div class="col-md-9">

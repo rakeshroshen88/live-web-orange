@@ -96,8 +96,9 @@ if(!empty($prodid))
                                         <div class="col-md-9">
                                         <select name="type" id="type" class="form-control" >
   <option value="">Select</option>
-  <option value="slider" <?php if($row['img_type']=='slider'){ echo "selected";}?>>Slider</option>
+  <option value="slider" <?php if($row['img_type']=='slider'){ echo "selected";}?>>Market Place Slider</option>
   <option value="advertisement" <?php if($row['img_type']=='advertisement'){ echo "selected";}?>>Advertisement</option>
+   <option value="Sponsor" <?php if($row['img_type']=='Sponsor'){ echo "selected";}?>>Sponsor</option>
  
 </select>
                                         </div>

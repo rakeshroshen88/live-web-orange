@@ -11,6 +11,10 @@ $makearr3=getValuesArr( $_TBL_SUBSUBCAT, "id","subsubcatname","", "" );
 $makearr2=array();
 $makearr2=getValuesArr( $_TBL_SUBCAT, "id","subcatname","", "" );
 
+/* $makearr4=array();
+$makearr4=getValuesArr( '', "id","3rdsubcatname","", "" );
+ */
+
 $idm=$_REQUEST['idm'];
 $id1=$_REQUEST['id1'];
 $prodid=$_REQUEST['id'];
@@ -84,9 +88,11 @@ $updatearr=array(
 				 	 "catid"=>$_REQUEST['category'],									 
 					 "prod_sku"=>$_REQUEST['sku'],
 					 "subcatid"=>$_REQUEST['subcategory'],
+					 "subsubcatid"=>$_REQUEST['subsubcategory'],
+					 "4thcatid"=>$_REQUEST['4thcatgory'],
 					 "userid"=>0,
 					 "color"=>$array_values,
-					 "allsize"=>$array_values1,
+					 //"allsize"=>$array_values1,
 					 "quantity"=>$_REQUEST['quantity'],
 					 "total"=>$_REQUEST['quantity'],
 					 "prod_name"=>$prodname,					
@@ -112,7 +118,7 @@ $updatearr=array(
 					 "star"=>$_REQUEST['star']
 					 
 				 );
-			print_r($updatearr);//die;
+			//print_r($updatearr);//die;
 if($act=="edit")
 		{
 		$whereClause=" id!=".$_REQUEST['prodid']." and prod_sku=".$_REQUEST['sku'];
@@ -448,36 +454,130 @@ if (str=="sheet
                                         <div class="col-md-9">
 
                                        <?php
-						if(isset($_REQUEST['catid']))
+						/* if(isset($_REQUEST['catid']))
 							{
 							$selcat=$_REQUEST['catid'];						
 							}else{
 							$selcat=$row['id'];							
 							}						
-						echo createComboBox($makearr1,'category',$row['catid'],' class="form-control" id="category" ');
+						echo createComboBox($makearr1,'category',$row['catid'],' class="form-control" id="category" onchange="return showUser(this.value);" '); */
 					
-							?>
-
-                                        </div>
-
-                                    </div>
-
-									
-									
-									
-                              <div class="form-group">
-
-                                        <label class="col-md-3 control-label" for="name"> Ptoduct Sub Category</label>
-
-                                        <div class="col-md-9">
- 
-                                       <?php
 							
-						echo createComboBox($makearr2,'subcategory',$row['subcatid'],' class="form-control" id="category" ');
-					
-							?>
+							 $sql="SELECT * FROM category";
+							$db->query($sql)or die($db->error()); ?>
+
+						 <select  name="category" id="category" cid="<?=$subid?>" onchange="return showUser(this.value);" class="form-control">
+										<option>Select subcateory</option><?php
+						while($row1=$db->fetchArray()){
+						  
+						?>
+		
+                        <option value="<?=$row1['id']?>"><?=$row1['catname']?></option>
+                  <?php }?>
+				   </select>
 
                                         </div>
+
+                                    </div>
+
+							 <script>
+                function showUser(str) {
+					
+                    if (str == "0") {
+                        document.getElementById("subcatid").innerHTML = "";
+
+                        return;
+                    } else {
+
+                        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp = new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                document.getElementById("subcatid").innerHTML = xmlhttp.responseText;
+
+                            }
+                        }
+
+                        xmlhttp.open("GET", "pages/ajax_subcat.php?subcatid=" + str, true);
+                        xmlhttp.send();
+                    }
+                }
+				
+				
+				 function show3rd(str) {
+					
+					var cid1 = jQuery(this).attr('cid');	
+					
+					var cid = jQuery('#category').val();	
+					
+                    if (str == "0") {
+                        document.getElementById("subsubcatid").innerHTML = "";
+
+                        return;
+                    } else {
+
+                        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp = new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                document.getElementById("subsubcatid").innerHTML = xmlhttp.responseText;
+
+                            }
+                        }
+
+                        xmlhttp.open("GET", "pages/ajax_2nd.php?subcatid=" + str + '&cid=' + cid, true);
+                        xmlhttp.send();
+                    }
+                }
+				
+				
+				function show4th(str) {
+					
+					var cid1 = jQuery(this).attr('cid');	
+					
+					var cid = jQuery('#category').val();
+					var sid = jQuery('#subcategory').val();	
+					var tid = jQuery('#subsubcategory').val();						
+					
+                    if (str == "0") {
+                        document.getElementById("4thsubcatid").innerHTML = "";
+
+                        return;
+                    } else {
+
+                        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp = new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                document.getElementById("4thsubcatid").innerHTML = xmlhttp.responseText;
+
+                            }
+                        }
+
+                        xmlhttp.open("GET", "pages/ajax_4thcat.php?4thcatid=" + str + '&cid=' + cid + '&subcatid=' + sid, true);
+                        xmlhttp.send();
+                    }
+                }
+            </script>		
+									
+									
+                              <div class="form-group" id="subcatid">
+  
 
                                     </div>
 
@@ -486,25 +586,16 @@ if (str=="sheet
 									
 									
 									
-                             <!-- <div class="form-group">
+                            <div class="form-group" id="subsubcatid">
 
-                                        <label class="col-md-3 control-label" for="name">  Ternary Category</label>
-
-                                        <div class="col-md-9">
-
-                                       <?php
-											
-						echo createComboBox($makearr3,'subsubcategory',$row['subsubcatid'],' class="form-control" id="category" ');
-					
-							?>
-
-                                        </div>
-
-                                    </div>-->
+                                    </div>
 
 									
 									
-									
+								 <div class="form-group" id="4thsubcatid">
+ 
+
+                                    </div>
 									
 									
 									
@@ -585,7 +676,7 @@ if (str=="sheet
 
                                     </div>
 									
-									 <div class="form-group">
+									 <!--<div class="form-group">
 
                                         <label class="col-md-3 control-label" for="name"> Color</label>
 
@@ -594,7 +685,7 @@ if (str=="sheet
     <input name="color" type="text" class="form-control" value="<?=$row['color']?>" placeholder="Color"/>     
                                         </div>
 
-                                    </div>
+                                    </div>-->
 
 									 
 									  <div class="form-group">
@@ -669,7 +760,7 @@ if (str=="sheet
 					</div>
 									
 							
-<div class="form-group">
+<!--<div class="form-group">
 								
 								<?php //echo $array_values; ?>
 								 <label class="col-md-3 control-label" for="size"> Add Size</label>
@@ -680,7 +771,7 @@ if (str=="sheet
 					<br/>
 					<p><button class="add_fields1">Add More</button></p>
 					</div>
-					</div>
+					</div>-->
 									
 
 										<div class="form-group">

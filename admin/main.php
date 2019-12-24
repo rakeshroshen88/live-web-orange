@@ -42,12 +42,17 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			
 			}elseif($module=="subsubcat"){		
 			include_once("pages/subsubcategory.php");
+			}elseif($module=="4thsubcat"){		
+			include_once("pages/4thsubcat.php");
+			
 			}elseif($module=="neworder"){		
 			include_once("pages/neworder.php");
 			}elseif($module=="feedback"){		
 			include_once("pages/feedback.php");
 			}elseif($module=="add_subsubcat"){	
 			include_once("pages/add_edit_subsubcat.php");
+			}elseif($module=="add_4thsubcat"){	
+			include_once("pages/add_4thsubcat.php");
 			}elseif($module=="viewproduct"){		
 			include_once("pages/viewproduct.php");	
 			}elseif($module=="addproduct"){					

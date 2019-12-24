@@ -147,16 +147,28 @@
 					
 					
 					
-					<!--<li>
+					<li>
 						<a class="" href="main.php?mod=subsubcat">
-							<span class="glyphicon glyphicon-share-alt"></span> View Sub Subcategory
+							<span class="glyphicon glyphicon-share-alt"></span> View 3rd Subcategory
 						</a>
 					</li>
 					<li>
 						<a class="" href="main.php?mod=add_subsubcat&act=add">
-							<span class="glyphicon glyphicon-share-alt"></span> Add Sub Subcategory
+							<span class="glyphicon glyphicon-share-alt"></span> Add 3rd Subcategory
 						</a>
-					</li>-->
+					</li>
+					
+					
+					<li>
+						<a class="" href="main.php?mod=4thsubcat">
+							<span class="glyphicon glyphicon-share-alt"></span> View 4th Subcategory
+						</a>
+					</li>
+					<li>
+						<a class="" href="main.php?mod=add_4thsubcat&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add 4th Subcategory
+						</a>
+					</li>
 					
 					</ul>
 			</li>

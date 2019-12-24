@@ -53,8 +53,8 @@ $updatearr=array(
 					 "catid"=>$_REQUEST['category'],
 					 "subcatname"=>$_REQUEST['catname'],
 					 "subdesc"=>$_REQUEST['catdesc'],
-					  "imgid"=>$largeimage,
-					    "bimg"=>$largeimage1,
+					  //"imgid"=>$largeimage,
+					    //"bimg"=>$largeimage1,
 					 "subcatdate"=>date('Y-m-d'),
 					 "sub_status"=>$_REQUEST['catstatus']
 						);
@@ -153,7 +153,7 @@ if(!empty($subid) and $act=="edit")
                       
                                     
                                    
-                                  
+                          <!--        
         							
                                     	<div class="form-group">
         									<label class="col-md-3 control-label"> Detail</label>
@@ -181,7 +181,7 @@ tinymce.init({
         {title: 'Test template 2', content: 'Test 2'}
     ]
 });
-</script> 
+</script> -->
                                          
                                         
                                     
