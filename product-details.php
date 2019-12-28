@@ -141,7 +141,7 @@ if($dbt->numRows()>0)
 			    $orgprice=$row['prod_sprice'];
 			    $finalprice=$row['prod_sprice'];
 				?>
-                                                            <h2 class="prodcfprice"> ₦ <?=number_format($row['prod_sprice'],2);?></h2>
+                                                            <h2 class="prodcfprice"> ₦ <?php echo $row['prod_sprice'];?><?php //number_format($row['prod_sprice'],2);?></h2>
 															 <?php if(!empty($row['material'])){ ?>
                                                             <h3 class="prodcttype">Material: <?=$row['material']?></h3>
                                                            <?php } if(!empty($row['sort_detail'])){ ?>
@@ -188,6 +188,7 @@ if($dbt->numRows()>0)
                                                     <!-- col.// -->
                                                     <div class="col-sm-7">
                                                         <dl class="param param-inline">
+                                                            	<?php //if(!empty($row[ 'color'])){ $row[ 'color'];}?>
                                                            <?php if(!empty($row[ 'prodsize1']) or !empty($row[ 'prodsize2']) or !empty($row[ 'prodsize3']) or !empty($row[ 'prodsize4'])){ ?> <dt>Size: </dt> <?php }?>
                                                             <dd> <?php if(!empty($row[ 'prodsize1'])){ ?>
                                                                 <label class="form-check form-check-inline">
@@ -252,14 +253,14 @@ if($dbt->numRows()>0)
                  
 					<?php
 					$dbn=new DB();
-				    $sqln="select * from feedback where pages='product' prod_id =".$pid;
+				     $sqln="select * from feedback where pages='product' and prod_id =".$pid;
 					$dbn->query($sqln);
 					if($dbn->numRows()>0){	
 					?>
 					<h3 class="title">Reviews </h3>
 					<?php while($rowfeed=$dbn->fetchArray()){
-					$image_id=$db->getSingleResult("SELECT image_id from user_profile where user_id=".$rowfeed['user-id']);
-					$first_name=$db->getSingleResult("SELECT first_name from all_user where user_id=".$rowfeed['user-id']);
+					$image_id=$db->getSingleResult("SELECT image_id from user_profile where user_id=".$rowfeed['user_id']);
+					$first_name=$db->getSingleResult("SELECT first_name from all_user where user_id=".$rowfeed['user_id']);
 					?>
                     <div class="feedbackbox background-white">
                         <div class="headerfeedabcdk">

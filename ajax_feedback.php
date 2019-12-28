@@ -30,7 +30,8 @@ if(!empty($review)){
 							"feedback_date"=>date('Y-m-d H:i:s')
 			    );
 				//print_r($arr);
-$insid=insertData($arr, 'feedback');	 
+$insid=insertData($arr, 'feedback');
+echo 'ok';	 
 $sql="SELECT * from feedback where id=".$insid;
 $db->query($sql);
 if($db->numRows()>0)

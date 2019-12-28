@@ -21,6 +21,7 @@ $app->post('/userdetails','userdetails'); /* User userdetails  */
 $app->post('/getcommentlist','getcommentlist'); /* User getcommentlist  */
 $app->post('/feed','feed'); /* User Feeds  */ 
 $app->post('/createpost','createpost'); /* User createpost  */
+$app->post('/updatepost','updatepost'); /* User createpost  */
 $app->post('/feelingcategories','feelingcategories'); /* User feelingcategories  */
 $app->post('/post_like','post_like'); /* User feelingcategories  */
 $app->post('/postcomment','postcomment'); /* User postcomment  */
@@ -601,6 +602,52 @@ function createpost(){
 
 }
 
+
+
+function updatepost(){
+	$request = \Slim\Slim::getInstance()->request();
+    $data = json_decode($request->getBody());
+	//print_r($data);
+	$post_id=$data->post_id;	
+    $user_id=$data->user_id; 
+    $token=$data->token;
+	$post_title=$data->post_title; 
+	$post_details=$data->post_details; 
+	$post_status=$data->post_status;  
+	$allpath=$data->allpath; 
+	$postemos=$data->postemos; 
+	$posthide=$data->post_hide;  
+	$tagfriends=$data->tagfriends;
+	$shareuid=$data->shareuid;
+    $livelocation=$data->livelocation; 
+	$post_date=date('Y-m-d H:i:s'); 
+    $systemToken=apiToken($user_id);
+	$target_path = "uploads/";
+	  
+    try {
+ 
+		if($systemToken == $token){
+			$createpost = '';
+            $db = getDB();
+
+				$sql ="UPDATE user_post SET user_id='".$user_id."', post_title='".$post_title."', post_details='".$post_details."', post_status='".$post_status."', post_date='".$post_date."', allpath='".$allpath."', postemos='".$postemos."', post_hide='".$posthide."', tagfriends='".$tagfriends."', shareuid='".$shareuid."', livelocation='".$livelocation."' WHERE post_id=".$post_id;
+                $stmt = $db->prepare($sql); 
+                $stmt->execute();
+  
+				$db = null;
+				
+				echo '{"success":{"text":"Post has been updated"}}';
+			 
+			 
+       } else{
+         echo '{"error":{"text":"No access"}}'; 
+       }
+       
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+
+}
 
 
 function deletepost(){

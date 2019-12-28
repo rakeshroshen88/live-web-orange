@@ -5,7 +5,7 @@ function deladmin(id)
 {
 	if(confirm("Are you sure to delete?"))
 	{
-		location.href="<?=$_PAGE.'?'.$qryStr?>&mod=subsubcat&act=del&id="+id;
+		location.href="<?=$_PAGE.'?'.$qryStr?>&mod=4thsubcat&act=del&id="+id;
 	}
 }
 
@@ -18,7 +18,7 @@ function deladmin(id)
 
 	{
 
-		location.href="<?=$_PAGE.'?'.$qryStr?>&mod=subsubcat&act=del&id="+id;
+		location.href="<?=$_PAGE.'?'.$qryStr?>&mod=4thsubcat&act=del&id="+id;
 
 	}
 
@@ -62,7 +62,7 @@ function deladmin(id)
 
 						<div class="col-sm-9 col-lg-7 widget-right">
 
-							<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_SUBSUBCAT");	?></div>
+							<div class="large"><?=$count=$db->getSingleResult("select count(*) from 4thsubcategory");	?></div>
 
 							<div class="text-muted">Total Category</div>
 
@@ -88,7 +88,7 @@ function deladmin(id)
 
 						<div class="col-sm-9 col-lg-7 widget-right">
 
-						<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_SUBSUBCAT where status='1'");	?></div>
+						<div class="large"><?=$count=$db->getSingleResult("select count(*) from 4thsubcategory where thirdstatus='1'");	?></div>
 
 							<div class="text-muted">Active Category</div>
 
@@ -170,10 +170,11 @@ function deladmin(id)
 
 						        <th data-field="state" data-checkbox="true" >chk ID</th>
 
-						        <th data-field="id" data-sortable="true">Title </th>
-
+						        <th data-field="Title" data-sortable="true">Title </th>
+								<th data-field="3rd" data-sortable="true">3rd  Category </th>
+<th data-field="subcat" data-sortable="true">Sub Category </th>
 						       <th data-field="id" data-sortable="true">Category </th>
-								<th data-field="subcat" data-sortable="true">Sub Category </th>
+								
 
 						        <th data-field="Date" data-sortable="true">Date</th>
 
@@ -185,13 +186,6 @@ function deladmin(id)
 
 						    </thead>
 
-                            
-
-                            
-
-                            
-
-                            
 
                             <?php 
 $mod=$_REQUEST['mod'];
@@ -208,7 +202,7 @@ if($act=='dac')
 		}else{
 			$stat=0;
 		}
-		 $sql="UPDATE $_TBL_SUBSUBCAT SET sub_status='$stat' WHERE id=$catid";
+		 $sql="UPDATE 4thsubcategory SET thirdstatus='$stat' WHERE id=$catid";
 		$db->query($sql);
 		
 	}
@@ -216,9 +210,9 @@ if($act=='dac')
 if($act=='del')
 	{
 		
-		$sql="DELETE FROM $_TBL_SUBSUBCAT WHERE id='$catid'";
+		$sql="DELETE FROM 4thsubcategory WHERE id='$catid'";
 		$db->query($sql);
-		redirect('main.php?mod=subsubcat');
+		//redirect('main.php?mod=subsubcat');
 	}
 
 
@@ -250,7 +244,7 @@ $db1=new DB();
 
 			}
 
-	$sql="SELECT * from ".$_TBL_SUBSUBCAT.$wherestr." order by id desc";
+	$sql="SELECT * from 4thsubcategory".$wherestr." order by id desc";
 
 	$db->query($sql);
 
@@ -280,11 +274,13 @@ $num=$db1->getSingleResult('select count(*) from '.$_TBL_PROD." where subsubcati
 	
 	$subcatname=$db1->getSingleResult('select subcatname from '.$_TBL_SUBCAT." where id=".$row['subcatid']);
 	
+	$subsubcatname=$db1->getSingleResult('select subsubcatname from '.$_TBL_SUBSUBCAT." where id=".$row['thirdcatid']);
+	
 	//$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']);
 
 	
 
-$date=explode('-',$row['subcatdate']);
+$date=explode('-',$row['thirdcatdate']);
 
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 
@@ -306,16 +302,17 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 
 						<td></td>
 
-                        <td> <a href="main.php?mod=add_subsubcat&act=edit&id=<?=$row['id']?>"><?=$row['subsubcatname']?></a></td>
-
+                        <td> <a href="main.php?mod=add_subsubcat&act=edit&id=<?=$row['id']?>"><?=$row['thirdsubcatname']?></a></td>
+						<td valign="middle" align="center"><?=$subsubcatname?></td>
+ <td valign="middle" align="center"><?=$subcatname?></td>
 							
  <td valign="middle" align="center"><?=$cat?></td>
-					  <td valign="middle" align="center"><?=$subcatname?></td>
+					 
                    
 
 						<td> <?php echo date('d M,Y',$st);?></td>
 
-                    <td> <a href='main.php?mod=subsubcat&act=dac&id=<?=$row['id']?>&stat=<?=$row['sub_status']?>'><?=$row['sub_status']=='0'?'Deactive':'Active'?></a> </td>
+                    <td> <a href='main.php?mod=subsubcat&act=dac&id=<?=$row['id']?>&stat=<?=$row['thirdstatus']?>'><?=$row['thirdstatus']=='0'?'Deactive':'Active'?></a> </td>
 
                            
 

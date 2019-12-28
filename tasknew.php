@@ -8,13 +8,16 @@
 			$prodid=$row['id'];
 			$qty=$_REQUEST['tono'];
 			$proprice=$row['prod_sprice'];
+			$proprice=str_replace(",","",$proprice);
 			$total=$qty*$proprice;
 			  
 				$mrp=$row['prod_price'];
-				$persen=$row['prod_price']-$row['prod_sprice'];
+				$mrp=str_replace(",","",$mrp);
+				//$persen=$row['prod_price']-$row['prod_sprice'];
+				$persen=$mrp - $proprice;
 				$discount=($persen*100)/$mrp;
-			    $orgprice=$row['prod_sprice'];
-			    $finalprice=$row['prod_sprice'];
+			    $orgprice=$proprice;
+			    $finalprice=$proprice;
 			  
 			$link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
 		 $product_name = mysqli_real_escape_string($link, $row['prod_name']);
@@ -30,6 +33,8 @@
 						"finalprice"=>$finalprice,
 						"prod_total"=>$total,
 						"quantity"=>$qty,
+						"prodsize"=>$_REQUEST['prodsize'],
+						"prodcolor"=>$_REQUEST['prodcolor'],
 						"mrp"=>$mrp,
 						"buyitdate"=>date('Y-m-d h:i:s')
 						

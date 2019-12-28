@@ -170,7 +170,7 @@ function deladmin(id)
 
 						        <th data-field="state" data-checkbox="true" >chk ID</th>
 
-						        <th data-field="id" data-sortable="true">Title </th>
+						        <th data-field="Title" data-sortable="true">Title </th>
 
 						       <th data-field="id" data-sortable="true">Category </th>
 								<th data-field="subcat" data-sortable="true">Sub Category </th>

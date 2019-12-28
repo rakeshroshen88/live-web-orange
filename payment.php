@@ -55,7 +55,7 @@ $(document).ready(function() {
   function payWithPaystack(){
     var handler = PaystackPop.setup({
        //key: 'pk_test_8aac5554eab54672d05a091992ba18918bdf7b36', //tesdt key
-	  key: 'pk_live_ff9da0378cea58ecfafbfa2d6befd3da90e64255', //tesdt key
+	  key: 'pk_live_ff9da0378cea58ecfafbfa2d6befd3da90e64255', //live key
 	   //key: 'sk_live_74136133d991099e7d09fda975479ae7e42b991b',
       email: '<?=$user_row['email_id']?>',
       amount: <?=$_SESSION['finalamoun']?>*100,

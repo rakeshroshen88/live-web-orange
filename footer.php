@@ -807,8 +807,8 @@ var action='action';
 <!--//////////////-->
 <script src="js/ui-elements.js"></script>
 <script src="js/blockUI/jquery.blockUI.js"></script>
-<script src="js/media.js"></script>
 <script src="js/sweetalert2@8.js"></script>
+<script src="js/media.js"></script>
 <script src="js/profile.js"></script>
 </body>
 

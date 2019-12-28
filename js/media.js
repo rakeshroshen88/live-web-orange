@@ -670,8 +670,15 @@ jQuery(document).on("click", "#uploadpost ", function(e){
 						   $('#imgid').val('');
 						   $('#image_preview').html('');
 						   $('#tagfriends').val('');
+						   $('#tagfriends').html('');
+						    $('#contentbox').html('');
+							$('#feelingtxtHint').html('');
+							$('#Feelingpst').html('');
+							 $('.red').html('');
 						   $('.emg').val('');
+						   $('.emg').html('');
 						   $('#livelocationinput').val('');
+						    $('#livelocationinput').html('');
 						   $('#postshow').html(data);
 						   //window.location.href= MEDIA_URL+'index.php';
             			 //window.location.reload(true);
@@ -838,7 +845,7 @@ jQuery(document).on("click", "#follow", function(e){
 ///////////post comment/////////////////
 jQuery(document).on("click", ".commentid ", function(e){
 		var c_id = jQuery(this).attr('cid');
-		alert(c_id);
+		//alert(c_id);
 		var postcomment=jQuery("#postcomment"+c_id).val();
 		var pid=jQuery("#pid"+c_id).val();
 		var uid=jQuery("#uid"+c_id).val();
@@ -872,7 +879,7 @@ jQuery(document).on("click", ".commentid ", function(e){
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
-            		    alert(textStatus);
+            		    //alert(textStatus);
             	    }
             	});
 	});
@@ -913,7 +920,7 @@ jQuery(document).on("click", ".replyid ", function(e){
             		    }
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
-            		    alert(textStatus);
+            		   // alert(textStatus);
             	    }
             	});
 
@@ -2025,15 +2032,22 @@ jQuery(document).on("click", ".send_chatemoji", function(e){
 
 ///////////
 $(document).on('keyup', '.cp', function(){
-    if (event.keyCode == 13) {
-	$('.commentid').click();
+	var c_id = $(this).parent().find("input.cp").attr("cid");
+	
+	
+    if (event.keyCode == 13) {		
+	$(".commentid[cid='" + c_id + "']").click();
+	//$('.commentid').click();
       return false;
     }
   });
 
   $(document).on('keyup', '.rp', function(){
+	  var c_id = $(this).parent().find("input.rp").attr("rid");
+	  //alert(c_id);
     if (event.keyCode == 13) {
-	$('.replyid').click();
+	//$('.replyid').click();
+	$(".replyid[rid='" + c_id + "']").click();
       return false;
     }
   });
@@ -2184,26 +2198,63 @@ jQuery(".selectfeel").on('change', function() {
 	});
 	
 	
-	jQuery(document).on("click", ".send_chatemoji1", function(e){
-	//var cid = jQuery(this).attr('cid');
-	$(".wishlistcartemoji1").css("display", "block");
-	$(".wishlistcartemoji1").show();
+/* 	jQuery(document).on("click", ".send_chatemoji1", function(e){
+	var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji1[cid='" + cid + "']").css("display", "block");
+	//$(".wishlistcartemoji1").css("display", "block");
+	$(".wishlistcartemoji1[cid='" + c_id + "']").show();
+	//$(".wishlistcartemoji1").show();
 	
 
-}	);	
+}	); */	
 
 jQuery(document).on("click", "#close1", function(e){
 	//var cid = jQuery(this).attr('cid');
-	$(".wishlistcartemoji1").css("display", "none");
-	$(".wishlistcartemoji1").hide();
-	
+	//$(".wishlistcartemoji1").css("display", "none");
+	//$(".wishlistcartemoji1").hide();
+	var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji1[cid='" + cid + "']").css("display", "none");
+	$(".wishlistcartemoji1[cid='" + cid + "']").hide();
 	
 
 });
 
 ///////////Product Feedback/////////////////
 jQuery(document).on("click", ".productfeedback", function(e){  
-		var form=jQuery("#feedback");
+
+		var form=jQuery("#feedback");		
+		 var title=jQuery('#title').val();
+		 var pid=jQuery('#pid').val();
+		 var review=jQuery('#review').val();
+		 var page1=jQuery('#page1').val();
+		 var page=jQuery('#page').val();
+		 
+		 var oldpid=jQuery('#oldpid').val();
+		 
+		 if(title==''){
+			 alert("* You have to enter title!");
+			 return false;
+			 
+		 }
+		  if(review==''){
+			 alert("* You have to enter review!");
+			 return false;
+			 
+		 }
+		 
+		 $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+
+            }
+            else{ //if($(this).prop("checked") == false){
+				$("#cf").css("border-color", "#FF0000");
+        		$('#submitnew').attr('disabled',true);
+				alert("* You have to enter review!");
+        		$("#error_cf").text("* You have to check certify section!");
+				return false;
+                //alert("Checkbox is unchecked.");
+            }
+        });
 			
 		var social_AjaxURL1=social_AjaxURL+'ajax_feedback.php';
 		
@@ -2234,8 +2285,15 @@ jQuery(document).on("click", ".productfeedback", function(e){
 						  
 						});
 						  setTimeout(function(){
-							window.location.reload(true);
-						   }, 5000);
+							//window.location.reload(true);
+						   
+						if(page=='product'){
+							window.location = "//orangestate.ng/product-details.php?pid="+oldpid;							
+						}else{
+							window.location = "//orangestate.ng/tour-destination-details.php?tourid="+pid;
+							
+						}
+						}, 7000);
 						
             		    } 
             		    

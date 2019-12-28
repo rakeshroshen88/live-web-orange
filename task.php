@@ -8,11 +8,14 @@
 			$prodid=$row['id'];
 			$qty=$_REQUEST['tono'];
 			$proprice=$row['prod_sprice'];
+			$proprice=str_replace(",","",$proprice);
 			$total=$qty*$proprice;
 			  
 				$mrp=$row['prod_price'];
-				$persen=$row['prod_price']-$row['prod_sprice'];
-				$discount=($persen*100)/$mrp;
+				$mrp=str_replace(",","",$mrp);
+				//$persen=$row['prod_price']-$row['prod_sprice'];
+				//$discount=($persen*100)/$mrp;
+				$persen=$mrp - $proprice;
 			    $orgprice=$row['prod_sprice'];
 			    $finalprice=$row['prod_sprice'];
 			  
@@ -31,6 +34,8 @@
 						"finalprice"=>$finalprice,
 						"prod_total"=>$total,
 						"quantity"=>$qty,
+						"prodsize"=>$_REQUEST['prodsize'],
+						"prodcolor"=>$_REQUEST['prodcolor'],
 						"mrp"=>$mrp,
 						"buyitdate"=>date('Y-m-d h:i:s')
 						

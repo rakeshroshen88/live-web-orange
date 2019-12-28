@@ -67,14 +67,14 @@ $shipping = mysqli_real_escape_string($link, $_REQUEST['shipping']);
 $warranty = mysqli_real_escape_string($link, $_REQUEST['warranty']);
 $return = mysqli_real_escape_string($link, $_REQUEST['return-policy']);
 //$prod_detail=$_REQUEST['prod_desc'];
-$array_values="";
+$array_values=array();
 if (isset($_POST["input_array_name"]) && is_array($_POST["input_array_name"])){ 
 	$input_array_name = array_filter($_POST["input_array_name"]); 
     foreach($input_array_name as $field_value){
-        $array_values .= $field_value."<br />";
+        $array_values[]= $field_value;
     }
 }
-
+$array_values2=implode(",",$array_values);
 $array_values1="";
 if (isset($_POST["input_array_size"]) && is_array($_POST["input_array_size"])){ 
 	$input_array_size = array_filter($_POST["input_array_size"]); 
@@ -82,16 +82,38 @@ if (isset($_POST["input_array_size"]) && is_array($_POST["input_array_size"])){
         $array_values1 .= $field_value1."<br />";
     }
 }
+if(!empty($_REQUEST['category'])){
+	$cid=$_REQUEST['category'];
+}else{
+	$cid=0;
+}
 
+if(!empty($_REQUEST['subcategory'])){
+	$sid=$_REQUEST['subcategory'];
+}else{
+	$sid=0;
+}
+
+if(!empty($_REQUEST['subsubcategory'])){
+	$ssid=$_REQUEST['subsubcategory'];
+}else{
+	$ssid=0;
+}
+
+if(!empty($_REQUEST['4thcatgory'])){
+	$sssid=$_REQUEST['4thcatgory'];
+}else{
+	$sssid=0;
+}
 
 $updatearr=array(	 
-				 	 "catid"=>$_REQUEST['category'],									 
+				 	 "catid"=>$cid,									 
 					 "prod_sku"=>$_REQUEST['sku'],
-					 "subcatid"=>$_REQUEST['subcategory'],
-					 "subsubcatid"=>$_REQUEST['subsubcategory'],
-					 "4thcatid"=>$_REQUEST['4thcatgory'],
+					 "subcatid"=>$sid,
+					 "subsubcatid"=>$ssid,
+					 "4thcatid"=>$sssid,
 					 "userid"=>0,
-					 "color"=>$array_values,
+					 "color"=>$array_values2,
 					 //"allsize"=>$array_values1,
 					 "quantity"=>$_REQUEST['quantity'],
 					 "total"=>$_REQUEST['quantity'],
@@ -310,7 +332,7 @@ if($act=="edit")
 						
 
 						////////////////////////////////////////////////////////////////////////////////////////////
-
+//$errMsg='<br><b>Product Added Successfully!</b><br>';
 					if($insid>0)
 						{
 						$errMsg='<br><b>Product Added Successfully!</b><br>';
@@ -405,7 +427,7 @@ function deladmin1(id2)
 
                         <form name="frmprod" class="form-horizontal" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data">
 
-												<input type="hidden" name="mainimage_edit" value="<?=$row['prod_large_image']?>" />
+						<input type="hidden" name="mainimage_edit" value="<?=$row['prod_large_image']?>" />
                         <input type="hidden" name="image1_edit" value="<?=$row['image1']?>" />
 						<input type="hidden" name="image2_edit" value="<?=$row['image2']?>" />			
 						<input type="hidden" name="prodid" value="<?=$row['id']?>" />
@@ -454,31 +476,111 @@ if (str=="sheet
                                         <div class="col-md-9">
 
                                        <?php
-						/* if(isset($_REQUEST['catid']))
+						 if(isset($_REQUEST['catid']))
 							{
 							$selcat=$_REQUEST['catid'];						
 							}else{
 							$selcat=$row['id'];							
 							}						
-						echo createComboBox($makearr1,'category',$row['catid'],' class="form-control" id="category" onchange="return showUser(this.value);" '); */
+						echo createComboBox($makearr1,'category',$row['catid'],' class="form-control" id="category" onchange="return showUser(this.value);" '); 
 					
-							
+							/* 
 							 $sql="SELECT * FROM category";
-							$db->query($sql)or die($db->error()); ?>
+							$db->query($sql)or die($db->error()); */ ?>
 
-						 <select  name="category" id="category" cid="<?=$subid?>" onchange="return showUser(this.value);" class="form-control">
-										<option>Select subcateory</option><?php
-						while($row1=$db->fetchArray()){
+						<!-- <select  name="category" id="category" cid="<?=$subid?>" onchange="return showUser(this.value);" class="form-control">
+										<option value="0"><?=$row['catid']?>Select cateory</option><?php
+						/* while($row1=$db->fetchArray()){
+							if($row1['id']=='16'){ $select='selected';} */
 						  
 						?>
 		
-                        <option value="<?=$row1['id']?>"><?=$row1['catname']?></option>
-                  <?php }?>
-				   </select>
+                        <option value="<?=$row1['id']?>" <?=$select?>><?=$row1['catname']?></option>
+                  <?php //}?>
+				   </select>-->
 
                                         </div>
 
                                     </div>
+									
+									<?php if($act=="edit"){ ?>
+									<div class="form-group">
+								<?php $subid=$row['catid'];
+							 $sql="SELECT * FROM $_TBL_SUBCAT WHERE catid=$subid";
+							$db->query($sql)or die($db->error());
+							 if($db->numRows()>0){
+								
+							 ?>
+							  <label class="col-md-3 control-label" for="name">  Sub Category</label>
+
+									  <div class="col-md-9">
+									 <select  name="subcategory" id="subcategory" cid="<?=$subid?>" class="form-control">
+													<option value="0">Select subcateory</option><?php
+									while($row1=$db->fetchArray()){
+									if($row1['id']==$row['subcatid']){ $select1='selected';}
+								?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select1?>><?=$row1['subcatname']?></option>
+						  <?php }?>
+						   </select>
+						</div>
+						 <?php } ?>
+                                    </div>
+									<?php } ?>
+									
+									<?php if($act=="edit"){ ?>
+									<div class="form-group">
+									<?php $cid=$row['catid'];
+									$subcatid=$row['subcatid'];
+									 $sql="SELECT * FROM $_TBL_SUBSUBCAT WHERE catid=$cid and subcatid=$subcatid";
+$db->query($sql)or die($db->error());
+ if($db->numRows()>0){
+ ?>
+<label class="col-md-3 control-label" for="name">  Ternary Category</label>
+ <div class="col-md-9">
+		 <select  name="subsubcategory" id="subsubcategory" cid="<?=$cid?>" sid="<?=$subcatid?>" class="form-control">
+                        <option value="0">Select subcateory</option><?php
+		while($row1=$db->fetchArray()){
+		  if($row1['id']==$row['subsubcatid']){ $select2='selected';}
+		?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select2?> cid="<?=$row1['catid']?>"><?=$row1['subsubcatname']?></option>
+                  <?php }?>
+				   </select>
+
+</div>
+ <?php } ?>
+									 </div>
+									<?php } ?>
+									
+									<?php if($act=="edit"){ 
+									$tid=$row['subsubcatid'];
+						if(!empty($tid)){
+									?>
+									<div class="form-group">
+									<?php 
+
+						
+						 $sql="SELECT * FROM 4thsubcategory WHERE catid=$cid and subcatid=$subcatid and thirdcatid=$tid";
+						$db->query($sql)or die($db->error());
+						 if($db->numRows()>0){
+						 ?>
+						  <label class="col-md-3 control-label" for="name">  4Th Category</label>
+						 <div class="col-md-9">
+							<select  name="4thcatgory" id="4thcatgory" class="form-control">
+												<option value="0">Select subcateory</option><?php
+								while($row1=$db->fetchArray()){
+								if($row1['id']==$row['4thcatid']){ $select3='selected';}  
+								?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select3?> ><?=$row1['3rdsubcatname']?></option>
+                  <?php }?>
+				   </select> </div>
+
+ <?php } ?>
+									 </div>
+									<?php } }?>
+									
 
 							 <script>
                 function showUser(str) {
@@ -612,7 +714,7 @@ if (str=="sheet
 
                                         <div class="col-md-6">
 										
-										<input name="prodname" type="text" class="form-control" value="<?=$row['prod_name']?>"/>  
+										<input name="prodname" type="text" class="form-control" value="<?=$row['prod_name']?>" required/>  
 								
                                         </div>
 
@@ -626,7 +728,7 @@ if (str=="sheet
                                         <div class="col-md-6">
 										
 									
-								 <input name="sku" id="sku" type="text" class="form-control" value="<?=$row['prod_sku']?>"/>  
+								 <input name="sku" id="sku" type="text" class="form-control" value="<?=$row['prod_sku']?>" required/>  
 
                                        
 
@@ -641,7 +743,7 @@ if (str=="sheet
                                         <div class="col-md-6">
 										
 		
-  <input name="prodprice" type="text" class="form-control" value="<?=$row['prod_price']?>"/>    
+  <input name="prodprice" type="text" class="form-control" value="<?=$row['prod_price']?>" required/>    
 
 
                                        
@@ -656,7 +758,7 @@ if (str=="sheet
 
                                         <div class="col-md-6">
 					   
-    <input name="sprodprice" type="text" class="form-control" value="<?=$row['prod_sprice']?>"/>     
+    <input name="sprodprice" type="text" class="form-control" value="<?=$row['prod_sprice']?>" required/>     
 
 
                                        
@@ -740,7 +842,7 @@ if (str=="sheet
 
                                         <div class="col-md-6">
 								   
-	<input name="quantity" type="text" class="form-control" value="<?=$row['quantity']?>"/> 
+	<input name="quantity" type="text" class="form-control" placeholder="100" value="<?=$row['quantity']?>" required/> 
 
                                         </div>
 
@@ -752,6 +854,17 @@ if (str=="sheet
 								 <label class="col-md-3 control-label" for="size"> Add Color</label>
 				<div class="col-md-6">
 				<div class="wrapper">
+				<?php 
+				$color=$row['color'];
+				$colornew=explode(",",$color);
+				//print_r($color);
+				$colorcount=count($colornew);
+				for($i=0;$i<$colorcount;$i++){
+				?>
+				<div><input type="text" name="input_array_name[]" placeholder="Input Color" value="<?=$colornew[$i]?>" /></div>
+				<?php }
+				
+				?>
 					<div><input type="text" name="input_array_name[]" placeholder="Input Color" /></div>
 						</div>
 					<br/>
@@ -811,7 +924,7 @@ if (str=="sheet
 										<div class="form-group">
         									<label class="col-md-3 control-label"> Return Policy </label>
             									<div class="col-md-9">
-                                                      <textarea name="return-policy" class="form-control"><?=$row['return-policy']?></textarea>
+                                                      <textarea name="return-policy" class="form-control"><?=$row['rpolicy']?></textarea>
             									</div>
         								</div>
 
@@ -861,7 +974,7 @@ if (str=="sheet
     <div class="form-group">
 										<?php 
 										if(!empty($_SESSION['sess_pid'])){
-										$sql1="SELECT * FROM productimage WHERE pid=".$_SESSION['sess_pid'];
+										$sql1="SELECT * FROM productimage WHERE pid=".$_REQUEST['id'];
 		$db->query($sql1)or die($db->error());
 		while($row1=$db->fetchArray()){	?>
 				<p><img src="../product/<?=$row1['imgid']?>" width="100"  height="100"/><br />		

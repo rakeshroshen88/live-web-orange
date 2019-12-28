@@ -1,14 +1,14 @@
 <html>
 <head>
 <title>
- catlog Image Preview
+ Produc Image Preview
 </title>
 </head>
 <body>
 <div align="center">
 <?php
 
-echo '<img src="../category/'.$_REQUEST['img'].'">';
+echo '<img src="../product/'.$_REQUEST['img'].'">';
 
 ?>
 </div>

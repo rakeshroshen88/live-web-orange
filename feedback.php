@@ -3,13 +3,13 @@ include('chksession.php');
 
  $page=base64_decode($_REQUEST['page']);
 if($page=='product'){
-	$pid=base64_decode($_REQUEST['pid']);
+$pid=base64_decode($_REQUEST['pid']);
  $sql="SELECT * from ".$_TBL_PROD1." where id='$pid'";	
  $db->query($sql);	
  if($db->numRows()>0){
 $row=$db->fetchArray();	
 }
-$path=$row['prod_large_image'];
+$path='product/'.$row['prod_large_image'];
 $title=$row['prod_name'];
 }
 
@@ -20,7 +20,7 @@ if($page=='destination'){
  if($db->numRows()>0){
 $row=$db->fetchArray();	
 }
-$path=$row['picture'];
+$path='destination/'.$row['picture'];
 $title=$row['title'];
 }
 ?>
@@ -37,7 +37,7 @@ $title=$row['title'];
                 <div class="feedbackpage">
                     <div class="product-details">
                         <div class="prodimg">
-                           <img  src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>">
+                           <img  src="<?=$_SITE_PATH?><?=$path?>" alt="<?=$row['prod_name']?>">
                         </div>
                         <div class="productdnsefedabc">
                             <h2><?=$title?> </h2>
@@ -50,7 +50,10 @@ $title=$row['title'];
                         <form name="feedback" id="feedback" class="feedback">
                                 <div class="ratingfeed">
                                     <h4>Your overall rating of this attraction</h4><input type="hidden" id="page" name="page" value="<?=$page?>" />
+<input type="hidden" id="page1" name="page1" value="<?=$_REQUEST['page']?>" />
  <input type="hidden" id="pid" name="pid" value="<?=$pid?>" /> 
+  <input type="hidden" id="oldpid" name="oldpid" value="<?=$_REQUEST['pid']?>" /> 
+
 
                                     <div class="wrapper1">
   <input type="checkbox" id="st1" name="rate" value="1" />
@@ -69,23 +72,24 @@ $title=$row['title'];
 
                                 <div class="form-group">
                                     <label>Title of your review</label>
-                                    <input type="type" class="form-control"  name="title" required>
+                                    <input type="text" class="form-control"  name="title" id="title" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>You review</label>
-                                    <textarea class="form-control" rows="5" name="review" required ></textarea>
+                                    <textarea class="form-control" rows="5" name="review" id="review" required ></textarea>
                                 </div>
 
                                 <div class="checkbocfortx">
-                                    <span class="boxchecktx"><input type="checkbox" name="certify" required></span>
+                                    <span class="boxchecktx"><input type="checkbox" name="certify" id="cf" required></span>
                                     <span class="boxchecktx-details">
                                         I certify that this review is based on my own experience and is my genuine opinion of this establishment and that I have no personal or business relationship with this establishment, and have not been offered any incentive or payment originating from the establishment to write this review. I understand that Orange State has a zero-tolerance policy on fake reviews.
                                     </span>
+									<span id="error_cf"> </span>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="button" value="Submit Your Review" class="btn btn-primary priorg productfeedback" name="Submit">
+                                    <input type="button" value="Submit Your Review" class="btn btn-primary priorg productfeedback" id="submitnew" name="Submit">
                                 </div>
 
 

@@ -99,6 +99,7 @@ if(!empty($prodid))
   <option value="slider" <?php if($row['img_type']=='slider'){ echo "selected";}?>>Market Place Slider</option>
   <option value="advertisement" <?php if($row['img_type']=='advertisement'){ echo "selected";}?>>Advertisement</option>
    <option value="Sponsor" <?php if($row['img_type']=='Sponsor'){ echo "selected";}?>>Sponsor</option>
+   <option value="Mobile" <?php if($row['img_type']=='Mobile'){ echo "selected";}?>>Mobile Slider</option>
  
 </select>
                                         </div>

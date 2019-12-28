@@ -59,20 +59,20 @@ $updatearr=array(
 					 "catid"=>$_REQUEST['category'],
 					 "subcatid"=>$_REQUEST['subcategory'],
 					// "imgid"=>$largeimage,
-					 "3rdcatid"=>$_REQUEST['subsubcategory'],
+					 "thirdcatid"=>$_REQUEST['subsubcategory'],
 					 //"bimg"=>$largeimage1,
-					 "3rdsubcatname"=>$_REQUEST['catname'],
+					 "thirdsubcatname"=>$_REQUEST['catname'],
 					 //"3rdsubdesc"=>$_REQUEST['cat_desc'],
-					 "3rdcatdate"=>date('Y-m-d'),
-					 "3rd_status"=>$_REQUEST['catstatus']
+					 "thirdcatdate"=>date('Y-m-d'),
+					 "thirdstatus"=>$_REQUEST['catstatus']
 						);
 	if($act=="edit")
 		{
-		$whereClause=" catid=".$_REQUEST['category']." and subcatid=".$_REQUEST['subcategory']." and 3rdcatid=".$_REQUEST['subsubcategory']." and 3rdsubcatname='".$_REQUEST['catname']."' and id!=".$_REQUEST['id'] ;
+		$whereClause=" catid=".$_REQUEST['category']." and subcatid=".$_REQUEST['subcategory']." and thirdcatid=".$_REQUEST['subsubcategory']." and thirdsubcatname='".$_REQUEST['catname']."' and id!=".$_REQUEST['id'] ;
 		}elseif($act=="add"){
 		$whereClause=" catid=".$_REQUEST['category']." and subcatname='".$_REQUEST['catname']."'" ;
 		}
-	if(matchExists($_TBL_SUBCAT, $whereClause))
+	if(matchExists('4thsubcategory', $whereClause))
 		{
 			
 			$errMsg='<br>Subcategory already exist!<br>';
@@ -136,7 +136,7 @@ if(!empty($subid) and $act=="edit")
 							<fieldset>
 								<!-- Name input-->
                                
-                                    <div class="form-group">
+                                   <!-- <div class="form-group">
                                         <label class="col-md-3 control-label" for="name"> Select Category:</label>
                                         <div class="col-md-9">
                                        <?php echo createComboBox($makearr1,'category',$row['catid'],' class="form-control"')?>  
@@ -157,12 +157,206 @@ if(!empty($subid) and $act=="edit")
                                         <div class="col-md-9">
                                         <?php echo createComboBox($makearr3,'subsubcategory',$row['3rdcatid'],' class="form-control"')?>    
                                         </div>
+                                    </div>-->
+									
+									    <div class="form-group">
+
+                                        <label class="col-md-3 control-label" for="name"> Ptoduct Category</label>
+
+                                        <div class="col-md-9">
+
+                                       <?php
+						/* if(isset($_REQUEST['catid']))
+							{
+							$selcat=$_REQUEST['catid'];						
+							}else{
+							$selcat=$row['id'];							
+							}						
+						echo createComboBox($makearr1,'category',$row['catid'],' class="form-control" id="category" onchange="return showUser(this.value);" '); */
+					
+							
+							 $sql="SELECT * FROM category";
+							$db->query($sql)or die($db->error()); ?>
+
+						 <select  name="category" id="category" cid="<?=$subid?>" onchange="return showUser(this.value);" class="form-control">
+										<option value="0">Select subcateory</option><?php
+						while($row1=$db->fetchArray()){
+							if($row1['id']==$row['catid']){ $select='selected';}
+						  
+						?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select?>><?=$row1['catname']?></option>
+                  <?php }?>
+				   </select>
+
+                                        </div>
+
                                     </div>
+									
+									<?php if($act=="edit"){ ?>
+									<div class="form-group">
+								<?php $subid=$row['catid'];
+							 $sql="SELECT * FROM $_TBL_SUBCAT WHERE catid=$subid";
+							$db->query($sql)or die($db->error());
+							 if($db->numRows()>0){
+								
+							 ?>
+							  <label class="col-md-3 control-label" for="name">  Sub Category</label>
+
+									  <div class="col-md-9">
+									 <select  name="subcategory" id="subcategory" cid="<?=$subid?>" class="form-control">
+													<option value="0">Select subcateory</option><?php
+									while($row1=$db->fetchArray()){
+									if($row1['id']==$row['subcatid']){ $select1='selected';}
+								?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select1?>><?=$row1['subcatname']?></option>
+						  <?php }?>
+						   </select>
+						</div>
+						 <?php } ?>
+                                    </div>
+									<?php } ?>
+									
+									<?php if($act=="edit"){ ?>
+									<div class="form-group">
+									<?php $cid=$row['catid'];
+									$subcatid=$row['subcatid'];
+									 $sql="SELECT * FROM $_TBL_SUBSUBCAT WHERE catid=$cid and subcatid=$subcatid";
+$db->query($sql)or die($db->error());
+ if($db->numRows()>0){
+ ?>
+<label class="col-md-3 control-label" for="name">  Ternary Category</label>
+ <div class="col-md-9">
+		 <select  name="subsubcategory" id="subsubcategory" cid="<?=$cid?>" sid="<?=$subcatid?>" class="form-control">
+                        <option value="0">Select subcateory</option><?php
+		while($row1=$db->fetchArray()){
+		  if($row1['id']==$row['subsubcatid']){ $select2='selected';}
+		?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select2?> cid="<?=$row1['catid']?>"><?=$row1['subsubcatname']?></option>
+                  <?php }?>
+				   </select>
+
+</div>
+ <?php } ?>
+									 </div>
+									<?php } ?>
+									 <script>
+                function showUser(str) {
+					
+                    if (str == "0") {
+                        document.getElementById("subcatid").innerHTML = "";
+
+                        return;
+                    } else {
+
+                        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp = new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                document.getElementById("subcatid").innerHTML = xmlhttp.responseText;
+
+                            }
+                        }
+
+                        xmlhttp.open("GET", "pages/ajax_subcat.php?subcatid=" + str, true);
+                        xmlhttp.send();
+                    }
+                }
+				
+				
+				 function show3rd(str) {
+					
+					var cid1 = jQuery(this).attr('cid');	
+					
+					var cid = jQuery('#category').val();	
+					
+                    if (str == "0") {
+                        document.getElementById("subsubcatid").innerHTML = "";
+
+                        return;
+                    } else {
+
+                        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp = new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                document.getElementById("subsubcatid").innerHTML = xmlhttp.responseText;
+
+                            }
+                        }
+
+                        xmlhttp.open("GET", "pages/ajax_2nd.php?subcatid=" + str + '&cid=' + cid, true);
+                        xmlhttp.send();
+                    }
+                }
+				
+				
+				/* function show4th(str) {
+					
+					var cid1 = jQuery(this).attr('cid');	
+					
+					var cid = jQuery('#category').val();
+					var sid = jQuery('#subcategory').val();	
+					var tid = jQuery('#subsubcategory').val();						
+					
+                    if (str == "0") {
+                        document.getElementById("4thsubcatid").innerHTML = "";
+
+                        return;
+                    } else {
+
+                        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp = new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                document.getElementById("4thsubcatid").innerHTML = xmlhttp.responseText;
+
+                            }
+                        }
+
+                        xmlhttp.open("GET", "pages/ajax_4thcat.php?4thcatid=" + str + '&cid=' + cid + '&subcatid=' + sid, true);
+                        xmlhttp.send();
+                    }
+                } */
+            </script>		
+									
+									
+                              <div class="form-group" id="subcatid">
+  
+
+                                    </div>
+
+									
+									
+									
+									
+									
+                            <div class="form-group" id="subsubcatid">
+
+                                    </div>
+
 									
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="name"> Title</label>
                                         <div class="col-md-9">
-                                        <input id="catname" name="catname" type="text" placeholder=" Title" class="form-control" value="<?=$row['subsubcatname']?>">
+                                        <input id="catname" name="catname" type="text" placeholder=" Title" class="form-control" value="<?=$row['3rdsubcatname']?>">
                                         </div>
                                     </div>
 							

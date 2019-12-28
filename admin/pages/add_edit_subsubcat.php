@@ -131,21 +131,113 @@ if(!empty($subid) and $act=="edit")
 						 <input type="hidden" name="image4" value="<?=$row['bimg']?>" />
 							<fieldset>
 								<!-- Name input-->
+								 <div class="form-group">
+
+                                        <label class="col-md-3 control-label" for="name"> Ptoduct Category</label>
+
+                                        <div class="col-md-9">
+
+                                       <?php
+						/* if(isset($_REQUEST['catid']))
+							{
+							$selcat=$_REQUEST['catid'];						
+							}else{
+							$selcat=$row['id'];							
+							}						
+						echo createComboBox($makearr1,'category',$row['catid'],' class="form-control" id="category" onchange="return showUser(this.value);" '); */
+					
+							$catid=$row['catid'];
+							  $sql="SELECT * FROM category";
+							$db->query($sql)or die($db->error()); ?>
+
+						 <select  name="category" id="category" cid="<?=$subid?>" onchange="return showUser(this.value);" class="form-control">
+										<option value="0">Select cateory</option><?php
+										//echo $row['catid'];
+						while($row1=$db->fetchArray()){
+							if($row1['id'] == $catid){ $select='selected';}
+						  
+						?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select?>><?=$row1['catname']?></option>
+                  <?php }?>
+				   </select>
+
+                                        </div>
+
+                                    </div>
+								
                                
-                                    <div class="form-group">
+                                   <!-- <div class="form-group">
                                         <label class="col-md-3 control-label" for="name"> Select Category:</label>
                                         <div class="col-md-9">
                                        <?php echo createComboBox($makearr1,'category',$row['catid'],' class="form-control"')?>  
                                         </div>
-                                    </div>
+                                    </div>-->
 									
 									
 									
-                                    <div class="form-group">
+                                    <!--<div class="form-group">
                                         <label class="col-md-3 control-label" for="name"> Select Sub Category:</label>
                                         <div class="col-md-9">
                                         <?php echo createComboBox($makearr2,'subcategory',$row['subcatid'],' class="form-control"')?>    
                                         </div>
+                                    </div>-->
+									 <script>
+                function showUser(str) {
+					
+                    if (str == "0") {
+                        document.getElementById("subcatid").innerHTML = "";
+
+                        return;
+                    } else {
+
+                        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp = new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                document.getElementById("subcatid").innerHTML = xmlhttp.responseText;
+
+                            }
+                        }
+
+                        xmlhttp.open("GET", "pages/ajax_subcat.php?subcatid=" + str, true);
+                        xmlhttp.send();
+                    }
+                }
+				</script>     	<?php if($act=="edit"){ ?>
+									<div class="form-group">
+								<?php $subid=$row['catid'];
+							 $sql="SELECT * FROM $_TBL_SUBCAT WHERE catid=$subid";
+							$db->query($sql)or die($db->error());
+							 if($db->numRows()>0){
+								
+							 ?>
+							  <label class="col-md-3 control-label" for="name">  Sub Category</label>
+
+									  <div class="col-md-9">
+									 <select  name="subcategory" id="subcategory" cid="<?=$subid?>" class="form-control">
+													<option value="0">Select subcateory</option><?php
+									while($row1=$db->fetchArray()){
+									if($row1['id']==$row['subcatid']){ $select1='selected';}
+								?>
+		
+                        <option value="<?=$row1['id']?>" <?=$select1?>><?=$row1['subcatname']?></option>
+						  <?php }?>
+						   </select>
+						</div>
+						 <?php } ?>
+                                    </div>
+									<?php } ?>
+									
+				
+									<div class="form-group" id="subcatid">
+  
+
                                     </div>
 									
                                     <div class="form-group">

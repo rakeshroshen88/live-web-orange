@@ -170,8 +170,8 @@ if($dbt->numRows()>0)
                     <div class="vertical-menu mb-all-30">
                         <nav>
                             <ul class="vertical-menu-list">
-							<?php $db1=new DB(); $db2=new DB();
-								 $sql1="SELECT * FROM $_TBL_CAT where status='yes'";
+							<?php $db1=new DB(); $db2=new DB(); $db3=new DB(); $db4=new DB();
+								 $sql1="SELECT * FROM $_TBL_CAT where status='yes' limit 0,12";
 								 $db1->query($sql1)or die($db1->error());
 								 ?>
 								<?php while($row1=$db1->fetchArray()){
@@ -185,7 +185,41 @@ if($dbt->numRows()>0)
 								 $db2->query($sql2)or die($db2->error());
 								 ?>
 								<?php while($row2=$db2->fetchArray()){	?>
-                                    <li><a href="marketplace.php?cid=<?=$row1['id']?>&sid=<?php echo $row2['id'];?>"><?php echo $row2['subcatname'];?> </a></li>
+                                    <li><a href="marketplace.php?cid=<?=$row1['id']?>&sid=<?php echo $row2['id'];?>"><?php echo $row2['subcatname'];?> </a>
+									
+									<?php ///////////////////?>
+									 <ul class="ht-dropdown mega-child">
+									<?php $sql3="SELECT * FROM $_TBL_SUBSUBCAT WHERE catid=".$row1['id']." and subcatid=".$row2['id'];
+								 $db3->query($sql3)or die($db3->error());
+								 ?>
+								<?php while($row3=$db3->fetchArray()){	?>
+                                    <li><a href="marketplace.php?cid=<?=$row1['id']?>&sid=<?php echo $row2['id'];?>&tid=<?php echo $row3['id'];?>"><?php echo $row3['subsubcatname'];?> </a>
+									
+									<?php ///////////////////?>
+									 <ul class="ht-dropdown mega-child">
+									<?php  $sql4="SELECT * FROM 4thsubcategory WHERE catid=".$row1['id']." and subcatid=".$row2['id']." and thirdcatid=".$row3['id'];
+								 $db4->query($sql4)or die($db4->error());
+								 ?>
+								<?php while($row4=$db4->fetchArray()){	?>
+                                    <li><a href="marketplace.php?cid=<?=$row1['id']?>&sid=<?php echo $row2['id'];?>&tid=<?php echo $row3['id'];?>&4thcid=<?php echo $row4['id'];?>"><?php echo $row4['thirdsubcatname'];?> </a>
+									
+									
+									
+									
+									</li>
+								<?php } ?>  
+                                    </ul>
+									<?php //////////////////////?>
+									
+									
+									
+									</li>
+								<?php } ?>  
+                                    </ul>
+									
+									
+									
+									</li>
 								<?php } ?>  
                                     </ul>
                                 
@@ -463,7 +497,7 @@ if($dbt->numRows()>0)
 						$dbc=new DB();
 						$cnt=$dbc->getSingleResult("SELECT count(*) FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand()");
 						
-						$sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 0,5";									
+						$sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 0,4";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -525,7 +559,7 @@ if($dbt->numRows()>0)
 
                                 <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 5,10";						
+						<?php  $sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 4,8";						
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -539,7 +573,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 wdith20a">
+                                        <div class="col-md-3 ">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -641,7 +675,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 wdith20a">
+                                        <div class="col-md-3 ">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -690,7 +724,7 @@ if($dbt->numRows()>0)
 								
 								  <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18'and catid='19' ORDER BY rand() limit 5,10";									
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18' or catid='19' ORDER BY rand() limit 5,10";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -704,7 +738,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 wdith20a">
+                                        <div class="col-md-3 ">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -805,7 +839,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 wdith20a">
+                                        <div class="col-md-3 ">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -865,7 +899,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 wdith20a">
+                                        <div class="col-md-3 ">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -1174,19 +1208,38 @@ $cnt=$db->getSingleResult("select count(*) from feedback where pages='product' p
         </div>
         <div class="col-md-6">
             <div class="topdealsbar topselection featuredband">
-                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span> Featured Brands<span class="pull-right morevew">View  More</span> </h3>
+                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span> Featured Brands<span class="pull-right morevew"><!--View  More--></span> </h3>
                 <div class="topliest">
                     <ul>
+					      <?php $db2=new DB();
+     $sql21="SELECT * FROM $_TBL_CAT where featured='yes' ORDER BY rand() DESC limit 0,2";
+     $db2->query($sql21)or die($db2->error());
+     ?>
+    <?php while($row21=$db2->fetchArray()){
+        $price=$db->getSingleResult("SELECT MIN(prod_sprice) from ".$_TBL_PRODUCT." where catid='".$row21['id']."'");
+    
+    $catid=$row21['id'];
+$startTimeStamp = strtotime($row21['sdate']);
+$endTimeStamp = strtotime(date('Y-m-d'));
+
+$timeDiff = abs($endTimeStamp - $startTimeStamp);
+
+$numberDays = $timeDiff/86400;  // 86400 seconds in one day
+$numberDays = intval($numberDays);
+    ?>
                         <li class="dear1s">
                             <div class="dealimg">
-                               <img src="img/banner-03.jpg" alt="product 1">
+                               <a href="marketplace.php?cid=<?=$row21['id']?>"><img src="category/<?=$row21['imgid'];?>" alt="<?php echo $row21['catname'];?>" /></a>
                             </div>
                             <div class="productdeails1deals">
                                 <h5>Coming Soon </h5>
-                                <div class="nm-sold"> <i class="fa fa-clock-o" aria-hidden="true"></i> Sale Starts in: 5 Days</div>
+                                <div class="nm-sold"> <i class="fa fa-clock-o" aria-hidden="true"></i> Sale Starts in: <?=$numberDays?> Days</div>
                             </div>
                         </li>
-                        <li class="dear1s">
+                      
+	<?php } ?>
+	<!--
+					  <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/banner-03.jpg" alt="product 1">
                             </div>
@@ -1195,7 +1248,8 @@ $cnt=$db->getSingleResult("select count(*) from feedback where pages='product' p
                                 <div class="nm-sold"> <i class="fa fa-clock-o" aria-hidden="true"></i> Sale Starts in: 5 Days</div>
                             </div>
                         </li>
-                    </ul>
+                    -->
+</ul>
                 </div>
             </div>
         </div>
@@ -1708,8 +1762,8 @@ $cnt=$db->getSingleResult("select count(*) from feedback where pages='product' p
 						//if($allpid>0){ ?>
                
 						<?php //} ?>
-                <div class="row">
-                    <div class="col-md-12">
+                <!--<div class="row">
+                    <div class="col-md-12">-->
                         <div id="blogCarousel1" class="carousel slide" data-ride="carousel">
 
                             
@@ -1733,7 +1787,7 @@ $cnt=$db->getSingleResult("select count(*) from feedback where pages='product' p
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -1850,8 +1904,8 @@ $cnt=$db->getSingleResult("select count(*) from feedback where pages='product' p
                         </div>
                         <!--.Carousel-->
 
-                    </div>
-                </div>
+                   <!-- </div>
+                </div>-->
             </div>
 
         </div>

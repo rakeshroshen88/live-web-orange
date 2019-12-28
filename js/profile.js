@@ -1469,3 +1469,30 @@ jQuery(document).on("click", "#csocalsave", function(e){
     	
 	});
 		
+/* 	$('.send_chatemoji1').click(function() {
+		var cid = jQuery(this).attr('pid');
+	//$(".emoji1[pid='" + cid + "']").toggle();
+            $(".emoji1[pid='" + cid + "']").lazy({
+                bind: "event",
+                delay: 0
+            });
+        }); */
+		
+		/* $('.send_chatemoji').click(function() {
+            $('.emoji1').lazy({
+                bind: "event",
+                delay: 0
+            });
+        }); */
+		
+$(".send_chatemoji1").click(function(){
+	var cid = jQuery(this).attr('cid');
+	$(".wishlistcartemoji1[cid='" + cid + "']").toggle();
+ // $(".wishlistcartemoji1").toggle();
+});
+
+$(".send_chatemoji").click(function(){
+ // $(".wishlistcartemoji").toggle();
+ var cid = jQuery(this).attr('cid');
+ $(".wishlistcartemoji[cid='" + cid + "']").toggle();
+});
