@@ -6,6 +6,61 @@ include('chksession.php');
 						$profilerow=$dbn->fetchArray();
 						?>
 
+<style>#container
+{    margin: 0;
+    padding: 0;
+    width: 100%;
+    margin-top: 0;
+    float: left;
+}
+#contentbox
+{
+	    width: 100%; 
+    border: 1px solid #d2dbe3;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin-bottom: 6px;
+    text-align: left;
+    float: left;
+    border-radius: 3px;
+    padding: 7px;
+	
+}
+#feelingtxtHint select{    background: #ffe7d9;
+    line-height: initial;
+    border: none;
+    height: 35px;
+    border: 1px solid #d2dbe3;
+    border-right: none;
+    padding: 1px 8px 2px;}
+.Feelingpst ul{display: flex;}
+#msgbox
+{
+border:solid 1px #dedede;padding:5px;
+display:none;background-color:#f2f2f2
+}
+#display
+{
+display:none;
+border-left:solid 1px #dedede;
+border-right:solid 1px #dedede;
+border-bottom:solid 1px #dedede;
+overflow:hidden;
+}
+.display_box
+{
+padding:4px; border-top:solid 1px #dedede; font-size:12px; height:40px;
+}
+.display_box:hover
+{
+background:#3b5998;
+color:#FFFFFF;
+}
+.image
+{
+width:25px; float:left; margin-right:6px
+}</style>
+
     <section class="cover-sec">
 	<div class="cover-sec1">
 	<?php if(!empty($profilerow['cover_image_id'])){ ?>
@@ -119,7 +174,7 @@ include('chksession.php');
 												 
 											</div>
 											
-										<?php }}else{ echo "Data Not Availablle";} ?>
+										<?php }}else{ echo "&nbsp; Data Not Availablle";} ?>
 											
 											
 											
@@ -497,7 +552,29 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 												<img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40">
 												<?php }?>
 													<div class="usy-name">
-														<h3><?=$userrow['first_name']?></h3>
+														<h3><?=$userrow['first_name']?>
+														
+															<?php if(!empty($row['tagfriends'])){
+																?>
+																<span class="withfrnd">- with </span> 
+														<?php 	//$a=array();
+																	 $tagf=$row['tagfriends'];
+																	$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
+																	$db2->query($sql2)or die($db12->error());
+																while($row1=$db2->fetchArray()){
+																 $a=$row1['first_name'].' ';?>
+																 
+																<a href="view-profile.php?uid=<?=base64_encode($row1['user_id'])?>" class="tagsrfnds11"><?=$row1['first_name']?></a>
+																<?php }
+																}
+															
+															//$b=implode(',',$a);
+															//$c=explode(',',$a);
+															//print_r($b);
+															//print_r($c);
+																?>
+														
+														</h3>
 														<span><img src="images/clock.png" alt=""><?php echo timeago($row['post_date']);?></span>
 													</div>
 												</div>
@@ -546,16 +623,8 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 												
 												 
 												<p><?=$row['post_details']?></p>
-												<?php if(!empty($row['tagfriends'])){
-													//$a=array();
-													 $tagf=$row['tagfriends'];
-													$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
-													$db2->query($sql2)or die($db12->error());
-												while($row1=$db2->fetchArray()){
-												 $a=$row1['first_name'].' ';?>
-												<a href="view-profile.php?uid=<?=base64_encode($row1['user_id'])?>"><?=$row1['first_name']?></a>
-												<?php }
-												}
+												
+												<?php
 											
 											//$b=implode(',',$a);
 											//$c=explode(',',$a);

@@ -23,7 +23,7 @@ if(!empty($prodid)){
  $_SESSION['sess_pid']=$prodid;
 }else{
 	
- $_SESSION['sess_pid']=$_REQUEST['prodid'];	
+ $_SESSION['sess_pid']=$_REQUEST['id'];	
 }
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
@@ -75,13 +75,14 @@ if (isset($_POST["input_array_name"]) && is_array($_POST["input_array_name"])){
     }
 }
 $array_values2=implode(",",$array_values);
-$array_values1="";
+$array_values1=array();
 if (isset($_POST["input_array_size"]) && is_array($_POST["input_array_size"])){ 
 	$input_array_size = array_filter($_POST["input_array_size"]); 
     foreach($input_array_size as $field_value1){
-        $array_values1 .= $field_value1."<br />";
+        $array_values1[]= $field_value1;
     }
 }
+$array_values3=implode(",",$array_values1);
 if(!empty($_REQUEST['category'])){
 	$cid=$_REQUEST['category'];
 }else{
@@ -114,8 +115,10 @@ $updatearr=array(
 					 "4thcatid"=>$sssid,
 					 "userid"=>0,
 					 "color"=>$array_values2,
-					 //"allsize"=>$array_values1,
+					 "allsize"=>$array_values3,
 					 "quantity"=>$_REQUEST['quantity'],
+					 "weight"=>$_REQUEST['weight'],
+					 "manufacturer"=>$_REQUEST['manufacturer'],
 					 "total"=>$_REQUEST['quantity'],
 					 "prod_name"=>$prodname,					
 					 "prod_price"=>$_REQUEST['prodprice'],
@@ -143,7 +146,7 @@ $updatearr=array(
 			//print_r($updatearr);//die;
 if($act=="edit")
 		{
-		$whereClause=" id!=".$_REQUEST['prodid']." and prod_sku=".$_REQUEST['sku'];
+		$whereClause=" id!=".$_REQUEST['id']." and prod_sku=".$_REQUEST['sku'];
 		}elseif($act=="add"){
 			
 		$whereClause=" prod_sku=".$_REQUEST['sku'] ;
@@ -158,12 +161,12 @@ if($act=="edit")
 				
 			if($act=="edit")
 				{ 
-					$whereClause=" id=".$_REQUEST['prodid'];
+					$whereClause=" id=".$_REQUEST['id'];
 					updateData($updatearr, $_TBL_PROD1, $whereClause);
-					$where=" id=".$_REQUEST['prodid'];
+					$where=" id=".$_REQUEST['id'];
 				    $_SESSION['picid']=uniqid();
 			/////////////////////////////////////////////////////////////////
-						$_SESSION['id']=$_REQUEST['prodid'];
+						$_SESSION['id']=$_REQUEST['id'];
 						$valid_formats = array("jpg", "JPG", "png", "JPEG", "gif", "zip", "bmp");
 
 						$max_file_size = 1024*100000000000000; //1000 kb
@@ -514,7 +517,7 @@ if (str=="sheet
 							  <label class="col-md-3 control-label" for="name">  Sub Category</label>
 
 									  <div class="col-md-9">
-									 <select  name="subcategory" id="subcategory" cid="<?=$subid?>" class="form-control">
+									 <select  name="subcategory" id="subcategory" cid="<?=$subid?>" class="form-control" onchange="return show3rd(this.value);" >
 													<option value="0">Select subcateory</option><?php
 									while($row1=$db->fetchArray()){
 									if($row1['id']==$row['subcatid']){ $select1='selected';}
@@ -538,7 +541,7 @@ $db->query($sql)or die($db->error());
  ?>
 <label class="col-md-3 control-label" for="name">  Ternary Category</label>
  <div class="col-md-9">
-		 <select  name="subsubcategory" id="subsubcategory" cid="<?=$cid?>" sid="<?=$subcatid?>" class="form-control">
+		 <select  name="subsubcategory" id="subsubcategory" cid="<?=$cid?>" sid="<?=$subcatid?>" class="form-control" onchange="return show4th(this.value);">
                         <option value="0">Select subcateory</option><?php
 		while($row1=$db->fetchArray()){
 		  if($row1['id']==$row['subsubcatid']){ $select2='selected';}
@@ -573,7 +576,7 @@ $db->query($sql)or die($db->error());
 								if($row1['id']==$row['4thcatid']){ $select3='selected';}  
 								?>
 		
-                        <option value="<?=$row1['id']?>" <?=$select3?> ><?=$row1['3rdsubcatname']?></option>
+                        <option value="<?=$row1['id']?>" <?=$select3?> ><?=$row1['thirdsubcatname']?></option>
                   <?php }?>
 				   </select> </div>
 
@@ -767,6 +770,35 @@ $db->query($sql)or die($db->error());
 
                                     </div>
 									
+									<div class="form-group">
+
+                                        <label class="col-md-3 control-label" for="Weight "> Weight </label>
+
+                                        <div class="col-md-6">
+										
+										<input name="weight" type="text" class="form-control" value="<?=$row['weight']?>" />  
+								
+                                        </div>
+
+                                    </div>
+
+
+
+
+<div class="form-group">
+
+                                        <label class="col-md-3 control-label" for="Manufacturer"> Manufacturer</label>
+
+                                        <div class="col-md-6">
+										
+										<input name="manufacturer" type="text" class="form-control" value="<?=$row['manufacturer']?>" />  
+								
+                                        </div>
+
+                                    </div>
+
+
+									
 									 <div class="form-group">
 
                                         <label class="col-md-3 control-label" for="name"> Star</label>
@@ -820,13 +852,13 @@ $db->query($sql)or die($db->error());
 
                                     </div>
 									
-									 <div class="form-group">
+									<!-- <div class="form-group">
 
                                         <label class="col-md-3 control-label" for="size"> Size</label>
 
                                         <div class="col-md-6">
 								   
-	<!--<input name="size" type="text" class="form-control" value="<?=$row['prodsize1']?>"/> -->
+
 	 
 	 <input type="checkbox" name="size" value="S" <?php if($row['prodsize1']=='S'){echo "checked";}?> />Small<br />
         <input type="checkbox" name="size1" value="M" <?php if($row['prodsize2']=='M'){echo "checked"; } ?>/> Medium <br />
@@ -834,7 +866,7 @@ $db->query($sql)or die($db->error());
         <input type="checkbox" name="size3" value="EXL" <?php if($row['prodsize4']=='EXL'){echo "checked";}?> />Extra Large <br />
                                         </div>
 
-                                    </div>
+                                    </div>-->
 									
 									 <div class="form-group">
 
@@ -851,7 +883,7 @@ $db->query($sql)or die($db->error());
 								<div class="form-group">
 								
 								<?php //echo $array_values; ?>
-								 <label class="col-md-3 control-label" for="size"> Add Color</label>
+								 <label class="col-md-3 control-label" for="size"> Add Color (If applicabe)</label>
 				<div class="col-md-6">
 				<div class="wrapper">
 				<?php 
@@ -873,25 +905,36 @@ $db->query($sql)or die($db->error());
 					</div>
 									
 							
-<!--<div class="form-group">
+<div class="form-group">
 								
 								<?php //echo $array_values; ?>
-								 <label class="col-md-3 control-label" for="size"> Add Size</label>
+								 <label class="col-md-3 control-label" for="size"> Add Size (If applicabe)</label>
 				<div class="col-md-6">
 				<div class="wrapper1">
+				<?php 
+				$allsize=$row['allsize'];
+				$allsizenew=explode(",",$allsize);
+				//print_r($color);
+				$allsizecount=count($allsizenew);
+				for($i=0;$i<$allsizecount;$i++){
+				?>
+				<div><input type="text" name="input_array_size[]" placeholder="Input size" value="<?=$allsizenew[$i]?>" /></div>
+				<?php }
+				
+				?>
 					<div><input type="text" name="input_array_size[]" placeholder="Input Size" /></div>
 						</div>
 					<br/>
 					<p><button class="add_fields1">Add More</button></p>
 					</div>
-					</div>-->
+					</div>
 									
 
 										<div class="form-group">
         									<label class="col-md-3 control-label"> Over View</label>
             									<div class="col-md-9">
 
-                                                      <textarea name="sort_detail" class="form-control"><?=$row['sort_detail']?></textarea>
+                                                      <textarea name="sort_detail" class="form-control" required><?=$row['sort_detail']?></textarea>
             									</div>
 
         								</div>
@@ -971,14 +1014,14 @@ $db->query($sql)or die($db->error());
         									</div>
 
         								</div>	
-    <div class="form-group">
-										<?php 
-										if(!empty($_SESSION['sess_pid'])){
-										$sql1="SELECT * FROM productimage WHERE pid=".$_REQUEST['id'];
+    <div class="form-group" style="margin-left:20px;">
+	<?php 
+		if(!empty($_SESSION['sess_pid'])){
+		$sql1="SELECT * FROM productimage WHERE pid=".$_REQUEST['id'];
 		$db->query($sql1)or die($db->error());
 		while($row1=$db->fetchArray()){	?>
-				<p><img src="../product/<?=$row1['imgid']?>" width="100"  height="100"/><br />		
-							<a href='javascript:deladmin("<?=$row1['imgid']?>")'><img height="16" alt="Delete " src="images/delete.png" width="16" border="0" /></a></p>
+				<img src="../product/<?=$row1['imgid']?>" width="100"  height="100"/>
+				<a href='javascript:deladmin("<?=$row1['imgid']?>")'><img height="16" alt="Delete " src="images/delete.png" width="16" border="0" /></a>
 										<?php } }?>	
 
  	</div>	
