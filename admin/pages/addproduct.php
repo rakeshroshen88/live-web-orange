@@ -75,6 +75,7 @@ if (isset($_POST["input_array_name"]) && is_array($_POST["input_array_name"])){
     }
 }
 $array_values2=implode(",",$array_values);
+
 $array_values1=array();
 if (isset($_POST["input_array_size"]) && is_array($_POST["input_array_size"])){ 
 	$input_array_size = array_filter($_POST["input_array_size"]); 
@@ -83,6 +84,39 @@ if (isset($_POST["input_array_size"]) && is_array($_POST["input_array_size"])){
     }
 }
 $array_values3=implode(",",$array_values1);
+
+$array_valuesq=array();
+if (isset($_POST["input_array_qtn"]) && is_array($_POST["input_array_qtn"])){ 
+	$input_array_qtn = array_filter($_POST["input_array_qtn"]); 
+    foreach($input_array_qtn as $field_valueq){
+        $array_valuesq[]= $field_valueq;
+    }
+}
+$array_valuesqunt=implode(",",$array_valuesq);
+
+
+$array_valuestype=array();
+if (isset($_POST["input_array_type"]) && is_array($_POST["input_array_type"])){ 
+	$input_array_type = array_filter($_POST["input_array_type"]); 
+    foreach($input_array_type as $field_valuetype){
+        $array_valuestype[]= $field_valuetype;
+    }
+}
+$array_valuestypenew=implode(",",$array_valuestype);
+
+
+
+$array_valuescap=array();
+if (isset($_POST["input_array_capacity"]) && is_array($_POST["input_array_capacity"])){ 
+	$input_array_capacity = array_filter($_POST["input_array_capacity"]); 
+    foreach($input_array_capacity as $field_valuecap){
+        $array_valuescap[]= $field_valuecap;
+    }
+}
+$array_valuescapnew=implode(",",$array_valuescap);
+
+
+
 if(!empty($_REQUEST['category'])){
 	$cid=$_REQUEST['category'];
 }else{
@@ -116,10 +150,12 @@ $updatearr=array(
 					 "userid"=>0,
 					 "color"=>$array_values2,
 					 "allsize"=>$array_values3,
-					 "quantity"=>$_REQUEST['quantity'],
+					 "quantity"=>$array_valuesqunt,
+					 "prodcapacity"=>$array_valuescapnew,
+					 "prodtype"=>$array_valuestypenew,
 					 "weight"=>$_REQUEST['weight'],
 					 "manufacturer"=>$_REQUEST['manufacturer'],
-					 "total"=>$_REQUEST['quantity'],
+					 "total"=>$_REQUEST['quantity1'],
 					 "prod_name"=>$prodname,					
 					 "prod_price"=>$_REQUEST['prodprice'],
 					 "prod_detail"=>$prod_detail,					
@@ -161,9 +197,42 @@ if($act=="edit")
 				
 			if($act=="edit")
 				{ 
-					$whereClause=" id=".$_REQUEST['id'];
+				    $whereClause=" id=".$_REQUEST['id'];
 					updateData($updatearr, $_TBL_PROD1, $whereClause);
 					$where=" id=".$_REQUEST['id'];
+					////////////////////////
+				$array_valuesid=array();
+				if (isset($_POST["input_array_id"]) && is_array($_POST["input_array_id"])){ 
+					$input_array_id = array_filter($_POST["input_array_id"]); 
+					foreach($input_array_id as $field_valueid){
+						$array_valuesid[]= $field_valueid;
+					}
+				}
+				$array_valuesids=implode(",",$array_valuesid);
+
+				$colornew=explode(",",$array_values2);
+				$sizenew=explode(",",$array_values3);
+				$quantitynew=explode(",",$array_valuesqunt);
+				$array_valuescapnew1=explode(",",$array_valuescapnew);
+				$array_valuestypenew1=explode(",",$array_valuestypenew);
+				$array_valuesidsnew=explode(",",$array_valuesids);
+				$idscount=count($array_valuesidsnew);
+				$prodid=$_REQUEST['id'];
+				for($i=0;$i<$idscount;$i++){
+					$updatearrnew=array(
+					"prodid"=>$prodid,
+					"prodcolor"=>$colornew[$i],
+					 "prodsize"=>$sizenew[$i],
+					 "prodquantity"=>$quantitynew[$i],
+					 "prodcapacity"=>$array_valuescapnew1[$i],
+					 "prodtype"=>$array_valuestypenew1[$i]
+					);
+
+$whereClausenew=" id=".$array_valuesidsnew[$i];
+					updateData($updatearrnew, 'prodattributes', $whereClausenew);					
+					//$insidq=insertData($updatearr11, 'prodattributes');					
+				}
+					
 				    $_SESSION['picid']=uniqid();
 			/////////////////////////////////////////////////////////////////
 						$_SESSION['id']=$_REQUEST['id'];
@@ -314,7 +383,7 @@ if($act=="edit")
 
 											 );
 
-								$insid=insertData($updatearr1, 'productimage');
+								$insid11=insertData($updatearr1, 'productimage');
 
 										
 
@@ -338,6 +407,24 @@ if($act=="edit")
 //$errMsg='<br><b>Product Added Successfully!</b><br>';
 					if($insid>0)
 						{
+				$colornew=explode(",",$array_values2);
+				$sizenew=explode(",",$array_values3);
+				$quantitynew=explode(",",$array_valuesqunt);	
+$array_valuescapnew1=explode(",",$array_valuescapnew);
+$array_valuestypenew1=explode(",",$array_valuestypenew);				
+				$clrcount=count($colornew);
+				//$prodid=$_REQUEST['id'];
+				for($i=0;$i<$clrcount;$i++){
+					$updatearr11=array(
+					"prodid"=>$insid,
+					"prodcolor"=>$colornew[$i],
+					 "prodsize"=>$sizenew[$i],
+					 "prodquantity"=>$quantitynew[$i],
+					 "prodcapacity"=>$array_valuescapnew1[$i],
+					 "prodtype"=>$array_valuestypenew1[$i]
+					);	
+					$insidq=insertData($updatearr11, 'prodattributes');					
+				}
 						$errMsg='<br><b>Product Added Successfully!</b><br>';
 						//redirect('main.php?mod=viewproduct');
 						}
@@ -874,7 +961,7 @@ $db->query($sql)or die($db->error());
 
                                         <div class="col-md-6">
 								   
-	<input name="quantity" type="text" class="form-control" placeholder="100" value="<?=$row['quantity']?>" required/> 
+	<input name="quantity1" type="text" class="form-control" placeholder="100" value="<?=$row['total']?>" /> 
 
                                         </div>
 
@@ -888,23 +975,66 @@ $db->query($sql)or die($db->error());
 				<div class="wrapper">
 				<?php 
 				$color=$row['color'];
+				//$quantity=$row['quantity'];
+				//$quantitynew=explode(",",$quantity);
+				$allsize=$row['allsize'];
+				$allsizenew=explode(",",$allsize);
+				$quantity=$row['quantity'];
+				$quantitynew=explode(",",$quantity);
+				$prodtype=$row['prodtype'];
+				$prodtypenew=explode(",",$prodtype);
+				
+				$prodcapacity=$row['prodcapacity'];
+				$prodcapacitynew=explode(",",$prodcapacity);
+				
+			/* 	if(!empty($color)){
 				$colornew=explode(",",$color);
 				//print_r($color);
 				$colorcount=count($colornew);
-				for($i=0;$i<$colorcount;$i++){
+				$allsizenew=count($allsizenew);
+				$prodtype=count($prodtype);
+				$prodtypenew=count($prodtypenew);
+				$prodcapacity=count($prodcapacity);
+				for($i=0;$i<$colorcount;$i++){ */
 				?>
-				<div><input type="text" name="input_array_name[]" placeholder="Input Color" value="<?=$colornew[$i]?>" /></div>
-				<?php }
+				<!--<div><input type="text" name="input_array_name[]" class="form-control" placeholder="Input Color" value="<?=$colornew[$i]?>" /></div>
+				<div><input type="text" name="input_array_size[]" class="form-control"  placeholder="Input size" value="<?=$allsizenew[$i]?>" /></div>
+				<div><input type="text" name="input_array_qtn[]" class="form-control"  placeholder="Input Quantity" value="<?=$quantitynew[$i]?>" /></div>
+				<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" value="<?=$prodtypenew[$i]?>" /></div>
+				<div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" value="<?=$prodcapacitynew[$i]?>" /></div>-->
+				<?php 
+				$sql="SELECT * from prodattributes where prodid='$prodid'";
+				$db->query($sql);
+				if($db->numRows()>0)
+					{
+				while($rownew=$db->fetchArray()){
+				?>
+				<input type="hidden" name="input_array_id[]"  value="<?=$rownew['id']?>" />
 				
+				<div><input type="text" name="input_array_name[]" class="form-control" placeholder="Input Color" value="<?=$rownew['prodcolor']?>" /></div>
+				<div><input type="text" name="input_array_size[]" class="form-control"  placeholder="Input size" value="<?=$rownew['prodsize']?>" /></div>
+				<div><input type="text" name="input_array_qtn[]" class="form-control"  placeholder="Input Quantity" value="<?=$rownew['prodquantity']?>" /></div>
+				<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" value="<?=$rownew['prodtype']?>" /></div>
+				<div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" value="<?=$rownew['prodcapacity']?>" /></div>
+				
+				
+					<?php }}  //} }
+				if(empty($color)){
 				?>
-					<div><input type="text" name="input_array_name[]" placeholder="Input Color" /></div>
+					<div><input type="text" name="input_array_name[]" class="form-control" placeholder="Input Color" /></div>
+					<div><input type="text" name="input_array_size[]" class="form-control" placeholder="Input Size" /></div>
+					<div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" /></div>
+					<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /></div>
+					<div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Cappacity" /></div>
+				<?php } ?>
+					
 						</div>
 					<br/>
 					<p><button class="add_fields">Add More</button></p>
 					</div>
 					</div>
 									
-							
+<!--							
 <div class="form-group">
 								
 								<?php //echo $array_values; ?>
@@ -928,7 +1058,7 @@ $db->query($sql)or die($db->error());
 					<p><button class="add_fields1">Add More</button></p>
 					</div>
 					</div>
-									
+								-->	
 
 										<div class="form-group">
         									<label class="col-md-3 control-label"> Over View</label>
@@ -1249,7 +1379,7 @@ $(document).ready(function() {
         if(x < max_fields){ 
             x++; //input field increment
 			 //add input field
-            $(wrapper).append('<div><input type="text" name="input_array_name[]" placeholder="Input Other Color" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div>');
+            $(wrapper).append('<div><input type="text" name="input_array_name[]" placeholder="Input Other Color" class="form-control"/> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_size[]" placeholder="Input size" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div>');
         }
     });
 	
