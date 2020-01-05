@@ -30,7 +30,7 @@ $app->post('/SubCategories3Name','SubCategories3Name');
 $app->post('/SubCategories4Name','SubCategories4Name');
 $app->post('/getProdVCat','getProdVCat');
 $app->post('/getProdVSubCat','getProdVSubCat');
-$app->post('/getProdVSubCat4','getProdVSubCat4');  
+$app->post('/getProdVSubCat4','getProdVSubCat4');   
 
 $app->run();
   
@@ -439,7 +439,7 @@ function getRecentProd() {
             $recentnewpro = '';
             $db = getDB();
           
-                $sql = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, discount, star FROM product ORDER BY id DESC LIMIT 6";
+                $sql = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, discount FROM product ORDER BY id DESC LIMIT 6";
                 $stmt = $db->prepare($sql);
                 //$stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
                  
@@ -486,7 +486,7 @@ function weeklybestresele() {
             $weeklybestresele = '';
             $db = getDB();
           
-                $sql = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, discount, star FROM product ORDER BY id DESC LIMIT 6, 12";
+                $sql = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, discount FROM product ORDER BY id DESC LIMIT 6, 12";
                 $stmt = $db->prepare($sql);
                 //$stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
                  
@@ -538,7 +538,7 @@ function newhomepro() {
             $db = getDB();
 			
 			if($lastCreated){
-				$sql1 = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, prod_date, discount, star FROM product where prod_date < '$lastCreated'  ORDER BY prod_date DESC LIMIT 10";
+				$sql1 = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, prod_date, discount FROM product where prod_date < '$lastCreated'  ORDER BY prod_date DESC LIMIT 10";
 				
                 //$sql = "SELECT * FROM user_post JOIN user_profile ON user_profile.user_id=user_post.user_id where user_profile.user_id=:user_id ORDER BY post_date DESC ";
                 $stmt = $db->prepare($sql1);
@@ -546,7 +546,7 @@ function newhomepro() {
                 } 
                 else{
 
-                    $sql = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, prod_date, discount, star FROM product ORDER BY prod_date DESC LIMIT 10";
+                    $sql = "SELECT id, prod_name, prod_price, prod_large_image, prod_sprice, prod_status, prod_date, discount FROM product ORDER BY prod_date DESC LIMIT 10";
                 //$sql = "SELECT * FROM user_post JOIN user_profile ON user_profile.user_id=user_post.user_id where user_profile.user_id=:user_id ORDER BY post_date DESC ";
                 $stmt = $db->prepare($sql);
                 //$stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
@@ -970,61 +970,7 @@ function productfeedbackInsert() {
 }
 
 
-
-
-/* ### userdetails ### */
-/* function productfeedbackInsert() {
-    $request = \Slim\Slim::getInstance()->request();
-    $data = json_decode($request->getBody());
-    //print_r($data);
-    $token=$data->token;
-    $user_id=$data->user_id; 
-    $prod_id=$data->prod_id;
-    $review=$data->review;
-    $feedback_date=date("Y-m-d");
-    $rate=$data->rate;
-    $certify='No';
-    $status='0';
-    $systemToken=apiToken($user_id);
-
-    
    
-    try {
-         
-        if($systemToken == $token){
-            $insteredpost = '';
-            $db = getDB();
-                $sql="INSERT INTO feedback(prod_id,user_id,review, feedback_date, rate, certify, status)VALUES('".$prod_id."','".$user_id."','".$review."', '".$feedback_date."', '".$rate."','".$certify."', '".$status."')";
-                $stmt = $db->prepare($sql); 
-              
-                $stmt->execute();    
-                
-                $sql2 = "SELECT  * from  feedback WHERE user_id='".$user_id."' ORDER BY id DESC LIMIT 1";
-                $stmt1 = $db->prepare($sql2);
-                $stmt1->execute();
-
-                $insteredpost = $stmt1->fetch(PDO::FETCH_OBJ); 
-           
-            $db = null;
-             
-            if($insteredpost){
-                echo '{"insteredpost": '. json_encode($insteredpost) .'}';
-            }     
-            else{
-                echo '{"insteredpost": ""}';
-            }
-            
-        } else{
-            echo '{"error":{"text":"No access"}}';
-        }
-       
-    } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
-
-
-} */
-
 ?>
 
 

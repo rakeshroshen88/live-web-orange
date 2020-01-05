@@ -30,7 +30,8 @@ $app->post('/SubCategories3Name','SubCategories3Name');
 $app->post('/SubCategories4Name','SubCategories4Name');
 $app->post('/getProdVCat','getProdVCat');
 $app->post('/getProdVSubCat','getProdVSubCat');
-$app->post('/getProdVSubCat4','getProdVSubCat4');  
+$app->post('/getProdVSubCat4','getProdVSubCat4'); 
+$app->post('/search/[{query}]','search');  
 
 $app->run();
   
@@ -973,7 +974,7 @@ function productfeedbackInsert() {
 
 
 /* ### userdetails ### */
-/* function productfeedbackInsert() {
+function productfeedbackInsert() {
     $request = \Slim\Slim::getInstance()->request();
     $data = json_decode($request->getBody());
     //print_r($data);
@@ -1009,7 +1010,8 @@ function productfeedbackInsert() {
              
             if($insteredpost){
                 echo '{"insteredpost": '. json_encode($insteredpost) .'}';
-            }     
+            }
+             
             else{
                 echo '{"insteredpost": ""}';
             }
@@ -1023,8 +1025,22 @@ function productfeedbackInsert() {
     }
 
 
-} */
+}
 
+/* ### userdetails ### */
+function search() {
+
+    function ($request, $response, $args) {
+         $sth = $this->db->prepare("SELECT * FROM product WHERE UPPER(prod_name) LIKE :query ORDER BY prod_name");
+        $query = "%".$args['query']."%";
+        $sth->bindParam("query", $query);
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $this->response->withJson($todos);
+    });
+ 
+
+   
 ?>
 
 

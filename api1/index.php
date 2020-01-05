@@ -437,7 +437,7 @@ function verifyotp(){
 			 $verifyotpcode ="";
 			 $verifyotpcode1 ="";
              $db = getDB(); 
-					$sql2 = "SELECT uniqueid, first_name, email_id from all_user WHERE user_id=:user_id"; 
+					$sql2 = "SELECT uniqueid, email_id from all_user WHERE user_id=:user_id"; 
 					$stmt1 = $db->prepare($sql2);
 					$stmt1->bindParam("user_id", $user_id, PDO::PARAM_STR); 
 					$stmt1->execute();
@@ -447,7 +447,6 @@ function verifyotp(){
 				$db = null;
 				$createdotp = $verifyotpcode->uniqueid;
 				$email_id = $verifyotpcode->email_id;
-				$first_name = $verifyotpcode->first_name;
 				
 							
 			 if($uniqueid == $createdotp){
@@ -457,22 +456,6 @@ function verifyotp(){
 				 $sql3="update all_user set user_status='1' WHERE user_id=".$user_id;
 				 $stmt3 = $db1->prepare($sql3);
 				 $stmt3->execute();
-				 //////////////chat login table///////////////////
-	 
-				 $data = array(
-					':username'		=>	$email_id,					
-					':password'		=>	'123',
-					':name'		=>	$first_name,
-					':f_userid'		=>	$user_id
-				);
-				$query = "
-				INSERT INTO login 
-				(username, password, name, f_userid) 
-				VALUES (:username, :password, :name, :f_userid)
-				";
-				$statement = $db1->prepare($query);
-				$statement->execute($data);  
-				//////////////////////////////////	
 				 $db1 = null; 
 				 $verifyotpcode1 = json_encode($verifyotpcode1);
 				echo '{"userData": ' .$verifyotpcode1. '}';

@@ -18,8 +18,6 @@ $app->post('/addtocart','addtocart');
 $app->post('/viewcart','viewcart');  
 $app->post('/deletecart','deletecart'); 
 $app->post('/user_order','user_order'); 
-$app->post('/viewinvoice','viewinvoice');
-$app->post('/user_shiping','user_shiping'); 
 
 $app->run();
 
@@ -197,9 +195,14 @@ function deletecart() {
             
             /////////////
             $db = null;
+            
+            if($array_record){
+                echo '{"Success": '. json_encode('Success') .'}';
+            }
              
-            echo '{"Success": "Item has been Deleted"}';
-             
+            else{
+                echo '{"Success": ""}';
+            }
             
         } else{
             echo '{"error":{"text":"No access"}}';
@@ -219,12 +222,10 @@ function user_order() {
     //print_r($data);
     $token=$data->token; 
     $user_id=$data->user_id;
-	$shipping_id=$data->shipping_id; 
+	$billid=$data->bill_id; 
 	$order_id=$data->order_id; 
 	$approvel=$data->approvel;
-	$transaction_id=$data->transaction_id;	
 	$totalprice=$data->totalprice;
-	$trxref=$data->trxref;
     //$lastCreated=$data->lastCreated;
     $systemToken=apiToken($user_id);
 	$link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
@@ -248,7 +249,6 @@ function user_order() {
 			$buydate=date('Y-m-d H:i:s');
             foreach($tempData as $temprow){
 			$pname=$temprow->product_name;
-			$discount=$temprow->discount;
 			$product_name = mysqli_real_escape_string($link, $pname);
             $prodname.=$product_name.',';
 			$prodid.=$temprow->prodid.',';
@@ -263,14 +263,17 @@ function user_order() {
             $shippingcharge = $stmt->fetchAll(PDO::FETCH_OBJ);			
             $totalshippingcharge+=$shippingcharge->shippingcharge;
 			$total1=($shippingcharge->total - $temprow->quantity);
-			
+			//////////////////////
+			/* $sqlnew = "DELETE  FROM temp WHERE user_id='".$user_id."' and id=".$temprow->id;
+            $stmtnew = $db->prepare($sqlnew);            
+            $stmtnew->execute(); */
 			///////////////////////////////
 			$sql1 ="UPDATE product SET total='".$total1."' WHERE id=".$temprow->prodid;
             $stmt1 = $db->prepare($sql1); 
             $stmt1->execute();
 			/////////////////////
 			}
-			$sql1="INSERT INTO user_order(orderid, userid, prodid, billid, product_name, price, quantity, subtotal, approvel, totalprice, prodsize, color, buydate,discount,transaction_id,trxref)VALUES('".$order_id."', '".$user_id."', '".$prodid."', '".$shipping_id."', '".$prodname."', '".$cost."', '".$quantity."', '".$total."', '".$approvel."', '".$totalprice."', '".$prodsize."', '".$prodcolor."','".$buydate."','".$discount."','".$transaction_id."','".$trxref."')";
+			 $sql1="INSERT INTO user_order(orderid, userid, prodid, billid, product_name, price, quantity, subtotal, approvel, totalprice, prodsize, color, buydate)VALUES('".$order_id."', '".$user_id."', '".$prod_id."', '".$billid."', '".$prodname."', '".$cost."', '".$quantity."', '".$total."', '".$approvel."', '".$totalprice."', '".$prodsize."', '".$prodcolor."','".$buydate."')";
             $stmt1 = $db->prepare($sql1);
             $stmt1->execute();
 			////////////////////
@@ -280,7 +283,14 @@ function user_order() {
             $db = null;
             ////////
             
-            echo '{"Success": "Order has been placed"}';
+             
+            if($array_record){
+                echo '{"viewcart": '. json_encode($array_record) .'}';
+            }
+             
+            else{
+                echo '{"viewcart": "done"}';
+            }
             
         } else{
             echo '{"error":{"text":"No access"}}';
@@ -299,18 +309,10 @@ function user_shiping() {
     //print_r($data);
     $token=$data->token; 
     $user_id=$data->user_id;
-	$billing_firstname=$data->billing_firstname;
-	$billing_lastname=$data->billing_lastname;
-	$billing_email=$data->email_id;
-	
-	$billing_phone=$data->mobileno;
-	$billing_adress=$data->billing_adress;
-	$billing_adress1=$data->billing_adress1;
-	$billing_state=$data->billing_state;
-	$billing_city=$data->current_city;
-	$billing_zip=$data->billing_zip;
-	$discount=0;//$data->discount;
-	$billdate=date('Y-m-d');
+	$billid=$data->bill_id; 
+	$order_id=$data->order_id; 
+	$approvel=$data->approvel;
+	$totalprice=$data->totalprice;
     //$lastCreated=$data->lastCreated;
     $systemToken=apiToken($user_id);
 	$link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
@@ -320,176 +322,40 @@ function user_shiping() {
          
         if($systemToken == $token){
             $newhomepro = '';
-            $db = getDB(); 
-			/////////
-			/* $sqlnew = "SELECT id FROM billing_address WHERE billing_email='".$billing_email."'";
-            $stmtnew = $db->prepare($sqlnew);            
-            $stmtnew->execute();
-            $newprodadded2 = $stmtnew->fetch(PDO::FETCH_OBJ); */ 
-			//if(empty($newprodadded2)){
-			/////////////
-            $sql1="INSERT INTO billing_address(userid, billing_firstname, billing_lastname, billing_email, billing_phone, billing_adress, billing_adress1, billing_state, billing_city, billing_zip, discount, billdate)VALUES('".$user_id."', '".$billing_firstname."', '".$billing_lastname."', '".$billing_email."', '".$billing_phone."', '".$billing_adress."', '".$billing_adress1."', '".$billing_state."', '".$billing_city."', '".$billing_zip."', '".$discount."','".$billdate."')";
+            $db = getDB();        
+/////////////////////////////
+$billupdatearr=array(
+						"userid"=>$_SESSION['sess_webid'],
+						"billing_firstname"=>$billing_firstname,
+						"billing_lastname"=>$billing_lastname,
+						"billing_email"=>$billing_email,
+						"billing_phone"=>$billing_phone,
+						"billing_adress"=>$billing_adress,
+						"billing_adress1"=>$billing_adress1,
+						"billing_state"=>$billing_state,
+						"billing_city"=>$billing_city,
+						"billing_zip"=>$billing_zip,
+						"discount"=>$discount,
+						"billdate"=>date('Y-m-d h:i:s')																	
+				);	///////////////////			
+           
+            $sql1="INSERT INTO user_order(userid, userid, prodid, billid, product_name, price, quantity, subtotal, approvel, totalprice, prodsize, color, buydate)VALUES('".$order_id."', '".$user_id."', '".$prod_id."', '".$billid."', '".$prodname."', '".$cost."', '".$quantity."', '".$total."', '".$approvel."', '".$totalprice."', '".$prodsize."', '".$prodcolor."','".$buydate."')";
             $stmt1 = $db->prepare($sql1);
             $stmt1->execute();
 			////////////////////
-            $sqlnew = "SELECT id FROM billing_address WHERE billing_email='".$billing_email."'";
-            $stmtnew = $db->prepare($sqlnew);            
-            $stmtnew->execute();
-            $newprodadded1 = $stmtnew->fetch(PDO::FETCH_OBJ); 
-            /* }else{
-				
-			} */
+            
+            
             /////////////
             $db = null;
             ////////
             
-             
-            if($newprodadded1){
-                echo '{"shipingid": '. json_encode($newprodadded1) .'}';
-            }
-             
-            else{
-                echo '{"shipingid": ""}';
-            }
-            
-        } else{
-            echo '{"error":{"text":"No access"}}';
-        }
-       
-    } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    } 
-} 
- 
-/* ### viewinvoice ### */
-function viewinvoice() {
-    $request = \Slim\Slim::getInstance()->request();
-    $data = json_decode($request->getBody());
-    //print_r($data);
-    $token=$data->token; 
-    $user_id=$data->user_id; 
-	//$shipping_id=$data->shipping_id; 
-	$order_id=$data->order_id;
-    //$lastCreated=$data->lastCreated;
-    $systemToken=apiToken($user_id);
-
-    
-   
-    try {
-         
-        if($systemToken == $token){
-            $newhomepro = '';
-            $db = getDB();          
-            
-            //$sqlnew = "SELECT id FROM temp WHERE session_id='".$session_id."'";
-            $sqlnew = "SELECT * FROM user_order WHERE orderid='".$order_id."'";
-            $stmtnew = $db->prepare($sqlnew);            
-            $stmtnew->execute();
-            $tempData = $stmtnew->fetchAll(PDO::FETCH_OBJ);			
-            $grandtoal=0;
-            $subtoal=0;
-           
-			///////////////
-			
-			//////////////
-            foreach($tempData as $orderrow){
-			$shipsql="select * from billing_address where id=".$orderrow->billid;
-			$stmtship = $db->prepare($shipsql);            
-            $stmtship->execute();
-			$billrow=$stmtship->fetchAll(PDO::FETCH_OBJ);
-			
-			/*  $sql="select shippingcharge from product where id=".$orderrow->prodid;
-            $stmt = $db->prepare($sql);            
-            $stmt->execute();            
-            $shippingcharge = $stmt->fetch(PDO::FETCH_OBJ); 
-			 $shippingcharge->shippingcharge; */
-			$prodidarr=explode(',',$orderrow->prodid);
-			//print_r($prodidarr);
-			$prodarray=explode(',',$orderrow->product_name);
-			$qtyarr=explode(',',$orderrow->quantity);
-			$pricearr=explode(',',$orderrow->price);	
-			$subtotalarr=explode(',',$orderrow->subtotal);
-			$cn=count($prodarray)-1;
-			$Order_date=$orderrow->buydate;
-			$transaction_id=$orderrow->transaction_id;
-			$trxref=$orderrow->trxref;
-			$Order_num=$orderrow->orderid;
-			$approval=$orderrow->approval;
-			$bdate=explode(' ',$orderrow->buydate);
-			$newbdate=explode(' ',$bdate[0]);
-			$date= $newbdate[0].'/'.$newbdate[0].'/'.$newbdate[0];
-			$discount=$orderrow->discount;
-			  for($i=0;$i<$cn;$i++)
-				{
-					$sql1="select shippingchargefrom product where id=".$prodidarr[$i];
-					$stmt1 = $db->prepare($sql1);            
-					$stmt1->execute();
-					$shippingcharge= $stmt1->fetchAll(PDO::FETCH_OBJ);
-					$prodname.=$prodarray[$i];
-					$qtyarr.=$qtyarr[$i];
-					$pricearr.=$pricearr[$i];
-					
-					
-					
-					//$shippingcharge = $stmt1->fetch(PDO::FETCH_OBJ); 
-					$totalshippingcharge+=$shippingcharge->shippingcharge;
-					
-					$subtotal+=$subtotalarr[$i];
-					$grand_total+=$subtotalarr[$i];
-					
-					
-					
-					//print_r($ab);
-					
-					
-					
-				}
-            
-            }
-            
-			$sqlnew = "SELECT id,product_name,prodid,discount,prod_sprice,quantity,prod_total,mrp,prodsize,prodcolor,prod_image FROM temp WHERE user_id='".$user_id."'";
-            $stmtnew = $db->prepare($sqlnew);            
-            $stmtnew->execute();
-            $tempData = $stmtnew->fetchAll(PDO::FETCH_OBJ);
-			///////////////Delete Temp///////
-			$sqlnew = "DELETE  FROM temp WHERE user_id='".$user_id."'";
-            $stmtnew = $db->prepare($sqlnew);            
-            $stmtnew->execute(); 
-            /////////////
-            $db = null;
-            ////////
-            $array_record = array();  
-			 /* $data_prod['prod_name']=$prodarray;
-			$data_prod['prod_qty']=$qtyarr;
-			$data_prod['prod_sprice']=$pricearr; 
-			$Order_num=$orderrow->orderid;
-			$approval=$orderrow->approval; */
-			
-			
-			
-            $data_prod['user_id']=$user_id;
-			$data_prod['Order_num']=$Order_num;
-			$data_prod['Payment_status']=$approval;
-			
-			$data_prod['Order_date']=$Order_date;
-			$data_prod['transaction_id']=$transaction_id;
-			$data_prod['trxref']=$trxref;
-			
-            $data_prod['discount']=$discount; 
-			$data_prod['totalshippingcharge']=$totalshippingcharge; 			
-            $data_prod['selling_price']=($grand_total+$totalshippingcharge);         
-            $data_prod['mrp']=$subtotal+$discount;
-			$data_prod['shipping_details']=$billrow;
-			$data_prod['Ordered_product']=$shippingcharge;
-			 
-            array_push($array_record,$data_prod);
              
             if($array_record){
-                echo '{"vieworder": '. json_encode($array_record) .'}';
+                echo '{"viewcart": '. json_encode($array_record) .'}';
             }
              
             else{
-                echo '{"viewcart": ""}';
+                echo '{"viewcart": "done"}';
             }
             
         } else{
@@ -501,5 +367,4 @@ function viewinvoice() {
     } 
 } 
  
-
 ?>

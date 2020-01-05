@@ -27,7 +27,6 @@ $app->post('/post_like','post_like'); /* User feelingcategories  */
 $app->post('/postcomment','postcomment'); /* User postcomment  */
 $app->post('/deletepost','deletepost'); /* User postcomment  */
 $app->post('/uploadimg','uploadimg'); /* User uploadimg  */
-$app->post('/resendotp','resendotp'); /* User uploadimg  */
 
 
 $app->run();
@@ -93,7 +92,7 @@ function userdetails() {
             $userdetailslist = '';
             $db = getDB();
           
-                $sql = "SELECT profile_id, image_id, first_name, last_name FROM user_profile WHERE user_id=:user_id";
+                $sql = "SELECT image_id, first_name, last_name FROM user_profile WHERE user_id=:user_id";
                 $stmt = $db->prepare($sql);
                 $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
                  
@@ -190,33 +189,6 @@ function signup() {
 				$sql2="INSERT INTO user_profile(user_id, first_name, last_name, dob, gender ,update_date )VALUES(".$userid.", '".$first_name."', '".$last_name."', '".$dob."', '".$gender."', '".$update_date."')";
                 $stmt2 = $db->prepare($sql2);
                 $stmt2->execute();
-				//////////////////////
-					 //////////////////////////////////////
-	 
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-    CURLOPT_URL => "https://konnect.kirusa.com/api/v1/Accounts/9wT_SbF8UPiIPAx+w1IpNA==/Messages",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => "",
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "POST",
-    CURLOPT_POSTFIELDS => "{\r\"id\":\"357895\",\r\"to\":[\"$mobile_no\"],\r\"sender_mask\":\"kirusa\",\r\"body\":\"Your Verificatin code is : $uniqueid\"\r}\r",
-    CURLOPT_HTTPHEADER => array(
-        "Authorization: PmbPgE671A7MEEMLhZBefasxJ7eXpqV0+SOQdHigyWA=",
-        "Content-Type: application/json"
-    )
-));
-
-$response = curl_exec($curl);
-$err      = curl_error($curl);
-
-curl_close($curl);
- 
-
-				/////////////////////
 				
 				 if($userData){
 					   $userData = json_encode($userData);
@@ -298,86 +270,6 @@ function email() {
 }
 */
 
-
-/* ### Resend Otp ### */
-function resendotp() {
-    $request = \Slim\Slim::getInstance()->request();
-    $data = json_decode($request->getBody());
-	//print_r($data);    
-    $mobile_no=$data->mobile_no;    
-	$uniqueid=rand(1000,9999);
-	$joindate=date("Y-m-d");
-	//$dob=$data->dataofbirth;
-	
-    try {
-        
-            $db = getDB();
-            $userData = '';
-            $sql = "SELECT user_id FROM all_user WHERE mobile_no='".$mobile_no."'";
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
-            $mainCount=$stmt->rowCount();
-            $created=time();
-            if($mainCount>0)
-            {
-                  $sql3="update all_user set uniqueid='".$uniqueid."' WHERE mobile_no='".$mobile_no."'";
-				 $stmt3 = $db->prepare($sql3);
-				 $stmt3->execute();
-			//////////////////////////////////////
-	
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-    CURLOPT_URL => "https://konnect.kirusa.com/api/v1/Accounts/9wT_SbF8UPiIPAx+w1IpNA==/Messages",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => "",
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "POST",
-    CURLOPT_POSTFIELDS => "{\r\"id\":\"357895\",\r\"to\":[\"$mobile_no\"],\r\"sender_mask\":\"kirusa\",\r\"body\":\"Your Verificatin code is : $uniqueid\"\r}\r",
-    CURLOPT_HTTPHEADER => array(
-        "Authorization: PmbPgE671A7MEEMLhZBefasxJ7eXpqV0+SOQdHigyWA=",
-        "Content-Type: application/json"
-    )
-));
-
-$response = curl_exec($curl);
-$err      = curl_error($curl);
-
-curl_close($curl);
- /* if ($err) {
-    echo "cURL Error #:" . $err;
-} else {
-    echo $response;
-} */
-
-				/////////////////////
-				
-				 if($err){
-					  // $userData = json_encode($userData);
-						echo '{"error": '.$err.'}';
-						 
-						
-					} else {
-					   echo '{"error":{"Success":"'.$response.'"}}';
-					}
-					
-					
-            }else {
-               echo '{"error":{"text":"User Not Exist"}}';
-            }
-            
-            $db = null;
-         
-        
-    }
-    catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
-}
-
-
 /* ### internal Userfirst_name Details ### */
 function internalUserDetails($input) {
     
@@ -437,7 +329,7 @@ function verifyotp(){
 			 $verifyotpcode ="";
 			 $verifyotpcode1 ="";
              $db = getDB(); 
-					$sql2 = "SELECT uniqueid, first_name, email_id from all_user WHERE user_id=:user_id"; 
+					$sql2 = "SELECT uniqueid, email_id from all_user WHERE user_id=:user_id"; 
 					$stmt1 = $db->prepare($sql2);
 					$stmt1->bindParam("user_id", $user_id, PDO::PARAM_STR); 
 					$stmt1->execute();
@@ -447,7 +339,6 @@ function verifyotp(){
 				$db = null;
 				$createdotp = $verifyotpcode->uniqueid;
 				$email_id = $verifyotpcode->email_id;
-				$first_name = $verifyotpcode->first_name;
 				
 							
 			 if($uniqueid == $createdotp){
@@ -457,22 +348,6 @@ function verifyotp(){
 				 $sql3="update all_user set user_status='1' WHERE user_id=".$user_id;
 				 $stmt3 = $db1->prepare($sql3);
 				 $stmt3->execute();
-				 //////////////chat login table///////////////////
-	 
-				 $data = array(
-					':username'		=>	$email_id,					
-					':password'		=>	'123',
-					':name'		=>	$first_name,
-					':f_userid'		=>	$user_id
-				);
-				$query = "
-				INSERT INTO login 
-				(username, password, name, f_userid) 
-				VALUES (:username, :password, :name, :f_userid)
-				";
-				$statement = $db1->prepare($query);
-				$statement->execute($data);  
-				//////////////////////////////////	
 				 $db1 = null; 
 				 $verifyotpcode1 = json_encode($verifyotpcode1);
 				echo '{"userData": ' .$verifyotpcode1. '}';

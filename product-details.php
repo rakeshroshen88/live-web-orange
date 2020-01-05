@@ -141,11 +141,19 @@ if($dbt->numRows()>0)
 			    $orgprice=$row['prod_sprice'];
 			    $finalprice=$row['prod_sprice'];
 				?>
-                                                            <h2 class="prodcfprice"> ₦ <?php echo $row['prod_sprice'];?><?php //number_format($row['prod_sprice'],2);?></h2>
+                                                            <h2 class="prodcfprice"> ₦ <?php // echo $row['prod_sprice'];?><?php
+ $proprice1=str_replace(",","",$row['prod_sprice']);															echo $price=number_format( $proprice1,2);?></h2>
 															 <?php if(!empty($row['material'])){ ?>
-                                                            <h3 class="prodcttype">Material: <?=$row['material']?></h3>
-                                                           <?php } if(!empty($row['sort_detail'])){ ?>
-														   <h3 class="prodcttype">Description:  <?=$row['sort_detail']?></h3><?php } ?>
+															 <h3 class="prodcttype"><b>Material:</b> <?=$row['material']?></h3><?php }?>
+															
+															 <?php if(!empty($row['manufacturer'])){ ?>
+															 <h3 class="prodcttype"><b>Manufacturer: </b><?=$row['manufacturer']?></h3><?php }?>
+															 
+															  <?php if(!empty($row['weight'])){ ?>
+															 <h3 class="prodcttype"><b>Weight:</b> <?=$row['weight']?></h3><?php }?>
+															
+                                                           <?php  if(!empty($row['sort_detail'])){ ?>
+														   <h3 class="prodcttype"><b>Description:</b>  <?=$row['sort_detail']?></h3><?php } ?>
                                                             <!--<h3 class="prodcttype">Condition: Used - Good</h3>-->
                                                     </div>
                                                     <div class="slelect-dteails">
@@ -188,8 +196,20 @@ if($dbt->numRows()>0)
                                                     <!-- col.// -->
                                                     <div class="col-sm-7">
                                                         <dl class="param param-inline">
-                                                            	<?php //if(!empty($row[ 'color'])){ $row[ 'color'];}?>
-                                                           <?php if(!empty($row[ 'prodsize1']) or !empty($row[ 'prodsize2']) or !empty($row[ 'prodsize3']) or !empty($row[ 'prodsize4'])){ ?> <dt>Size: </dt> <?php }?>
+                                                            	<?php 
+				$color=$row['color'];
+				if(!empty($color)){
+				echo '<dt>Color: </dt>';
+				}
+				$colornew=explode(",",$color);				
+				 $colorcount=count($colornew);
+				for($i=0;$i<$colorcount;$i++){
+				?>
+				<input type="radio"  name="input_array_name"  /><?=$colornew[$i]?> &nbsp;
+				<?php }
+				
+				?>
+                                                          <!-- <?php if(!empty($row[ 'prodsize1']) or !empty($row[ 'prodsize2']) or !empty($row[ 'prodsize3']) or !empty($row[ 'prodsize4'])){ ?> <dt>Size: </dt> <?php }?>
                                                             <dd> <?php if(!empty($row[ 'prodsize1'])){ ?>
                                                                 <label class="form-check form-check-inline">
                                                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2<?=$row['id']?>" value="SM" <?php if($row[ 'prodsize1']=='S'){ echo "selected"; } ?>>
@@ -213,7 +233,24 @@ if($dbt->numRows()>0)
                                                                     <span class="form-check-label">XXL</span>
                                                                 </label><?php } ?>
                                                             </dd>
-                                                        </dl>
+                                                        -->
+														
+														<?php 
+				$size=$row['allsize'];
+				if(!empty($size)){
+				echo '<dt>Size: </dt>';
+				}
+				$sizenew=explode(",",$size);				
+				 $sizecount=count($sizenew);
+				for($i=0;$i<$sizecount;$i++){
+				?>
+				<input type="radio"  name="inlineRadioOptions"  /><?=$sizenew[$i]?> &nbsp;
+				<?php }
+				
+				?>
+														
+														
+														</dl>
                                                         <!-- item-property .// -->
                                                     </div>
                                                     <!-- col.// -->
