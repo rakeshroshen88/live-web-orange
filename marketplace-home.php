@@ -559,7 +559,7 @@ if($dbt->numRows()>0)
 
                                 <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 4,8";						
+						<?php   $sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() ASC limit 4 ";						
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -1787,7 +1787,7 @@ $numberDays = intval($numberDays);
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>

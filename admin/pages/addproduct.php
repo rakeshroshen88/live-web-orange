@@ -57,7 +57,62 @@ $rnd=round();
 	$ppath=$rnd.basename($_FILES["largeimage"]["name"]);
 	}
 	
+////////////////////////////////////////////
 
+$uploadedFiles = array();
+$uploadedFiles1 = array();
+$extension = array("jpeg","jpg","png","gif");
+$bytes = 1024;
+$KB = 1024;
+$totalBytes = $bytes * $KB;
+
+$UploadFolder = "../product/small";
+ 
+$counter = 0;
+$counter1 = 0;
+foreach($_FILES["input_array_file"]["tmp_name"] as $key=>$tmp_name){
+    $temp = $_FILES["input_array_file"]["tmp_name"][$key];
+    $name = $_FILES["input_array_file"]["name"][$key];
+     
+    if(empty($temp))
+    {
+        break;
+    }
+     
+    $counter++;
+    $UploadOk = true;     
+  
+     
+    if($UploadOk == true){
+        move_uploaded_file($temp,$UploadFolder."/".$name);
+        array_push($uploadedFiles, $name);
+    }
+}
+$array_valuesfilenew=implode(",",$uploadedFiles);
+///////////////////////////////////////////////
+foreach($_FILES["input_array_file1"]["tmp_name"] as $key=>$tmp_name){
+    $temp1 = $_FILES["input_array_file"]["tmp_name"][$key];
+    $name1 = $_FILES["input_array_file"]["name"][$key];
+     
+    if(empty($temp1))
+    {
+        break;
+    }
+     
+    $counter1++;
+    $UploadOk1 = true;     
+  
+     
+    if($UploadOk1 == true){
+        move_uploaded_file($temp1,$UploadFolder."/".$name1);
+        array_push($uploadedFiles1, $name1);
+    }
+}
+$array_valuesfilenew1=implode(",",$uploadedFiles1);
+///////////////////////////////////////////////
+
+//echo "<script>alert('".$array_valuesfilenew."');</script>";
+////////////////////////////////////////////
 	
 $link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
 $prod_detail = mysqli_real_escape_string($link, $_REQUEST['prod_desc']);
@@ -209,7 +264,31 @@ if($act=="edit")
 					}
 				}
 				$array_valuesids=implode(",",$array_valuesid);
-
+				
+				$arrayimg=array();
+				if (isset($_POST["input_imgid"]) && is_array($_POST["input_imgid"])){ 
+					$input_imgid = array_filter($_POST["input_imgid"]); 
+					foreach($input_imgid as $field_img){
+						$arrayimg[]= $field_img;
+					}
+				}
+				$arrayimgids=implode(",",$arrayimg);
+				//////////////////////////////////
+				$arrayimg1=array();
+				if (isset($_POST["input_imgid1"]) && is_array($_POST["input_imgid1"])){ 
+					$input_imgid1 = array_filter($_POST["input_imgid1"]); 
+					foreach($input_imgid1 as $field_img1){
+						$arrayimg1[]= $field_img1;
+					}
+				}
+				$arrayimgids1=implode(",",$arrayimg1);
+				//////////////////////////////////
+				
+				$array_update=explode(",",$arrayimgids);
+				$array_update1=explode(",",$arrayimgids1);
+				$array_image=explode(",",$array_valuesfilenew);
+				$array_image1=explode(",",$array_valuesfilenew1);
+				
 				$colornew=explode(",",$array_values2);
 				$sizenew=explode(",",$array_values3);
 				$quantitynew=explode(",",$array_valuesqunt);
@@ -221,13 +300,17 @@ if($act=="edit")
 				$sql="DELETE FROM prodattributes WHERE prodid='$prodid'";
 				$db->query($sql);
 				for($i=0;$i<$quantitycount;$i++){
+					if(!empty($array_image[$i])){ $img=$array_image[$i]; }else{ $img=$array_update[$i]; }
+					if(!empty($array_image1[$i])){ $img1=$array_image1[$i]; }else{ $img1=$array_update1[$i]; }
 					$updatearrnew=array(
 					"prodid"=>$prodid,
 					"prodcolor"=>$colornew[$i],
 					 "prodsize"=>$sizenew[$i],
 					 "prodquantity"=>$quantitynew[$i],
 					 "prodcapacity"=>$array_valuescapnew1[$i],
-					 "prodtype"=>$array_valuestypenew1[$i]
+					 "prodtype"=>$array_valuestypenew1[$i],
+					 "image_id"=>$img,
+					 "thumbnail"=>$img1
 					);
 
 				/* 	$whereClausenew=" id=".$array_valuesidsnew[$i];
@@ -397,6 +480,7 @@ if($act=="edit")
 //$errMsg='<br><b>Product Added Successfully!</b><br>';
 					if($insid>0)
 						{
+				$array_image=explode(",",$array_valuesfilenew);
 				$colornew=explode(",",$array_values2);
 				$sizenew=explode(",",$array_values3);
 				$quantitynew=explode(",",$array_valuesqunt);	
@@ -412,7 +496,8 @@ if($act=="edit")
 					 "prodsize"=>$sizenew[$i],
 					 "prodquantity"=>$quantitynew[$i],
 					 "prodcapacity"=>$array_valuescapnew1[$i],
-					 "prodtype"=>$array_valuestypenew1[$i]
+					 "prodtype"=>$array_valuestypenew1[$i],
+					 "image_id"=>$array_image[$i]
 					);	
 					$insidq=insertData($updatearr11, 'prodattributes');					
 				}
@@ -1002,7 +1087,14 @@ $db->query($sql)or die($db->error());
 				?>
 				<input type="hidden" name="input_array_id[]"  value="<?=$rownew['id']?>" />
 				
+				<input type="hidden" name="input_imgid[]"  value="<?=$rownew['image_id']?>" />
+				
+				<input type="hidden" name="input_imgid1[]"  value="<?=$rownew['thumbnail']?>" />
+				
 				<div><input type="text" name="input_array_name[]" class="form-control" placeholder="Input Color" value="<?=$rownew['prodcolor']?>" /></div>
+				<div><input type="file" name="input_array_file[]" class="form-control" placeholder="Input File" /></div>
+				
+				<div><input type="file" name="input_array_file1[]" class="form-control" placeholder="Thumbnail File" /></div>
 				<div><input type="text" name="input_array_size[]" class="form-control"  placeholder="Input size" value="<?=$rownew['prodsize']?>" /></div>
 				<div><input type="text" name="input_array_qtn[]" class="form-control"  placeholder="Input Quantity" value="<?=$rownew['prodquantity']?>" /></div>
 				<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" value="<?=$rownew['prodtype']?>" /></div>
@@ -1013,6 +1105,8 @@ $db->query($sql)or die($db->error());
 				if(empty($color)){
 				?>
 					<div><input type="text" name="input_array_name[]" class="form-control" placeholder="Input Color" /></div>
+					<div><input type="file" name="input_array_file[]" class="form-control" placeholder="Input File" /></div>
+					<div><input type="file" name="input_array_file1[]" class="form-control" placeholder="Input File" /></div>
 					<div><input type="text" name="input_array_size[]" class="form-control" placeholder="Input Size" /></div>
 					<div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" required /></div>
 					<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /></div>
@@ -1370,7 +1464,7 @@ $(document).ready(function() {
         if(x < max_fields){ 
             x++; //input field increment
 			 //add input field
-            $(wrapper).append('<div><input type="text" name="input_array_name[]" placeholder="Input Other Color" class="form-control"/> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_size[]" placeholder="Input size" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" required /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div>');
+            $(wrapper).append('<div><input type="text" name="input_array_name[]" placeholder="Input Other Color" class="form-control"/> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="file" name="input_array_file[]" placeholder="Input file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="file" name="input_array_file1[]" placeholder="Input file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_size[]" placeholder="Input size" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" required /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div>');
         }
     });
 	

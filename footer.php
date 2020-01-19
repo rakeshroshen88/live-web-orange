@@ -133,7 +133,7 @@ $(document).ready(function(){
 	fetch_user();
 
 
-   setInterval(function(){
+  setInterval(function(){
 
 		update_last_activity();
 		fetch_user();
@@ -142,14 +142,14 @@ $(document).ready(function(){
 
 		fetch_group_chat_history();
 		log();
-	}, 10000);  
+	}, 5000);   
 
-	 setInterval(function(){
+	  setInterval(function(){
 
 		offline_chat();
 
 	}, 1000000);
-
+ 
 	function log()
 	{
 		$.ajax({
@@ -810,6 +810,27 @@ var action='action';
 <script src="js/sweetalert2@8.js"></script>
 <script src="js/media.js"></script>
 <script src="js/profile.js"></script>
+	
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+	
+<script>
+    function signOut() {
+		
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+		 window.location = "logout.php/state=not_logged_in"; 
+        
+      });
+    }
+
+    function onLoad() {
+      gapi.load('auth2', function() {
+        gapi.auth2.init();
+      });
+    }
+  </script>
+  
+ <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 <?php 
 include_once("config.inc.php");
 /* Getting file name */
+
 if(!empty($_FILES['file']['name'])){
 $filename = $_FILES['file']['name'];
 $random=rand(10,10000);

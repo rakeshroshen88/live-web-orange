@@ -44,11 +44,12 @@ $password=$_POST['password1'];
 							{
 							$_SESSION['user_id'] = $row['user_id'];
 							$_SESSION['username'] = $row['username'];
-							$sub_query = "
-								INSERT INTO login_details
-								(user_id,status)
-								VALUES ('".$row['user_id']."','Online')
-								";
+							
+								$sub_query = "
+				INSERT INTO login_details
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$row['user_id']."', '".$user_id."','Online')
+				";
 							$statement = $connect->prepare($sub_query);
 							$statement->execute();
 							$_SESSION['login_details_id'] = $connect->lastInsertId();	
@@ -68,11 +69,8 @@ $password=$_POST['password1'];
 							$updatear1=array(	 
 								"user_id"=>$insid,
 								"first_name"=>$name,
-								"last_name"=>$lastname,
-								"dob"=>'',
-								"gender"=>'',						 
+								"last_name"=>$lastname,							 
 								"update_date"=>date("Y-m-d")
-
 						);
 						$insidm=insertData($updatear1, 'user_profile');
 				////////////////chat///////////////////////
@@ -80,7 +78,7 @@ $password=$_POST['password1'];
 							$data = array(
 							':username'		=>	$emial,
 							':name'		=>	$name,
-							':password'		=>	password_hash($password, PASSWORD_DEFAULT),
+							':password'		=>	'123',//password_hash($password, PASSWORD_DEFAULT),
 							':f_userid'		=>	$insid
 							);
 
@@ -93,6 +91,13 @@ $password=$_POST['password1'];
 							$statement->execute($data);
 				
 						////////////////////////////////////////
+						$sub_query = "INSERT INTO login_details
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$row['user_id']."', '".$user_id."','Online')
+				";
+							$statement = $connect->prepare($sub_query);
+							$statement->execute();
+							$_SESSION['login_details_id'] = $connect->lastInsertId();	
 						
 					
 					

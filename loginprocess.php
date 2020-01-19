@@ -50,21 +50,37 @@ setcookie ("password","");
 		{
 			 $_SESSION['user_id'] = $row['user_id'];
 			 $_SESSION['username'] = $row['username'];
-				 $sub_query = "
-				INSERT INTO login_details
-	     		(user_id,status)
-	     		VALUES ('".$row['user_id']."','Online')
-				";
+				
+				
+				
+				/* $sqld = "DELETE   FROM login_details WHERE  f_userid='".$result['user_id']."'";
+				$stmt3 = $connect->prepare($sqld);				 
+				$stmt3->execute(); */
+				//////////
+				$querynew = "SELECT login_details_id FROM login_details WHERE f_userid = '".$result['user_id']."'";					
+				$statement = $connect->prepare($querynew);
+				$statement->execute();
+				$login_details_id = $statement->fetch();
+				$_SESSION['login_details_id'] = $login_details_id->login_details_id;	
+				
+				if($login_details_id->login_details_id > 0){
+				$query2 = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
+				$stmt3 = $chatdb->prepare($query2);				 
+				$stmt3->execute();
+				}else{				
+				  $sub_query = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
-				 $_SESSION['login_details_id'] = $connect->lastInsertId();	
-	}}else{
+				 
+				}
+	}
+	}else{
 		//////////////chat///////////////////
 	 
 				 $data = array(
 					':username'		=>	$result['email_id'],
 					':name'		=>	$result['first_name'],
-					':password'		=>	password_hash('12abc', PASSWORD_DEFAULT),
+					':password'		=>	'123', 
 					':f_userid'		=>	$result['user_id']
 				);
 				 $query = "
@@ -94,14 +110,35 @@ setcookie ("password","");
 		{
 			 $_SESSION['user_id'] = $row['user_id'];
 			 $_SESSION['username'] = $row['username'];
+				 /* $sqld = "DELETE   FROM login_details WHERE  f_userid='".$result['user_id']."'";
+				$stmt3 = $connect->prepare($sqld);				 
+				$stmt3->execute();
+				//////////
 				$sub_query = "
 				INSERT INTO login_details
-	     		(user_id,status)
-	     		VALUES ('".$row['user_id']."','Online')
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$row['user_id']."', '".$result['user_id']."','Online')
 				";
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
-				 $_SESSION['login_details_id'] = $connect->lastInsertId();	
+				 $_SESSION['login_details_id'] = $connect->lastInsertId(); */
+
+				 $querynew = "SELECT login_details_id FROM login_details WHERE f_userid = '".$result['user_id']."'";					
+				$statement = $connect->prepare($querynew);
+				$statement->execute();
+				$login_details_id = $statement->fetch();
+				$_SESSION['login_details_id'] = $login_details_id->login_details_id;	
+				
+				if($login_details_id->login_details_id > 0){
+				$query2 = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
+				$stmt3 = $chatdb->prepare($query2);				 
+				$stmt3->execute();
+				}else{				
+				 $sub_query = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
+				$statement = $connect->prepare($sub_query);
+				$statement->execute();	
+				$_SESSION['login_details_id'] = $login_details_id->login_details_id;		
+				}
 	}} 
 /////////////////////////////////////////////////	
 		
@@ -116,6 +153,9 @@ setcookie ("password","");
 			$_SESSION['sess_webidlogin']=$result['user_id'];
 			$_SESSION['sess_webmaillogin']=$result['email_id'];	
 			$_SESSION['sess_webidofotp']=$result['user_id'];
+			$uniqueid1=$result['uniqueid'];
+			$mobile_no=$result['mobile_no'];
+			$mobile_no=str_replace(",","",$mobile_no);
 			//////////////////////////////////////////
 			$evtstr='<table width="740"  style="border:#666666; size:2px;" align="center" cellpadding="10" cellspacing="0" bgcolor="#666666"  >
   <tr>
@@ -167,7 +207,32 @@ Mobile No:-  +91 000 000 750<br>
       
     </table></td>
   </tr>
-</table>'; 
+</table>';
+
+	 //////////////////////////////////////
+	 
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://konnect.kirusa.com/api/v1/Accounts/9wT_SbF8UPiIPAx+w1IpNA==/Messages",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => "{\r\"id\":\"357895\",\r\"to\":[\"$mobile_no\"],\r\"sender_mask\":\"kirusa\",\r\"body\":\"Your Verificatin code is : $uniqueid\"\r}\r",
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: PmbPgE671A7MEEMLhZBefasxJ7eXpqV0+SOQdHigyWA=",
+        "Content-Type: application/json"
+    )
+));
+
+$response = curl_exec($curl);
+$err      = curl_error($curl);
+
+curl_close($curl);
+ 
                                 	 $to=$email;
                                     $from = "c.k.roy90@gmail.com";
                                     $subject="Thank your for registering with Us. You one time OTP: " . $uniqueid;

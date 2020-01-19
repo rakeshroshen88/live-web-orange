@@ -23,7 +23,7 @@ if($uploadOk == 0){
      
 	  echo $imageid=$random.$filename;
 	  //$_SESSION['sess_img']=$imageid;
-	  $sql1 = "UPDATE $_TBL_COMPANY SET cover_image_id = '".$imageid."' WHERE user_id=".$_SESSION['sess_webid'];
+	   $sql1 = "UPDATE $_TBL_COMPANY SET cover_image_id = '".$imageid."' WHERE user_id=".$_SESSION['sess_webid'];
 	  $db->query($sql1);
 	//echo $regmsg="Picture updated!";
    }else{

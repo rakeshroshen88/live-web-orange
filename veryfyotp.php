@@ -28,7 +28,7 @@ if($db->numRows()>0)
 				 $data = array(
 					':username'		=>	$result['email_id'],
 					':name'		=>	$result['first_name'],
-					':password'		=>	password_hash('12abc', PASSWORD_DEFAULT),
+					':password'		=>	'123', //password_hash('12abc', PASSWORD_DEFAULT),
 					':f_userid'		=>	$result['user_id']
 				);
 				$query = "
@@ -58,10 +58,15 @@ if($db->numRows()>0)
 		{
 			 $_SESSION['user_id'] = $row['user_id'];
 			 $_SESSION['username'] = $row['username'];
+			 //////////////DELETE login_details////////////////////
+				 $sqld = "DELETE   FROM login_details WHERE  f_userid='".$result['user_id']."'";
+				$stmt3 = $connect->prepare($sqld);				 
+				$stmt3->execute();
+				//////////
 				$sub_query = "
 				INSERT INTO login_details
-	     		(user_id,status)
-	     		VALUES ('".$row['user_id']."','Online')
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$row['user_id']."', '".$result['user_id']."','Online')
 				";
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
@@ -92,6 +97,38 @@ if($db->numRows()>0)
 	{
 	$result=$db->fetchArray();
 	 $uniqueid1=$result['uniqueid'];
+	 $mobile_no=$result['mobile_no'];
+	 $mobile_no=str_replace(",","",$mobile_no);
+	 //////////////////////////////////////
+	 
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://konnect.kirusa.com/api/v1/Accounts/9wT_SbF8UPiIPAx+w1IpNA==/Messages",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => "{\r\"id\":\"357895\",\r\"to\":[\"$mobile_no\"],\r\"sender_mask\":\"kirusa\",\r\"body\":\"Your Verificatin code is : $uniqueid1\"\r}\r",
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: PmbPgE671A7MEEMLhZBefasxJ7eXpqV0+SOQdHigyWA=",
+        "Content-Type: application/json"
+    )
+));
+
+$response = curl_exec($curl);
+$err      = curl_error($curl);
+
+curl_close($curl);
+
+/* if ($err) {
+    echo "cURL Error #:" . $err;
+} else {
+    echo $response;
+} */
+	 //////////////////////////////////////
 			$evtstr='<table width="740"  style="border:#666666; size:2px;" align="center" cellpadding="10" cellspacing="0" bgcolor="#666666"  >
   <tr>
     <td valign="top"><table width="94%" border="0" cellspacing="0" cellpadding="0"  align="center"  style="border:#666666; size:2px;" >
@@ -179,7 +216,7 @@ if($db->numRows()>0)
 						echo $errMsg;
 						echo '<br />';
 						}
-						echo $_SESSION['sess_otp'];
+						//echo $_SESSION['sess_otp'];
 					?></center>
 </font>
  

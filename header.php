@@ -56,9 +56,11 @@ $link .= $_SERVER['PHP_SELF'];
 	<link rel="stylesheet" type="text/css" href="css/responsive.css">
 	<link rel="stylesheet" type="text/css" href="css/video-js.css">
 	<link href="images/logo.png" rel="icon" sizes="32x32" type="image/png" />
-	
-	    <meta name="google-signin-scope" content="profile email">
+
+	<!--<script type="text/javascript" src="js/jquery-2.1.0.js"></script>-->
+    <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="664380665812-8b9mqe830i9ibuer9b3g9l14tga0n0tl.apps.googleusercontent.com">
+
    
 	<!--<a href="#" onclick="signOut();">Sign out</a>-->
 	<!--<script type="text/javascript" src="http://ajax.googleapis.com/
@@ -610,10 +612,12 @@ $ct++;
 								<li><a href="#" title="">Faqs</a></li>
 								<li><a href="#" title="">Terms & Conditions</a></li>
 							</ul>
-							<h3 class="tc"><a href="company-page.php" title="">create page</a></h3>
+							<h3 class="tc"><a href="company-page.php" title="">create Business Hub</a></h3>
 							
-							<h3 class="tc"><a href="company-list.php" title="">View page</a></h3>
-							<h3 class="tc"><a href="logout.php" onclick="signOut();" title="">Logout</a></h3>
+							<h3 class="tc"><a href="company-list.php" title="">View Business Hub</a></h3>
+							<h3 class="tc">
+							<a href="Javascript:void(0)" onclick="signOut();">Logout</a>
+							<!--<a href="logout.php" onclick="signOut();" title="">Logout</a>--></h3>
 							
 							<!--<h3 class="tc"><a href="javascript:void(0);" onclick="signOut();" title="">Logout</a></h3>-->
 							
