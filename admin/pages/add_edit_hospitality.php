@@ -22,7 +22,7 @@ $updatearr=array(	 "title"=>$_REQUEST['catname'],
 		}elseif($act=="add"){
 		$whereClause="title='".$_REQUEST['catname']."'" ;
 		}
-	if(matchExists($_TBL_HOSPITALITY, $whereClause))
+	if(matchExists('hospitality', $whereClause))
 		{
 			
 			$errMsg='<br>Hospitality already exist!<br>';
@@ -31,14 +31,14 @@ $updatearr=array(	 "title"=>$_REQUEST['catname'],
 			if($act=="edit")
 				{
 					$whereClause=" id=".$catid;
-					updateData($updatearr, $_TBL_HOSPITALITY, $whereClause);
+					updateData($updatearr, 'hospitality', $whereClause);
 					$where=" id=".$catid;
 					
 				
 					$errMsg='<br><b>Update Successfully!</b><br>';
 				}elseif($act=="add"){
 				
-					$insid=insertData($updatearr, $_TBL_HOSPITALITY);
+					$insid=insertData($updatearr, 'hospitality');
 					$where=" id=".$insid;
 					
 					

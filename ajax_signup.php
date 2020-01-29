@@ -32,10 +32,10 @@ $password=base64_encode($_POST['password1']);
 					 "joindate"=>date("Y-m-d")
 
 						);
-					$whereClause=" email_id='".$emial."' and mobile_no='".$phoneno."'";
+					$whereClause=" email_id='".$emial."' and mobile_no='".$phoneno1."'";
 					if(matchExists($_TBL_USER, $whereClause))
 					{
-						 $errMsg='<br>'.$emial.' or '.$phoneno.' &nbsp already &nbsp exist!<br> <br>';
+						 $errMsg='<br>'.$emial.' or '.$phoneno1.' &nbsp already &nbsp exist!<br> <br>';
 					$status = false;
 					$message = $errMsg;
 						
@@ -44,6 +44,30 @@ $password=base64_encode($_POST['password1']);
 
 						if($insid>0)
 							{
+								///////////////////////////
+	 $phoneno=$countrycode.$phoneno;
+	 //$mobile_no=str_replace(",","",$mobile_no);
+	 //////////////////////////////////////
+	 
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://konnect.kirusa.com/api/v1/Accounts/9wT_SbF8UPiIPAx+w1IpNA==/Messages",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => "{\r\"id\":\"357895\",\r\"to\":[\"$phoneno\"],\r\"sender_mask\":\"kirusa\",\r\"body\":\"Your Verificatin code is : $uniqueid\"\r}\r",
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: PmbPgE671A7MEEMLhZBefasxJ7eXpqV0+SOQdHigyWA=",
+        "Content-Type: application/json"
+    )
+));
+
+
+								///////////////////////////
 					$updatear1=array(	 
 					"user_id"=>$insid,
 					"first_name"=>$name,
@@ -82,7 +106,7 @@ $password=base64_encode($_POST['password1']);
   <tr>
     <td valign="top"><table width="94%" border="0" cellspacing="0" cellpadding="0"  align="center"  style="border:#666666; size:2px;" >
       <tr>
-        <td><img src="http://orangestate.ng/images/logo.png" style="width:200px" /><br><br></td>
+        <td><img src="//orangestate.ng/images/logo.png" style="width:200px" /><br><br></td>
       </tr>
       
       
@@ -123,30 +147,67 @@ $evtstr1.='</p></td>
     </table></td>
   </tr>
 </table>'; 
-                                	 $to=$_REQUEST['email1'];
-                                    $from = "c.k.roy90@gmail.com";
-                                    $subject="Thank your for registering with Us. You one time OTP: " . $uniqueid;
+$msg.='Email: '.$_REQUEST['email1'].'<br><br>';
+$msg.='Name: '.$_REQUEST['name1'].'<br><br>';                                    
+									
+$msg.='Phone No.: '.$_REQUEST['phoneno'].'<br><br>';
+$msg.='Password: '.$_REQUEST['password1'].'<br><br>';									
+$message=$evtstr.$msg.$evtstr1;
+//////////////////////////
+$to=$_REQUEST['email1'];
+require("class.phpmailer.php");
+$mail = new PHPMailer();
+$mail->IsSMTP();
+$mail->Host = "orangestate.ng";//"webdevelopmentcompanyusa.com";  /*SMTP server*/
+$mail->SMTPAuth = true;
+$mail->SMTPSecure = "ssl";
+$mail->Port = 465;//465;/587/
+$mail->Username = "developer@orangestate.ng";  /*Username*/
+$mail->Password = "Hello@123dasd@";    /**Password**/
+
+$mail->From = "admin@orangestate.ng";    /*From address required*/
+$mail->FromName = "OrangeState";
+$mail->AddAddress($to, 'To'); 
+//$mail->AddReplyTo("mail@mail.com");
+
+$mail->IsHTML(true);
+ 
+$mail->Subject = "Thank you for registering with Us. You one time OTP: " . $uniqueid;
+$mail->Body = $message;
+//$mail->AltBody = "This is the body in plain text for non-HTML mail clients";
+
+if(!$mail->Send())
+{
+echo "Message could not be sent. <p>";
+echo "Mailer Error: " . $mail->ErrorInfo;
+exit;
+}
+
+/////////////////////////
+                                /* 	 $to=$_REQUEST['email1'];
+                                    $from = "rakeshroshen88@gmail.com";
+                                    $subject="Thank you for registering with Us. You one time OTP: " . $uniqueid;
 
 				                    $msg.='Email: '.$_REQUEST['email1'].'<br><br>';
 									$msg.='Name: '.$_REQUEST['name1'].'<br><br>';                                    
 									
 									$msg.='Phone No.: '.$_REQUEST['phoneno'].'<br><br>';
 									$msg.='Password: '.$_REQUEST['password1'].'<br><br>';									
-							     	$message=$evtstr.$msg.$evtstr1;
+							     	 $message=$evtstr.$msg.$evtstr1;
 									$headers  = "MIME-Version: 1.0\r\n";
 									$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
 									$headers .= "From:$from\r\n";
 									@mail($to, $subject, $message, $headers); 
                     
                     
-                    /////////////////////////////////////////Site Admin/////////////////////////////////////////////////////////////
+                   //////////Site Admin////////////
                      $adminto="c.k.roy90@gmail.com";
                     $adminfrom=$_REQUEST['email1'];
                     $querysubject="Registration from user !"; 
                     $adminheaders  = "MIME-Version: 1.0\r\n";
                     $adminheaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
                     $adminheaders .= "From:$adminfrom\r\n";                   
-                    @mail($adminto, $subject, $message, $adminheaders); 
+                    @mail($adminto, $subject, $message, $adminheaders); */ 
                     
                     /////////////////////////////////////////
 					 $decoded = base64_encode($insid);
@@ -154,9 +215,12 @@ $evtstr1.='</p></td>
 					if($insid !== false){
 					$status = true;
 					$message = "successfully";
+					$response = curl_exec($curl);
+					$err      = curl_error($curl);
+					curl_close($curl);
 					}else{
 					$status = false;
-					$message = "unlinked successfully";
+					$message = "Un successfully";
 					}
 			
 			

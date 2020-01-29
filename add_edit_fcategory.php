@@ -30,85 +30,21 @@ if($act=="edit")
 	
 	}
 
-if($act=="edit")
-	{
-
-	if(!empty($_FILES['largeimage']['name']))
-		{
-		$largeimage=$up->upload_file($uploaddir3,"largeimage",true,true,0,$check_type);
-		
-		}else{
-		$largeimage=$_REQUEST['image3'];
-		}
-	
-	}else{
-	
-	$largeimage=$up->upload_file($uploaddir3,"largeimage",true,true,0,$check_type);
-	
-	
-	}
-
-
-if($act=="edit")
-	{
-
-	if(!empty($_FILES['largeimage1']['name']))
-		{
-		$largeimage1=$up->upload_file($uploaddir3,"largeimage1",true,true,0,$check_type);
-		
-		}else{
-		$largeimage1=$_REQUEST['image4'];
-		}
-	
-	}else{
-	
-	$largeimage1=$up->upload_file($uploaddir3,"largeimage1",true,true,0,$check_type);
-	
-	
-	}
-	
-	if($act=="edit")
-	{
-
-	if(!empty($_FILES['mobileicon']['name']))
-		{
-		$mobileicon=$up->upload_file($uploaddir3,"mobileicon",true,true,0,$check_type);
-		
-		}else{
-		$mobileicon=$_REQUEST['image5'];
-		}
-	
-	}else{
-	
-	$mobileicon=$up->upload_file($uploaddir3,"mobileicon",true,true,0,$check_type);
-	
-	
-	}
-	if(!empty($_REQUEST['featured1'])){$f=$_REQUEST['featured1'];}else{$f='no';}
-$sdate = date("Y-m-d", strtotime($_REQUEST['sdate']));
-//print_r($_POST);
-$link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
-$catname = mysqli_real_escape_string($link, $_REQUEST['catname']);
-$cat_desc = mysqli_real_escape_string($link, $_REQUEST['cat_desc']);
-$updatearr=array(	"catname"=>$catname,
-					//"cat_desc"=>$cat_desc,
-					"menuname"=>$_REQUEST['type'],
-					"imgid"=>$largeimage,
-					"bimg"=>$largeimage1,
-					//"icon"=>$icon,
-					"mobileicon"=>$mobileicon,
-					"cat_date"=>date('Y-m-d'),					
-					"status"=>$_REQUEST['catstatus']
+$updatearr=array(	"catname"=>$_REQUEST['catname'],
+					"cat_desc"=>$_REQUEST['cat_desc'],					
+					"icon"=>$icon,
+					 "cat_date"=>date('Y-m-d'),
+					 "status"=>$_REQUEST['catstatus']
 						);
-						
-						
+					
+		//print_r($updatearr); die;				
 	if($act=="edit")
 		{
 		$whereClause=" id!=".$catid." and catname='".$_REQUEST['catname']."'" ;
 		}elseif($act=="add"){
 		$whereClause="catname='".$_REQUEST['catname']."'" ;
 		}
-	if(matchExists('com_category', $whereClause))
+	if(matchExists($_TBL_FEELINGC, $whereClause))
 		{
 			
 			$errMsg='<br>Category already exist!<br>';
@@ -117,20 +53,17 @@ $updatearr=array(	"catname"=>$catname,
 			if($act=="edit")
 				{
 					$whereClause=" id=".$catid;
-					updateData($updatearr, 'com_category', $whereClause);
-					$where=" id=".$catid;
+					updateData($updatearr, $_TBL_FEELINGC, $whereClause);
+					
 					
 				
 					$errMsg='<br><b>Update Successfully!</b><br>';
 				}elseif($act=="add"){
 				
-					$insid=insertData($updatearr, 'com_category');
-					$where=" id=".$insid;
-					
-					
-					
-							 $errMsg='<br><b>Category Added Successfully!</b><br>';
-							redirect('main.php?mod=cat1');
+					$insid=insertData($updatearr, $_TBL_FEELINGC);
+							 $errMsg='<br><b>Feeling Category Added Successfully!</b><br>';
+							//redirect('main.php?mod=fcat');
+							//insert into feeling-ctivity-category set catname='test', cat_desc='', icon='', cat_date='2019-11-26', status='yes'
 						
 					
 				}
@@ -140,7 +73,7 @@ $updatearr=array(	"catname"=>$catname,
 	}
 if(!empty($catid) and $act=="edit")
 	{
-		$sql="SELECT * FROM com_category WHERE id=$catid";
+		$sql="SELECT * FROM $_TBL_FEELINGC WHERE id=$catid";
 		$db->query($sql)or die($db->error());
 		$row=$db->fetchArray();	
 	}
@@ -149,7 +82,7 @@ if(!empty($catid) and $act=="edit")
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Add/Edit Category</li> <span style="color:red; font-size:14px;"<?=$errMsg?></span>
+				<li class="active">Add/Edit Feeling Category</li> <span style="color:red; font-size:14px;"<?=$errMsg?></span>
 			</ol>
 		</div><!--/.row-->
 	
@@ -161,7 +94,7 @@ if(!empty($catid) and $act=="edit")
 				<div class="panel panel-default">
 					<div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> Add/Edit Form</div>
 					<div class="panel-body">
-					
+					<?php //print_r($updatearr);	?>
                         <form name="frmprod" class="form-horizontal" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data">
 						
 						<input type="hidden" name="id" value="<?=$_REQUEST['id']?>" />
@@ -169,7 +102,6 @@ if(!empty($catid) and $act=="edit")
 						 <input type="hidden" name="image4" value="<?=$row['bimg']?>" />
                         <input type="hidden" name="image3" value="<?=$row['imgid']?>" />
 						<input type="hidden" name="icon1" value="<?=$row['icon']?>" />
-						<input type="hidden" name="image5" value="<?=$row['mobileicon']?>" />
 							<fieldset>
 								<!-- Name input-->
                                
@@ -181,28 +113,17 @@ if(!empty($catid) and $act=="edit")
                                     </div>
 							
                       
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name"> Category Type</label>
-                                        <div class="col-md-9">
-                                        <select name="type" id="type" class="form-control" >
-  <option value="">Select</option>
-  <option value="company" <?php if($row['menuname']=='company'){ echo "selected";}?>>Company</option>
-  <option value="event" <?php if($row['menuname']=='event'){ echo "selected";}?>>Event</option>
-   
-  
-</select>
-                                        </div>
-                                    </div>
+                                    
                                    
                                   
         							
-                                    	<!--<div class="form-group">
+                                    	<div class="form-group">
         									<label class="col-md-3 control-label"> Detail</label>
             									<div class="col-md-9">
                                                       <textarea name="cat_desc" class="form-control"><?=$row['cat_desc']?></textarea>
             									 
             									</div>
-        								</div>-->
+        								</div>
                                    
                                          <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
@@ -229,8 +150,8 @@ tinymce.init({
                                     
                                     
         							
-                                      
-                                    	<div class="form-group">
+                                    
+                                    	<!--<div class="form-group">
         									<label class="col-md-3 control-label"> Image</label>
         									<div class="col-md-9">
                                                 <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['imgid']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewaimage.php?img=<?=$row['imgid']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
@@ -244,17 +165,17 @@ tinymce.init({
                                                 <input type="file" name="largeimage1" id="largeimage1"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['bimg']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewaimage.php?img=<?=$row['bimg']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
         									 
         									</div>
-        								</div>
-										
-										<div class="form-group">
-        									<label class="col-md-3 control-label"> Mobile Icon</label>
+        								</div>-->
+                							
+                                         
+										 <div class="form-group">
+        									<label class="col-md-3 control-label"> Icon</label>
         									<div class="col-md-9">
-                                                <input type="file" name="mobileicon" id="mobileicon"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['mobileicon']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewaimage.php?img=<?=$row['mobileicon']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
+                                                <input type="file" name="icon" id="icon"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['icon']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewaimage.php?img=<?=$row['icon']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
         									 
         									</div>
         								</div>
                 							
-                                         
                                             	<div class="form-group">
                 									<label class="col-md-3 control-label"> Status</label>
                 									<div class="col-md-9">

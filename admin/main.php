@@ -265,7 +265,13 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			include_once("pages/employee.php");
 			}elseif($module=="addemployee"){
 				
-			include_once("pages/add_employee.php");			
+			include_once("pages/add_employee.php");
+			}elseif($module=="viewdestype"){
+				
+			include_once("pages/viewdestype.php");
+			}elseif($module=="adddtype"){
+				
+			include_once("pages/adddestinationtype.php");			
 			}elseif($module=="about"){
 				
 			include_once("pages/about.php");

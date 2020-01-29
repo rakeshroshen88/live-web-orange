@@ -45,14 +45,40 @@ $password=$_POST['password1'];
 							$_SESSION['user_id'] = $row['user_id'];
 							$_SESSION['username'] = $row['username'];
 							
-								$sub_query = "
+							/* 	$sub_query = "
 				INSERT INTO login_details
 	     		(user_id,f_userid,status)
 	     		VALUES ('".$row['user_id']."', '".$user_id."','Online')
 				";
 							$statement = $connect->prepare($sub_query);
+							$statement->execute(); */
+							/*  $sub_query = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$user_id."'";
+							$statement = $connect->prepare($sub_query);
+							$statement->execute();*/
+							//////////////////////////////
+							$querynew = "SELECT login_details_id FROM login_details WHERE f_userid = '".$user_id."'";					
+							$statement = $connect->prepare($querynew);
 							$statement->execute();
-							$_SESSION['login_details_id'] = $connect->lastInsertId();	
+							$login_details_id = $statement->fetch();
+							$_SESSION['login_details_id'] = $login_details_id->login_details_id; 
+							
+							//$_SESSION['login_details_id'] = $connect->lastInsertId();	
+							if(!empty($login_details_id->login_details_id)){
+				$query2 = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$user_id."'";
+				$stmt3 = $chatdb->prepare($query2);				 
+				$stmt3->execute();
+				}else{				
+				 //$sub_query = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$user_id."'";
+				 $sub_query = "
+				INSERT INTO login_details
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$row['user_id']."', '".$user_id."','Online')
+				";
+				$statement = $connect->prepare($sub_query);
+				$statement->execute();	
+				//$_SESSION['login_details_id'] = $login_details_id->login_details_id;	
+				$_SESSION['login_details_id'] = $connect->lastInsertId();					
+				}
 							}
 						}
 	/////////////////////////////////////////////////	

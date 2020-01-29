@@ -91,8 +91,8 @@ foreach($_FILES["input_array_file"]["tmp_name"] as $key=>$tmp_name){
 $array_valuesfilenew=implode(",",$uploadedFiles);
 ///////////////////////////////////////////////
 foreach($_FILES["input_array_file1"]["tmp_name"] as $key=>$tmp_name){
-    $temp1 = $_FILES["input_array_file"]["tmp_name"][$key];
-    $name1 = $_FILES["input_array_file"]["name"][$key];
+    $temp1 = $_FILES["input_array_file1"]["tmp_name"][$key];
+    $name1 = $_FILES["input_array_file1"]["name"][$key];
      
     if(empty($temp1))
     {
@@ -206,8 +206,8 @@ $updatearr=array(
 					 "color"=>$array_values2,
 					 "allsize"=>$array_values3,
 					 "quantity"=>$array_valuesqunt,
-					 "prodcapacity"=>$array_valuescapnew,
-					 "prodtype"=>$array_valuestypenew,
+					 //"prodcapacity"=>$array_valuescapnew,
+					 //"prodtype"=>$array_valuestypenew,
 					 "weight"=>$_REQUEST['weight'],
 					 "manufacturer"=>$_REQUEST['manufacturer'],
 					 "total"=>$_REQUEST['quantity1'],
@@ -231,6 +231,8 @@ $updatearr=array(
 					 "shippingcharge"=>$_REQUEST['shippingcharge'],
 					 "sort_detail"=>$sort_detail,
 					 "featured"=>$_REQUEST['featured'],
+					 "prodcapacity"=>$_REQUEST['prodcapacity'],
+					 "prodtype"=>$_REQUEST['prodtype'],
 					 "star"=>$_REQUEST['star']
 					 
 				 );
@@ -307,8 +309,8 @@ if($act=="edit")
 					"prodcolor"=>$colornew[$i],
 					 "prodsize"=>$sizenew[$i],
 					 "prodquantity"=>$quantitynew[$i],
-					 "prodcapacity"=>$array_valuescapnew1[$i],
-					 "prodtype"=>$array_valuestypenew1[$i],
+					 //"prodcapacity"=>$array_valuescapnew1[$i],
+					 //"prodtype"=>$array_valuestypenew1[$i],
 					 "image_id"=>$img,
 					 "thumbnail"=>$img1
 					);
@@ -948,16 +950,15 @@ $db->query($sql)or die($db->error());
 
 
 
-<div class="form-group">
+									<div class="form-group">
 
                                         <label class="col-md-3 control-label" for="Manufacturer"> Manufacturer</label>
 
                                         <div class="col-md-6">
+										 <textarea name="manufacturer" class="form-control"><?=$row['manufacturer']?></textarea>
 										
-										<input name="manufacturer" type="text" class="form-control" value="<?=$row['manufacturer']?>" />  
-								
+										<!--<input name="manufacturer" type="text" class="form-control" value="<?=$row['manufacturer']?>" /> 	-->							
                                         </div>
-
                                     </div>
 
 
@@ -1097,8 +1098,8 @@ $db->query($sql)or die($db->error());
 				<div><input type="file" name="input_array_file1[]" class="form-control" placeholder="Thumbnail File" /></div>
 				<div><input type="text" name="input_array_size[]" class="form-control"  placeholder="Input size" value="<?=$rownew['prodsize']?>" /></div>
 				<div><input type="text" name="input_array_qtn[]" class="form-control"  placeholder="Input Quantity" value="<?=$rownew['prodquantity']?>" /></div>
-				<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" value="<?=$rownew['prodtype']?>" /></div>
-				<div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" value="<?=$rownew['prodcapacity']?>" /></div>
+				<!--<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" value="<?=$rownew['prodtype']?>" /></div>
+				<div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" value="<?=$rownew['prodcapacity']?>" /></div>-->
 				
 				
 					<?php }}  //} }
@@ -1109,8 +1110,7 @@ $db->query($sql)or die($db->error());
 					<div><input type="file" name="input_array_file1[]" class="form-control" placeholder="Input File" /></div>
 					<div><input type="text" name="input_array_size[]" class="form-control" placeholder="Input Size" /></div>
 					<div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" required /></div>
-					<div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /></div>
-					<div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Cappacity" /></div>
+					
 				<?php } ?>
 					
 						</div>
@@ -1144,6 +1144,25 @@ $db->query($sql)or die($db->error());
 					</div>
 					</div>
 								-->	
+								<div class="form-group">
+
+                                        <label class="col-md-3 control-label" for="prodtype"> Product Type</label>
+
+                                        <div class="col-md-6">
+										
+										<input name="prodtype" type="text" class="form-control" value="<?=$row['prodtype']?>" /> 								
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+
+                                        <label class="col-md-3 control-label" for="prodcapacity"> Product Capacity</label>
+
+                                        <div class="col-md-6">
+										
+										<input name="prodcapacity" type="text" class="form-control" value="<?=$row['prodcapacity']?>" /> 								
+                                        </div>
+                                    </div>
 
 										<div class="form-group">
         									<label class="col-md-3 control-label"> Over View</label>
@@ -1464,10 +1483,10 @@ $(document).ready(function() {
         if(x < max_fields){ 
             x++; //input field increment
 			 //add input field
-            $(wrapper).append('<div><input type="text" name="input_array_name[]" placeholder="Input Other Color" class="form-control"/> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="file" name="input_array_file[]" placeholder="Input file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="file" name="input_array_file1[]" placeholder="Input file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_size[]" placeholder="Input size" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" required /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div>');
+            $(wrapper).append('<div><input type="text" name="input_array_name[]" placeholder="Input Other Color" class="form-control"/> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="file" name="input_array_file[]" placeholder="Input file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="file" name="input_array_file1[]" placeholder="Input file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_size[]" placeholder="Input size" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Input Quantity" required /> <a href="javascript:void(0);" class="remove_field">Remove</a></div>');
         }
     });
-	
+	/* <div><input type="text" name="input_array_type[]" class="form-control" placeholder="Input Type" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Input Capacity" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div> */
     //when user click on remove button
     $(wrapper).on("click",".remove_field", function(e){ 
         e.preventDefault();

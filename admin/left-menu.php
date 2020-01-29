@@ -36,12 +36,23 @@
                
 					<li>
 						<a class="" href="main.php?mod=distination">
-							<span class="glyphicon glyphicon-share-alt"></span> View Distination
+							<span class="glyphicon glyphicon-share-alt"></span> View Destination
 						</a>
 					</li>
 					<li>
 						<a class="" href="main.php?mod=adddistination&act=add">
-							<span class="glyphicon glyphicon-share-alt"></span> Add Distination
+							<span class="glyphicon glyphicon-share-alt"></span> Add Destination
+						</a>
+					</li>
+					
+					<li>
+						<a class="" href="main.php?mod=viewdestype">
+							<span class="glyphicon glyphicon-share-alt"></span> View Destination type
+						</a>
+					</li>
+					<li>
+						<a class="" href="main.php?mod=adddtype&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Destination type
 						</a>
 					</li>
 					
@@ -319,12 +330,12 @@
 				
 				<li>
 						<a class="" href="main.php?mod=cat1">
-							<span class="glyphicon glyphicon-share-alt"></span> View Company Category
+							<span class="glyphicon glyphicon-share-alt"></span>  Company/Event Category
 						</a>
 					</li>
 					<li>
 						<a class="" href="main.php?mod=add_cat1&act=add">
-							<span class="glyphicon glyphicon-share-alt"></span> Add Company Category
+							<span class="glyphicon glyphicon-share-alt"></span> Add Category
 						</a>
 					</li>
 					

@@ -66,14 +66,40 @@ if($act=="edit")
 	
 	
 	}
+	
+	if($act=="edit")
+	{
 
-$updatearr=array(	"catname"=>$_REQUEST['catname'],
-					"cat_desc"=>$_REQUEST['cat_desc'],
+	if(!empty($_FILES['mobileicon']['name']))
+		{
+		$mobileicon=$up->upload_file($uploaddir3,"mobileicon",true,true,0,$check_type);
+		
+		}else{
+		$mobileicon=$_REQUEST['image5'];
+		}
+	
+	}else{
+	
+	$mobileicon=$up->upload_file($uploaddir3,"mobileicon",true,true,0,$check_type);
+	
+	
+	}
+	if(!empty($_REQUEST['featured1'])){$f=$_REQUEST['featured1'];}else{$f='no';}
+$sdate = date("Y-m-d", strtotime($_REQUEST['sdate']));
+//print_r($_POST);
+$link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
+$catname = mysqli_real_escape_string($link, $_REQUEST['catname']);
+$cat_desc = mysqli_real_escape_string($link, $_REQUEST['cat_desc']);
+$updatearr=array(	"catname"=>$catname,
+					//"cat_desc"=>$cat_desc,
 					"imgid"=>$largeimage,
 					"bimg"=>$largeimage1,
 					"icon"=>$icon,
-					 "cat_date"=>date('Y-m-d'),
-					 "status"=>$_REQUEST['catstatus']
+					"mobileicon"=>$mobileicon,
+					"cat_date"=>date('Y-m-d'),
+					"sdate"=>$sdate,
+					"featured"=>$f,
+					"status"=>$_REQUEST['catstatus']
 						);
 					
 						
@@ -105,7 +131,7 @@ $updatearr=array(	"catname"=>$_REQUEST['catname'],
 					
 					
 							 $errMsg='<br><b>Category Added Successfully!</b><br>';
-							redirect('main.php?mod=cat');
+							//redirect('main.php?mod=cat');
 						
 					
 				}
@@ -144,6 +170,7 @@ if(!empty($catid) and $act=="edit")
 						 <input type="hidden" name="image4" value="<?=$row['bimg']?>" />
                         <input type="hidden" name="image3" value="<?=$row['imgid']?>" />
 						<input type="hidden" name="icon1" value="<?=$row['icon']?>" />
+						<input type="hidden" name="image5" value="<?=$row['mobileicon']?>" />
 							<fieldset>
 								<!-- Name input-->
                                
@@ -159,13 +186,13 @@ if(!empty($catid) and $act=="edit")
                                    
                                   
         							
-                                    	<div class="form-group">
+                                    	<!--<div class="form-group">
         									<label class="col-md-3 control-label"> Detail</label>
             									<div class="col-md-9">
                                                       <textarea name="cat_desc" class="form-control"><?=$row['cat_desc']?></textarea>
             									 
             									</div>
-        								</div>
+        								</div>-->
                                    
                                          <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
@@ -217,6 +244,14 @@ tinymce.init({
         									 
         									</div>
         								</div>
+										
+										 <div class="form-group">
+        									<label class="col-md-3 control-label"> Mobile Icon</label>
+        									<div class="col-md-9">
+                                                <input type="file" name="mobileicon" id="mobileicon"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['mobileicon']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewaimage.php?img=<?=$row['mobileicon']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
+        									 
+        									</div>
+        								</div>
                 							
                                             	<div class="form-group">
                 									<label class="col-md-3 control-label"> Status</label>
@@ -238,10 +273,43 @@ tinymce.init({
                 								</div>
                                                 
                                       
-                                        
-                                        
+                                        	<div class="form-group">
+                									<label class="col-md-3 control-label"> Featured Brands</label>
+                									<div class="col-md-9">
+                                                       
+                    								
+                    									<div class="radio">
+                    										<label>
+                    												<input name="featured1" type="radio" value="no" <?php if($row['featured']=="no"){echo " checked";}?> onclick="myFunction()"/>No
+						
+                    										</label>
+                    									</div>
+                    									<div class="radio">
+                    										<label>
+                    											<input name="featured1" type="radio" value="yes" <?php if($row['featured']=="yes"){echo " checked";}?>  onclick="myFunction()"/>Yes
+                    										</label>
+                    									</div>
+                									</div>
+                								</div>
+             <script type="text/javascript">
+          function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+		  </script>
+                                      
+                                     <div class="form-group" id="myDIV" style="display:none;">
+                                        <label class="col-md-3 control-label" for="sdate"> Start date</label>
+                                        <div class="col-md-9">
+                                        <input id="sdate" name="sdate" type="date" placeholder=" Title" class="form-control" value="<?=$row['sdate']?>">
+                                        </div>
+                                    </div>
+							
                                        
-                                
                                 
                                 
 								<!-- Message body -->

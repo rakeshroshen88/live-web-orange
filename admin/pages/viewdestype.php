@@ -1,28 +1,29 @@
 <?php
+
 $mod=$_REQUEST['mod'];
-$catname=$_REQUEST['catname'];
-$catid=$_REQUEST['id'];
+$firstname=$_REQUEST['firstname'];
+$id=$_REQUEST['id'];
 $act=$_REQUEST['act'];
 $stat=$_REQUEST['stat'];
 $rec=$_REQUEST['rec'];
- $qryStr="catname=$catname&mod=$mod";
+$qryStr="firstname=$firstname&mod=$mod&rec=$rec";
 if($act=='dac')
 	{
 		if($stat=='no')
 			$stat='yes';
 		else
 			$stat='no';
-		$sql="UPDATE hospitality SET status='$stat' WHERE id='$catid'";
+		$sql="UPDATE destinationtype SET status= '$stat' WHERE id='$id'";
 		$db->query($sql);
-		redirect('main.php?mod=hospitality');
+		redirect('main.php?mod=viewdestype');
 	}
 
 if($act=='del')
 	{
 		
-		$sql="DELETE FROM hospitality WHERE id='$catid'";
+		 $sql="DELETE FROM destinationtype WHERE id='$id'";
 		$db->query($sql);
-		redirect('main.php?mod=hospitality');
+		redirect('main.php?mod=viewdestype');
 	}
 
 ?>
@@ -31,7 +32,7 @@ function deladmin(id)
 {
 	if(confirm("Are you sure to delete?"))
 	{
-		location.href="<?=$_PAGE.'?'.$qryStr?>&mod=hospitality&act=del&id="+id;
+		location.href="main.php?mod=viewdestype&act=del&id="+id;
 	}
 }
 </script>
@@ -39,7 +40,7 @@ function deladmin(id)
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Hospitality Management</li>
+				<li class="active"> Destination Type  Management</li>
 			</ol>
 		</div><!--/.row   All count-->
         
@@ -53,8 +54,8 @@ function deladmin(id)
                             
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_HOSPITALITY");	?></div>
-							<div class="text-muted">Total Hospitality</div>
+							<div class="large"><?=$count=$db->getSingleResult("select count(*) from destinationtype");	?></div>
+							<div class="text-muted">Total </div>
 						</div>
 					</div>
 				</div>
@@ -66,8 +67,8 @@ function deladmin(id)
 							<em class="glyphicon glyphicon-user glyphicon-l"></em>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-						<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_HOSPITALITY where status='1'");	?></div>
-							<div class="text-muted">Active Hospitality</div>
+						<div class="large"><?=$count=$db->getSingleResult("select count(*) from destinationtype where status='1'");	?></div>
+							<div class="text-muted">Active </div>
 						</div>
 					</div>
 				</div>
@@ -95,11 +96,11 @@ function deladmin(id)
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">HOSPITALITY Management</div>
+					<div class="panel-heading">Destination type Management</div>
 					<div class="panel-body">
                     
                         <div class="add-pro">
-                            <a href="main.php?mod=add_hospitality&act=add">ADD HOSPITALITY</a>
+                            <a href="main.php?mod=adddtype&act=add">Add Destination type</a>
                         
                         </div>
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
@@ -133,7 +134,7 @@ $db1=new DB();
 			}else{
 			$_LIST_LEN=$rec;
 			}
-	 $sql="SELECT * from hospitality".$wherestr." order by id desc";
+	 $sql="SELECT * from destinationtype".$wherestr." order by id desc";
 	$db->query($sql);
 	$total_records=$db->numRows();
 	$page=new Page;
@@ -157,20 +158,20 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 ?>	
  					<tr>
 						<td></td>
-                        <td> <a href="main.php?mod=add_hospitality&act=edit&id=<?=$row['id']?>"><?=$row['title']?></a></td>
+                        <td> <a href="main.php?mod=adddtype&act=edit&id=<?=$row['id']?>"><?=$row['title']?></a></td>
 							
                    
 						<td> <?php echo date('d M,Y',$st);?></td>
-                    <td> <a href='main.php?mod=hospitality&act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']=='no'?'Deactive':'Active'?></a> </td>
+                    <td> <a href='main.php?mod=viewdtype&act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']=='0'?'Deactive':'Active'?></a> </td>
                            
-                        <td > <a href="main.php?mod=add_hospitality&act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+                        <td > <a href="main.php?mod=adddtype&act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
 						</td>
                      </tr>
 <?php } ?>
 <?php	}else{
 	
 ?>  
-						<tr><td colspan="4" valign="top" align="center">Not found any Record !</td></tr>                      
+						<tr><td colspan="4" valign="top" align="center">Not found any Staff !</td></tr>                      
  <?php   } ?>   					  
 	
 						</table>

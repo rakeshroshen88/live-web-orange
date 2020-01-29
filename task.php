@@ -34,14 +34,14 @@
 						"finalprice"=>$finalprice,
 						"prod_total"=>$total,
 						"quantity"=>$qty,
-						"prodsize"=>$_REQUEST['prodsize'],
-						"prodcolor"=>$_REQUEST['prodcolor'],
+						"prodsize"=>$_REQUEST['psize'],
+						"prodcolor"=>$_REQUEST['color'],
 						"mrp"=>$mrp,
 						"buyitdate"=>date('Y-m-d h:i:s')
 						
 				);
 			
-	
+	//print_r($insarr); die;
 	 $whereClause=" prodid=".$prodid." and sessionid='".session_id()."'";
 	if(matchExists($_TBL_TEMPORDER, $whereClause))
 		{	
