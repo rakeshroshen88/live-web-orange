@@ -80,6 +80,56 @@
 				</ul>
 			</li>
 			
+			<li class="parent ">
+				<a href="#">
+					<span class="glyphicon glyphicon-chevron-right"></span> Hotel Management <span data-toggle="collapse" href="#sub-item-101h" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+				</a>
+				<ul class="children collapse" id="sub-item-101h">
+               
+					<li>
+						<a class="" href="main.php?mod=hotel">
+							<span class="glyphicon glyphicon-share-alt"></span> Hotel
+						</a>
+					</li>
+					
+					<li>
+						<a class="" href="main.php?mod=addhotel">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Hotel
+						</a>
+					</li>
+					
+					<li>
+						<a class="" href="main.php?mod=hotellist">
+							<span class="glyphicon glyphicon-share-alt"></span> Hotel List
+						</a>
+					</li>
+					<li>
+						<a class="" href="main.php?mod=addhotellist">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Hotel List
+						</a>
+					</li>
+					<li>
+						<a class="" href="main.php?mod=amenities">
+							<span class="glyphicon glyphicon-share-alt"></span> Hotel Amenities 
+						</a>
+					</li>
+					
+					<li>
+						<a class="" href="main.php?mod=facility">
+							<span class="glyphicon glyphicon-share-alt"></span> Room Amenities
+						</a>
+					</li>
+					
+					
+					<li>
+						<a class="" href="main.php?mod=sight">
+							<span class="glyphicon glyphicon-share-alt"></span> SightSeein
+						</a>
+					</li>
+					
+				</ul>
+			</li>
+			
 			
 			
 			<li class="parent ">
@@ -411,7 +461,7 @@
 					
 				</ul>
 			</li>
-            
+            -->
             
             
             <li class="parent ">
@@ -432,7 +482,7 @@
 					</li>
 					
 				</ul>
-			</li>-->
+			</li>
             
             
 			<li role="presentation" class="divider"></li>

@@ -36,52 +36,13 @@ echo $a=translate('en','fr','hello'); */
     print_r(json_decode($response, true)); */
 ?>
 
-<?php include('config.inc.php'); 
+<?php 
  $api_key = 'AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&s';
 //$text = 'How are you';
  $text = $_POST['keyword']; 
-
 $text2 = 'Comment vas-tu';
-$source=$_POST['lan_1'];
-$target=$_POST['lan_2'];
-//$newtext=str_replace(' ', ', ', $text); 
-$newtext = explode(" ", $text); 
-
-$newtext = implode("','",$newtext);
-
-$newtext = "'".$newtext."'";													//$c=explode(',',$a);
-if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio' or $source=='Anang' or $source=='Oron'){
-	$dbuf=new DB();
-	if($target=='Ibibio' or $target=='Anang' or $target=='Oron'){
-	 $sql="SELECT language_2 from language where source='".$source."' and target='".$target."' and language_1 IN($newtext)";
-	$db->query($sql);
-	//$array_record=array();
-    if($db->numRows()>0){
-	while($row=$db->fetchArray()){
-	echo $obj=$row['language_2'].' '.$row['audio_1'];
-	}
-	}else{
-		echo "Word Not Found !";
-	}
-	}
-	
-	if($source=='Ibibio' or $source=='Anang' or $source=='Oron'){
-		 $sql="SELECT language_1 from language where source='".$target."' and target='".$source."' and language_2 IN($newtext)";
-	$db->query($sql);
-	//$array_record=array();
-    if($db->numRows()>0){
-	while($row=$db->fetchArray()){
-	echo $obj=$row['language_1'].' '.$row['audio_1'];
-	}
-	}else{
-		echo "Word Not Found !";
-	}
-		
-	}
-	//array_push($array_record,$obj);
-	//return $obj;
-	//echo $array_record;
-	}else{
+$source="en";
+$target="hin";
  
 $obj = translate($api_key,$text,$target,$source);
 //print_r($obj)Ibo;
@@ -89,8 +50,7 @@ if($obj != null)
 {
      if(isset($obj['error']))
     {
-       // echo "Error is : ".$obj['error']['message'];
-	   echo "Translation Not Available";
+        echo "Error is : ".$obj['error']['message'];
     }
     else
     {
@@ -102,7 +62,6 @@ if($obj != null)
 }
 else{
     echo "UNKNOW ERROR";
-}
 } 
 function translate($api_key,$text,$target,$source=false)
 {

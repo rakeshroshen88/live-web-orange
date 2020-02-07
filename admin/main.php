@@ -141,6 +141,13 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			}elseif($module=="facility"){
 				
 			include_once("pages/viewfas.php");
+			}elseif($module=="sight"){
+				
+			include_once("pages/viewsight.php");
+			
+			}elseif($module=="add_sight"){
+				
+			include_once("pages/add_edit_sight.php");
 			
 			}elseif($module=="add_fas"){
 				
@@ -207,6 +214,16 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			}elseif($module=="addhotel"){
 				
 			include_once("pages/hotel.php");
+			}elseif($module=="hotel"){
+				
+			include_once("pages/viewhotel.php");
+			}elseif($module=="hotellist"){
+				
+			include_once("pages/hotellist.php");
+			
+			}elseif($module=="addhotellist"){
+				
+			include_once("pages/addhotellist.php");
 			}elseif($module=="addtrain"){
 				
 			include_once("pages/train.php");
@@ -219,6 +236,9 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			}elseif($module=="usubtrain"){
 				
 			include_once("pages/viewsubdetail.php");
+			}elseif($module=="amenities"){
+				
+			include_once("pages/viewsub.php");
 			}elseif($module=="add_amenities"){
 				
 			include_once("pages/addsub.php");

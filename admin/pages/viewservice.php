@@ -9,10 +9,10 @@ $rec=$_REQUEST['rec'];
 $qryStr="firstname=$firstname&mod=$mod&rec=$rec";
 if($act=='dac')
 	{
-		if($stat==0)
-			$stat=1;
+		if($stat=='no')
+			$stat='yes';
 		else
-			$stat=0;
+			$stat='no';
 		$sql="UPDATE $_TBL_SERVICE SET status= '$stat' WHERE id='$id'";
 		$db->query($sql);
 		redirect('main.php?mod=viewservice');
@@ -40,7 +40,7 @@ function deladmin(id)
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Blog Management</li>
+				<li class="active">Language Management</li>
 			</ol>
 		</div><!--/.row   All count-->
         
@@ -54,8 +54,8 @@ function deladmin(id)
                             
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_SERVICE");	?></div>
-							<div class="text-muted">Total Service</div>
+							<div class="large"><?=$count=$db->getSingleResult("select count(*) from language");	?></div>
+							<div class="text-muted">Total Language</div>
 						</div>
 					</div>
 				</div>
@@ -67,8 +67,8 @@ function deladmin(id)
 							<em class="glyphicon glyphicon-user glyphicon-l"></em>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-						<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_SERVICE where status='1'");	?></div>
-							<div class="text-muted">Active Service</div>
+						<div class="large"><?=$count=$db->getSingleResult("select count(*) from language where status='1'");	?></div>
+							<div class="text-muted">Active Language</div>
 						</div>
 					</div>
 				</div>
@@ -96,11 +96,11 @@ function deladmin(id)
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Service Management</div>
+					<div class="panel-heading">Language Management</div>
 					<div class="panel-body">
                     
                         <div class="add-pro">
-                            <a href="main.php?mod=addservice&act=add">Add Service</a>
+                            <a href="main.php?mod=addservice&act=add">Add Language</a>
                         
                         </div>
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
@@ -108,7 +108,8 @@ function deladmin(id)
                             
 						    <tr>
 						        <th data-field="state" data-checkbox="true" >chk ID</th>
-						        <th data-field="id" data-sortable="true">Title </th>
+						        <th data-field="id" data-sortable="true">Language 1 </th>
+								<th data-field="id2" data-sortable="true">Language 2 </th>
 						       
 						        <th data-field="Date" data-sortable="true">Date</th>
                                 <th data-field="Status" data-sortable="true">Status</th>
@@ -134,7 +135,7 @@ $db1=new DB();
 			}else{
 			$_LIST_LEN=$rec;
 			}
-	 $sql="SELECT * from ".$_TBL_SERVICE.$wherestr." order by id desc";
+	 $sql="SELECT * from language".$wherestr." order by id desc";
 	$db->query($sql);
 	$total_records=$db->numRows();
 	$page=new Page;
@@ -146,7 +147,7 @@ $db1=new DB();
 	if($db->numRows()>0)
 		{
 	while($row=$db->fetchArray()){
-	$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']);
+	//$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']);
 	
 $date=explode('-',$row['date']);
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
@@ -158,9 +159,9 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 ?>	
  					<tr>
 						<td></td>
-                        <td> <a href="main.php?mod=addservice&act=edit&id=<?=$row['id']?>"><?=$row['title']?></a></td>
+                        <td> <a href="main.php?mod=addservice&act=edit&id=<?=$row['id']?>"><?=$row['language_1']?></a></td>
 							
-                   
+                   <td> <a href="main.php?mod=addservice&act=edit&id=<?=$row['id']?>"><?=$row['language_2']?></a></td>
 						<td> <?php echo date('d M,Y',$st);?></td>
                     <td> <a href='main.php?mod=viewservice&act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']=='no'?'Deactive':'Active'?></a> </td>
                            

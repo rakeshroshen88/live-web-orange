@@ -7,8 +7,8 @@ if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
 $up=new UPLOAD();
 
-$uploaddir3="../service/";
-$check_type="jpg|jpeg|gif|png";
+$uploaddir3="../img/language/";
+$check_type="mp3|MP3";
 if($act=="edit")
 	{
 
@@ -29,9 +29,9 @@ if($act=="edit")
 
  $prod_detail=$_REQUEST['prod_desc'];
 $updatearr=array(	
-					 "title"=>mysql_real_escape_string($_REQUEST['title']),					 
-					 "imageid"=>$largeimage,
-					 "detail"=>mysql_real_escape_string($prod_detail),
+					 "language_1"=>$_REQUEST['title'],					 
+					 "audio_1"=>$largeimage,
+					 "language_2"=>$prod_detail,
 					 "status"=>$_REQUEST['pstatus'],
 					 "date"=>date('Y-m-d')
 					 );
@@ -40,12 +40,12 @@ $updatearr=array(
 			if($act=="edit")
 				{
 					 $whereClause=" id=".$_REQUEST['id'];
-					updateData($updatearr, $_TBL_SERVICE, $whereClause);
+					updateData($updatearr, 'language', $whereClause);
 					$errMsg='<br><b>Update Successfully!</b><br>';
 					
 				}elseif($act=="add"){
 				
-					$insid=insertData($updatearr, $_TBL_SERVICE);
+					$insid=insertData($updatearr, 'language');
 					if($insid>0)
 						{
 							$errMsg='<br><b>Added Successfully!</b><br>';
@@ -62,7 +62,7 @@ $updatearr=array(
 $db1=new DB();
 if(!empty($prodid))
 	{
-		$sql="SELECT * FROM $_TBL_SERVICE WHERE id=$prodid";
+		$sql="SELECT * FROM language WHERE id=$prodid";
 		$db->query($sql)or die($db->error());
 		$row=$db->fetchArray();	
 	}
@@ -88,29 +88,37 @@ if(!empty($prodid))
 						
 						<input type="hidden" name="id" value="<?=$_REQUEST['id']?>" />
 						<input type="hidden" name="act" value="<?=$act?>" />
-                        <input type="hidden" name="image3" value="<?=$row['imageid']?>" />
+                        <input type="hidden" name="image3" value="<?=$row['audio_1']?>" />
 							<fieldset>
 								<!-- Name input-->
                                
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name"> Title</label>
+                                        <label class="col-md-3 control-label" for="name"> Language_1</label>
                                         <div class="col-md-9">
-                                        <input id="title" name="title" type="text" placeholder=" Title" class="form-control" value="<?=$row['title']?>">
+                                        <input id="title" name="title" type="text" placeholder="Language_1" class="form-control" value="<?=$row['language_1']?>">
                                         </div>
                                     </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Language_2</label>
+                                        <div class="col-md-9">
+                                        <input id="prod_desc" name="prod_desc" type="text" placeholder="Language_2" class="form-control" value="<?=$row['language_2']?>">
+                                        </div>
+                                    </div>
+							
 							
                       
                                     
                                    
                                   
         							
-                                    	<div class="form-group">
+                                    	<!--<div class="form-group">
         									<label class="col-md-3 control-label"> Detail</label>
             									<div class="col-md-9">
                                                       <textarea name="prod_desc" class="form-control"><?=$row['detail']?></textarea>
             									 
             									</div>
-        								</div>
+        								</div>-->
                                    
                                         
                                            <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
@@ -139,9 +147,9 @@ tinymce.init({
         							
                                       
                                     	<div class="form-group">
-        									<label class="col-md-3 control-label"> Cover Image</label>
+        									<label class="col-md-3 control-label"> Audio</label>
         									<div class="col-md-9">
-                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['imageid']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewnimage1.php?img=<?=$row['imageid']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
+                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(Audio)</span>  <?php if($row['audio_1']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewnimage1.php?img=<?=$row['audio_1']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">Audio</a><?php }?>
         									 
         									</div>
         								</div>
