@@ -17,6 +17,9 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			}elseif($module=="adduser"){
 				
 			include_once("pages/adduser.php");
+			}elseif($module=="uploadvideo"){
+				
+			include_once("pages/uploadvideo.php");
 			}elseif($module=="addemoji"){
 				
 			include_once("pages/addemoji.php");
@@ -122,7 +125,14 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			}elseif($module=="cat1"){					
 			include_once("pages/category1.php");		
 			}elseif($module=="add_cat1"){							
-			include_once("pages/add_edit_category1.php");			
+			include_once("pages/add_edit_category1.php");
+			////////////////////////////////////////////
+			}elseif($module=="viewlangcat"){					
+			include_once("pages/viewcat.php");		
+			}elseif($module=="addlancat"){							
+			include_once("pages/add_lang_cat.php");	
+			///////////////////////////////////////////
+			
 			}elseif($module=="intrest"){						
 			include_once("pages/intrest.php");		
 			}elseif($module=="add_intrest"){					

@@ -247,6 +247,9 @@ width:25px; float:left; margin-right:6px
 									
 									<button type="button" id="languageconvertor" name="languageconvertor" /><i class="fa fa-bullhorn" aria-hidden="true"></i></button>
 									<div id="audioplay"></div>
+									<div id="audioplay1">
+									<audio controls="controls" src="" style="" id="myAudio"><source src="" type="audio/mp3" /><source src="" type="audio/ogg" /></audio><button onclick="playAudio()" type="button"><i class="fa fa-bullhorn" aria-hidden="true"></i></button><button onclick="pauseAudio()" type="button"><i class="fa fa-bullhorn" aria-hidden="true"></i></button>
+									</div>
 									
 									
 									</div>
@@ -275,7 +278,7 @@ width:25px; float:left; margin-right:6px
         </div>
         </div>
     </main>
-	
+	<input type="hidden" name="audioval" id="audioval" value="" />
 
     <?php include('footer.php') ?>
 
@@ -302,20 +305,33 @@ $(document).ready(function(){
 	
 	
 	$("#languageconvertor").click(function(){
+		var  target=$('#lan_2').val();		
+		var  source=$('#lan_2').val();
+		
 		$.ajax({
 		type: "POST",
 		url: "texttomp3.php",
-		data:'keyword='+$('#rlanguage').val(),
+		data:'keyword='+$('#rlanguage').val() + '&target='+ target,
 		beforeSend: function(){
 			//$("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
 		},
 		success: function(data){
 			
-			$("#audioplay").html(
-			'<audio controls="controls" autoplay="autoplay" style="opacity: 0;    visibility: hidden;"><source src="'+data+'" type="audio/mp3" /><source src="'+data+'" type="audio/ogg" /></audio>');
+			$("#audioval").val(data);
 			
-		}
+			 if(target=='Ibibio' || target=='Anang' || target=='Oron'){
+				
+				//$("#audioplay1").html('');	
+			
+				}else{
+					
+					$("#audioplay").html('<audio controls="controls" autoplay="autoplay" style="opacity: 0;    visibility: hidden;"><source src="'+data+'" type="audio/mp3" /><source src="'+data+'" type="audio/ogg" /></audio>');	
+					
+			}
+			
+			}
 		});
+		
 	});
 	
 	
@@ -340,6 +356,42 @@ $(document).ready(function(){
 	});
 	
 });
+/* var playlist1= [
+  'https://www.w3schools.com/tags/horse.mp3',
+  'https://demo.twilio.com/hellomonkey/monkey.mp3',
+  'https://www.w3schools.com/tags/horse.mp3'];  */
+
+
+
+function playAudio() {
+	
+	var audio = document.getElementById("myAudio");
+
+	var str=$("#audioval").val();
+	var audioval = str.replace(' ');
+	var playlist = audioval.split(',');
+	
+	console.log(playlist);
+	var i=1;
+	//console.log(playlist[0]);
+	audio.src = playlist[0];
+	//audio.src = "//orangestate.ng/img/language/95.mp3";
+	audio.play();
+	
+	audio.onended = function() {
+		
+		audio.src = playlist[i];
+		audio.play();
+		i++;
+		
+	 
+	};
+}
+ 
+
+function pauseAudio() { 
+  audio.pause(); 
+}  
 
 </script>
 <?php include('footer.php');?>

@@ -100,6 +100,8 @@ function deladmin(id)
                     
                         <div class="add-pro">
                             <a href="main.php?mod=addevent&act=add">Add Event</a>
+							
+							
                         
                         </div>
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
@@ -164,6 +166,7 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
                     <td> <a href='main.php?mod=viewevent&act=dac&id=<?=$row['eid']?>&stat=<?=$row['estatus']?>'><?=$row['estatus']=='no'?'Deactive':'Active'?></a> </td>
                            
                         <td > <a href="main.php?mod=addevent&act=edit&id=<?=$row['eid']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['eid']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+						<a href="main.php?mod=uploadvideo&act=add&id=<?=$row['eid']?>">Add Video</a>
 						</td>
                      </tr>
 <?php } ?>

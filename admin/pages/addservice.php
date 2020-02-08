@@ -31,8 +31,11 @@ if($act=="edit")
 $updatearr=array(	
 					 "language_1"=>$_REQUEST['title'],					 
 					 "audio_1"=>$largeimage,
+					  "category"=>$_REQUEST['category'],
 					 "language_2"=>$prod_detail,
 					 "status"=>$_REQUEST['pstatus'],
+					 "source"=>$_REQUEST['source'],
+					 "target"=>$_REQUEST['target'],
 					 "date"=>date('Y-m-d')
 					 );
 
@@ -90,17 +93,68 @@ if(!empty($prodid))
 						<input type="hidden" name="act" value="<?=$act?>" />
                         <input type="hidden" name="image3" value="<?=$row['audio_1']?>" />
 							<fieldset>
-								<!-- Name input-->
+							
+									  <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Langage Categoty</label>
+                                        <div class="col-md-9">
+                                        <select id="category" name="category" class="form-control">
+  <option value="">Select</option>
+  <?php 
+		$event=$row['category'];
+		$sql="SELECT * FROM language_category";
+		$db->query($sql)or die($db->error());
+		while($row1=$db->fetchArray()){	?>
+  <option value="<?=$row1['catname']?>" <?php if($row1['catname']==$event){ echo "selected";}?>><?=$row1['catname']?></option>
+		<?php } ?>
+ 
+  
+</select>
+                                        </div>
+                                    </div>
+									  
+								 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Source</label>
+                                        <div class="col-md-9">
+                                        <select id="source" name="source" class="form-control">
+ 
+  
+  <option value="en">English</option>  
+  <option value="Ibibio">Ibibio</option>
+  <option value="Anang">Anang</option>
+  <option value="Oron">Oron</option>
+ 
+  
+</select>
+                                        </div>
+                                    </div>
+									
+									
+									 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Target</label>
+                                        <div class="col-md-9">
+                                        <select id="target" name="target" class="form-control">
+										
+  
+  <option value="Ibibio">Ibibio</option>
+  <option value="Anang">Anang</option>
+  <option value="Oron">Oron</option>
+<option value="en">English</option>  
+</select>
+                                        </div>
+                                    </div>
+									
+									
+									
                                
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name"> Language_1</label>
+                                        <label class="col-md-3 control-label" for="name"> Englist</label>
                                         <div class="col-md-9">
                                         <input id="title" name="title" type="text" placeholder="Language_1" class="form-control" value="<?=$row['language_1']?>">
                                         </div>
                                     </div>
 									
 									<div class="form-group">
-                                        <label class="col-md-3 control-label" for="name"> Language_2</label>
+                                        <label class="col-md-3 control-label" for="name"> Ibibo</label>
                                         <div class="col-md-9">
                                         <input id="prod_desc" name="prod_desc" type="text" placeholder="Language_2" class="form-control" value="<?=$row['language_2']?>">
                                         </div>
@@ -147,7 +201,7 @@ tinymce.init({
         							
                                       
                                     	<div class="form-group">
-        									<label class="col-md-3 control-label"> Audio</label>
+        									<label class="col-md-3 control-label"> Audio Of Ibibo</label>
         									<div class="col-md-9">
                                                 <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(Audio)</span>  <?php if($row['audio_1']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewnimage1.php?img=<?=$row['audio_1']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">Audio</a><?php }?>
         									 

@@ -58,7 +58,7 @@ if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio'
 	//$array_record=array();
     if($db->numRows()>0){
 	while($row=$db->fetchArray()){
-	echo $obj=$row['language_2'].' '.$row['audio_1'];
+	echo $obj=$row['language_2'].' ';
 	}
 	}else{
 		echo "Word Not Found !";
@@ -71,7 +71,7 @@ if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio'
 	//$array_record=array();
     if($db->numRows()>0){
 	while($row=$db->fetchArray()){
-	echo $obj=$row['language_1'].' '.$row['audio_1'];
+	echo $obj=$row['language_1'];
 	}
 	}else{
 		echo "Word Not Found !";

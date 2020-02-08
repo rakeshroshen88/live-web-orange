@@ -77,6 +77,8 @@
 						</a>
 					</li>
 					
+					
+					
 				</ul>
 			</li>
 			
@@ -461,23 +463,36 @@
 					
 				</ul>
 			</li>
-            -->
             
+            -->
             
             <li class="parent ">
 				<a href="#">
-					<span class="glyphicon glyphicon-chevron-right"></span> Service Manage <span data-toggle="collapse" href="#sub-item-8" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+					<span class="glyphicon glyphicon-chevron-right"></span> Language Manage <span data-toggle="collapse" href="#sub-item-8" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
 				</a>
 				<ul class="children collapse" id="sub-item-8">
+				
+				
+					<li>
+						<a class="" href="main.php?mod=viewlangcat">
+							<span class="glyphicon glyphicon-share-alt"></span> View Lang Cat
+						</a>
+					</li>
+					<li>
+						<a class="" href="main.php?mod=addlancat&act=add">
+							<span class="glyphicon glyphicon-share-alt"></span> Add Lang Cat
+						</a>
+					</li>
+					
                
 					<li>
 						<a class="" href="main.php?mod=viewservice">
-							<span class="glyphicon glyphicon-share-alt"></span> View Service
+							<span class="glyphicon glyphicon-share-alt"></span> View Language
 						</a>
 					</li>
 					<li>
 						<a class="" href="main.php?mod=addservice&act=add">
-							<span class="glyphicon glyphicon-share-alt"></span> Add Service
+							<span class="glyphicon glyphicon-share-alt"></span> Add Language
 						</a>
 					</li>
 					
