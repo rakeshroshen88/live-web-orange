@@ -1,41 +1,3 @@
-<?php
-/* function translate($from_lan, $to_lan, $text){
-    $json = json_decode(file_get_contents('https://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=' . urlencode($text) . '&langpair=' . $from_lan . '|' . $to_lan));
-    $translated_text = $json->responseData->translatedText;
-
-    return $translated_text;
-}
-
-echo $a=translate('en','fr','hello'); */
-
-
-   /*  $apiKey = 'AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&sg';
-     $text = $_POST['keyword'];
-    $url = 'https://www.googleapis.com/language/translate/v2?key=' . $apiKey . '&q=' . rawurlencode($text) . '&source=en&target=fr';
-
-    $handle = curl_init($url);
-    curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($handle);                 
-     $responseDecoded = json_decode($response, true);
-    curl_close($handle);
-
-    echo 'Source: ' . $text . '<br>';
-    echo 'Translation: ' . $responseDecoded['data']['translations'][0]['translatedText'];
-*/
-?> 
-
-<?php
-   /*  $apiKey = 'AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&s';
-    $url = 'https://www.googleapis.com/language/translate/v2/languages?key=' . $apiKey;
-
-    $handle = curl_init($url);
-    curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);     //We want the result to be saved into variable, not printed out
-    $response = curl_exec($handle);                         
-    curl_close($handle);
-
-    print_r(json_decode($response, true)); */
-?>
-
 <?php include('config.inc.php'); 
  $api_key = 'AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&s';
 //$text = 'How are you';
@@ -50,19 +12,45 @@ $newtext = explode(" ", $text);
 $newtext = implode("','",$newtext);
 
 $newtext = "'".$newtext."'";													//$c=explode(',',$a);
+$db2=new DB();
 if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio' or $source=='Anang' or $source=='Oron'){
 	$dbuf=new DB();
 	if($target=='Ibibio' or $target=='Anang' or $target=='Oron'){
-	 $sql="SELECT language_2 from language where source='".$source."' and target='".$target."' and language_1 IN($newtext)";
+	 $sql="SELECT language_2,category from language where source='".$source."' and target='".$target."' and language_1 IN($newtext)";
 	$db->query($sql);
 	//$array_record=array();
     if($db->numRows()>0){
 	while($row=$db->fetchArray()){
-	echo $obj=$row['language_2'].' ';
+		$obj=$row['language_2'].' ';
+		
+			$sql2="SELECT language_1,language_2,audio_1 from language where source='".$source."' and target='".$target."' and category='".$row['category']."' limit 5";
+			$db2->query($sql2);
+			
+			while($row2=$db2->fetchArray()){
+				//$audio_1=str_replace(" ","",$row2['audio_1']);
+				$english.='<li>'.$row2['language_1'].'</li>';
+				$ibibo.='<li>'.$row2['language_2'].'</li>';
+				$ibibomp3.="<li class='controltranstion'>
+							<a href='javascript:void(0)' class='aplay' mid='".$row2['audio_1']."'><i class='fa fa-play' title='play'  aria-hidden='true'></i></a>";
+										
+		$ibibomp3.='<a href="/img/language/'.$row2['audio_1'].'" target="_blank"><i class="fa fa-download" title="download"  aria-hidden="true"></i></a>
+										 
+										 </li>';
+			}
+			
+		
 	}
 	}else{
-		echo "Word Not Found !";
+		$obj="Word Not Found !";
 	}
+	$response['status']= $status;
+	$response['id']= $insid;
+	$response['message'] = $obj;
+	$response['english'] = $english;
+	$response['ibibo'] = $ibibo;
+	$response['ibibomp3'] = $ibibomp3;
+	echo json_encode($response);
+	die;
 	}
 	
 	if($source=='Ibibio' or $source=='Anang' or $source=='Oron'){
@@ -121,3 +109,7 @@ function translate($api_key,$text,$target,$source=false)
 }   
  
 ?>
+<!--//$ibibomp3.='<a href="javascript:pauseAudio("'.$row2['audio_1'].'")"> <i class="fa fa-volume-off " title="Mute" aria-hidden="true"></i> </a>
+										 
+										// <i class="fa fa-volume-down" title="Valume down" aria-hidden="true"></i>
+										// <i class="fa fa-volume-up" title="Valume Up"  aria-hidden="true"></i>-->

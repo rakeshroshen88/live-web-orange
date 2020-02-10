@@ -26,13 +26,14 @@ $app->post('/feelingcategories','feelingcategories'); /* User feelingcategories 
 $app->post('/post_like','post_like'); /* User feelingcategories  */
 $app->post('/postcomment','postcomment'); /* User postcomment  */
 $app->post('/deletepost','deletepost'); /* User postcomment  */
-$app->post('/uploadimg','uploadimg'); /* User uploadimg  */
-$app->post('/resendotp','resendotp'); /* User uploadimg  */
+$app->post('/uploadimg','uploadimg');  
+$app->post('/resendotp','resendotp');  
+$app->post('/search','search');  
 
 
 $app->run();
  
- 
+
 /* ### User login ### */
 function login() {
     
@@ -42,8 +43,9 @@ function login() {
     try {
         
         $db = getDB();
+		$db1 = getDB();
         $userData ='';
-        $sql = "SELECT user_id, first_name, email_id, mobile_no, last_name FROM all_user WHERE (email_id=:email_id or mobile_no=:email_id) and password=:password and user_status=1";
+         $sql = "SELECT user_id, first_name, email_id, mobile_no, last_name FROM all_user WHERE (email_id=:email_id or mobile_no=:email_id) and password=:password and user_status=1";
         $stmt = $db->prepare($sql);
         $stmt->bindParam("email_id", $data->email_id, PDO::PARAM_STR);
         //$password=hash('sha256',$data->password);
@@ -55,11 +57,37 @@ function login() {
         
         if(!empty($userData))
         {
-            $user_id=$userData->user_id;
-            $userData->token = apiToken($user_id);
+             $user_id=$userData->user_id;
+             $userData->token = apiToken($user_id);
+				$chatdb = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e"); 
+			    /////////Fetch chat table user id////////////
+				 $sql = "SELECT user_id  FROM login WHERE  f_userid='".$user_id."'";
+				 $stmt2 = $chatdb->prepare($sql);				 
+				 $stmt2->execute();
+				 $user_iddetails = $stmt2->fetch(PDO::FETCH_OBJ);
+				 $uid=$user_iddetails->user_id;				 
+				//////////////DELETE login_details////////////////////
+				 //$sqld = "DELETE   FROM login_details WHERE  f_userid='".$user_id."'";
+				if(!empty($uid)){ 
+				$query2 = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$user_id."'";
+				$stmt3 = $chatdb->prepare($query2);				 
+				$stmt3->execute();
+				}else{
+				////////////////insert status /////////////////
+				 $sub_query = "
+				INSERT INTO login_details
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$uid."', '".$user_id."', 'Online')
+				";
+				$statement = $chatdb->prepare($sub_query);
+				$statement->execute();
+				}
+				//////////////////////
+			
         }
         
         $db = null;
+		
          if($userData){
                $userData = json_encode($userData);
                 echo '{"userData": ' .$userData . '}';
@@ -171,7 +199,7 @@ function signup() {
                 $sql1="INSERT INTO all_user(password,email_id,first_name, last_name, mobile_no, user_status, country, uniqueid, joindate)VALUES(:password,:email_id,:first_name, :last_name, :mobile_no, :user_status, :country,:uniqueid, :joindate)";
                 $stmt1 = $db->prepare($sql1);
                 
-                //$password=hash('sha256',$data->password);
+                $password1=$data->password;
 				$password=base64_encode($data->password);
                 $stmt1->bindParam("password", $password,PDO::PARAM_STR);
                 $stmt1->bindParam("email_id", $email_id,PDO::PARAM_STR);
@@ -191,7 +219,65 @@ function signup() {
                 $stmt2 = $db->prepare($sql2);
                 $stmt2->execute();
 				//////////////////////
-					 //////////////////////////////////////
+				 $evtstr='<table width="740"  style="border:#666666; size:2px;" align="center" cellpadding="10" cellspacing="0" bgcolor="#666666"  >
+  <tr>
+    <td valign="top"><table width="94%" border="0" cellspacing="0" cellpadding="0"  align="center"  style="border:#666666; size:2px;" >
+      <tr>
+        <td><img src="//orangestate.ng/images/logo.png" style="width:200px" /><br><br></td>
+      </tr>
+      
+      
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="122" valign="top"><table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#FFFFFF">
+              <tr valign="top">
+                <td width="50%"><table width="100%" border="0" cellpadding="6" cellspacing="0" bgcolor="#FFFFFF">
+                    <tr>
+                      <td colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;"></span></p>
+					  </td>
+  </tr>
+					  <tr>
+                      <td width="60%" colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;">Registration  detail :</span></p>
+                        <p>';
+$evtstr1.='</p></td>
+                    </tr>  
+                    </tr>  
+                   
+                </table></td>
+              </tr>
+              
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td bgcolor="#666666"><table width="100%" border="0" cellpadding="10" cellspacing="0" bgcolor="#666666">
+          <tr>
+            <td style="font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;color: #000000;"><div align="center" style="style4">
+
+</div></td>
+          </tr>
+        </table></td>
+      </tr>
+      
+    </table></td>
+  </tr>
+</table>'; 
+                                	$to=$email_id;
+                                    $from = "c.k.roy90@gmail.com";
+                                    $subject="Thank your for registering with Us. You one time OTP: " . $uniqueid;
+
+				                    $msg.='Email: '.$email_id.'<br><br>';
+									$msg.='Name: '.$first_name.'<br><br>';
+									$msg.='Phone No.: '.$mobile_no.'<br><br>';
+									$msg.='Password: '.$password1.'<br><br>';									
+							     	 $message=$evtstr.$msg.$evtstr1;
+									$headers  = "MIME-Version: 1.0\r\n";
+									$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+									$headers .= "From:$from\r\n";
+									@mail($to, $subject, $message, $headers); 
+                    
 	 
 $curl = curl_init();
 
@@ -210,8 +296,8 @@ curl_setopt_array($curl, array(
     )
 ));
 
-$response = curl_exec($curl);
-$err      = curl_error($curl);
+ $response = curl_exec($curl);
+ $err      = curl_error($curl);
 
 curl_close($curl);
  
@@ -437,26 +523,29 @@ function verifyotp(){
 			 $verifyotpcode ="";
 			 $verifyotpcode1 ="";
              $db = getDB(); 
-					$sql2 = "SELECT uniqueid, first_name, email_id from all_user WHERE user_id=:user_id"; 
+			 
+					 $sql2 = "SELECT uniqueid, first_name, email_id from all_user WHERE user_id=:user_id"; 
 					$stmt1 = $db->prepare($sql2);
 					$stmt1->bindParam("user_id", $user_id, PDO::PARAM_STR); 
 					$stmt1->execute();
 					$verifyotpcode = $stmt1->fetch(PDO::FETCH_OBJ);
 					 
 					
-				$db = null;
-				$createdotp = $verifyotpcode->uniqueid;
+				
+				 $createdotp = $verifyotpcode->uniqueid;
 				$email_id = $verifyotpcode->email_id;
 				$first_name = $verifyotpcode->first_name;
-				
+				$db = null;
 							
 			 if($uniqueid == $createdotp){
 					
-				$verifyotpcode1=internalUserDetails($email_id); 
-				 $db1 = getDB();
+				 $verifyotpcode1=internalUserDetails($email_id); 
+				 $db = getDB();
 				 $sql3="update all_user set user_status='1' WHERE user_id=".$user_id;
-				 $stmt3 = $db1->prepare($sql3);
+				 $stmt3 = $db->prepare($sql3);
 				 $stmt3->execute();
+				 ////////////////////////
+				 $chatdb = new PDO("mysql:host=localhost;dbname=orangestate_chat;charset=utf8mb4", "orangestate_uchat", "nMCUWx-K^z8e"); 
 				 //////////////chat login table///////////////////
 	 
 				 $data = array(
@@ -470,13 +559,26 @@ function verifyotp(){
 				(username, password, name, f_userid) 
 				VALUES (:username, :password, :name, :f_userid)
 				";
-				$statement = $db1->prepare($query);
+				$statement = $chatdb->prepare($query);
 				$statement->execute($data);  
-				//////////////////////////////////	
-				 $db1 = null; 
-				 $verifyotpcode1 = json_encode($verifyotpcode1);
-				echo '{"userData": ' .$verifyotpcode1. '}';
-				 
+				//////////////////////////////
+				 $sql = "SELECT user_id  FROM login WHERE  username='".$email_id."'";
+				 $stmt2 = $chatdb->prepare($sql);				 
+				 $stmt2->execute();
+				 $user_iddetails = $stmt2->fetch(PDO::FETCH_OBJ);
+				$uid=$user_iddetails->user_id;				 
+				//////////////////////////////////
+				$sub_query = "
+				INSERT INTO login_details
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$uid."', '".$user_id."', 'Online')
+				";
+				$statement = $chatdb->prepare($sub_query);
+				$statement->execute();
+				//////////////////////
+				$db1 = null; 
+				$verifyotpcode1 = json_encode($verifyotpcode1);
+				echo '{"userData": ' .$verifyotpcode1. '}';			 
 			 
 			 }
 			 else{
@@ -494,9 +596,7 @@ function verifyotp(){
 
 
 
-function feed(){
-	
-	
+function feed(){ 
 	
     $request = \Slim\Slim::getInstance()->request();
     $data = json_decode($request->getBody());
@@ -562,6 +662,7 @@ function feed(){
 				 $data_post['last_name']=$value->last_name;
 				 $data_post['image_id']=$value->image_id;
                  $data_post['livelocation']=$value->livelocation;
+                 $data_post['isLiked']=$value->isLiked;
 				 //$data_post['display_name']=$value->display_name;
 				 //$data_post['mobile_no']=$value->mobile_no;
 				 //$data_post['email_id']=$value->email_id;
@@ -635,7 +736,7 @@ function feed(){
 
 }
 
-
+ 
 
 function createpost(){
 	$request = \Slim\Slim::getInstance()->request();
@@ -1040,53 +1141,56 @@ function post_like(){
     $post_id=$data->post_id;
 	$do_like=$data->do_like;
 	$status=$data->status; 
-	$l_date=date('Y-m-d H:i:s');	
+	$l_date=date('Y-m-d');	
     $systemToken=apiToken($user_id); 
     
    
     try {
-		
-				//echo 'here';
-            $db = getDB();
-            $mylikelist = '';
-            $sql = "SELECT * FROM post_like WHERE post_id=:post_id AND user_id=".$user_id; 
-            $stmt = $db->prepare($sql);
-            
-            $stmt->bindParam("post_id", $post_id,PDO::PARAM_INT); 
-            $stmt->execute();
-			$mylikelist = $stmt->fetchAll(PDO::FETCH_OBJ);
-            $mainCount=$stmt->rowCount();
-            //$created=time();
-            if($mainCount==0){
-				
-				$sql="INSERT INTO post_like(post_id, user_id, do_like, status, l_date)VALUES(:post_id, :user_id, :do_like,:status,:l_date)";
-                $stmt = $db->prepare($sql);
-                $stmt->bindParam("post_id", $post_id,PDO::PARAM_INT);
-                $stmt->bindParam("user_id", $user_id,PDO::PARAM_INT);
-                $stmt->bindParam("do_like", $do_like,PDO::PARAM_INT);
-                $stmt->bindParam("status", $status,PDO::PARAM_STR);
-                $stmt->bindParam("l_date", $l_date,PDO::PARAM_STR);
-				 
-                $stmt->execute();
-				
-				$sql2 = "SELECT  * from post_like ORDER BY like_id DESC LIMIT 1";
-				$stmt1 = $db->prepare($sql2);
-				//$stmt1->bindParam("input", $input,PDO::PARAM_STR);
-				$stmt1->execute();
-				$mylikelist = $stmt1->fetchAll(PDO::FETCH_OBJ);
-				
-				if($mylikelist){
-					echo '{"mylikelist": ' . json_encode($mylikelist) . '}';
-				}else{
-					echo '{"mylikelist": ""}';
-					
-				}
-				
-				
-			}else{
-				echo '{"mylikelist": ' . json_encode($mylikelist) . '}';
-				
-			}
+
+
+////////////////////////////
+         //if(!empty($post_id)){
+        $db = getDB();
+ $sql="SELECT * from post_like where post_id=".$post_id." and user_id=".$user_id;
+ $stmt = $db->prepare($sql);
+$stmt->execute();
+$mainCount=$stmt->rowCount();
+if($mainCount>0){
+        $calculate=$stmt->fetchAll(PDO::FETCH_OBJ);
+        foreach($calculate as $row){
+            $do_like=$row->do_like;
+        }
+        if($do_like==0){
+                $sql1 = "UPDATE post_like SET do_like = '1' WHERE post_id=".$post_id." and user_id=".$user_id;
+                $stmt1 = $db->prepare($sql1);
+                $stmt1->execute();
+               echo '{"like_status": "liked"}';
+
+        }else{
+               $sql2 = "UPDATE post_like SET do_like = '0' WHERE post_id=".$post_id." and user_id=".$user_id;
+                $stmt2 = $db->prepare($sql2);
+                $stmt2->execute();
+                echo '{"like_status": "like"}';
+               
+
+
+        }
+
+    
+}else{
+
+     $sql3="INSERT INTO post_like(post_id, user_id, do_like, status, l_date)VALUES($post_id, $user_id, '1','yes','$l_date')";
+    $stmt3 = $db->prepare($sql3);
+    $stmt3->execute();   
+    echo '{"like_status": "liked"}';   
+                
+    
+}
+
+//////////////////////////
+
+
+ 
 			 
             $db = null;  
 			
@@ -1098,7 +1202,73 @@ function post_like(){
 }
 
 
+/*
+function post_like(){
+    $request = \Slim\Slim::getInstance()->request();
+    $data = json_decode($request->getBody());
+    //print_r($data);
+    $user_id=$data->user_id; 
+    $token=$data->token;
+    $post_id=$data->post_id;
+    $do_like=$data->do_like;
+    $status=$data->status; 
+    $l_date=date('Y-m-d H:i:s');    
+    $systemToken=apiToken($user_id); 
+    
+   
+    try {
+        
+                //echo 'here';
+            $db = getDB();
+            $mylikelist = '';
+            $sql = "SELECT * FROM post_like WHERE post_id=:post_id AND user_id=".$user_id; 
+            $stmt = $db->prepare($sql);
+            
+            $stmt->bindParam("post_id", $post_id,PDO::PARAM_INT); 
+            $stmt->execute();
+            $mylikelist = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $mainCount=$stmt->rowCount();
+            //$created=time();
+            if($mainCount==0){
+                
+                $sql="INSERT INTO post_like(post_id, user_id, do_like, status, l_date)VALUES(:post_id, :user_id, :do_like,:status,:l_date)";
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam("post_id", $post_id,PDO::PARAM_INT);
+                $stmt->bindParam("user_id", $user_id,PDO::PARAM_INT);
+                $stmt->bindParam("do_like", $do_like,PDO::PARAM_INT);
+                $stmt->bindParam("status", $status,PDO::PARAM_STR);
+                $stmt->bindParam("l_date", $l_date,PDO::PARAM_STR);
+                 
+                $stmt->execute();
+                
+                $sql2 = "SELECT  * from post_like ORDER BY like_id DESC LIMIT 1";
+                $stmt1 = $db->prepare($sql2);
+                //$stmt1->bindParam("input", $input,PDO::PARAM_STR);
+                $stmt1->execute();
+                $mylikelist = $stmt1->fetchAll(PDO::FETCH_OBJ);
+                
+                if($mylikelist){
+                    echo '{"mylikelist": ' . json_encode($mylikelist) . '}';
+                }else{
+                    echo '{"mylikelist": ""}';
+                    
+                }
+                
+                
+            }else{
+                echo '{"mylikelist": ' . json_encode($mylikelist) . '}';
+                
+            }
+             
+            $db = null;  
+            
+       
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
 
+}
+*/
  
 // post a new commnent
 function uploadimg(){
@@ -1126,7 +1296,58 @@ function uploadimg(){
 
 }
  
+
+
+/* ### search ### */
+function search() {
+    $request = \Slim\Slim::getInstance()->request();
+    $data = json_decode($request->getBody());
+    //print_r($data); 
+    $SearchItem=$data->SearchItem;
+    $tablename=$data->tablename;
+    $calumName=$data->calumName;
+    $calumName2=$data->calumName2;
+    $systemToken=apiToken($user_id);
+
+    
+   
+    try {
+         
+        //if($systemToken == $token){
+            $newhomepro = '';
+            $db = getDB();
+             
+            $sql = "SELECT * FROM $tablename where ($calumName like '%$SearchItem%') or ($calumName2 like '%$SearchItem%')";
+                //$sql = "SELECT * FROM user_post JOIN user_profile ON user_profile.user_id=user_post.user_id where user_profile.user_id=:user_id ORDER BY post_date DESC ";
+                $stmt = $db->prepare($sql);
+                //$stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
  
+                 
+                 
+            $stmt->execute();
+            $newhomepro = $stmt->fetchAll(PDO::FETCH_OBJ);
+           
+            $db = null;
+             
+            if($newhomepro){
+                echo '{"newhomepro": '. json_encode($newhomepro) .'}';
+            }
+             
+            else{
+                echo '{"newhomepro": ""}';
+            }
+            
+       /* } else{
+            echo '{"error":{"text":"No access"}}';
+        }*/
+       
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+
+
+}
+
 
 
 

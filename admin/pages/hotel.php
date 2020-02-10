@@ -1,5 +1,4 @@
 <?php
-
 //$catid=$_REQUEST['id'];
 $prodid=$_REQUEST['id'];
 $act=$_REQUEST['act'];
@@ -169,57 +168,24 @@ if(!empty($prodid))
 		$row=$db->fetchArray();	
 	}
 ?>
-<SCRIPT>
-
-
-function changecat()
-			{
-			window.location.href='?mod=add_prod&id=<?=$_REQUEST['id']?>&act=<?=$_REQUEST['act']?>&catid='+document.getElementById("category").value;			
-			}        
-</SCRIPT>
-
-<table width="100%">
-  <tr>
-    <td class="container-bg"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-        <td class="body-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-           <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td height="300" valign="top" class="right"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td bgcolor="#E6E6E6" class="tdpad"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td bgcolor="#FFFFFF" class="titlebar-bg">Add/Update Detail</td>
-                      </tr>
-                      <tr>
-                        <td bgcolor="#FFFFFF">&nbsp;</td>
-                      </tr>
-					   <tr>
-                        <td bgcolor="#FFFFFF" align="center" style="color:#FF0000;"><?=$errMsg?></td>
-                      </tr>
-                      <script language="javascript">
- function validateround()
-	{
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li class="active">Add/Edit Page</li> <span style="color:red; font-size:14px;"<?=$errMsg?></span>
+			</ol>
+		</div><!--/.row-->
+	
+        
+        
 		
-		var a=document.getElementById('gallery').value;
-		
-		if(a=='flight' || a=='train' || a=='bus' || a=='package')
-		{
-			document.getElementById('round1').style.display = "none"
-			//document.getElementById('round1').style.display = "block"
-		}else if(a=='hotal'){
-			
-			document.getElementById('round1').style.display = '';
-			
-			}
-		
-	}
-	</script>
-                      
-                      <tr>
-                        <td bgcolor="#FFFFFF" class="tdpad-content">
-						<form name="frmprod" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data" >
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> Add/Edit Form</div>
+					<div class="panel-body">
+					<?php //print_r($updatearr);	?>
+                       <form name="frmprod" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data" >
 						<input type="hidden" name="prodid" value="<?=$row['id']?>" />
 						<input type="hidden" name="act" value="<?=$act?>" />
 						<input type="hidden" name="cityid" value="<?=$row['cityid']?>" />
@@ -227,12 +193,40 @@ function changecat()
 						<input name="gallery" type="hidden" value="hotal"/>  
 						<input type="hidden" name="extraoption1" id="extraoption1" value="" />
 						<input type="hidden" name="extraoption2" id="extraoption2" value="" />
-						<table width="100%" border="0" cellspacing="0" cellpadding="0">
-                          <tr>
-                            <td colspan="2" bgcolor="#e4e4e4" class="category_text">Enter Details </td>
-                          </tr>
-						  
-<script>
+							<fieldset>
+								<!-- Name input-->
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Select state:</label>
+                                        <div class="col-md-9">
+                                       <select id="statetitle" name="statetitle" onchange="return showUser(this.value);" class="form-control">
+                        <option value='0'>Select state</option>
+		<?php $db1=new DB();
+		$sql1="SELECT * FROM $_TBL_STATE WHERE status='1'";
+		$db1->query($sql1)or die($db11->error());
+		while($row1=$db1->fetchArray()){
+		 $tt=$row1['id'];
+		?>				
+                     <option value="<?=$row1['id']?>" <?php if($row1['id']==$row['stateid']){echo " selected";}?>><?=$row1['title']?></option>
+		<?php }?>	
+                    </select>
+                                
+                                        </div>
+                                    </div>
+									
+									 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Select City</label>
+                                        <div class="col-md-9">
+                                        <div  id="txtHint" class="form-control"></div>
+                                    </div>
+									</div>
+									
+									 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Hotel List</label>
+                                        <div class="col-md-9">
+                                       <div  id="txtHinthotel" class="form-control"></div>
+                                    </div>
+									</div>
+	<script>
 
 function showUser(str)
 {
@@ -310,63 +304,7 @@ xmlhttp1.send();
 }
 }
 
-</script>
-
-                          <tr>
-                            <td colspan="2">&nbsp;</td>
-                          </tr>
-						  <tr>
-                            <td width="39%" align="right" class="textfield_text">Select state:</td>
-                            <td width="61%">
-							<select id="statetitle" name="statetitle" style="width: 40%;" onchange="return showUser(this.value);">
-                        <option value='0'>Select state</option>
-		<?php $db1=new DB();
-		$sql1="SELECT * FROM $_TBL_STATE WHERE status='1'";
-		$db1->query($sql1)or die($db11->error());
-		while($row1=$db1->fetchArray()){
-		 $tt=$row1['id'];
-		?>				
-                     <option value="<?=$row1['id']?>" <?php if($row1['id']==$row['stateid']){echo " selected";}?>><?=$row1['title']?></option>
-		<?php }?>	
-                    </select>
-                                                       </td>
-                          </tr>
-						   <tr>
-                            <td width="39%" align="right" class="textfield_text"></td>
-                        <td width="70%">
-                              <div  id="txtHint"></div>
-               
-                 </td>
-                          </tr>
-						  
-						    <tr>
-                            <td width="39%" align="right" class="textfield_text"> </td>
-                        <td width="70%">
-                              <div  id="txtHinthotel"></div>
-               </td>
-                
-			</tr>
-						  
-						  
-                      
-						       <tr>
-                            <td class="textfield_text" align="right">HOTEL BY STAR RATING </td>
-								<td><div class="data">
-							      <?php           
-     $db4=new DB();
-      $sql4="SELECT * FROM $_TBL_ART where astatus='yes'  order by id desc";
-	 $db4->query($sql4)or die($db4->error());
-	  while($row4=$db4->fetchArray()){?>	
-		
-							<span>
-    <input name="employee3" type="checkbox" onchange="getCheckedCheckboxesFor3('employee3');" value="<?php echo $row4['id']?>"/>
-    <label for="employee3"><?php echo $row4['title']?></label>
-    </span> 
-							<?php }?></div><input type='hidden' name="rateid" id='emplist3' value='' />
-							<input type='hidden' name="rateid1"  value='<?php echo $row['rateid']?>' />
-							</td>
-                          </tr>    
-						  
+</script>														  
 <script language="javascript">
 function getCheckedCheckboxesFor(checkboxName) {
     var checkboxes = document.querySelectorAll('input[name="' + checkboxName + '"]:checked'), values = [];
@@ -381,7 +319,6 @@ function getCheckedCheckboxesFor(checkboxName) {
 	
 	
 	
-	
 	<script language="javascript">
 function getCheckedCheckboxesFor1(checkboxName) {
     var checkboxes1 = document.querySelectorAll('input[name="' + checkboxName + '"]:checked'), values = [];
@@ -393,8 +330,8 @@ function getCheckedCheckboxesFor1(checkboxName) {
     return values;
 }
 	</script>
-
-
+	
+	
 	<script language="javascript">
 function getCheckedCheckboxesFor2(checkboxName) {
     var checkboxes2 = document.querySelectorAll('input[name="' + checkboxName + '"]:checked'), values = [];
@@ -407,8 +344,6 @@ function getCheckedCheckboxesFor2(checkboxName) {
     return values;
 }
 	</script>
-
-	
 	
 	
 		<script language="javascript">
@@ -424,9 +359,10 @@ function getCheckedCheckboxesFor3(checkboxName) {
 	</script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-						 		<tr>
-                            <td class="textfield_text" align="right">Hotel Amenities</td>
-							<td><div class="data">
+						<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Hotel Amenities</label>
+                                        <div class="col-md-9">
+										<div class="data">
 							      <?php           
      $db1=new DB();
       $sql1="SELECT * FROM $_TBL_AMENITIES where status='1' order by id desc";
@@ -438,13 +374,15 @@ function getCheckedCheckboxesFor3(checkboxName) {
     </span> 
 		
 							<?php }?>
-							</div><input type='hidden' name="amenities" id='emplist' value='' /></td>
+							</div><input type='hidden' name="amenities" id='emplist' value='' />
 							<input type='hidden' name="amenities1"  value='<?php echo $row['amenities']?>' />
-                          </tr>
-						  
-						  <tr>
-                            <td class="textfield_text" align="right">Room Amenities </td>
-								<td><div class="data">
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Room Amenities</label>
+                                        <div class="col-md-9">
+                                        <div class="data">
 							      <?php           
      $db1=new DB();
       $sql1="SELECT * FROM $_TBL_FACI where status='1' order by id desc";
@@ -455,160 +393,145 @@ function getCheckedCheckboxesFor3(checkboxName) {
     <input name="employee1" type="checkbox" onchange="getCheckedCheckboxesFor1('employee1');" value="<?php echo $row2['id']?>"/>
     <label for="employee1"><?php echo $row2['title']?></label>
     </span> 
-							<?php }?></div><input type='hidden' name="flightid" id='emplist1' value='' />
+							<?php }?></div>
+							<input type='hidden' name="flightid" id='emplist1' value='' />
 							<input type='hidden' name="flightid1"  value='<?php echo $row['facilityid']?>' />
-							</td>
-                          </tr>
-						  
-						  
-						  
-						   
-						  
-						  
-						  
-						  
-						  
-						  
-						
-						  
-						  
-						  
-						  
-						  
-                                 <tr>
-                            <td width="30%" align="right" class="textfield_text">Price:</td>
-                            <td width="70%">
-                              <input name="price" type="text" class="textfield" value="<?=$row['price']?>"/>                            </td>
-                          </tr>	
-                          
-                           <!-- <tr>
-                            <td width="30%" align="right" class="textfield_text">No of Rooms:</td>
-                            <td width="70%">
-                              <input name="place" type="text" class="textfield" value="<?=$row['place']?>"/>                            </td>
-                          </tr>	-->
-                          
-						 <tr>
-                            <td width="30%" align="right" class="textfield_text">No of Rooms:</td>
-                            <td width="70%">
-                              <input name="noofrooms" type="text" class="textfield" value="<?=$row['noofrooms']?>"/>                            </td>
-                          </tr>
-                           <tr>
-                            <td width="30%" align="right" class="textfield_text">No of Floors</td>
-                            <td width="70%">
-                              <input name="nooffloor" type="text" class="textfield" value="<?=$row['nooffloor']?>"/>                            </td>
-                          </tr>
-                                     
-                          
-                          
-                          <tr>
-                            <td width="30%" align="right" class="textfield_text">Address:</td>
-                            <td width="70%">
-                              <input name="address" type="text" class="textfield" value="<?=$row['address']?>"/>                            </td>
-                          </tr>
-						<tr>
-                            <td width="30%" align="right" class="textfield_text">Landmark :</td>
-                            <td width="70%">
-                              <input name="landmark" type="text" class="textfield" value="<?=$row['landmark']?>"/>                            </td>
-                          </tr>
-						   <tr>
-                            <td width="39%" align="right" class="textfield_text">Star Rating:(0-5):</td>
-                            <td width="61%">
-							<select id="star" name="star" style="width: 40%;" >
+							
+                         
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Price:</label>
+                                        <div class="col-md-9">
+                                        <input name="price" type="text" class="form-control" value="<?=$row['price']?>"/>  
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> No of Rooms:</label>
+                                        <div class="col-md-9">
+                                        <input name="noofrooms" type="text" class="form-control" value="<?=$row['noofrooms']?>"/>
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> No of Floors</label>
+                                        <div class="col-md-9">
+                                       <input name="nooffloor" type="text" class="form-control" value="<?=$row['nooffloor']?>"/>
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Address:</label>
+                                        <div class="col-md-9">
+                                        <input name="address" type="text" class="form-control" value="<?=$row['address']?>"/>  
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Landmark :</label>
+                                        <div class="col-md-9">
+                                         <input name="landmark" type="text" class="form-control" value="<?=$row['landmark']?>"/>
+                                        </div>
+                                    </div>
+								
+								 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name">Star Rating:(0-5):</label>
+                                        <div class="col-md-9">
+                        <select id="star" name="star" class="form-control" >
                         <option value='0'>Select Rating</option>
 						<option value='1'>1 Star Rating</option>
 						<option value='2'>2 Star Rating</option>
 						<option value='3'>3 Star Rating</option>
 						<option value='4'>4 Star Rating</option>
 						<option value='5'>5 Star Rating</option>
-						 </td>
-                          </tr>
-						
-                       <tr>
-                            <td width="30%" align="right" class="textfield_text">Check In</td>
-                            <td width="70%">
-                              <input name="chkin" type="text" class="textfield" value="<?=$row['chkin']?>"/>                            </td>
-                          </tr
-						  
-						  
-						    <tr>
-                            <td width="30%" align="right" class="textfield_text">Check Out</td>
-                            <td width="70%">
-                              <input name="chkin" type="text" class="textfield" value="<?=$row['chkout']?>"/>                            </td>
-                          </tr>
-						  
-						     <tr>
-                            <td width="30%" align="right" class="textfield_text">Room Detail :</td>
-                            <td width="70%">
-                             <textarea name="roomdetail" cols="50" rows="5" class="textfield" ><?=$row['roomdetail']?></textarea>
-							 </td></tr>
-							 
-							   <!--  <tr>
-                            <td width="30%" align="right" class="textfield_text">check out :</td>
-                            <td width="70%">
-                             <textarea name="roomdetail" cols="50" rows="5" class="textfield" ><?=$row['chkout']?></textarea>
-							 </td></tr>
-							 
-							 
-							 
-							  <tr>
-                            <td width="30%" align="right" class="textfield_text">check In :</td>
-                            <td width="70%">
-                             <textarea name="roomdetail" cols="50" rows="5" class="textfield" ><?=$row['chkin']?></textarea>
-							 </td></tr>
-                          
-                         <tr>
-                            <td width="30%" align="right" class="textfield_text">Check In Detail :</td>
-                            <td width="70%">
-                             <textarea name="chkin" cols="50" rows="5" class="textfield" ><?=$row['chkin']?></textarea>
-							 </td></tr>
-							 
-							  <tr>
-                            <td width="30%" align="right" class="textfield_text">Check In out :</td>
-                            <td width="70%">
-                             <textarea name="chkout" cols="50" rows="5" class="textfield" ><?=$row['chkout']?></textarea>
-							 </td></tr>-->
-                        
-                          <tr>
-                            <td width="30%" align="right" class="textfield_text">Description :</td>
-                            <td width="70%">
-                             <textarea name="prod_desc" cols="50" rows="5" class="textfield" ><?=$row['detail']?></textarea>
-                         <!--    <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+						 </select>
+                                        </div>
+                                    </div>
+								 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Check In</label>
+                                        <div class="col-md-9">
+                                        <input name="chkin" type="text" class="form-control" value="<?=$row['chkin']?>"/>  
+                                        </div>
+                                    </div>
+									
+									 <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Check Out</label>
+                                        <div class="col-md-9">
+                                         <input name="chkin" type="text" class="form-control" value="<?=$row['chkout']?>"/>  
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Room Detail :</label>
+                                        <div class="col-md-9">
+                                         <textarea name="roomdetail" cols="50" rows="5" class="form-control" ><?=$row['roomdetail']?></textarea> 
+                                        </div>
+                                    </div>
+							   
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Description</label>
+                                        <div class="col-md-9">
+                                      <textarea name="prod_desc" cols="50" rows="5" class="form-control" ><?=$row['detail']?></textarea>
+                                        </div>
+                                    </div>
+							
+                      
+                                    
+                                   
+                                  
+        							
+                                    	<!--<div class="form-group">
+        									<label class="col-md-3 control-label"> Detail</label>
+            									<div class="col-md-9">
+                                                      <textarea name="cat_desc" class="form-control"><?=$row['cat_desc']?></textarea>
+            									 
+            									</div>
+        								</div>-->
+                                   
+                                         <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
     selector: "textarea",
     theme: "modern",
     plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
+      
         "insertdatetime media nonbreaking save table contextmenu directionality",
         "emoticons template paste textcolor colorpicker textpattern imagetools"
     ],
-    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    toolbar2: "print preview media | forecolor backcolor emoticons",
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ",
+    toolbar2: "forecolor backcolor emoticons",
     image_advtab: true,
     templates: [
         {title: 'Test template 1', content: 'Test 1'},
         {title: 'Test template 2', content: 'Test 2'}
     ]
 });
-</script>  -->  </td>
-                          </tr>	
-						   
-						      <tr>
-                            <td width="30%" align="right" class="textfield_text">Main Image:</td>
-                            <td width="70%">
-                              <input name="largeimage" id="largeimage" type="file" class="textfield" /><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['picture']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewLimage.php?img=<?=$row['picture']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?> </td>
-                          </tr>
-						  
-						  
-						  
-						   <tr>
-                            <td width="30%" align="right" class="textfield_text">Multiple Image:</td>
-                            <td width="70%">
-                              <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" /><span style="color:#FF0000;">(jpg, gif, png)</span>  </td>
-                          </tr>
-						  
-                         
+</script> 
+                                         
+                                        
+                                    
+                                    
+                                    
+        							
+                                    
+                                    	<div class="form-group">
+        									<label class="col-md-3 control-label"> Main Image:</label>
+        									<div class="col-md-9">
+                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['picture']){?><a href="javascript:void(0)" onclick="javascript:window.open('viewaimage.php?img=<?=$row['picture']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
+        									 
+        									</div>
+        								</div>
+                                         
+                                         	<div class="form-group">
+        									<label class="col-md-3 control-label"> Multiple Image:</label>
+        									<div class="col-md-9">
+                                                  <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" /><span style="color:#FF0000;">(jpg, gif, png)</span> 
+        									 
+        									</div>
+        								</div>
+                				                   
 <script type="text/javascript" src="../uploadjs/jquery-1.3.2.js" ></script>
 <script type="text/javascript" src="../uploadjs/ajaxupload.3.5.js" ></script>
 <script language="javascript" type="text/javascript">
@@ -717,39 +640,40 @@ width:98px;
 
 #files span{float:left;}
 
-</style>                                                   </tr>
-
-                          <tr>
-                            <td>&nbsp;</td>
-							<td align="left">
-							<input name="pstatus" type="radio" value="1"<?php if($row['status']=="1"){echo " checked";}?>/>Active
-							<input name="pstatus" type="radio" value="0"<?php if($row['status']=="0"){echo " checked";}?>/>Deactive
-							</td>
-                          </tr>
-   
-    
-      <?php	if($act=="edit")
+</style>  			
+                                         
+										
+                                            	<div class="form-group">
+                									<label class="col-md-3 control-label"> Status</label>
+                									<div class="col-md-9">
+                                                       
+                    								
+                    									<div class="radio">
+                    										<label>
+                    												<input name="pstatus" type="radio" value="1"<?php if($row['status']=="1"){echo " checked";}?>/>Active
+						
+                    										</label>
+                    									</div>
+                    									<div class="radio">
+                    										<label>
+                    											<input name="pstatus" type="radio" value="0"<?php if($row['status']=="0"){echo " checked";}?>/>Deactive
+                    										</label>
+                    									</div>
+                									</div>
+<div class="form-group">
+<label class="col-md-3 control-label"> Main Image:</label>
+<div class="col-md-9">                								
+ <tr>
+<td ></td>                                                
+ <?php	if($act=="edit")
 	{
 
 		 $sql2="SELECT * FROM $_TBL_ITEMIMAGE WHERE item_id=".$_REQUEST['id'];
 		$db2->query($sql2)or die($db2->error());
 			
 	
-	}?>
-<!-- <tr>
-	<td width="30%" align="right" class="textfield_text" >Image </td>
-    <td width="70%" class="textfield_text" >
-	
-	<div id="upload"><span>Upload Image</span></div><span id="status"></span>
-	<table><tr><td id="files"></td></tr></table>
-	</td>
-</tr>-->
-
-         <tr>
-    <td ></td>
-   
-    
- <?php if($db2->numRows()>0)	
+	}?>   
+    <?php if($db2->numRows()>0)	
 	{
 		$inum=0;		
 		while($imagerow=$db2->fetchArray()){
@@ -770,34 +694,34 @@ width:98px;
 	
 
 </td>
-</tr>			  
-                          
-                            
-                          
-                        
-						  
-						
-                          <tr>
-                           <td colspan="2" align="center"><input name="Submit" type="submit" class="button" value="Save" /></td>
-                          </tr>
-                          <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                          </tr>
-                     
-                        </table>
+</tr>	                                     	
+</div>                                      
+  </div>                                  
+							
+                                       
+                                
+                                
+								<!-- Message body -->
+								 
+								<!-- Form actions -->
+								<div class="form-group">
+									<div class="col-md-12 widget-right">
+									<input name="Submit" type="submit" class="btn btn-default btn-md pull-right" value="Save"  />
+									</div>
+								</div>
+							</fieldset>
 						</form>
-						
-						</td>
-                      </tr>
-                    </table></td>
-                  </tr>
-                </table></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
+					</div>
+                    
+                    
+                    
+                    
+                    <!--/.row-->	
+				</div>
+				
+				 
+				
+			</div><!--/.col-->
+			 
+		</div><!--/.row-->
+	</div>

@@ -26,7 +26,8 @@ $app->post('/otherGettingfollows','otherGettingfollows'); /* User updateuserdeta
 $app->post('/otherFollowerdetails','otherFollowerdetails'); /* User otherFollowerdetails  */ 
 $app->post('/unfollow','unfollow'); /* User unfollow  */  
 $app->post('/gettingAllUser','gettingAllUser'); /* User gettingAllUser  */ 
-$app->post('/follow','follow'); /* User follow  */ 
+$app->post('/follow','follow'); /* User follow  */
+$app->post('/OneMyfollow','OneMyfollow');  
 /*$app->get('/gettingUser',  'gettingUser'); */
 
 $app->run();
@@ -635,6 +636,56 @@ while($row4=$db->fetchAll(PDO::FETCH_OBJ);){
 
 }
 
+
+
+/* ### userdetails ### */
+function OneMyfollow() { 
+    $request = \Slim\Slim::getInstance()->request();
+    $data = json_decode($request->getBody());
+	//print_r($data);
+    $token=$data->token; 
+	$user_id=$data->user_id;
+	$FollowerID=$data->FollowerID;
+	$systemToken=apiToken($user_id);
+    
+    try {
+         
+        if($systemToken == $token){
+            $db = getDB();
+				
+			 $sql = "SELECT * FROM followers WHERE follow='".$FollowerID."' AND user_id=".$user_id;
+				$stmt = $db->prepare($sql);
+                 
+                 
+            	$stmt->execute();
+            	$IsFollowing = $stmt->fetchAll(PDO::FETCH_OBJ);
+            
+             
+            $db = null;
+            if($IsFollowing){
+				echo '{"IsFollowing": '. json_encode($IsFollowing) .'}';
+			}
+			 
+			else{
+				echo '{"IsFollowing": ""}';
+			}
+		 
+            
+        } else{
+            echo '{"error":{"text":"No access"}}';
+        }
+       
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+
+
+}
+
+
+
+
+ 
  /*
 function gettingUser() {
     $sql = "SELECT * FROM wine WHERE id=:id";

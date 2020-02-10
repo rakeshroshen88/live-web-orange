@@ -17,7 +17,7 @@ $app = new \Slim\Slim();
 $app->post('/getcategories','getcategories');  
 $app->post('/getRecentProd','getRecentProd'); 
 $app->post('/weeklybestresele','weeklybestresele');   
-$app->post('/newhomepro','newhomepro');  
+$app->post('/newhomepro','newhomepro');    
 $app->post('/product_details','product_details');  
 $app->post('/gettingproductImg','gettingproductImg');  
 $app->post('/productfeedbackInsert','productfeedbackInsert');  
@@ -28,7 +28,7 @@ $app->post('/mainCategoriesName','mainCategoriesName');
 $app->post('/SubCategoriesName','SubCategoriesName'); 
 $app->post('/SubCategories3Name','SubCategories3Name'); 
 $app->post('/SubCategories4Name','SubCategories4Name');
-$app->post('/getProdVCat','getProdVCat');
+$app->post('/getProdVCat','getProdVCat'); 
 $app->post('/getProdVSubCat','getProdVSubCat');
 $app->post('/getProdVSubCat4','getProdVSubCat4');  
 
@@ -580,6 +580,8 @@ function newhomepro() {
 
 }
 
+
+ 
 
 
 
