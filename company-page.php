@@ -111,7 +111,19 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 															<option>Category 3</option>
 															<option>Category 4</option>
 														</select>-->
-														<?php echo createComboBox($makearr1,'category1',$row['catid'],' class="form-control" id="category" ');?>
+														<select name="category" id="category" class="form-control" >
+  <option value="">Select</option>
+  <?php 
+		
+		$sql="SELECT * FROM com_category WHERE menuname='company'";
+		$db->query($sql)or die($db->error());
+		while($row1=$db->fetchArray()){	?>
+  <option value="<?=$row1['catname']?>"><?=$row1['catname']?></option>
+		<?php } ?>
+   
+  
+</select>
+														
 														<i class="la la-dropbox"></i>
 														<span><i class="fa fa-ellipsis-h"></i></span>
 													</div>

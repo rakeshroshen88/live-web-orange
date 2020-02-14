@@ -299,6 +299,36 @@ $(".user-info").on("click", function(){$("#users").hide();
     //  ============= PORTFOLIO SLIDER FUNCTION =========
 
      
+	  //  ============= review-open EDIT FUNCTION =========
+
+    $(".review-open").on("click", function(){
+		
+        $("#review-open-box").addClass("open");
+        $(".wrapper").addClass("overlay");
+        return false;
+    });
+    $(".close-box").on("click", function(){
+        $("#review-open-box").removeClass("open");
+        $(".wrapper").removeClass("overlay");
+        return false;
+    });
+	
+	
+	
+	  //  ============= services-open EDIT FUNCTION =========
+
+    $(".services-open").on("click", function(){
+		
+        $("#services-open-box").addClass("open");
+        $(".wrapper").addClass("overlay");
+        return false;
+    });
+    $(".close-box").on("click", function(){
+        $("#services-open-box").removeClass("open");
+        $(".wrapper").removeClass("overlay");
+        return false;
+    });
+
 
 
 

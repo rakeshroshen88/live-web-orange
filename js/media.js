@@ -360,10 +360,9 @@ jQuery(document).on("click", "#submit ", function(e){
 
 						  var data1 = jQuery.parseJSON(response);
 
-
-            		  // alert(response);
-
-                       if(data1.status==true){
+ 
+						 if(response != ''){
+                       //if(data1.status==true){
                            // $('#success').html('Added');
                              window.location = "http://orangestate.ng/veryfyotp.php";
                              window.location.href = "http://orangestate.ng/veryfyotp.php";
@@ -450,7 +449,7 @@ jQuery(document).on("click", "#submit ", function(e){
         });
 
 	
-		var social_AjaxURL1=social_AjaxURL+'ajax_page_creation.php';
+		var social_AjaxURL1='//orangestate.ng/ajax_page_creation.php';
 
 			e.preventDefault();
 
@@ -459,7 +458,7 @@ jQuery(document).on("click", "#submit ", function(e){
 				overlayCSS: {
 					backgroundColor: '#fff'
 				},
-				message: '<img src="'+BASEURL+'/images/loading.gif" /> Just a moment...',
+				message: '<img src="//orangestate.ng/images/loading.gif" /> Just a moment...',
 				css: {
 					border: 'none',
 					color: '#333',
@@ -492,7 +491,10 @@ jQuery(document).on("click", "#submit ", function(e){
 
 						});
 						$('#company_error').html(data);
-						window.location = "http://orangestate.ng/company-profile.php";
+						setTimeout(function(){
+							window.location = "//orangestate.ng/company-profile.php";
+						   }, 5000);
+						
             			 //window.location.reload(true);
             		    }
             		    else {
@@ -1284,14 +1286,23 @@ jQuery(document).on("click", ".addtocart", function(e){
 		var id = jQuery(this).attr('pid');
 		//var id1 = $("#id"+id).val();
 		var task = 'task';//$("#task"+id).val();
-		//var tono = $("#tono"+id).val();
-
+		var tono = $("#tono"+id).val();
+		
 		//var img=jQuery("#profileimg").val();
-
+		 var radioValuesize = $("input[name='inlineRadioOptions']:checked").val();
+		  //var radioValuecolor = $("input[name='input_array_name']:checked").val();
+		   var radioValuecolor = $("#input_array_name").val();
+		if(radioValuesize==''){
+			radioValuesize=1;
+		}
+		if(radioValuecolor==''){
+			radioValuecolor=1;
+		}
 
 
 		var social_AjaxURL1=social_AjaxURL+'task.php';
-		var dataString ='id=' + id + '&task=' + task + '&tono=1';
+		
+		var dataString ='id=' + id + '&task=' + task + '&tono='+ tono + '&psize='+radioValuesize + '&color='+radioValuecolor;
 
 			//e.preventDefault();
 
@@ -1318,7 +1329,7 @@ jQuery(document).on("click", ".addtocart", function(e){
 						 setTimeout(function(){
 							window.location.href= BASEURL+'checkout.php';
 						   }, 2000);
-
+ 
             		    }
             		    else {
 							Swal.fire({
@@ -1617,12 +1628,21 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 		if(tono==''){
 			tono=1;
 		}
+		 var radioValuesize = $("input[name='inlineRadioOptions']:checked").val();
+		  var radioValuecolor = $("#input_array_name").val();
+		if(radioValuesize==''){
+			radioValuesize=1;
+		}
+		if(radioValuecolor==''){
+			radioValuecolor=1;
+		}
+           
 		//var img=jQuery("#profileimg").val();
 
 
 
 		var social_AjaxURL1=social_AjaxURL+'tasknew.php';
-		var dataString ='id=' + id + '&task=' + task + '&tono='+tono;
+		var dataString ='id=' + id + '&task=' + task + '&tono='+tono + '&psize='+radioValuesize + '&color='+radioValuecolor;
 
 			//e.preventDefault();
 
@@ -1704,13 +1724,20 @@ jQuery(document).on("click", ".addtocartnew", function(e){
 		//var id1 = $("#id"+id).val();
 		var task = 'task';//$("#task"+id).val();
 		var tono = 1;
-
+ var radioValuesize = $("input[name='inlineRadioOptions']:checked").val();
+		   var radioValuecolor = $("#input_array_name").val();
+		if(radioValuesize==''){
+			radioValuesize=1;
+		}
+		if(radioValuecolor==''){
+			radioValuecolor=1;
+		}
 		//var img=jQuery("#profileimg").val();
 
 
 
 		var social_AjaxURL1=social_AjaxURL+'tasknew.php';
-		var dataString ='id=' + id + '&task=' + task + '&tono='+tono;
+		var dataString ='id=' + id + '&task=' + task + '&tono='+tono + '&psize='+radioValuesize + '&color='+radioValuecolor;
 
 			//e.preventDefault();
 
@@ -1918,13 +1945,13 @@ jQuery(document).on("click", ".addtowishlist", function(e){
 					 data: dataString,
 					 //data: profileuploadtn,
 
-            	    success: function (data) {
-
-                       if(data != 0){
+            	    success: function (response) {
+					 var data1 = jQuery.parseJSON(response);
+                       if(response != 0){
 						Swal.fire({
   position: 'top-end',
   type: 'success',
-  title: data,
+  title: data1.message,
   showConfirmButton: false,
   timer: 1000
 
@@ -2258,9 +2285,8 @@ jQuery(document).on("click", ".productfeedback", function(e){
 			
 		var social_AjaxURL1=social_AjaxURL+'ajax_feedback.php';
 		
-		
-			e.preventDefault();
-		
+		$("#productfeedback").attr("disabled", true);
+			e.preventDefault();		
 					$.ajax({
             	    url: social_AjaxURL1,
             	    async: true,
@@ -2354,7 +2380,211 @@ jQuery(document).on("click", ".comfollow", function(e){
 
 	});
 
+///////////post Hide/////////////////
+jQuery(document).on("click", ".wbtndel", function(e){
 
 
+		var pid = jQuery(this).attr('pid');
+
+
+		//var img=jQuery("#profileimg").val();
+
+
+
+		var social_AjaxURL1=social_AjaxURL+'ajax_wish_delete.php';
+		var dataString ='pid='+pid ;
+
+			e.preventDefault();
+				Swal.fire({
+				  title: 'Are you sure?',
+				  text: "want to continue!",
+				  type: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+				  if (result.value) {
+					$.ajax({
+            	    url: social_AjaxURL1,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+
+            	    success: function (data) {
+            		  Swal.fire({
+					  type: 'success',
+					  title: '',
+					  text: data
+
+					})
+					  setTimeout(function(){
+							window.location.reload(true);
+						   }, 1000);
+                     
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	}else{
+					Swal.fire({
+					  type: 'error',
+					  title: 'Oops...',
+					  text: 'Something went wrong!'
+
+					})
+				}
+				})
+
+
+	});
+
+
+$(".MyList li").click(function(){
+    var clicklink = $(this).attr("data-tab");
+    $(".product-feed-tab").hide();
+    $("#"+clicklink).show();
+    
+});
 	
+///////////Product Feedback/////////////////
+jQuery(document).on("click", ".comfeedback", function(e){ 
+
+		var form=jQuery("#feedback");		
+		
+			
+		var social_AjaxURL1=social_AjaxURL+'ajax_com_feedback.php';
+		
+		
+					$.ajax({
+            	    url: social_AjaxURL1,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data:  {		
+						"formData" : form.serialize()
+							},
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {						
+						$("#review-open-box").removeClass("open");
+						$(".wrapper").removeClass("overlay");
+            		 
+                       if(data != 0){
+						   swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: 'Thank you for rating Us !',
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						  setTimeout(function(){
+							window.location.reload(true);
+						 
+						}, 5000);
+						
+            		    } 
+            		    
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
 	
+
+
+///////////Product Feedback/////////////////
+jQuery(document).on("click", ".servicesave", function(e){ 
+
+		var form=jQuery("#servicesaveform");		
+		
+			
+		var social_AjaxURL1=social_AjaxURL+'ajax_com_service.php';
+		
+		
+					$.ajax({
+            	    url: social_AjaxURL1,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data:  {		
+						"formData" : form.serialize()
+							},
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {						
+						$("#services-open-box").removeClass("open");
+						$(".wrapper").removeClass("overlay");
+            		 
+                       if(data != 0){
+						   swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: 'Thank you, Service Added!',
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						  setTimeout(function(){
+							window.location.reload(true);
+						 
+						}, 5000);
+						
+            		    } 
+            		    
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
+	
+	////////////////////////////////////////////////
+jQuery("#file56").on('change', function() {
+  
+//$("#profilesubmit").click(function(){
+	var BASEURL=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'service_image.php';
+        var fd = new FormData();
+        var files = $('#file56')[0].files[0];
+       
+        fd.append('file',files);
+
+        $.ajax({
+            url: social_AjaxURL1,
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+               
+                if(response != 0){
+                    //alert(response);
+                    jQuery("#serviceimage").val(response);
+                    jQuery(".serv").html('<img src="'+BASEURL + response +'" />');
+                    
+                   // jQuery("#serviceimage").val(data.result.attach_id);
+                 //jQuery('#imgid').val(response); 
+                }else{
+                    jQuery('#file56').focus();
+                    //alert('file not uploaded');
+                }
+            },
+        });
+    });
+	
+////////////////////////////////////////////////		

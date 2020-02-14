@@ -46,9 +46,12 @@ $location=$FormData['location'];
 //$dob=date('Y-m-d',strtotime($dob));
 $totalemp=$FormData['totalemp'];
 $uemail=$FormData['uemail'];
+$page_address=$FormData['page_address'];
+$contactnumber=$FormData['contactnumber'];
+$website=$FormData['website'];
 
 $establish=$FormData['establish'];
-  $sql1 = "UPDATE company_page  SET email_id = '".$uemail."' , location = '".$location."' , totalemp = '".$totalemp."' , establish = '".$establish."' WHERE user_id=".$_SESSION['sess_webid'];
+  $sql1 = "UPDATE company_page  SET email_id = '".$uemail."' , location = '".$location."' , totalemp = '".$totalemp."' , establish = '".$establish."' , page_address = '".$page_address."', contactnumber = '".$contactnumber."', website = '".$website."' WHERE user_id=".$_SESSION['sess_webid'];
 $db->query($sql1);
 echo $regmsg="Profile updated!";
 }
@@ -94,7 +97,7 @@ echo $regmsg="Location saved!";
 
 
 $com_id=$_POST['cid'];
-if(!empty($com_id)){
+if(!empty($_SESSION['sess_ses_id'])){
    $sql1 = "UPDATE company_document SET com_id = '".$com_id."' WHERE user_id='".$_SESSION['sess_webid']."' and ses_id='".$_SESSION['sess_ses_id']."'";
 $db->query($sql1);
 echo $regmsg="Gallery saved!";

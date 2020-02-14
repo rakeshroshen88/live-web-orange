@@ -133,7 +133,7 @@ $(document).ready(function(){
 	fetch_user();
 
 
-  setInterval(function(){
+ setInterval(function(){
 
 		update_last_activity();
 		fetch_user();

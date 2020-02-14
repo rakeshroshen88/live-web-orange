@@ -47,6 +47,7 @@ include('chksession.php');
 										$sql="select * from all_user where first_name like '%$q%' or last_name like '%$q%' order by user_id ";
 										 //$sql="SELECT * from all_user where user_id NOT IN ( select follow from followers) ";
 										$db->query($sql);
+										$cntres=$db->numRows();
 										if($db->numRows()>0)
 										{
 										 while($frow=$db->fetchArray()){
@@ -66,7 +67,7 @@ include('chksession.php');
                                                                                 <img src="images/resources/user.png" alt="" width="40" height="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$frow['first_name']?></h3>
+                                                                                        <a href="view-profile.php?uid=<?=base64_encode($frow['user_id'])?>"><h3><?=$frow['first_name']?></h3></a>
                                                                                         <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                 <?php if(!empty($woorking)){ ?> 
@@ -78,7 +79,7 @@ include('chksession.php');
                                                                                         </div>
                                                                                     </div>
                                                                     </div>
-                                                                    <div class="job_descp noborder">
+  <div class="job_descp noborder">
 
 <?php $cnt=$db7->getSingleResult("SELECT count(f_id) from followers where user_id = '".$_SESSION['sess_webid']."' and follow=".$frow['user_id']);
 							
@@ -104,9 +105,78 @@ include('chksession.php');
 
                                                         </div>
 
-                                                        <?php }}else{ echo "<div class='portfolio-gallery-sec'>No match</div>"; }?>
+                                                        <?php }}?>
                                             </div>
-                                        </div>
+                                       
+									  <div class="row">
+                                                <?php ////////follower All Friends//////////?>
+                                                    <?php 
+										$dbuc=new DB();
+										$dbuc1=new DB();
+										$q=$_POST['searchpage'];
+										$sql="select * from company_page where page_name like '%$q%'  order by com_id ";
+										 //$sql="SELECT * from all_user where user_id NOT IN ( select follow from followers) ";
+										$dbuc->query($sql);
+										$cntres1=$dbuc->numRows();
+										if($dbuc->numRows()>0)
+										{
+										 while($frow=$dbuc->fetchArray()){
+										//$usernamef=$dbuf->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$frow['user_id']);
+
+										$woorking=$dbuc1->getSingleResult('select current_company from user_profile where user_id='.$frow['user_id']);
+										//$userfpath=$dbuc1->getSingleResult('select image_id from user_profile where user_id='.$frow['user_id']);
+										$currentcity=$dbuc1->getSingleResult("select current_city from user_profile where user_id=".$frow['user_id']);
+										?>
+                                                        <div class="col-md-4">
+                                                            <div class="post-bar">
+                                                                <div class="post_topbar applied-post">
+                                                                    <div class="usy-dt">
+                                                                        <?php if(!empty($frow['imgid'])){?>
+                                                                            <img src="upload/<?=$frow['imgid']?>" alt="" height="50" width="50">
+                                                                            <?php }else{ ?>
+                                                                                <img src="images/resources/cmp-icon.png" alt="" width="40" height="40">
+                                                                                <?php }?>
+                                                                                    <div class="usy-name">
+ <a href="company-profile.php?comid=<?=$frow['com_id']?>"><h3><?=$frow['page_name']?></h3></a>                                                                                        
+                                                                                        <div class="epi-sec epi2">
+                                                                                            <ul class="descp descptab bklink">
+                                                                                                <?php if(!empty($woorking)){ ?> 
+		  <li><img src="images/icon8.png" alt=""><span><?=$woorking?></span></li>
+		  <?php }?>  
+		  <?php if(!empty($currentcity)){ ?>                                                                             <li><img src="images/icon9.png" alt=""><span><?=$currentcity?></span></li>
+		   <?php }?>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                                                                    </div>
+                                                                    <div class="job_descp noborder float-right">
+<?php $cnt=$dbuc1->getSingleResult("SELECT count(com_id) from com_like where user_id = '".$_SESSION['sess_webid']."' and do_like = '1' and com_id=".$frow['com_id']);
+									if($cnt>0){
+									?>
+                                                                        <div class="devepbtn appliedinfo noreply">
+                                                    <a class="clrbtn comfollow" id="f<?=$frow['com_id']?>" com="<?=$frow['com_id']?>" href="javascript:void(0);" >liked</a>
+
+                                                                        </div>
+									<?php }else{ ?>		
+											<div class="devepbtn appliedinfo noreply">
+                                                    <a class="clrbtn comfollow" id="f<?=$frow['com_id']?>" com="<?=$frow['com_id']?>" href="javascript:void(0);" >like</a>
+
+                                                                        </div>
+									<?php } ?>									
+																		
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <?php }}
+														if(empty($cntres) and empty($cntres1)){ echo "<div class='portfolio-gallery-sec'>No match</div>"; }?>
+                                            </div>
+                                        
+
+
+									   </div>
                                        
 									   <div class="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="saved-tab">
                                             <div class="row">
@@ -149,7 +219,7 @@ include('chksession.php');
                                                                                 <img src="images/resources/user.png" alt="" width="40" height="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$frow['first_name']?></h3>
+                                                                                        <a href="view-profile.php?uid=<?=base64_encode($frow['user_id'])?>"><h3><?=$frow['first_name']?></h3></a>
                                                                                         <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                <?php if(!empty($woorking)){ ?> 
@@ -221,7 +291,7 @@ include('chksession.php');
                                                                                 <img src="images/resources/user.png" alt="" width="40" height="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$usernamef?></h3>
+    <a href="view-profile.php?uid=<?=base64_encode($frow1['user_id'])?>"><h3><?=$usernamef?></h3></a>                                                                                    
                                                                                         <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                 <?php if(!empty($woorking)){ ?> 
@@ -280,8 +350,8 @@ include('chksession.php');
                                                                                 <img src="images/resources/user.png" alt="" width="40" height="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$cityrow['first_name']?></h3>
-                                                                                        <div class="epi-sec epi2">
+                                                                                        
+ <a href="view-profile.php?uid=<?=base64_encode($cityrow['user_id'])?>"><h3><?=$cityrow['first_name']?></h3></a>                                                                                        <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
           <?php if(!empty($cityrow['current_company'])){ ?> 
 		  <li><img src="images/icon8.png" alt=""><span><?=$cityrow['current_company']?></span></li>
@@ -350,7 +420,7 @@ include('chksession.php');
                                                                                 <img src="images/resources/cmp-icon.png" alt="" width="40" height="40">
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$frow['page_name']?></h3>
+ <a href="company-profile.php?comid=<?=$frow['com_id']?>"><h3><?=$frow['page_name']?></h3></a>                                                                                        
                                                                                         <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                 <?php if(!empty($woorking)){ ?> 
@@ -385,7 +455,8 @@ include('chksession.php');
 
                                                         <?php }}else{ echo "<div class='portfolio-gallery-sec'>No match</div>"; }?>
                                             </div>
-                                        </div>
+                                        
+										</div>
                                        
 
 

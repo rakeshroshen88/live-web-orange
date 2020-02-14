@@ -475,9 +475,10 @@ jQuery("#file1").on('change', function() {
 jQuery("#file2").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL1=social_AjaxURL='upload/';
+	var BASEURL1=social_AjaxURL+'upload/';
 	var social_AjaxURL1=social_AjaxURL+'coverimageupload.php';
-        var fd = new FormData();
+	//alert(social_AjaxURL1);
+    var fd = new FormData();
         var files = $('#file2')[0].files[0];
        
         fd.append('file',files);
@@ -730,11 +731,11 @@ jQuery(document).on("click", "#updateexpsave", function(e){
 		var subject = jQuery('#subject1').val();
 		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='exp='+exp+'&subject='+subject+'&expid='+expid;
-		
+		//alert(dataString);
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -944,7 +945,7 @@ setTimeout(function(){
 	
 ///////////////////////////////////////
 jQuery("#file4").on('change', function() {
-  
+  alert('hello');
 //$("#profilesubmit").click(function(){
 	var BASEURL=social_AjaxURL+'upload/';
 	var social_AjaxURL1=social_AjaxURL+'compcoverimageupload.php';
@@ -975,11 +976,46 @@ jQuery("#file4").on('change', function() {
             },
         });
     });
+	
+////////////////////////////////////////////////
+jQuery("#file55").on('change', function() {
+
+//$("#profilesubmit").click(function(){
+	var BASEURL=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'compcoverimageupload.php';
+        var fd = new FormData();
+        var files = $('#file55')[0].files[0];
+       
+        fd.append('file',files);
+
+        $.ajax({
+            url: social_AjaxURL1,
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+               
+                if(response != 0){
+                    //alert(response);
+                    jQuery("#coverid").hide();
+                    jQuery(".cover-sec1").html('<img src="'+BASEURL + response +'" />');
+                    
+                   // jQuery("#imgid").val(data.result.attach_id);
+                 //jQuery('#imgid').val(response); 
+                }else{
+                    jQuery('#file55').focus();
+                    //alert('file not uploaded');
+                }
+            },
+        });
+    });
+	
 ////////////////////////////////////////////////
 jQuery("#file3").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL=social_AjaxURL+'http://orangestate.ng/upload/';
+	var BASEURL=social_AjaxURL+'upload/';
 	var social_AjaxURL1=social_AjaxURL+'companyprofileimageupload.php';
         var fd = new FormData();
         var files = $('#file3')[0].files[0];
