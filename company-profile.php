@@ -65,19 +65,17 @@ if(!empty($_SESSION['com_webid'])){
                                         </ul>
                                     </div>
                                     <!--user_pro_status end-->
-                                    <ul class="social_links">
-                                        <?php if(!empty($profilerow['website'])){?>
+                                    <ul class="social_links MyList">
+                                      
 
-                                            <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
-
-                                            <?php } ?>
-
-                                                <?php  $dbs=new DB();
-									  $sqls="select * from social_link where com_id=".$cid;
-									  $db->query($sqls);
-									  while($rows=$db->fetchArray()){?>
-                                                    <li><a href="#" title=""><i class="la la-globe"></i><?=$rows['slink']?></a></li>
-                                                    <?php }?>
+                                                    <li data-tab="feed-dd"><a href="javascript:void(0);" title=""><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
+													 <li data-tab="services"><a href="javascript:void(0);" title=""><i class="fa fa-cogs" aria-hidden="true"></i>Services</a></li>
+													  <li data-tab="review"><a href="javascript:void(0);" title=""><i class="fa fa-eye" aria-hidden="true"></i>Reviews</a></li>
+													   <li data-tab="portfolio-dd"><a href="javascript:void(0);" title="" class="animated fadeIn active" data-tab="portfolio-dd"><i class="fa fa-picture-o" aria-hidden="true"></i>Photos</a></li>
+													    <li data-tab="my-bids"><a href="javascript:void(0);" title=""><i class="la la-globe"></i>Contacts</a></li>
+														 <li data-tab="info-dd"><a href="javascript:void(0);" title=""><i class="fa fa-user" aria-hidden="true"></i></i>About</a></li>
+														
+                                                   
 
                                     </ul>
                                 </div>
@@ -132,7 +130,21 @@ if(!empty($_SESSION['com_webid'])){
                                                         </a>
                                                     </li>
 													
-													 <li data-tab="my-bids">
+											
+											<li data-tab="services">
+                                                <a href="#" title="">
+                                                    <img src="images/ic5.png" alt="">
+                                                    <span>Services</span>
+                                                </a>
+                                            </li>
+											<li data-tab="review">
+                                                <a href="#" title="">
+                                                    <img src="images/ic5.png" alt="">
+                                                    <span>Reviews</span>
+                                                </a>
+                                            </li>
+											
+											<li data-tab="my-bids">
                                                 <a href="#" title="">
                                                     <img src="images/ic5.png" alt="">
                                                     <span>Contact Us</span>
@@ -227,7 +239,13 @@ if(!empty($_SESSION['com_webid'])){
                                             width: 87%;
                                         }
                                     </style>
-                                    <form method="post" id="uploadForm" enctype="multipart/form-data">
+                                  
+                                    <div class="product-feed-tab current" id="feed-dd">
+
+
+<?php ////////////////////////?>
+<?php if($_SESSION['sess_webid']==$uid){?>
+  <form method="post" id="uploadForm" enctype="multipart/form-data">
                                         <div class="post-topbar newpost1">
                                             <h3>Create Post</h3>
                                             <div class="clreatsot">
@@ -361,7 +379,8 @@ if(!empty($_SESSION['com_webid'])){
                                     <div class="posts-section" id="postshow">
 
                                     </div>
-                                    <div class="product-feed-tab current" id="feed-dd">
+									
+<?php } ////////////////////////?>
 
                                         <div class="posts-section">
 
@@ -393,7 +412,7 @@ $dbu=new DB();
 $dbp=new DB();
   // $sqlp="SELECT * from user_post where pageid=".$cid." and FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) and user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) and post_hide='0'  order by post_id desc";
       
-	   $sqlp="SELECT * from user_post where pageid=".$cid." and user_id='".$_SESSION['sess_webid']."' and post_hide='0'  order by post_id desc";
+	   $sqlp="SELECT * from user_post where pageid=".$cid." and post_hide='0'  order by post_id desc";
    
 $dbp->query($sqlp);
 if($dbp->numRows()>0)
@@ -886,7 +905,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
                         <div class="product-feed-tab" id="info-dd">
                             <div class="user-profile-ov">
-                                <h3><a href="#" title="" class="overview-open">Overview</a>
+                                <h3> Overview <a href="#" title="" class="overview-open"></a>
 	<?php if($_SESSION['sess_webid']==$uid){?>
 									<a href="#" title="" class="overview-open"><i class="fa fa-pencil"></i></a>
 	<?php }?>
@@ -928,7 +947,9 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
                             <div class="user-profile-ov">
 
-                                <h3><a href="#" title="" class="skills-open1">Social Link <i class="fa fa-plus-square"></i></a></h3>
+                                <h3>Social Link <a href="#" title="" class="skills-open1"> <?php if($_SESSION['sess_webid']==$uid){?><i class="fa fa-plus-square"></i>
+								<?php } ?>
+								</a></h3>
                                 <ul>
                                     <?php  $dbs=new DB();
 									  $sqls="select * from social_link where com_id=".$cid;
@@ -946,7 +967,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
                         </div>
 
-                                    <div class="product-feed-tab" id="portfolio-dd">
+                            <div class="product-feed-tab" id="portfolio-dd">
                             <div class="portfolio-gallery-sec">
                                 <h3>All Picture</h3>
                                 <div class="portfolio-btn">
@@ -1072,8 +1093,76 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 							  </div>
                                
 							
+						<div class="product-feed-tab" id="review">
+						
+									<h3 style="padding:20px;">Write Review<a href="javascript:void(0);" title="" class="review-open"><i class="fa fa-pencil"></i></a></h3>
+						
+						<?php
+					$dbn=new DB();
+				     $sqln="select * from feedback where pages='company' and prod_id =".$cid." limit 0,5";
+					$dbn->query($sqln);
+					if($dbn->numRows()>0){	
+					?> 
+					<?php while($rowfeed=$dbn->fetchArray()){
+					$image_id=$db->getSingleResult("SELECT image_id from user_profile where user_id=".$rowfeed['user_id']);
+					$first_name=$db->getSingleResult("SELECT first_name from all_user where user_id=".$rowfeed['user_id']);
+					?>
+                    <div class="feedbackbox background-white">
+                        <div class="headerfeedabcdk">
+							<?php if(!empty($image_id)){?>
+                            <img src="upload/<?=$image_id?>" alt="india">
+							<?php }else{ ?>
+							<img src="images/resources/user.png" alt="" width="50" height="50">
+							<?php } ?>
+                            <h3><?=$first_name?></h3>
+                            <span class="feedback-time"><?php echo timeago($rowfeed['feedback_date']);?></span>
 
                         </div>
+                        <div class="feedbackbox-details">
+                            <span class="starlinting">
+							<?php if($rowfeed['rate']==1){ ?>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<?php } ?>
+							<?php if($rowfeed['rate']==2){ ?>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<?php } ?>
+							<?php if($rowfeed['rate']==3){ ?>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<?php } ?>
+							<?php if($rowfeed['rate']==4){ ?>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<?php } ?>
+							<?php if($rowfeed['rate']==5){ ?>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star" aria-hidden="true"></i>
+							<?php } ?>
+							</span>
+
+                            <h4><?=$rowfeed['title']?></h4>
+                           <p><?=$rowfeed['review']?></p>
+                        </div>
+                   
+				   </div>
+					<?php }} ?> 
+					
+                        </div>
+						
+						
+						<div class="product-feed-tab" id="services">
+						Services
+                        </div>
+
+
+					   </div>
                         
 
                     </div>
@@ -1227,13 +1316,29 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
     </div>
     <!--overview-box end-->
 
-    <div class="overview-box" id="ed-box">
+    <div class="overview-box" id="review-open-box">
         <div class="overview-edit">
-            <h3>Experience</h3>
-            <form id="formexp" method="post">
-                <input type="text" name="subject" id="subject" placeholder="Subject">
-                <textarea name="exp" id="exp"></textarea>
-                <button type="submit" id="expsave" class="save">Save</button>
+            <h3>Reviews</h3>
+            <form id="feedback" name="feedback" class="feedback" method="post">
+			<input type="hidden" id="page" name="page" value="company" />
+			<input type="hidden" id="pid" name="pid" value="<?=$_REQUEST['comid']?>" /> 
+                <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                <textarea name="comreview" id="comreview"></textarea>
+				 <div class="wrapper1">
+				  <input type="checkbox" id="st1" name="rate" value="1" />
+				  <label for="st1"></label>
+				  <input type="checkbox" id="st2" name="rate" value="2" />
+				  <label for="st2"></label>
+				  <input type="checkbox" id="st3" name="rate" value="3" />
+				  <label for="st3"></label>
+				  <input type="checkbox" id="st4" name="rate" value="4" />
+				  <label for="st4"></label>
+				  <input type="checkbox" id="st5" name="rate" value="5" />
+				  <label for="st5"></label>
+				</div></br>
+
+                              
+                <button type="button" id="comfeedback" class="comfeedback">Save</button>
                 <!--<button type="submit" class="save-add">Save & Add More</button>-->
                 <button type="submit" class="cancel">Cancel</button>
             </form>

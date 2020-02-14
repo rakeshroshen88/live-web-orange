@@ -248,7 +248,7 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
 			include_once("pages/viewsubdetail.php");
 			}elseif($module=="amenities"){
 				
-			include_once("pages/viewsub.php");
+			include_once("pages/viewbus.php");
 			}elseif($module=="add_amenities"){
 				
 			include_once("pages/addsub.php");

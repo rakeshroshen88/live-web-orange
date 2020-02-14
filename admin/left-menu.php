@@ -95,7 +95,7 @@
 					</li>
 					
 					<li>
-						<a class="" href="main.php?mod=addhotel">
+						<a class="" href="main.php?mod=addhotel&act=add">
 							<span class="glyphicon glyphicon-share-alt"></span> Add Hotel
 						</a>
 					</li>

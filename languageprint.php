@@ -41,7 +41,7 @@ if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio'
 		
 	}
 	}else{
-		$obj="Word Not Found !";
+		$obj="";
 	}
 	$response['status']= $status;
 	$response['id']= $insid;
@@ -59,11 +59,20 @@ if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio'
 	//$array_record=array();
     if($db->numRows()>0){
 	while($row=$db->fetchArray()){
-	echo $obj=$row['language_1'];
+	 $obj=$row['language_1'];
 	}
 	}else{
-		echo "Word Not Found !";
+		echo "";
 	}
+	$response['status']= $status;
+	
+	$response['message'] = $obj;
+	$response['english'] = $english;
+	$response['ibibo'] = $ibibo;
+	$response['ibibomp3'] = $ibibomp3;
+	echo json_encode($response);
+	die;
+	
 		
 	}
 	//array_push($array_record,$obj);
@@ -78,14 +87,21 @@ if($obj != null)
      if(isset($obj['error']))
     {
        // echo "Error is : ".$obj['error']['message'];
-	   echo "Translation Not Available";
+	 //  echo "Translation Not Available";
     }
     else
     {
         //echo "Translsated Text: ".$obj['data']['translations'][0]['translatedText']."n";
-		echo $obj['data']['translations'][0]['translatedText']; 
-       /*  if(isset($obj['data']['translations'][0]['detectedSourceLanguage'])) //this is set if only source is not available.
-            echo "Detecte Source Languge : ".$obj['data']['translations'][0]['detectedSourceLanguage']."n";    */  
+		 $obj=$obj['data']['translations'][0]['translatedText'];
+	$response['status']= $status;
+	
+	$response['message'] = $obj;
+	$response['english'] = $english;
+	$response['ibibo'] = $ibibo;
+	$response['ibibomp3'] = $ibibomp3;
+	echo json_encode($response);
+	die;		 
+     
     } 
 }
 else{
@@ -109,7 +125,3 @@ function translate($api_key,$text,$target,$source=false)
 }   
  
 ?>
-<!--//$ibibomp3.='<a href="javascript:pauseAudio("'.$row2['audio_1'].'")"> <i class="fa fa-volume-off " title="Mute" aria-hidden="true"></i> </a>
-										 
-										// <i class="fa fa-volume-down" title="Valume down" aria-hidden="true"></i>
-										// <i class="fa fa-volume-up" title="Valume Up"  aria-hidden="true"></i>-->

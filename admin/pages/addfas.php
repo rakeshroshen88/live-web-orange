@@ -8,10 +8,9 @@ $errMsg='';
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
 
- $prod_detail=$_REQUEST['prod_desc'];
 
 $updatearr=array(	
-					 "title"=>htmlentities($_REQUEST['prodname']),	
+					 "title"=>$_REQUEST['catname'],	
 					 "status"=>$_REQUEST['pstatus'],
 					 "date"=>date('Y-m-d')
 					 );
@@ -43,115 +42,105 @@ $updatearr=array(
 			//}
 	}
 $db1=new DB();
-if(!empty($prodid))
+
+?>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li class="active">Add/Edit Facility</li> <span style="color:red; font-size:14px;"<?=$errMsg?></span>
+				<?php 
+				if(!empty($prodid))
 	{
-		$sql="SELECT * FROM $_TBL_FACI WHERE id=$prodid";
+		 $sql="SELECT * FROM $_TBL_FACI WHERE id='$prodid'";
 		$db->query($sql)or die($db->error());
 		$row=$db->fetchArray();	
-		$e=$row['sdate'];
-		 $e3=explode('-',$e);
-		  $edate=$e3[1].'/'.$e3[2].'/'.$e3[0];
-	}
-?>
-
-
-<table width="100%">
-  <tr>
-    <td class="container-bg"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-        <td class="body-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-           <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td height="300" valign="top" class="right"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td bgcolor="#E6E6E6" class="tdpad"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td bgcolor="#FFFFFF" class="titlebar-bg">facility</td>
-                      </tr>
-                      <tr>
-                        <td bgcolor="#FFFFFF">&nbsp;</td>
-                      </tr>
-					   <tr>
-                        <td bgcolor="#FFFFFF" align="center" style="color:#FF0000;"><?=$errMsg?></td>
-                      </tr>
-                      <script language="javascript">
- function validateround()
-	{
-		
-		var a=document.getElementById('gallery').value;
-		
-		if(a=='flight' || a=='train' || a=='bus' || a=='package')
-		{
-			document.getElementById('round1').style.display = "none"
-			//document.getElementById('round1').style.display = "block"
-		}else if(a=='hotal'){
-			
-			document.getElementById('round1').style.display = '';
-			
-			}
 		
 	}
-	</script>
-                      
-                      <tr>
-                        <td bgcolor="#FFFFFF" class="tdpad-content">
-						<form name="frmprod" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data">
-						<input type="hidden" name="image1" value="<?=$row['prod_small_image']?>" />
-						<input type="hidden" name="image2" value="<?=$row['prod_medium_image']?>" />
-						<input type="hidden" name="image3" value="<?=$row['imageid']?>" />
-                      
-						<input type="hidden" name="prodid" value="<?=$row['id']?>" />
+				
+				?>
+			</ol>
+		</div><!--/.row-->
+	
+        
+        
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> Add/Edit Form</div>
+					<div class="panel-body">
+					<?php //print_r($updatearr);	?>
+                        <form name="frmprod" class="form-horizontal" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data">
+						
+						<input type="hidden" name="id" value="<?=$_REQUEST['id']?>" />
 						<input type="hidden" name="act" value="<?=$act?>" />
-						<input type="hidden" name="extraoption1" id="extraoption1" value="" />
-						<input type="hidden" name="extraoption2" id="extraoption2" value="" />
-						<table width="100%" border="0" cellspacing="0" cellpadding="0">
-                          <tr>
-                            <td colspan="2" bgcolor="#e4e4e4" class="category_text">Enter Details </td>
-                          </tr>
-                          <tr>
-                            <td colspan="2">&nbsp;</td>
-                          </tr>
+					
+							<fieldset>
+								<!-- Name input-->
+                               
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Title</label>
+                                        <div class="col-md-9">
+                                        <input id="catname" name="catname" type="text" placeholder=" Title" class="form-control" value="<?=$row['title']?>">
+                                        </div>
+                                    </div>
+							
+                      
+                                    
+                                   
+                                  
+        							
+                                   
+                                    
+                                    
+                                    
+        							
+                                    
+                                    	
+                                            	<div class="form-group">
+                									<label class="col-md-3 control-label"> Status</label>
+                									<div class="col-md-9">
+                                                       
+                    								
+                    									<div class="radio">
+                    										<label>
+                    												<input name="catstatus" type="radio" value="1" <?php if($row['status']=="1"){echo " checked";}?>/>Active
 						
-                          <tr>
-                            <td width="30%" align="right" class="textfield_text">Title :</td>
-                            <td width="70%">
-                              <input name="prodname" type="text" class="textfield" value="<?=$row['title']?>"/>                            </td>
-                          </tr>
-						 		
-                       
-                          
-                          <tr>
-                            <td>&nbsp;</td>
-							<td align="left">
-							<input name="pstatus" type="radio" value="1"<?php if($row['status']=="1"){echo " checked";}?>/>Active
-							<input name="pstatus" type="radio" value="0"<?php if($row['status']=="0"){echo " checked";}?>/>Deactive
-							</td>
-                          </tr>
-						  
-						
-                          <tr>
-                            <td>&nbsp;</td>
-                            <td><input name="Submit" type="submit" class="button" value="Save" /></td>
-                          </tr>
-                          <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                          </tr>
-                     
-                        </table>
+                    										</label>
+                    									</div>
+                    									<div class="radio">
+                    										<label>
+                    											<input name="catstatus" type="radio" value="0" <?php if($row['status']=="0"){echo " checked";}?>/>Deactive
+                    										</label>
+                    									</div>
+                									</div>
+                								</div>
+                                                
+                                    
+                                
+                                
+								<!-- Message body -->
+								 
+								<!-- Form actions -->
+								<div class="form-group">
+									<div class="col-md-12 widget-right">
+									<input name="Submit" type="submit" class="btn btn-default btn-md pull-right" value="Save"  />
+									</div>
+								</div>
+							</fieldset>
 						</form>
-						
-						</td>
-                      </tr>
-                    </table></td>
-                  </tr>
-                </table></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
+					</div>
+                    
+                    
+                    
+                    
+                    <!--/.row-->	
+				</div>
+				
+				 
+				
+			</div><!--/.col-->
+			 
+		</div><!--/.row-->
+	</div>

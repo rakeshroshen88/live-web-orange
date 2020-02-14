@@ -6,6 +6,7 @@ $errMsg='';
 $db2=new DB();
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
+	
 		
 	$up=new UPLOAD();
 $uploaddir1="../holi/thumb/";
@@ -101,7 +102,7 @@ if($act=="edit")
 	
 	}
 $updatearr=array(	
-					 "title"=>htmlentities($_REQUEST['prodname']),	
+					 "title"=>$_REQUEST['prodname'],	
 					 "detail"=>$prod_detail,
 					 "price"=>$_REQUEST['price'],					
 					 "place"=>$_REQUEST['place'],					
@@ -214,17 +215,15 @@ if(!empty($prodid))
                                     </div>
 									
 									 <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name"> Select City</label>
-                                        <div class="col-md-9">
-                                        <div  id="txtHint" class="form-control"></div>
-                                    </div>
+                                       
+                                        <div  id="txtHint"></div>
+                                   
 									</div>
 									
 									 <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name"> Hotel List</label>
-                                        <div class="col-md-9">
-                                       <div  id="txtHinthotel" class="form-control"></div>
-                                    </div>
+                                        
+                                       <div  id="txtHinthotel"></div>
+                                   
 									</div>
 	<script>
 

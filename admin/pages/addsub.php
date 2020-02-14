@@ -11,12 +11,12 @@ if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
  $prod_detail=$_REQUEST['prod_desc'];
 
 $updatearr=array(	
-					 "title"=>htmlentities($_REQUEST['prodname']),	
+					 "title"=>$_REQUEST['prodname'],	
 					 "status"=>$_REQUEST['pstatus'],
 					 "date"=>date('Y-m-d')
 					 );
 		
-				//print_r($updatearr);die;
+				//print_r($updatearr);
 			if($act=="edit")
 				{
 					$whereClause=" id=".$_REQUEST['prodid'];
@@ -124,7 +124,7 @@ if(!empty($prodid))
                           <tr>
                             <td>&nbsp;</td>
 							<td align="left">
-							<input name="pstatus" type="radio" value="1"<?php if($row['status']=="1"){echo " checked";}?>/>Active
+							<input name="pstatus" type="radio" value="1" <?php if($row['status']=="1"){echo " checked";}?>/>Active
 							<input name="pstatus" type="radio" value="0"<?php if($row['status']=="0"){echo " checked";}?>/>Deactive
 							</td>
                           </tr>

@@ -9053,6 +9053,8 @@ ul.b49ee_2pjyI._58c31_2R34y._22339_3gQb9 {
             background: #ccc;
             padding: 12px;
             color: #fff;
+            height: 53px;
+                overflow: hidden;
         }
         .lisging-c-aro-home .catename a{color: #fff;}
         
@@ -9060,12 +9062,12 @@ ul.b49ee_2pjyI._58c31_2R34y._22339_3gQb9 {
             background: #ff5e00;
             float: left;
             width: 100%;
-            padding: 30px;
+            padding: 30px 0;
             margin: 20px 0;
         }
         
         .lisging-c-aro-home li {
-            width: 16%;
+            width: 13.7%;
             float: left;
             border-radius: 12px !important;
             margin-bottom: 12px;
@@ -10341,10 +10343,11 @@ span.prodcutstart {
         span.pricelistin3 {
             font-size: 10px;
             color: #6b6a6a;
+                display: block;
         }
         
         .lisging-c-aro-home .catetgor-tios span.minprice {
-            margin: 12px 0 0 0;
+            margin: 0px 0 0 0;
             display: inline-block;
         }
         
@@ -10387,7 +10390,7 @@ span.prodcutstart {
         }
         
         .lisging-c-aro-home li {
-            width: 16%;
+             width: 13.7%;
             float: left;
             border-radius: 12px !important;
             margin-bottom: 12px;
@@ -10458,6 +10461,34 @@ span.prodcutstart {
         
         .lisging-c-aro-home li:nth-child(10) .catename {
             background: #C1C704;
+        }
+
+        .lisging-c-aro-home li:nth-child(11) .catename {
+            background: #24ca85;
+        }
+
+        .lisging-c-aro-home li:nth-child(12) .catename {
+            background: #8a0b7b;
+        }
+
+        .lisging-c-aro-home li:nth-child(13) .catename {
+            background: #8a0b0b;
+        }
+
+        .lisging-c-aro-home li:nth-child(14) .catename {
+            background: #8a7a0b;
+        }
+
+        .lisging-c-aro-home li:nth-child(15) .catename {
+            background: #080fed;
+        }
+
+        .lisging-c-aro-home li:nth-child(16) .catename {
+            background: #ed08d1;
+        }
+
+        .lisging-c-aro-home li:nth-child(17) .catename {
+            background: #ed0808;
         }
         
         .prodcutcarosalnav {}
@@ -12714,6 +12745,7 @@ button.hearticon_whilish_btn {
 .product_details-tabs a.nav-link {
     font-weight: 600;
     color: #4a4a4a;
+        padding-bottom: 1em;
 }
 .product_details-tabs{}
 .product_details-tabs .card{    border-radius: 0; border: none;}
@@ -12766,11 +12798,16 @@ button.hearticon_whilish_btn {
 .side-more-product ul li {
     width: 100%;
     float: left;
+        margin-bottom: 10px;
+
 }
 
 .side-bar-img {
     width: 100px;
     float: left;
+        max-height: 100px;
+    overflow: hidden;
+
 }
 
 .product-details-side-bar {
@@ -12900,3 +12937,152 @@ div#field1 input {
 }
 
 .prod-1 a{display: flex;}
+.produc-size{}
+.produc-size label input{}
+.produc-size{}
+.produc-size label {    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: text-top;
+    background: #06cbd4;
+    border: 3px solid #fff;
+    border-radius: 3px;
+    position: relative;
+    margin-right: 7px;
+}
+.produc-size input{display: none;}
+
+.produc-size input:checked + label:before { 
+    content: "\f00c";
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 18px;
+    position: absolute;
+    top: -3px;
+}
+.produc-size input:checked + label{
+	background: #ff5e00;
+}
+
+.sizedib{}
+.sizedib{}
+.sizedib {
+    display: inline-block;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+.mb-10{margin-bottom: 10px}
+.buybtn-newdesign button:disabled {
+    background: #ccc;
+    border-color: #ccc;
+} 
+.posts-section.prodcutlisting .bbe45_3oExY._22339_3gQb9.wdith20a.wdith20 { 
+    width: 19% !important;
+}
+.width100{width: 100%;}
+.noprod{}
+.noprod{}
+.noprod{}
+.noprod { 
+    text-align: center;
+    padding: 28px;
+    height: 100px;
+    color: #ccc;
+}
+ 
+.width78{flex: 0 0 78%;
+    max-width: 78%;}
+.newtranstionsl{    background: #fff;
+    border: none; 
+    padding: 10px 20px;}
+.newtranstionsl{    background: #fff;
+    border: none;
+    padding: 10px 20px;}
+.newtranstionsl .user-tab-sec{    border-bottom: 1px solid #ff5e00;}
+.newtranstionsl .imgtranTop{ max-width: 137px;
+    float: left; }
+.newtranstionsl .imgtranTophead{    float: left;    width: 80%;    padding: 14px 25px;}
+.newtranstionsl .imgtranTophead p{    font-size: 30px;
+    font-weight: bold;
+    color: #ff5e00;}
+.newtranstionsl .imgtranTophead h3{    color: #ccc;}
+.lan_1, .lan_2{    border: none;
+    color: #000;
+    font-weight: bold;
+    height: 35px;
+    line-height: 45px;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url(../img/dropdownicon.png);
+    background-image: url(../img/dropdownicon.png);
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: 140px 20px;
+        padding: 0 10px;
+ 
+	}
+.lan_1::-ms-expand, , .lan_2::-ms-expand{
+	 display: none;
+}
+
+
+.textarea-transtion textarea {
+    outline: none;
+    width: 84%;
+    padding: 10px;
+    height: 140px;
+}
+
+.translate_control-a {
+    border-top: 1px solid #ccc;
+    text-align: left;
+     
+}
+
+.tranboxtranslator {
+    border: 1px solid #ff5e00;
+    padding: 10px;
+    border-radius: 13px;
+    height: 195px;
+}
+
+.tranboxtranslator textarea {
+    width: 100%;
+    border: none;
+}
+
+.translate_control-a {
+    border-top: 1px solid #ccc;
+    text-align: left;
+        padding: 10px 0 0;
+}
+.translate_control-a button{
+	background: none;
+    border: none;
+    float: left;
+    margin-right: 20px;
+}
+
+
+body .transOptionlist h3{    border-bottom: 1px solid #ccc;
+    padding: 7px 0;
+    color: #ccc;
+    font-weight: normal;
+    font-size: 15px;
+    margin-bottom: 7px !important;}
+.transOptionlist{    margin: 20px 0;}
+.transOptionlist{}
+.transOptionlist{}
+.transOptionlist{}
+.transOptionlist{}
+.tras_sub_title h3{    margin-top: 36px;  font-size: 22px;}
+.newtranstionsl .portfolio-gallery-sec{border: none;}
+body .transOptionlist li {
+    margin: 11px 0;
+}
+body .transOptionlist #ibibomp3 li a{    display: inline-block; padding-right: 12px; }
+
+body .transOptionlist #ibibomp3 li a:first-child{ color: #ff5e00;}
+body .transOptionlist #ibibomp3 li a:last-child{  color: #ff5e00;} 

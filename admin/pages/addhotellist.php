@@ -64,29 +64,18 @@ if(!empty($prodid))
 	}
 ?>
 
+<script>
+function deladmin(id)
+{ 
+	if(confirm("Are you sure to delete?"))
+	{
+		location.href="<?=$_PAGE.'?'.$qryStr?>&act=del&id1="+id;
+	}
+}
+</script>
 
-<table width="100%">
-  <tr>
-    <td class="container-bg"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-        <td class="body-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-           <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td height="300" valign="top" class="right"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td bgcolor="#E6E6E6" class="tdpad"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td bgcolor="#FFFFFF" class="titlebar-bg">hotellist</td>
-                      </tr>
-                      <tr>
-                        <td bgcolor="#FFFFFF">&nbsp;</td>
-                      </tr>
-					   <tr>
-                        <td bgcolor="#FFFFFF" align="center" style="color:#FF0000;"><?=$errMsg?></td>
-                      </tr>
-                     
-                    <script>
+
+ <script>
 
 function showUser(str)
 {
@@ -125,9 +114,41 @@ xmlhttp.send();
 }
 }
 </script>  
-                      <tr>
-                        <td bgcolor="#FFFFFF" class="tdpad-content">
-						<form name="frmprod" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data">
+  
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
+
+		<div class="row">
+
+			<ol class="breadcrumb">
+
+				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+
+				<li class="active">Add/Edit Hotel</li> <span style="color:red; font-size:14px;"<?=$errMsg?></span>
+
+			</ol>
+
+		</div><!--/.row-->
+
+	
+
+        
+
+        
+
+		
+
+		<div class="row">
+
+			<div class="col-md-12">
+
+				<div class="panel panel-default">
+
+					<div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> Add/Edit Form</div>
+
+					<div class="panel-body">
+
+                    <form name="frmprod" method="post" action="" onsubmit="return formValidator(this);" enctype="multipart/form-data">
 						<input type="hidden" name="image1" value="<?=$row['prod_small_image']?>" />
 						<input type="hidden" name="image2" value="<?=$row['prod_medium_image']?>" />
 						<input type="hidden" name="image3" value="<?=$row['imageid']?>" />
@@ -145,9 +166,9 @@ xmlhttp.send();
                             <td colspan="2">&nbsp;</td>
                           </tr>
 						  <tr>
-                            <td width="39%" align="right" class="textfield_text">Select state:</td>
+                            <td width="39%" align="right" class="form-control">Select state:</td>
                             <td width="61%">
-							<select id="statetitle" name="statetitle" style="width: 40%;" onchange="return showUser(this.value);">
+							<select id="statetitle" name="statetitle" class="form-control" onchange="return showUser(this.value);">
                         <option value='0'>Select state</option>
 		<?php $db1=new DB();
 		$sql1="SELECT * FROM $_TBL_STATE WHERE status='1'";
@@ -160,33 +181,53 @@ xmlhttp.send();
                     </select>
                                                        </td>
                           </tr>
-						   <tr>
-                            <td width="39%" align="right" class="textfield_text"></td>
+						   <!--<tr>
+                            <td width="39%" align="right" class="form-control">Select city:</td>
                         <td width="70%">
+						<?php $db11=new DB();
+		$idnew=$row['stateid'];
+		 $sql1="SELECT * FROM cities WHERE stateid='$idnew'";
+		$db11->query($sql1)or die($db11->error());
+		
+		?>
+		
+		 <select  name="cityname" class="form-control" onchange="return showhotel(this.value);">
+                        <option>Select city</option><?php
+		while($row1=$db11->fetchArray()){
+		  if($idnew==$row1['stateid']){ $sl='selected';}
+		?>
+		
+                        <option value="<?=$row1['id']?>" <?=$sl?>><?=$row1['cityname']?></option>
+                  <?php }?>
+				   </select>
                               <div  id="txtHint"></div>
                
                  </td>
-                          </tr>
+                          </tr>-->
+						   <tr>
+						    <td> </td> <td>
+						   <div  id="txtHint"></div> </td>
+						    </tr>
                           <tr>
-                            <td width="30%" align="right" class="textfield_text">Hotel Name :</td>
+                            <td width="30%" align="right" class="form-control">Hotel Name :</td>
                             <td width="70%">
-                              <input name="prodname" type="text" class="textfield" value="<?=$row['title']?>"/>                            </td>
+                              <input name="prodname" type="text" class="form-control" value="<?=$row['title']?>"/>                            </td>
                           </tr>
 						 		
                         <tr>
-                            <td width="30%" align="right" class="textfield_text">contact person :</td>
+                            <td width="30%" align="right" class="form-control">contact person :</td>
                             <td width="70%">
-                              <input name="conperson" type="text" class="textfield" value="<?=$row['conperson']?>"/>                            </td>
+                              <input name="conperson" type="text" class="form-control" value="<?=$row['conperson']?>"/>                            </td>
                           </tr>
                            <tr>
-                            <td width="30%" align="right" class="textfield_text">Contact No :</td>
+                            <td width="30%" align="right" class="form-control">Contact No :</td>
                             <td width="70%">
-                              <input name="phone" type="text" class="textfield" value="<?=$row['phone']?>"/>                            </td>
+                              <input name="phone" type="text" class="form-control" value="<?=$row['phone']?>"/>                            </td>
                           </tr>
 						  <tr>
-                            <td width="30%" align="right" class="textfield_text">Hotel Rate:</td>
+                            <td width="30%" align="right" class="form-control">Hotel Rate:</td>
                             <td width="70%">
-                             <textarea name="rate" cols="50" rows="5" class="textfield" ><?=$row['rate']?></textarea>
+                             <textarea name="rate" cols="50" rows="5" class="form-control" ><?=$row['rate']?></textarea>
                              <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
@@ -229,16 +270,26 @@ tinymce.init({
                         </table>
 						</form>
 						
-						</td>
-                      </tr>
-                    </table></td>
-                  </tr>
-                </table></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
+
+                    
+
+                    <!--/.row-->	
+
+				</div>
+
+				
+
+				 
+
+				
+
+			</div><!--/.col-->
+
+			 
+
+		</div><!--/.row-->
+
+	</div>
+	
+	
+	

@@ -9,6 +9,7 @@ $country=$_POST['country'];
 					$updatear=array(	
 					"user_id"=>$_SESSION['sess_webid'],	
 					"page_name"=>$companyname,					
+					"page_cot_id"=>$category,
 					"country"=>$country,
 					"page_status"=>0,	
 					"created_date"=>date("Y-m-d H:i:s")
