@@ -7,8 +7,8 @@
 				</div><!--company-title end-->
 				<div class="companies-list">
 					<div class="row">
-						<div class="col-lg-3 col-md-4 col-sm-6">
-<?php
+						
+<?php $db1=new DB();
 $sql="SELECT * from company_page order by com_id desc limit 0,50";
 $db->query($sql);
 if($db->numRows()>0)
@@ -17,7 +17,7 @@ while($row=$db->fetchArray()){
 $date=explode('-',$row['created_date']);
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);		
 	?>
-						
+						<div class="col-md-3">
 							<div class="company_profile_info">
 								<div class="company-up-info">
 								 <?php if($row['imgid']=='' and empty($row['imgid'])){ ?>
@@ -29,7 +29,7 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 									<h3><?=$row['page_name']?></h3>
 									<h4>Establish  <?php echo date('d M,Y',$st);?></h4>
 									<ul>
-									<?php $cnt=$db->getSingleResult("SELECT count(com_id) from com_like where user_id = '".$_SESSION['sess_webid']."' and do_like = '1' and com_id=".$row['com_id']);
+									<?php $cnt=$db1->getSingleResult("SELECT count(com_id) from com_like where user_id = '".$_SESSION['sess_webid']."' and do_like = '1' and com_id=".$row['com_id']);
 									if($cnt>0){
 									?>
 										<li><a href="javascript:void(0);" title="" id="f<?=$row['com_id']?>" com="<?=$row['com_id']?>" class="follow comfollow">Liked</a></li>
@@ -42,8 +42,9 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 								</div>
 								<a href="company-profile.php?comid=<?=$row['com_id']?>" title="" class="view-more-pro">View Profile</a>
 							</div><!--company_profile_info end-->
-<?php }} ?>
 						</div>
+<?php } } ?>
+					
 					</div>
 				</div><!--companies-list end-->
 				<div class="process-comm">

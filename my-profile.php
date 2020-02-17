@@ -117,22 +117,30 @@ width:25px; float:left; margin-right:6px
                                         </ul>
                                     </div>
                                     <!--user_pro_status end-->
-                                  <?php if(!empty($profilerow['website'])){?>
-                                    <ul class="social_links">
-                                        <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
-                                        
-                                    
-									<?php } ?>
-									
-									<?php  $dbs=new DB();
-									  $sqls="select * from social_link where user_id =".$_SESSION['sess_webid'];
-									  $db->query($sqls);
-									  while($rows=$db->fetchArray()){?>
-                                        <li><a href="<?=$rows['slink']?>" title="" target="_blank"><i class="la la-globe"></i><?=$rows['slink']?></a></li>
-									<?php }?>
-
-									</ul>
+                                  
 							   </div>
+							   
+							     <div class="suggestions full-width">
+                                    <div class="sd-title">
+                                        <h3>Explore </h3>
+                                        <i class="la la-ellipsis-v"></i>
+                                    </div>
+                                   
+									 <div class="suggestions-list">
+									   <ul class="social_links MyList">
+
+                                        <li ><a href="dashboard.php" title=""><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
+                                      
+                                        <li ><a href="company-list.php" title=""><i class="fa fa-building" aria-hidden="true"></i>View Pages</a></li>
+										<li><a href="company-page.php" title=""><i class="fa fa-building" aria-hidden="true"></i>create Pages</a></li>
+                                        <li ><a href="profile-account-setting.php" title="" class="animated fadeIn active" ><i class="fa fa-cogs" aria-hidden="true"></i>Setting</a></li>
+                                       
+                                       <!-- <li data-tab="info-dd"><a href="javascript:void(0);" title=""><i class="fa fa-user" aria-hidden="true"></i></i>About</a></li>-->
+
+                                    </ul>
+									  </div>
+                                </div>
+                               
 							   
 							   <div class="suggestions full-width">
 										<div class="sd-title">
@@ -184,19 +192,27 @@ width:25px; float:left; margin-right:6px
 										</div><!--suggestions-list end-->
 									</div><!--suggestions end-->
 									
-                                <!--user_profile end
-                                <div class="suggestions full-width">
-                                    <div class="sd-title">
-                                        <h3>Following </h3>
-                                        <i class="la la-ellipsis-v"></i>
-                                    </div>
-                                   
-                                </div>-->
-                                <!--suggestions end-->
+                              <div class="tags-sec full-width">
+										<ul>
+											<li><a href="#" title="">Help Center</a></li>
+											<li><a href="#" title="">About</a></li>
+											<li><a href="#" title="">Privacy Policy</a></li>
+											<li><a href="#" title="">Community Guidelines</a></li>
+											<li><a href="#" title="">Cookies Policy</a></li>
+											<li><a href="#" title="">Career</a></li>
+											<li><a href="#" title="">Language</a></li>
+											<li><a href="#" title="">Copyright Policy</a></li>
+										</ul>
+										<div class="cp-sec">
+											<img src="images/logo2.png" alt="">
+											<p><img src="images/cp.png" alt="">Copyright 2019</p>
+										</div>
+									</div>
+                          
                             </div>
                             <!--main-left-sidebar end-->
                         </div>
-                        <div class="col-lg-9">
+                        <div class="col-lg-6">
                             <div class="main-ws-sec profile-lisgn">
                                 <div class="user-tab-sec rewivew">
                                     <h3><?=$_SESSION['sess_name']?></h3>
@@ -497,6 +513,155 @@ width:25px; float:left; margin-right:6px
                                         </div>
                                     </div>
                                 </div>
+								
+	<?php //post section// ?>
+	<link href="lib/css/emoji.css" rel="stylesheet">
+									<!-- new post-st end-->
+									<style type="text/css">
+										.newpost1{}
+										.newpost1{}
+										.newpost1 .post-st textarea{ width: 100%;     border: none; }
+										.newpost1 .post-st{      width: 87%; }
+									</style>
+<form  method="post" id="uploadForm" enctype="multipart/form-data">
+									<div class="post-topbar newpost1">
+										<h3>Create Post</h3>
+										<div class="clreatsot">
+										<div class="user-picy">
+										<?php if(empty($userspath)){?>
+											<img src="images/resources/user.png" alt="" width="60" height="60">
+										<?php }else{ ?>
+										<img src="upload/<?=$userspath?>" alt="" width="50" height="50" style="border-radius: 50%;">
+										<?php }?>
+										</div>
+										
+										<div class="post-st">
+											 <textarea cols="5" rows="4" placeholder="Write Somethin..." name="postid" id="postid"></textarea>
+										</div>
+										</div>
+										<div class="post-img-list">
+											<div id="image_preview"></div>
+										</div>
+										
+										<div class="Feelingpst" id="Feelingpst" style="display:none;">
+											<ul>
+												<li class="select-fee-select">
+													<select name="selectfeel" id="selectfeel" class="selectfeel" >
+													<option value="">Select Feeling</option>
+													
+																														<?php $db1=new DB();
+
+								 $sql1="SELECT * FROM $_TBL_FEELINGC where status='yes'";
+
+								 $db1->query($sql1)or die($db1->error());
+
+								 while($row1=$db1->fetchArray()){
+
+								 $catid=$row1['id'];
+
+								?>
+
+								 <option value="<?=$catid?>"><?php echo $row1['catname'];?></option>
+
+								 <?php } ?>
+														
+														<!--<option value="Celebriting">Celebriting</option>
+														<option value="Watching">Watching</option>
+														<option value="Eating">Eating</option>
+														<option value="Drinking">Drinking</option>
+														<option value="Traveling">Traveling to</option>
+														<option value="Drinking">Attending</option>-->
+													</select>
+												</li>
+												<div  id="feelingtxtHint"></div>
+												<li class="feeling-input">
+												 
+												<p class="lead emoji-picker-container">
+											  <input type="text" class="form-control emg" placeholder="what are you feeling..." data-emojiable="true" name="feeling">
+											</p>		
+												</li>
+																			</ul>
+										</div>
+	<input type="hidden" name="tagfriends" id="tagfriends" value="" placeholder="Search Friends" />
+	
+	<div class="locationdiv"style="display:none">
+	<div class="loctg">
+		at
+	</div>
+	<div class="location-input">
+<input type="text" name="livelocationinput" id="livelocationinput" class="form-control livelocationinput" placeholder="where are you..?" value=""  />
+</div>
+</div>
+<div class="map_canvas1"></div>
+<div id="container" style="display:none">
+<div id="contentbox" contenteditable="true">
+</div>
+<div id='display'>
+</div>
+<div id="msgbox">
+</div>
+</div>
+										
+										<div class="postoptions">
+											<ul>
+												<li>
+														<label>
+															<img src="images/gallery.png">Photo/ Video	
+															<input type="file" id="upload_file" name="upload_file[]" onchange="preview_image();" multiple>
+														</label>
+														<input type="hidden" name="imgid" id="imgid" value=""/>
+													</li>
+
+													<li>
+														<a id="" class="tagshow">
+															<img src="images/users.png">Tag Friends	
+															 
+														</a>
+													</li>
+
+													<li>
+														<a  class="feeling">
+															<img src="images/emo.png">Feeling/Activity	
+															 
+														</a>
+													</li>
+
+													<li>
+														<a  class="livelocation">
+															 <img src="images/postloaction.png" alt="new location"> 
+															 
+														</a>
+													</li>
+
+													<li class="postbtnli">
+														<button type="button" id="uploadpost" value="Post-Status" class="active postbtn">Post Status</button>
+													</li>
+
+
+
+													<!--<li>
+														<a>
+															<img src="images/record.png">Live Video	
+															 
+														</a>
+													</li>-->
+
+											</ul>
+ 
+										</div>
+										 
+
+									</div> 
+</form>
+									<!--new post-st end-->
+
+
+
+<div class="posts-section" id="postshow">
+
+</div>
+	<?php //End post section// ?>
+	
  <div class="product-feed-tab current " id="feed-dd">
 
 									
@@ -720,30 +885,9 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 													
 													<p class="lead emoji-picker-container">
 													<input type="text" cid="<?=$row['post_id']?>"  placeholder="Post a comment" class="cp" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true" ></p>
-													<style>
-.wishlistcartemoji1{ width: 300px !important;    bottom: 0!important;    height: 200px!important;    top: inherit !important; }
-.wishlistcartemoji1 li{display:inline;width:50px;}
-.wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
-#close{float: right; margin:10px;}
-</style>
-<ul class="wishlistcartemoji1" style="display:none;"  >
-<div id="close"><a href="javascript:void(0)">X</a></div>
-<?php 
-  $sql1="SELECT * FROM emoji order by id desc";
-$db->query($sql1)or die($db->error());
-while($row1=$db->fetchArray()){
- $ext = pathinfo($row1['image'], PATHINFO_EXTENSION);	
-if($ext=='mp3'){
-	
-				$a.='';					 
- }else{	
-				$b.='<li>
-							  <a href="javascript:void(0);" pid="'.$row['post_id'].'" im="'.$row1['image'].'"  mp3="'.$row1['mp3'].'"  uid="'.$row['user_id'].'" class="emoji1"><img src="emoji/'.$row1['image'].'" height="50" width="50" />
-						</a>
-						</li>';
+													
 
- } } echo $b;echo "</ul>"; ?>
- <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
+ <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>" cid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
 		<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
 														</form>
 													</div>
@@ -771,12 +915,12 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 											<?php }?>
 													
 													
-
+<span class="user-name-in-coment"><?=$username?></span>
 													<?php if(!empty($rowc['mp3'])){ ?>
 													<img src="emoji/<?=$rowc['cimage']?>" height="50" width="50"/><?php }elseif(!empty($rowc['cimage'])){ ?>
 													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/>
 													<?php }?>
-													<span class="user-name-in-coment"><?=$username?></span>
+													
 													<span class="commword"><?=$rowc['comment']?> </span>
 													</span>
 												</div>
@@ -1554,6 +1698,45 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                             <!--product-feed-tab end-->
 
                         </div>
+						
+						
+						<?php //////////Right Section////////////?>
+						<div class="col-lg-3">
+						<div style="margin-top: 185px;">
+						
+						<div class="right-sidebar">
+									<div class="widget widget-about addwizards">
+										<div class="sd-title">
+											<h3>Adverts</h3>
+											 
+										</div>
+						<div class="sliderad1">
+								<?php 
+								 $sql1="SELECT * FROM slider_add where img_type='advertisement' limit 0,2";
+								 $db1->query($sql1)or die($db1->error());
+								 while($row1=$db1->fetchArray()){?>
+								   <div class="adds-box">
+											<a href="slider/<?=$row1['picture']?>" target="_blank">
+												<img src="slider/<?=$row1['picture']?>" alt="ads">
+											</a>
+									</div>
+								 <?php } ?>
+
+						</div>
+
+										<!--<div class="adds-box">
+											<img src="img/newads.jpg" alt="ads">
+										</div>-->
+
+
+										 
+									</div><!--widget-about end-->
+
+									</div>
+						</div>
+						</div>
+						<?php //////////////////////?>
+						
                         <!--main-ws-sec end-->
                     </div>
 
@@ -1838,5 +2021,29 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
         <!--overview-edit end-->
     </div>
     <!--overview-box end-->
+<style>
+.wishlistcartemoji1{ width: 300px !important;  height: 200px!important;  position: absolute;    }
+.wishlistcartemoji1 li{display:inline;width:50px;}
+.wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
+#close1{float: right; margin:10px;}
+</style>
+ <ul class="wishlistcartemoji1" id="wishlistcartemoji1" style="display:none;"  >
+<div id="close"><a href="javascript:void(0)">X</a></div>
+<?php 
+  $sql1="SELECT * FROM emoji order by id desc";
+$db->query($sql1)or die($db->error());
+while($row1=$db->fetchArray()){
+ $ext = pathinfo($row1['image'], PATHINFO_EXTENSION);	
+if($ext=='mp3'){
+	
+				$a.='';					 
+ }else{	
+				$b.='<li>
+							  <a href="javascript:void(0);"  im="'.$row1['image'].'"  mp3="'.$row1['mp3'].'"  uid="'.$_SESSION['sess_webid'].'" class="emoji1 emojinew" ><img src="emoji/'.$row1['image'].'" height="50" width="50" />
+						</a>
+						</li>';
+
+ } } echo $b; ?>
+ </ul>
 
     <?php include('footer.php') ?>

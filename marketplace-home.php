@@ -131,8 +131,11 @@ if($dbt->numRows()>0)
 			?>
 							<li>
 							  <a href="product-details.php?pid=<?=$goid?>"><img src="product/<?=$path1?>" height="50" width="50" />
-							  <span class="prodcutname"><?=$prod_name?></span><span class="text-muted wbtndel" title="Remove"  pid="<?=$rowt['prodid']?>">X</span>
-                              </a>
+							  <span class="prodcutname"><?=$prod_name?></span>
+							  </a>
+							  <a href="javascript:void(0);">
+							  <span class="text-muted wbtndel" title="Remove"  pid="<?=$rowt['prodid']?>">X</span>
+                               </a>
 							</li>
 	<?php }}else{ echo "Empty";} ?>
 							</ul>
@@ -290,7 +293,7 @@ if($dbt->numRows()>0)
 								 $sql1="SELECT * FROM slider_add where img_type='advertisement' limit 0,2";
 								 $db1->query($sql1)or die($db1->error());
 								 while($row1=$db1->fetchArray()){?>
-                        <a href="<?=$row1['picture']?>" target="_blank">
+                        <a href="slider/<?=$row1['picture']?>" target="_blank">
                             <img src="slider/<?=$row1['picture']?>" alt="ads">
                         </a>
 								 <?php } ?>
@@ -477,7 +480,7 @@ if($dbt->numRows()>0)
 <!-- Tab panes -->
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in show active" id="newarrvial">
-  		 <div class="row  productsslider">
+  		 <div class="productsslider">
                 <h4>New Arrivals</h4>
                 <div class="row">
                     <div class="col-md-12">
@@ -511,7 +514,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3"><!--wdith20a-->
+                                        <div class="col-md-3 wdith20a"><!--wdith20a-->
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -573,7 +576,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 ">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -642,7 +645,7 @@ if($dbt->numRows()>0)
 
   </div>
   <div role="tabpanel" class="tab-pane fade" id="Featured">
-  	<div class="row  productsslider">
+  	<div class=" productsslider">
                 <h4>Featured Product</h4>
                 <div class="row rowflow">
                     <div class="col-md-12">
@@ -675,7 +678,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 ">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -738,7 +741,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 ">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -810,7 +813,7 @@ if($dbt->numRows()>0)
                 <h4>Most Selling Product</h4>
                 <div class="row rowflow">
                     <div class="col-md-12">
-                        <div id="blogCarousel" class="carousel slide" data-ride="carousel">
+                        <div id="blogCarousel3" class="carousel slide" data-ride="carousel">
 
                             <ol class="carousel-indicators">
                                 <li data-target="#blogCarousel3" data-slide-to="0" class="active"></li>
@@ -825,7 +828,7 @@ if($dbt->numRows()>0)
                                     <div class="row">
 						<?php  
 						$cnt2=$dbc->getSingleResult("SELECT * from ".$_TBL_PRODUCT." where populer='yes'");
-						$sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes' limit 5,10";									
+						 $sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes' limit 0,5";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -839,7 +842,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 ">
+                                        <div class="col-md-3 wdith20a ">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -885,11 +888,13 @@ if($dbt->numRows()>0)
 								 
 								  <div class="carousel-item">
                                     <div class="row">
-						<?php   $sql="SELECT * from ".$_TBL_PRODUCT." where populer='yes'  limit 5,10";									
-						$db->query($sql);
-						if($db->numRows()>0)
+						<?php   
+                        $db12=new DB();
+                        $sql122="SELECT * from ".$_TBL_PRODUCT." where populer='yes'  LIMIT 5,10";									
+						$db12->query($sql122);
+						if($db12->numRows()>0)
 						{
-						while($row=$db->fetchArray()){
+						while($row=$db12->fetchArray()){
 						$path=$row['prod_large_image'];
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
@@ -899,7 +904,7 @@ if($dbt->numRows()>0)
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3 ">
+                                        <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -1020,87 +1025,36 @@ if($dbt->numRows()>0)
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
 				$goid=base64_encode($row['id']); 
-				$save=$row['prod_price']-$row['prod_sprice'];
+				$prod_price=str_replace(",","",$row['prod_price']);
+				$prod_sprice=str_replace(",","",$row['prod_sprice']);
+				$save=$prod_price-$prod_sprice;
 				$mrp=$row['prod_price'];					
-				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$persen=$prod_price-$prod_sprice;
 				$discount=($persen*100)/$mrp;		
 				$orgprice=$row['prod_sprice'];		
 				$finalprice=$row['prod_sprice'];	
 				$star=$row['star'];
 
 				?>
+				<?php
+
+ //echo $price=number_format( $proprice1,2);?>
                 <li class="dear1s">
                     <div class="dealimg">
                        <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                     </div>
                     <div class="productdeails1deals">
-                        <h5>NGN <?=number_format($orgprice,2);?> <span><?=$persen?>% Off</span> </h5>
+                        <h5>NGN <?=number_format($orgprice,2);?> <span><?=number_format($discount,2);?>% Off</span> </h5>
                         <div class="dearbar">
                             <div class="progress">
                                 <div class="progress-bar" style="width:70%"></div>
                             </div>
                         </div>
-                        <div class="nm-sold">135 Sold</div>
+                        <!--<div class="nm-sold">135 Sold</div>-->
                     </div>
                 </li>
 			<?php }} ?>	
-              <!--  <li class="dear1s">
-                    <div class="dealimg">
-                        <img src="https://cdn.shopify.com/s/files/1/0025/5082/5007/files/h5-banner3_570x.jpg?v=1539662924" alt="product 1">
-                    </div>
-                    <div class="productdeails1deals">
-                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
-                        <div class="dearbar">
-                            <div class="progress">
-                                <div class="progress-bar" style="width:70%"></div>
-                            </div>
-                        </div>
-                        <div class="nm-sold">135 Sold</div>
-                    </div>
-                </li>
-                <li class="dear1s">
-                    <div class="dealimg">
-                        <img src="img/prodcss111.jpg" alt="product 1">
-                    </div>
-                    <div class="productdeails1deals">
-                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
-                        <div class="dearbar">
-                            <div class="progress">
-                                <div class="progress-bar" style="width:70%"></div>
-                            </div>
-                        </div>
-                        <div class="nm-sold">135 Sold</div>
-                    </div>
-                </li>
-                <li class="dear1s">
-                    <div class="dealimg">
-                        <img src="img/prodcss33.jpg" alt="product 1">
-                    </div>
-                    <div class="productdeails1deals">
-                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
-                        <div class="dearbar">
-                            <div class="progress">
-                                <div class="progress-bar" style="width:10%"></div>
-                            </div>
-                        </div>
-                        <div class="nm-sold">135 Sold</div>
-                    </div>
-                </li>
-                <li class="dear1s">
-                    <div class="dealimg">
-                        <img src="img/3-262x343.jpg" alt="product 1">
-                    </div>
-                    <div class="productdeails1deals">
-                        <h5>NGN 6,5400 <span>36% Off</span> </h5>
-                        <div class="dearbar">
-                            <div class="progress">
-                                <div class="progress-bar" style="width:90%"></div>
-                            </div>
-                        </div>
-                        <div class="nm-sold">135 Sold</div>
-                    </div>
-                </li>
-           -->
+             
 		   </ul>
         </div>
     </div>
@@ -1315,8 +1269,11 @@ $numberDays = intval($numberDays);
             <div class="topdealsbar topselection shortprofileshot">
                 <h3> Woman's Fashion </h3>
                 <div class="topliest">
+
+                    
+
                     <ul>
-					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid='15' ORDER BY rand() limit 0,3";
+					<?php $sqltop="SELECT * from ".$_TBL_PRODUCT." where catid='15' and subccatid='7' ORDER BY rand() limit 0,3";
 			$db->query($sqltop);			
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
@@ -1337,7 +1294,14 @@ $numberDays = intval($numberDays);
                             </div>
                              
                         </li>
-			<?php }} ?>
+			<?php } }else{ ?>
+            <li>
+                <div class="noprod">
+                                    No Prodcuct Available
+                                </div>
+            </li>
+
+      <?php  } ?>
                        <!-- <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product9.jpg" alt="product 1">
@@ -1384,7 +1348,14 @@ $numberDays = intval($numberDays);
                             </div>
                              
                         </li>
-			<?php }} ?>
+			<?php } }else{ ?>
+            <li>
+                <div class="noprod">
+                                    No Prodcuct Available
+                                </div>
+            </li>
+
+      <?php  } ?>
 						<!--
                         <li class="dear1s">
                             <div class="dealimg">
@@ -1433,7 +1404,14 @@ $numberDays = intval($numberDays);
                              
                         </li>
 						
-			<?php }} ?>
+			<?php } }else{ ?>
+            <li>
+                <div class="noprod">
+                                    No Prodcuct Available
+                                </div>
+            </li>
+
+      <?php  } ?>
                      <!--   <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product13.jpg" alt="product 1">
@@ -1480,7 +1458,14 @@ $numberDays = intval($numberDays);
                             </div>
                              
                         </li>
-			<?php }} ?>
+			<?php } }else{ ?>
+            <li>
+                <div class="noprod">
+                                    No Prodcuct Available
+                                </div>
+            </li>
+
+      <?php  } ?>
                        <!-- <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product17.jpg" alt="product 1">
@@ -1528,7 +1513,14 @@ $numberDays = intval($numberDays);
                              
                         </li>
 						
-			<?php }} ?>
+			<?php } }else{ ?>
+            <li>
+                <div class="noprod">
+                                    No Prodcuct Available
+                                </div>
+            </li>
+
+      <?php  } ?>
                        <!-- <li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product160.jpg" alt="product 1">
@@ -1573,7 +1565,14 @@ $numberDays = intval($numberDays);
                             </div>
                              
                         </li>
-			<?php }} ?>
+			<?php } }else{ ?>
+            <li>
+                <div class="noprod">
+                                    No Prodcuct Available
+                                </div>
+            </li>
+
+      <?php  } ?>
                         <!--<li class="dear1s">
                             <div class="dealimg">
                                 <img src="img/social_product163.jpg" alt="product 1">
@@ -1647,7 +1646,7 @@ $numberDays = intval($numberDays);
 
 						?>
                                                 <!-- one product--->
-                                                <li class="bbe45_3oExY _22339_3gQb9">
+                                                <li class="bbe45_3oExY _22339_3gQb9 wdith20a wdith20">
                                                     <div>
                                                         <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
                                                             <div class="_7e903_3FsI6">
@@ -1773,7 +1772,7 @@ $numberDays = intval($numberDays);
 						<div class="carousel-item active">
                                     <div class="row">
 						<?php
-						 $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 0,4";									
+						 $sql="SELECT * from ".$_TBL_PRODUCT." where id IN($allpid) limit 0,6";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -1787,7 +1786,7 @@ $numberDays = intval($numberDays);
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
 							?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="bbe45_3oExY _22339_3gQb9">
                                                 <div>
                                                     <div class="a2cf5_2S5q5 cf5dc_3HhOq"><span class="_4472a_zYlL- _6c244_q2qap"><?=number_format($discount,2)?>% Off</span>
@@ -1809,14 +1808,14 @@ $numberDays = intval($numberDays);
                                                             </a>
                                                             <form action="" method="POST">
 
-                                                                <div class="_2aac2_3bwnD _549f7_zvZ8u _49c0c_3Cv2D _977c5_2vBMq">
+                                                                <div class="_2aac2_3bwnD _549f7_zvZ8u _49c0c_3Cv2D _977c5_2vBMq width100">
 																 <button class="_0a08a_3czMG addtocartnew1" type="button" pid="<?=$row['id']?>" tono="1">Add To Cart</button>
                                                                     
                                                                 </div>
-																<div class="_2aac2_3bwnD _549f7_zvZ8u _49c0c_3Cv2D _977c5_2vBMq">
+																<!--<div class="_2aac2_3bwnD _549f7_zvZ8u _49c0c_3Cv2D _977c5_2vBMq">
 																 <button class="_0a08a_3czMG addtowishlist" type="button" pid="<?=$row['id']?>" tono="1">Add To Wishlist</button>
                                                                     
-                                                                </div>
+                                                                </div>-->
                                                             </form>
                                                         </div>
                                                     </div>

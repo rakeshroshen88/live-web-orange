@@ -132,7 +132,7 @@ $(document).ready(function(){
 
 	fetch_user();
 
-
+/* 
  setInterval(function(){
 
 		update_last_activity();
@@ -148,7 +148,7 @@ $(document).ready(function(){
 
 		offline_chat();
 
-	}, 1000000);
+	}, 1000000); */
  
 	function log()
 	{

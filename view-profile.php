@@ -97,55 +97,53 @@ while($mrow=$db->fetchArray()){
 											<b><?=$mf?></b></li>
 										 </ul>
                                     </div>
-                                    <!--user_pro_status end-->
+                                    <!--user_pro_status end
 									<?php if(!empty($profilerow['website'])){?>
                                     <ul class="social_links">
                                         <li><a href="#" title=""><i class="la la-globe"></i> <?=$profilerow['website']?></a></li>
                                         
                                     </ul>
-									<?php } ?>
+									<?php } ?>-->
                                 </div>
                                 <!--user_profile end-->
                                 <div class="suggestions full-width">
                                     <div class="sd-title">
-                                        <h3>Following </h3>
+                                        <h3>Explore </h3>
                                         <i class="la la-ellipsis-v"></i>
                                     </div>
-                                    <!--sd-title end-->
-                                    <div class="suggestions-list">
-									  <?php 
-										$dbuf=new DB();
-										$sql="SELECT * from followers where user_id=".$uid;
-										$db->query($sql);
-										if($db->numRows()>0)
-										{
-										 while($frow=$db->fetchArray()){
-										$usernamef=$dbuf->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$frow['follow']);
+                                   
+									 <div class="suggestions-list">
+									   <ul class="social_links MyList">
 
-										$woorking=$dbuf->getSingleResult('select current_company from user_profile where user_id='.$frow['follow']);
-										$userfpath=$dbuf->getSingleResult('select image_id from user_profile where user_id='.$frow['follow']);
-										?>
-                                        <div class="suggestion-usd">
-                                            <?php if(!empty($userfpath)){?>
-                                          <img src="upload/<?=$userfpath?>" alt="" height="40" width="40">
-                                            <?php }else{ ?>
-                                            <img src="images/resources/user.png" alt=""  height="40" width="40">
-                                             <?php }?>
-                                            <div class="sgt-text">
-                                               <h4><?=$usernamef?></h4>
-                                                <span><?=$woorking?></span>
-                                            </div>
-                                            <!--<span><i class="la la-plus follownew" id="follownew<?=$frow['f_id']?>" fid="<?=$frow['follow']?>"></i></span>-->
-                                        </div>
-										<?php }}else{ echo "&nbsp; Data Not Availablle";} ?>
+                                        <li data-tab="feed-dd"><a href="dashboard.php" title=""><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
                                       
-									  <!--<div class="view-more">
-                                            <a href="#" title="">View More</a>
-                                        </div>-->
-                                    </div>
-                                    <!--suggestions-list end-->
+                                        <li data-tab="review"><a href="company-list.php" title=""><i class="fa fa-building" aria-hidden="true"></i>View Pages</a></li>
+										<li><a href="company-page.php" title=""><i class="fa fa-building" aria-hidden="true"></i>create Pages</a></li>
+                                        <li ><a href="profile-account-setting.php" title="" class="animated fadeIn active" ><i class="fa fa-cogs" aria-hidden="true"></i>Setting</a></li>
+                                       
+                                       <!-- <li data-tab="info-dd"><a href="javascript:void(0);" title=""><i class="fa fa-user" aria-hidden="true"></i></i>About</a></li>-->
+
+                                    </ul>
+									  </div>
                                 </div>
                                 <!--suggestions end-->
+								
+								<div class="tags-sec full-width">
+										<ul>
+											<li><a href="#" title="">Help Center</a></li>
+											<li><a href="#" title="">About</a></li>
+											<li><a href="#" title="">Privacy Policy</a></li>
+											<li><a href="#" title="">Community Guidelines</a></li>
+											<li><a href="#" title="">Cookies Policy</a></li>
+											<li><a href="#" title="">Career</a></li>
+											<li><a href="#" title="">Language</a></li>
+											<li><a href="#" title="">Copyright Policy</a></li>
+										</ul>
+										<div class="cp-sec">
+											<img src="images/logo2.png" alt="">
+											<p><img src="images/cp.png" alt="">Copyright 2019</p>
+										</div>
+									</div>
                             </div>
                             <!--main-left-sidebar end-->
                         </div>
@@ -626,6 +624,7 @@ $ccount=$db1->getSingleResult('select count(c_id) from comment where post_id='.$
 													
 													<p class="lead emoji-picker-container">
 													<input type="text"  placeholder="Post a comment" id="postcomment<?=$row['post_id']?>" name="postcomment<?=$row['post_id']?>" data-emojiable="true"></p>
+													 <a href="javascript:void(0);" name="send_chatemoji1"  class="send_chatemoji1" id="comment1<?=$row['post_id']?>" uid="<?=$row['post_id']?>" cid="<?=$row['post_id']?>"><i class="emoji-picker-icon emoji-picker fa fa-smile-o"></i> </a>
 													<button type="button" id="commentid<?=$row['post_id']?>" class="commentid" cid="<?=$row['post_id']?>">Send</button>
 														</form>
 													</div>
@@ -652,11 +651,13 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 											<img src="images/clock.png" alt="">
 											<?php }?>
 													
-													
-
-													<?php if(!empty($rowc['cimage'])){ ?>
-													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/><?php }?>
 													<span class="user-name-in-coment"><?=$username?></span>
+
+													<?php if(!empty($rowc['mp3'])){ ?>
+													<img src="emoji/<?=$rowc['cimage']?>" height="50" width="50"/><?php }elseif(!empty($rowc['cimage'])){ ?>
+													<img src="upload/<?=$rowc['cimage']?>" height="50" width="50"/>
+													<?php }?>
+													
 													<span class="commword"><?=$rowc['comment']?> </span>
 													</span>
 												</div>
@@ -1681,5 +1682,29 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
         <!--overview-edit end-->
     </div>
     <!--overview-box end-->
+<style>
+.wishlistcartemoji1{ width: 300px !important;  height: 200px!important;  position: absolute;    }
+.wishlistcartemoji1 li{display:inline;width:50px;}
+.wishlistcartemoji1 li a img{    width: 30px !important;  height: 30px !important;}
+#close1{float: right; margin:10px;}
+</style>
+ <ul class="wishlistcartemoji1" id="wishlistcartemoji1" style="display:none;"  >
+<div id="close"><a href="javascript:void(0)">X</a></div>
+<?php 
+  $sql1="SELECT * FROM emoji order by id desc";
+$db->query($sql1)or die($db->error());
+while($row1=$db->fetchArray()){
+ $ext = pathinfo($row1['image'], PATHINFO_EXTENSION);	
+if($ext=='mp3'){
+	
+				$a.='';					 
+ }else{	
+				$b.='<li>
+							  <a href="javascript:void(0);"  im="'.$row1['image'].'"  mp3="'.$row1['mp3'].'"  uid="'.$_SESSION['sess_webid'].'" class="emoji1 emojinew" ><img src="emoji/'.$row1['image'].'" height="50" width="50" />
+						</a>
+						</li>';
+
+ } } echo $b; ?>
+ </ul>
 
     <?php include('footer.php') ?>

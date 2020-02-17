@@ -1523,8 +1523,17 @@ jQuery(document).on("click", "#csocalsave", function(e){
 		
 $(".send_chatemoji1").click(function(){
 	var cid = jQuery(this).attr('cid');
-	$(".wishlistcartemoji1[cid='" + cid + "']").toggle();
- // $(".wishlistcartemoji1").toggle();
+	
+	//$(".wishlistcartemoji1[cid='" + cid + "']").toggle();
+  var x = event.clientX;
+  var y = event.clientY;
+  document.getElementById('wishlistcartemoji1').style.top = y + "px";
+  document.getElementById('wishlistcartemoji1').style.left = x + "px";
+  $('.emojinew').attr('pid', cid);
+  /* var coords = "X coords: " + x + ", Y coords: " + y;
+  alert(coords); */
+  
+  $(".wishlistcartemoji1").toggle();
 });
 
 $(".send_chatemoji").click(function(){
@@ -1532,3 +1541,164 @@ $(".send_chatemoji").click(function(){
  var cid = jQuery(this).attr('cid');
  $(".wishlistcartemoji[cid='" + cid + "']").toggle();
 });
+
+
+///////////updte user profile/////////////////
+jQuery(document).on("click", "#changepassword", function(e){  
+		
+		var oldpassword = jQuery('#oldpassword').val();
+		var newpassword = jQuery('#newpassword').val();
+		var renewpassword = jQuery('#renewpassword').val();
+		if(oldpassword ==''){
+			$("#oldpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);    
+			
+			$('#p_error').html('Please Enter Old Password'); 
+						 
+			return false;
+		}else{
+		$("#oldpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}
+		
+		if(newpassword ==''){
+			$('#p_error').html('Please Enter New Password'); 
+						 
+			return false;
+		}
+	
+		if(newpassword != renewpassword){
+			$("#renewpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);        
+			$('#p_error').html('Password Not Matched'); 
+						 
+			return false;
+		}else{
+		$("#renewpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}
+		var social_AjaxURL1=social_AjaxURL+'ajax_changepassword.php';
+		var dataString ='oldpassword='+oldpassword + '&newpassword='+newpassword ;
+		
+			e.preventDefault();
+		
+					$.ajax({
+            	    url: social_AjaxURL1,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {
+						$('#p_error').html(data); 
+					   //alert(data);
+            		   //var spancontainer=$('span#record'+catids);
+            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+                       if(data != 0){
+						  swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						setTimeout(function(){
+							window.location.reload(true);
+						   }, 7000);
+						   //$('#overview').html(data);  
+						   //window.location.href= MEDIA_URL+'index.php';
+            			 //window.location.reload(true);
+            		    }
+            		    else {
+            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            			  //  alert("Error While this deleting a record");
+            				
+            		    }
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
+	
+	
+	
+	$("#oldpassword").focusout(function(){
+	var oldpassword = $("#oldpassword").val();
+	if(oldpassword ==''){
+			$("#oldpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);    
+			
+			$('#p_error').html('Please Enter Old Password'); 
+						 
+			return false;
+		}else{
+		$("#oldpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}
+	});
+	$("#newpassword").focusout(function(){
+		var newpassword = $("#newpassword").val();
+	if (newpassword=='') {
+        //alert(errors.join("\n"));
+		$("#newpassword").css("border-color", "#FF0000");
+        $('#changepassword').attr('disabled',true);
+        $("#p_error").text(errors.join("\n"));
+        return false;
+    }else{
+		$("#newpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		  $('#changepassword').attr('disabled',false);
+	}	
+	});
+	
+	$("#renewpassword").focusout(function(){
+	var renewpassword = $("#renewpassword").val();
+	if(renewpassword ==''){
+			$("#renewpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);        
+			$('#p_error').html('Password Not Matched'); 
+						 
+			return false;
+		}else{
+		$("#renewpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}	
+	});
+	$("#newpassword").focusout(function(){
+	var p = $("#newpassword" ).val();
+	//alert(p);
+    var errors = [];
+    if (p.length < 8) {
+        errors.push("Your password must be at least 8 characters");
+    }
+    if (p.search(/[a-z]/i) < 0) {
+        errors.push("Your password must contain at least one letter.");
+    }
+    if (p.search(/[0-9]/) < 0) {
+        errors.push("Your password must contain at least one digit.");
+    }
+    if (errors.length > 0) {
+        //alert(errors.join("\n"));
+		$("#newpassword").css("border-color", "#FF0000");
+        $('#changepassword').attr('disabled',true);
+        $("#p_error").text(errors.join("\n"));
+        return false;
+    }else{
+		$("#newpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		  $('#changepassword').attr('disabled',false);
+	}
+			 });
+		
+	
