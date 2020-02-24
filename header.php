@@ -71,7 +71,7 @@ ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	
 	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
-	<script>
+	<script> //header('Access-Control-Allow-Origin', "*");
 	   		var BASEURL='//orangestate.ng/';
 			var social_AjaxURL='//orangestate.ng/';
 			//var BASEURL='http://localhost/orange_state/';
@@ -174,14 +174,14 @@ $("#suggesstion-box").hide();
 							 
 
 							<li>
-								<a href=" " title="">
+								<a href="tour-destination.php" title="">
 									<span><img src="images/tourist.png" alt=""></span>
 									Tourism
 								</a>
 								<ul>
-									<li><a href="tour-destination-list.php" title="">Tourist sites</a></li>
-									<li><a href=" " title="">History</a></li>
-									<li><a href=" " title="">Events</a></li>
+									<!--<li><a href="tour-destination-list.php" title="">Tourist sites</a></li>
+									<li><a href=" " title="">History</a></li>-->
+									<li><a href="event-home.php" title="">Events</a></li>
 								</ul>
 							</li>
 
@@ -200,7 +200,7 @@ $("#suggesstion-box").hide();
 							</li>
 
 							<li>
-								<a href=" " title="">
+								<a href="i-can-cook.php" title="">
 									<span><img src="images/hopital.png" alt=""></span>
 									I Can
 								</a>

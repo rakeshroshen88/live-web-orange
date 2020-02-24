@@ -1,4 +1,5 @@
 <?php include('config.inc.php');
+header('Content-type: application/json');
 if(!empty($_POST['name1'])){
 $name=$_POST['name1'];
 $lastname=$_POST['lastname'];
@@ -175,13 +176,13 @@ $mail->IsHTML(true);
 $mail->Subject = "Thank you for registering with Us. You one time OTP: " . $uniqueid;
 $mail->Body = $message;
 //$mail->AltBody = "This is the body in plain text for non-HTML mail clients";
-
-if(!$mail->Send())
+$mail->Send();
+/* if(!$mail->Send())
 {
 echo "Message could not be sent. <p>";
 echo "Mailer Error: " . $mail->ErrorInfo;
 exit;
-}
+} */
 
 /////////////////////////
                                 /* 	 $to=$_REQUEST['email1'];

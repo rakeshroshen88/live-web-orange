@@ -255,7 +255,7 @@ if($db->numRows()>0)
 						<div class="row">
 							 <div class="col-md-12 text-center">
 							 		<div class="otp-box text-left">
-							 			<h3>Enter the code from the SMS message</h3>
+							 			<h3>Enter the code from the SMS/email message</h3>
 							 			<p>Let us know if this email belongs to you. Enter the code in the SMS sent to <strong><?=$email_id?></strong> </p>
 							 			<form name="forpass" action="" method="post">
 									       <input type="hidden" name="email1" value="<?=$email_id?>" />

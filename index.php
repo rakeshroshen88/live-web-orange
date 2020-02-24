@@ -40,7 +40,8 @@ include_once("includes/functions.php"); */
 	<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&sensor=false&libraries=places&ver=0.4b" async defer></script>
 	<script type='text/javascript' src='js/jquery.geocomplete.js?ver=0.4b'></script>
-	 <script>
+	 <script> var social_AjaxURL='//orangestate.ng/';
+	 var BASEURL ='//orangestate.ng/';
 /* jQuery(document).ready(function ($) {
 
 jQuery("#location1").attr("autocomplete","location16");
@@ -62,6 +63,7 @@ console.log(result);
 jQuery("#complete").trigger("geocode");
 }); */
       function onSignIn(googleUser) {
+		 // alert('12');
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
         console.log("ID: " + profile.getId()); // Don't send this directly to your server!
@@ -78,7 +80,7 @@ jQuery("#complete").trigger("geocode");
 		////////////////////////////////
 		if(email =!''){
 		var dataString = 'name1='+ profile.getName() + '&email1='+ profile.getEmail() + '&password1='+ profile.getId() + '&lastname='+ profile.getGivenName() ;
-		var social_AjaxURL='http://orangestate.ng/loginwithgoogle.php';
+		var social_AjaxURL='//orangestate.ng/loginwithgoogle.php';
 		jQuery.ajax({
             	    url: social_AjaxURL,
             	    async: true,
@@ -96,8 +98,8 @@ jQuery("#complete").trigger("geocode");
 
                        if(data1.status==true){
                            // $('#success').html('Added');
-                         window.location = "http://orangestate.ng/dashboard.php";
-                         window.location.href = "http://orangestate.ng/dashboard.php";
+                         window.location = "//orangestate.ng/dashboard.php";
+                         window.location.href = "//orangestate.ng/dashboard.php";
                          // window.location.href= MEDIA_URL+'veryfyotp.php';
             		    }else{
             		         jQuery('#success').html(data1.message);
@@ -122,12 +124,12 @@ jQuery("#complete").trigger("geocode");
     </script>
 
 <script>
-  function signOut() {
+ /*  function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
-  }
+  } */
 
 
 
@@ -420,7 +422,7 @@ jQuery("#complete").trigger("geocode");
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
-													<button id="submit" type="submit" value="submit">Get Started</button>
+													<button id="submit" type="button" value="submit">Get Started</button>
 												</div>
 											</div>
 										</form>
@@ -546,7 +548,7 @@ jQuery("#complete").trigger("geocode");
 
 </style>
 <script>
-  var a = Math.ceil(Math.random() * 9)+ '';
+/*   var a = Math.ceil(Math.random() * 9)+ '';
 var b = Math.ceil(Math.random() * 9)+ '';
 var c = Math.ceil(Math.random() * 9)+ '';
 var d = Math.ceil(Math.random() * 9)+ '';
@@ -555,7 +557,7 @@ var e = Math.ceil(Math.random() * 9)+ '';
 var code = a + b + c + d + e;
 //alert(code);
 document.getElementById("txtCaptcha").value = code;
-jQuery('#CaptchaDiv').html(code);
+jQuery('#CaptchaDiv').html(code); */
 //document.getElementById("CaptchaDiv").innerHTML = code;
 		
 
