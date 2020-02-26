@@ -234,7 +234,7 @@ echo $day = date('l', $timestamp);?></span>
                                 <div class="search-result-item-price col-sm-3">
                                     <span>Price From</span>
                                     <strong> ₦ <?=number_format($row2['price'],2);?></strong>
-                                    <a href="#">Request Now</a>
+                                    <a href="event-order-details.php?eid=<?=$row2['eid']?>">Request Now</a>
                                 </div>
                             </div>
                         </div>

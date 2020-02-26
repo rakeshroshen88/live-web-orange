@@ -146,7 +146,7 @@ include('chksession.php');
                         <div class="room-content">
                             <div class="room-title">
                                 <h4>Super Deluxe</h4>
-                                <p>$1200/Night</p>
+                                <p>₦1200/Night</p>
                                 <div class="deal-rating">
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star checked"></span>
@@ -163,8 +163,8 @@ include('chksession.php');
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum orci nulla, fermentum in faucibus a, interdum eu nibh.</p>
                             <div class="room-btns mar-top-20">
-                                <a href="#" class="btn btn-black mar-right-10">VIEW DETAILS</a>
-                                <a href="#" class="btn btn-orange">BOOK NOW</a>
+                                <a href="hotel-details.php" class="btn btn-black mar-right-10">VIEW DETAILS</a>
+                                <a href="hotel-booking.php" class="btn btn-orange">BOOK NOW</a>
                             </div>
                         </div>
                     </div>
@@ -177,7 +177,7 @@ include('chksession.php');
                         <div class="room-content">
                             <div class="room-title">
                                 <h4>Junior Suite</h4>
-                                <p>$1200/Night</p>
+                                <p>₦1200/Night</p>
                                 <div class="deal-rating">
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star checked"></span>
@@ -194,8 +194,8 @@ include('chksession.php');
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum orci nulla, fermentum in faucibus a, interdum eu nibh.</p>
                             <div class="room-btns mar-top-20">
-                                <a href="#" class="btn btn-black mar-right-10">VIEW DETAILS</a>
-                                <a href="#" class="btn btn-orange">BOOK NOW</a>
+                                <a href="hotel-details.php" class="btn btn-black mar-right-10">VIEW DETAILS</a>
+                                <a href="hotel-booking.php" class="btn btn-orange">BOOK NOW</a>
                             </div>
                         </div>
                     </div>
@@ -208,7 +208,7 @@ include('chksession.php');
                         <div class="room-content">
                             <div class="room-title">
                                 <h4>Executive Suite</h4>
-                                <p>$1200/Night</p>
+                                <p>₦1200/Night</p>
                                 <div class="deal-rating">
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star checked"></span>
@@ -225,8 +225,8 @@ include('chksession.php');
                             </div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum orci nulla, fermentum in faucibus a, interdum eu nibh.</p>
                             <div class="room-btns mar-top-20">
-                                <a href="#" class="btn btn-black mar-right-10">VIEW DETAILS</a>
-                                <a href="#" class="btn btn-orange">BOOK NOW</a>
+                                <a href="hotel-details.php" class="btn btn-black mar-right-10">VIEW DETAILS</a>
+                                <a href="hotel-booking.php" class="btn btn-orange">BOOK NOW</a>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,2 @@
+RewriteEngine OnRewriteCond %{SERVER_PORT} !=443RewriteCond %{HTTP_HOST} ^(www\.)?orangestate\.ng [NC]RewriteRule ^(.*)$ "https\:\/\/www\.orangestate\.ng\/$1" [R=301,L]
+

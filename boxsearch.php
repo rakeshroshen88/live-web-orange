@@ -17,7 +17,7 @@ while($row4=$db4->fetchArray()){
 }
 $allfriend=implode(',',$l);
 //user_id IN ($allfriend) and 
- $sql="select * from all_user where first_name like '%$q%'  order by user_id ";
+ $sql="select * from all_user where user_id IN ($allfriend) and  first_name like '%$q%'  order by user_id ";
 $db->query($sql);
 if($db->numRows()>0)
 {

@@ -62,9 +62,9 @@ include('chksession.php');
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                            <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>"> <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="" width="40" height="40">
+                                                                                <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>"> <img src="images/resources/user.png" alt="" width="40" height="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <a href="view-profile.php?uid=<?=base64_encode($frow['user_id'])?>"><h3><?=$frow['first_name']?></h3></a>
@@ -92,7 +92,7 @@ include('chksession.php');
 																		
 									<?php }else{ ?>
 														<div class="devepbtn appliedinfo noreply">
-                                                                            <a class="clrbtn follownew"  id="<?=$cityrow['user_id']?>" fid="<?=$cityrow['user_id']?>" href="javascript:void(0);"> follow</a>
+                                                                            <a class="clrbtn follownew"  id="follownew<?=$frow['user_id']?>" fid="<?=$frow['user_id']?>" href="javascript:void(0);"> follow</a>
                                                                         </div>
 									<?php } ?>	
                                                                         <!--<div class="devepbtn appliedinfo noreply">
@@ -132,9 +132,9 @@ include('chksession.php');
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($frow['imgid'])){?>
-                                                                            <img src="upload/<?=$frow['imgid']?>" alt="" height="50" width="50">
+                                                                            <a href="company-profile.php?comid=<?=$frow['com_id']?>"> <img src="upload/<?=$frow['imgid']?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/cmp-icon.png" alt="" width="40" height="40">
+                                                                                <a href="company-profile.php?comid=<?=$frow['com_id']?>"> <img src="images/resources/cmp-icon.png" alt="" width="40" height="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
  <a href="company-profile.php?comid=<?=$frow['com_id']?>"><h3><?=$frow['page_name']?></h3></a>                                                                                        
@@ -214,9 +214,9 @@ include('chksession.php');
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                           <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">  <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="" width="40" height="40">
+                                                                               <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">  <img src="images/resources/user.png" alt="" width="40" height="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <a href="view-profile.php?uid=<?=base64_encode($frow['user_id'])?>"><h3><?=$frow['first_name']?></h3></a>
@@ -244,7 +244,7 @@ include('chksession.php');
 																		
 									<?php }else{ ?>
 														<div class="devepbtn appliedinfo noreply">
-                                                                            <a class="clrbtn follownew"  id="<?=$cityrow['user_id']?>" fid="<?=$cityrow['user_id']?>" href="javascript:void(0);"> follow</a>
+                                                                            <a class="clrbtn follownew"  id="follownew<?=$frow['user_id']?>" fid="<?=$frow['user_id']?>" href="javascript:void(0);"> follow</a>
                                                                         </div>
 									<?php } ?>	
 
@@ -286,9 +286,9 @@ include('chksession.php');
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                            <a href="view-profile.php?uid=<?=base64_encode($frow1['user_id'])?>"> <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="" width="40" height="40">
+                                                                            <a href="view-profile.php?uid=<?=base64_encode($frow1['user_id'])?>">     <img src="images/resources/user.png" alt="" width="40" height="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
     <a href="view-profile.php?uid=<?=base64_encode($frow1['user_id'])?>"><h3><?=$usernamef?></h3></a>                                                                                    
@@ -345,9 +345,9 @@ include('chksession.php');
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($cityrow['image_id'])){?>
-                                                                            <img src="upload/<?=$cityrow['image_id']?>" alt="" height="50" width="50">
+                                                                            <a href="view-profile.php?uid=<?=base64_encode($cityrow['user_id'])?>"> <img src="upload/<?=$cityrow['image_id']?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="" width="40" height="40">
+                                                                                <a href="view-profile.php?uid=<?=base64_encode($cityrow['user_id'])?>"> <img src="images/resources/user.png" alt="" width="40" height="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         
@@ -415,9 +415,9 @@ include('chksession.php');
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($frow['imgid'])){?>
-                                                                            <img src="upload/<?=$frow['imgid']?>" alt="" height="50" width="50">
+                                                                          <a href="company-profile.php?comid=<?=$frow['com_id']?>">  <img src="upload/<?=$frow['imgid']?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/cmp-icon.png" alt="" width="40" height="40">
+                                                                              <a href="company-profile.php?comid=<?=$frow['com_id']?>">  <img src="images/resources/cmp-icon.png" alt="" width="40" height="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
  <a href="company-profile.php?comid=<?=$frow['com_id']?>"><h3><?=$frow['page_name']?></h3></a>                                                                                        

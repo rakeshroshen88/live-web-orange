@@ -80,9 +80,9 @@ include('chksession.php');
                     <div class="title-right pull-right">
                         
                         <div class="title-price pull-right">
-                            <h3>$1200<span>/Night</span></h3>
+                            <h3>₦1200<span>/Night</span></h3>
                         </div>
-                        <a href="" class="btn btn-orange pull-right">Book Now</a>
+                        <a href="hotel-booking.php" class="btn btn-orange pull-right">Book Now</a>
                     </div>
                 </div>
                 <div class="detail-overview">
@@ -110,13 +110,13 @@ include('chksession.php');
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>$1200</td>
-                                                <td>$1200</td>
-                                                <td>$1200</td>
-                                                <td>$1200</td>
-                                                <td>$1200</td>
-                                                <td>$1200</td>
-                                                <td>$1200</td>
+                                                <td>₦1200</td>
+                                                <td>₦1200</td>
+                                                <td>₦1200</td>
+                                                <td>₦1200</td>
+                                                <td>₦1200</td>
+                                                <td>₦1200</td>
+                                                <td>₦1200</td>
                                             </tr>
                                         </tbody>
                                     </table>

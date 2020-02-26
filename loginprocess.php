@@ -234,7 +234,7 @@ $err      = curl_error($curl);
 curl_close($curl);
  
                                 	 $to=$email;
-                                    $from = "c.k.roy90@gmail.com";
+                                    $from = "signup@orangestate.ng";
                                     $subject="Thank your for registering with Us. You one time OTP: " . $uniqueid;
 //$msg.=$_SITE_PATH('').'<br><br>';
 				                    $msg.='Email: '.$email.'<br><br>';

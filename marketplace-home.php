@@ -662,9 +662,9 @@ if($dbt->numRows()>0)
                                  <div class="carousel-item active">
                                     <div class="row">
 						<?php  
-						$cnt1=$dbc->getSingleResult("SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18'");
+						$cnt1=$dbc->getSingleResult("SELECT * from ".$_TBL_PRODUCT." where featured='yes'"); // and catid='18'
 						
-						$sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18' ORDER BY rand() limit 0,5";									
+						$sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes'  ORDER BY rand() limit 0,5";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -727,7 +727,7 @@ if($dbt->numRows()>0)
 								
 								  <div class="carousel-item">
                                     <div class="row">
-						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18' or catid='19' ORDER BY rand() limit 5,10";									
+						<?php  $sql="SELECT * from ".$_TBL_PRODUCT." where featured='yes' and catid='18' or catid='19' ORDER BY rand() limit 5,5";									
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
@@ -779,7 +779,7 @@ if($dbt->numRows()>0)
                                             </div>
                                         </div>
                                 
-						<?php }}else{ echo "<div class='blackscreen'>Product not Available !</div>";}  ?>								
+						<?php }}//else{ //echo "<div class='blackscreen'>Product not Available !</div>";}  ?>								
                                     </div>
                                     <!--.row-->
                                 </div>
@@ -890,7 +890,7 @@ if($dbt->numRows()>0)
                                     <div class="row">
 						<?php   
                         $db12=new DB();
-                        $sql122="SELECT * from ".$_TBL_PRODUCT." where populer='yes'  LIMIT 5,10";									
+                        $sql122="SELECT * from ".$_TBL_PRODUCT." where populer='yes'  LIMIT 5,5";									
 						$db12->query($sql122);
 						if($db12->numRows()>0)
 						{

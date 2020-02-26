@@ -74,7 +74,7 @@ $evtstr1.='</p></td>
 									$headers .= "From:$from\r\n";
 									@mail($to, $subject, $message, $headers);
 
-					echo"<script>alert('Your Password successfully Send On Your E-mail Id! ! ')</script>";	
+					echo"<script>alert('Your Password has been successfully Sent to Your E-mail! ')</script>";	
 }
 			}else{$errMsg= "Email address does not exit!";}}
 

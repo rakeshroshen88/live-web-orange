@@ -1,6 +1,10 @@
 <?php include('header.php');
 include('chksession.php');
-
+/* header ("Access-Control-Allow-Origin: *"); 
+  header('Content-Type: text/html') */;
+  header('Access-Control-Allow-Origin: orangestate.ng');
+/*     header('Access-Control-Allow-Methods: GET, OPTIONS');
+    header('Access-Control-Allow-Credentials: true');  */
 ?>
 <style>#container
 {    margin: 0;
@@ -81,9 +85,9 @@ width:25px; float:left; margin-right:6px
 						}
 						?>
 						<?php if($impid=='' and empty($impid)){ echo "$impid";?>
-							<img src="images/resources/user.png"  alt="" >
+							<a href="view-profile.php?uid=<?php echo base64_encode($_SESSION['sess_webid']);?>"><img src="images/resources/user.png"  alt="" ></a>
 						<?php }else{?>
-							<img src="upload/<?=$impid?>" alt="" >
+							<a href="view-profile.php?uid=<?php echo base64_encode($_SESSION['sess_webid']);?>"><img src="upload/<?=$impid?>" alt="" ></a>
 						<?php }?>
 
 													 
@@ -222,9 +226,9 @@ width:25px; float:left; margin-right:6px
 										<div class="clreatsot">
 										<div class="user-picy">
 										<?php if(empty($userspath)){?>
-											<img src="images/resources/user.png" alt="" width="60" height="60">
+											<a href="view-profile.php?uid=<?php echo base64_encode($_SESSION['sess_webid']);?>"><img src="images/resources/user.png" alt="" width="60" height="60"></a>
 										<?php }else{ ?>
-										<img src="upload/<?=$userspath?>" alt="" width="50" height="50" style="border-radius: 50%;">
+										<a href="view-profile.php?uid=<?php echo base64_encode($_SESSION['sess_webid']);?>"><img src="upload/<?=$userspath?>" alt="" width="50" height="50" style="border-radius: 50%;"></a>
 										<?php }?>
 										</div>
 										
@@ -400,9 +404,9 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 											<div class="post_topbar">
 												<div class="usy-dt">
 												<?php if(empty($userrow['image_id'])){?>
-													<img src="images/resources/user.png" alt="" height="40" width="40">
+													<a href="view-profile.php?uid=<?php echo base64_encode($userrow['user_id']);?>"><img src="images/resources/user.png" alt="" height="40" width="40"></a>
 												<?php }else{?>
-												<img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40">
+												<a href="view-profile.php?uid=<?php echo base64_encode($userrow['user_id']);?>"><img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40"></a>
 												<?php }?>
 													<div class="usy-name">
 														<h3><?=$userrow['first_name']?> 
@@ -606,9 +610,8 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 												<div class="comment">
 													<div class="commnt-bx">
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
-											<?php if(!empty($pimage)){ ?>																	
-											<img src="upload/<?=$pimage?>" alt="" height="40" width="40"><?php }else{ ?>
-											<img src="images/resources/user.png" alt="" height="40" width="40">
+											<?php if(!empty($pimage)){ ?>	<a href="view-profile.php?uid=<?php echo base64_encode($rowc['user_id']);?>"><img src="upload/<?=$pimage?>" alt="" height="40" width="40"></a><?php }else{ ?>
+											<a href="view-profile.php?uid=<?php echo base64_encode($rowc['user_id']);?>"><img src="images/resources/user.png" alt="" height="40" width="40"></a>
 											<?php }?>
 													
 													<span class="user-name-in-coment"><?=$username?></span>
@@ -666,16 +669,16 @@ $date=explode('-',$rowr['rdate']);
 
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 $username1=$db1->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$rowr['user_id']);
-$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowc['user_id']);		
+$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowr['user_id']);		
 	?>
 	
 																<div class="comment">
 																	<div class="commnt-bx">
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
 																	<?php if(!empty($rpimage)){ ?>
-																	<img src="upload/<?=$rpimage?>" alt=""> 
+																	<a href="view-profile.php?uid=<?php echo base64_encode($rowr['user_id']);?>"><img src="upload/<?=$rpimage?>" alt=""></a> 
 																	<?php }else{?>
-																	<img src="images/resources/user.png" alt="" height="40" width="40">
+																	<a href="view-profile.php?uid=<?php echo base64_encode($rowr['user_id']);?>"><img src="images/resources/user.png" alt="" height="40" width="40"></a>
 																	<?php }?>
 																	 
 																	<span class="user-name-in-coment"><?=$username1?> 1</span> 
@@ -731,9 +734,9 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 												
 												<div class="user-profy">
 												<?php if($mostrow['image_id']){?>
-													 <img src="upload/<?=$mostrow['image_id']?>" alt="" height="50" width="50">
+													<a href="view-profile.php?uid=<?php echo base64_encode($mostrow['user_id']);?>"> <img src="upload/<?=$mostrow['image_id']?>" alt="" height="50" width="50"></a>
                                                    <?php }else{ ?>
-                                                <img src="images/resources/user.png" alt="" width="40" height="40">
+                                                <a href="view-profile.php?uid=<?php echo base64_encode($mostrow['user_id']);?>"><img src="images/resources/user.png" alt="" width="40" height="40"></a>
 												
 												<?php } ?>
 													

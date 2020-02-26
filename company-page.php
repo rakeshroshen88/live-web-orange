@@ -133,11 +133,11 @@ $makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
 												<div class="col-lg-12 no-pdd">
 													<div class="checky-sec st2">
 														<div class="fgt-sec">
-															<input type="checkbox" name="cc" id="c3">
+															<input type="checkbox" name="cc" id="c3" style="border: 1px solid #ff6200;">
 															<label for="c3">
-																<span></span>
+																<span style="border: 1px solid #ff5e00;"></span>
 															</label>
-															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
+															<small style="color:#ff6200;">Yes, I understand and agree to the workwise Terms & Conditions.</small>
 														</div><!--fgt-sec end-->
 														<span id="error_c3" class="text-danger"></span>
 													</div>

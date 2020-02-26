@@ -338,12 +338,12 @@ jQuery("#complete").trigger("geocode");
 									
 									<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-													<input type="text" id="countrycode" name="countrycode" placeholder="Country Code " value="234" style="width: 38%;
+													<input type="text" id="countrycode" name="countrycode" placeholder="Country Code" value="234" style="width: 38%;
 ">
 
 														<input type="number" id="phone" name="phone" placeholder="Mobile No " style="width: 60%;
 ">
-														<i class="la la-phone"></i>
+														<i class="la la-phone">+</i>
 													</div>
 													<span id="error_phone" class="text-danger"></span>
 								</div>

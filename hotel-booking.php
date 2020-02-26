@@ -252,7 +252,7 @@ include('chksession.php');
                                             <input type="checkbox"> I agree to the <a href="#">Terms and Conditions</a>
                                         </div>
                                         <div class="card-btn">
-                                            <a href="#" class="btn btn-orange">CONFIRM BOOKING</a>
+                                            <a href="hotel-confirmation.php" class="btn btn-orange">CONFIRM BOOKING</a>
                                         </div>
                                     </div>
                                 </div>

@@ -132,7 +132,7 @@ $(document).ready(function(){
 
 	fetch_user();
 
-/* 
+
  setInterval(function(){
 
 		update_last_activity();
@@ -148,7 +148,7 @@ $(document).ready(function(){
 
 		offline_chat();
 
-	}, 1000000); */
+	}, 1000000); 
  
 	function log()
 	{
@@ -199,8 +199,7 @@ $(document).ready(function(){
 
 	function make_chat_dialog_box(to_user_id, to_user_name)
 	{
-
-		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
+		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><a href="javascript:void(0)" class="start_one"><i class="fa fa-video-camera" aria-hidden="true"></i></a><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
 		modal_content += '<div class="chat_history" data-touserid="'+to_user_id+'" id="chat_history_'+to_user_id+'">';
 		modal_content += fetch_user_chat_history(to_user_id);
 		modal_content += fetch_user_chat_history1(to_user_id);
@@ -224,7 +223,15 @@ $(document).ready(function(){
 		modal_content+= '<button type="submit" name="send_chat" id="'+to_user_id+'" class="btn btn-info send_chat">Send</button></div></div>';*/
 		$('#user_model_details').append(modal_content);
 	}
+	
+/* function myFunctionnew(){
+  window.open("https://orangestate.ng/video-chat/index.php , height=510,width=660,toolbars=no,left=150,top=200");
+  
+} */
 
+$(document).on('click', '.start_one', function(){
+     window.open("https://orangestate.ng/video-chat/index.php");
+});
 	$(document).on('click', '.start_chat', function(){
 		var to_user_id = $(this).data('touserid');
 		var to_user_name = $(this).data('tousername');

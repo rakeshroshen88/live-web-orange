@@ -10,7 +10,20 @@ include('chksession.php');
 		  $edate=$e3[1].'/'.$e3[2].'/'.$e3[0];
 		  $month_name = date("F", mktime(0, 0, 0, $e3[1], 10));
 		  if(!empty($_POST['order'])){
-			  
+///////////////////
+ $us="select * from ".$_TBL_USER." where user_id=".$_SESSION['sess_webid'];
+  $db->query($us);
+  $db->numRows(); 
+  $user_row=$db->fetchArray();
+   $orderid=(string)rand(10000,999999).rand(100,9999).$_SESSION['sess_webid'];
+$whereClause=" orderid='".$orderid."'" ;	
+if(matchExists('event_order', $whereClause))
+		{
+			
+		      $orderid=(string)rand(1000,99999).$_SESSION['sess_webid'];
+		}
+		$_SESSION['sess_orderid']=$orderid;
+///////////////////			  
 $evtstr='<table width="740"  style="border:#666666; size:2px;" align="center" cellpadding="10" cellspacing="0" bgcolor="#666666"  >
   <tr>
     <td valign="top"><table width="94%" border="0" cellspacing="0" cellpadding="0"  align="center"  style="border:#666666; size:2px;" >
@@ -30,7 +43,7 @@ $evtstr='<table width="740"  style="border:#666666; size:2px;" align="center" ce
 					  </td>
   </tr>
 					  <tr>
-                      <td width="60%" colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;">Registration  detail :</span></p>
+                      <td width="60%" colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;">Event details :</span></p>
                         <p>';
 $evtstr1.='</p></td>
                     </tr>  
@@ -56,6 +69,7 @@ $evtstr1.='</p></td>
     </table></td>
   </tr>
 </table>'; 
+$total=$_REQUEST['quantity1']*$row['price'];
 $msg.='Email: '.$_REQUEST['emailid'].'<br><br>';
 $msg.='Name: '.$_REQUEST['fullname'].'<br><br>';                                  
 									
@@ -65,10 +79,12 @@ $msg.='Event : '.$row['etitle'].'<br><br>';
 $msg.='Event Address: '.$row['eplace'].'<br><br>';
 $msg.='Event Date: '.$row['edate'].'<br><br>';
 $msg.='Quantity: '.$_REQUEST['quantity1'].'<br><br>';	
-$msg.='Event price: '.$row['price'].'*'.$_REQUEST['quantity1'].'<br><br>';										
+$msg.='Total Event price: '.$total.'<br><br>';										
 $message=$evtstr.$msg.$evtstr1;
 //////////////////////////
-$updatear1=array(	"user_id"=>'',				
+
+$_SESSION['eventfinalamoun']=$total;
+$updatear1=array(	"user_id"=>$_SESSION['sess_webid'],				
 					"first_name"=>$_REQUEST['fullname'],
 					"emailid"=>$_REQUEST['emailid'],
 					"address"=>$_REQUEST['address'],
@@ -77,14 +93,18 @@ $updatear1=array(	"user_id"=>'',
 					"event_date"=>$row['edate'],					
 					"price"=>$row['price'],
 					"quantity"=>$_REQUEST['quantity1'],
-					"phoneno"=>$_REQUEST['phoneno']				
+					"phoneno"=>$_REQUEST['phoneno'],
+					"orderid"=>$orderid,
+					"payment_status"=>'no',
+					"totalamount"=>$total,
+					"event_buy_date"=>date('Y-m-d')
 					
 						);
 $insidm=insertData($updatear1, 'event_order');
 if($insidm>0)
 {
 
-echo $to=$_REQUEST['emailid'];
+$to=$_REQUEST['emailid'];
 require("class.phpmailer.php");
 $mail = new PHPMailer();
 $mail->IsSMTP();
@@ -102,22 +122,26 @@ $mail->AddAddress($to, 'To');
 
 $mail->IsHTML(true);
  
-$mail->Subject = "Thank you for ordering with Us. You one time OTP: " . $uniqueid;
+$mail->Subject = "Thank you for ordering with Us.";
 $mail->Body = $message;
 //$mail->AltBody = "This is the body in plain text for non-HTML mail clients";
-
-if(!$mail->Send())
+$mail->Send();
+/* if(!$mail->Send())
 {
 echo "Message could not be sent. <p>";
 echo "Mailer Error: " . $mail->ErrorInfo;
 exit;
-}else{
+}else{ */
+	redirect("event_payment.php");
 	echo "<script>alert('You have successfully place your event order!');</script>";
-}
+//}
 }
 			  
 		  }
-		  
+$dbn=new DB();
+						$sqln="select * from user_profile where user_id =".$_SESSION['sess_webid'];
+						$dbn->query($sqln);
+						$profilerow=$dbn->fetchArray();  
 		?>
 
 <!-- Custom styles for this template -->
@@ -148,7 +172,7 @@ exit;
                 <div class="control-group">
                     <label class="control-label">Full Name</label>
                     <div class="controls">
-                        <input id="full-name" name="fullname" type="text" placeholder="full name" required
+                        <input id="full-name" name="fullname" type="text" placeholder="full name" value="<?=$profilerow['first_name']?> <?=$profilerow['last_name']?>" required
                         class="form-control">
                          
                     </div>
@@ -156,7 +180,7 @@ exit;
 				<div class="control-group">
                     <label class="control-label">Email Id</label>
                     <div class="controls">
-                        <input id="full-name" name="emailid" type="text" placeholder="full name" required
+                        <input id="emailid" name="emailid" type="text" placeholder="Email Id" required value="<?=$_SESSION['sess_webmail']?>"
                         class="form-control">
                          
                     </div>
@@ -165,7 +189,7 @@ exit;
                 <div class="control-group">
                     <label class="control-label">Address Line 1</label>
                     <div class="controls">
-                        <textarea placeholder="Full Address" name="address" class="form-control" cols="5" rows="5"></textarea>
+                        <textarea placeholder="Full Address" name="address" class="form-control" cols="5" rows="5"><?=$profilerow['address']?></textarea>
                         <p class="help-block">Street address, P.O. box, company name, c/o</p>
                     </div>
                 </div>
@@ -174,7 +198,7 @@ exit;
                 <div class="control-group">
                     <label class="control-label">Contact Number</label>
                     <div class="controls">
-                        <input id="postal-code" name="phoneno" type="text" placeholder="Contact Number"
+                        <input id="postal-code" name="phoneno" type="text" placeholder="Contact Number" value="<?=$profilerow['mobileno']?>"
                         class="form-control"> 
                     </div>
                 </div>
@@ -200,7 +224,7 @@ exit;
 									<?php $timestamp = strtotime($row['edate']);
 
 //echo $day = date('l', $timestamp);?>
-                                    <p> <?php echo $date = date('F M Y', $timestamp);?> <span>  <?=$row['etime']?></span></p>
+                                    <p> <?php echo $date = date('d F Y', $timestamp);?> <span>  <?=$row['etime']?></span></p>
                                 </div>
                             </div>
                             
@@ -232,7 +256,7 @@ exit;
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>Instant Download</td>
+                                                <td></td>
                                                 <td>
                                                     <div class="qty-select">
                                                         <div class="qty-minus"> 

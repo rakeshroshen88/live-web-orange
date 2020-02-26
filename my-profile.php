@@ -151,11 +151,13 @@ width:25px; float:left; margin-right:6px
 										<?php  
 										/* $sqlres = "SELECT * from {$wpdb->prefix}carer_information where status=1  and carer_info_id IN ({$carer_id}) "; */
 										$dbuf=new DB();
-										 $sql="SELECT * from followers where user_id=".$_SESSION['sess_webid']." order by user_id limit 0,5";
+										  $sql="SELECT * from followers where user_id=".$_SESSION['sess_webid']." order by user_id limit 0,5";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
 										while($frow=$db->fetchArray()){
+											 $frow['follow'];
+											
 										$usernamef=$dbuf->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$frow['follow']);
 
 										$woorking=$dbuf->getSingleResult('select current_company from user_profile where user_id='.$frow['follow']);
@@ -171,9 +173,9 @@ width:25px; float:left; margin-right:6px
 											?>
 											<div class="suggestion-usd">
 											<?php if(!empty($userfpath)){?>
-												<img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+												 <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>"><img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
 											<?php }else{ ?>
-											<img src="images/resources/user.png" alt="" height="40" width="40">
+											 <a href="view-profile.php?uid=<?php echo base64_encode($mostrow['user_id']);?>"><img src="images/resources/user.png" alt="" height="40" width="40"></a>
 											<?php }?>
 												<div class="sgt-text">
 													<h4><?=$usernamef?></h4>
@@ -305,13 +307,13 @@ width:25px; float:left; margin-right:6px
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                            <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>"> <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
+                                                                             <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">    <img src="images/resources/user.png" alt="" height="40" width="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$frow['first_name']?></h3>
-                                                                                        <div class="epi-sec epi2">
+ <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">                                                                                         <h3><?=$frow['first_name']?></h3>
+        </a>                                                                                <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                 <?php if(!empty($woorking)){ ?> 
 		  <li><img src="images/icon8.png" alt=""><span><?=$woorking?></span></li>
@@ -362,13 +364,13 @@ width:25px; float:left; margin-right:6px
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                        <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">     <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
+                                                                         <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">        <img src="images/resources/user.png" alt="" height="40" width="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$usernamef?></h3>
-                                                                                        <div class="epi-sec epi2">
+ <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">                                                                                         <h3><?=$usernamef?></h3>
+       </a>                                                                                 <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                <?php if(!empty($woorking)){ ?> 
 		  <li><img src="images/icon8.png" alt=""><span><?=$woorking?></span></li>
@@ -420,13 +422,13 @@ width:25px; float:left; margin-right:6px
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                            <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">  <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="" height="40" width="40">
+                                                                              <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">    <img src="images/resources/user.png" alt="" height="40" width="40"></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$usernamef?></h3>
-                                                                                        <div class="epi-sec epi2">
+  <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">                                                                                        <h3><?=$usernamef?></h3>
+    </a>                                                                             <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                 <?php if(!empty($woorking)){ ?> 
 		  <li><img src="images/icon8.png" alt=""><span><?=$woorking?></span></li>
@@ -477,9 +479,9 @@ width:25px; float:left; margin-right:6px
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                           <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">   <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                             <a href="view-profile.php?uid=<?php echo base64_encode($frow['follow']);?>">     <img src="images/resources/user.png" alt=""></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
                                                                                         <h3><?=$usernamef?></h3>
@@ -692,13 +694,11 @@ $dbr=new DB();
 $dbc=new DB();
 $dbu=new DB();
 $dbp=new DB();
-   $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriend) and post_hide='0' order by post_id desc";
+$sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriend) and post_hide='0' order by post_id desc";
 $dbp->query($sqlp);
 if($dbp->numRows()>0)
 {
 while($row=$dbp->fetchArray()){
-
-//$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowc['user_id']);	
 $sqluser="SELECT * from user_profile where user_id=".$row['user_id'];
 $dbu->query($sqluser);
 if($dbu->numRows()>0)
@@ -712,26 +712,25 @@ $ccount=$dblike->getSingleResult('select count(c_id) from comment where post_id=
 											<div class="post_topbar">
 												<div class="usy-dt">
 												<?php if(empty($userrow['image_id'])){?>
-													<img src="images/resources/user.png" alt="" height="40" width="40">
+													<a href="view-profile.php?uid=<?php echo base64_encode($row['user_id']);?>">  <img src="images/resources/user.png" alt="" height="40" width="40"></a>
 												<?php }else{?>
-												<img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40">
+												<a href="view-profile.php?uid=<?php echo base64_encode($row['user_id']);?>">  <img src="upload/<?=$userrow['image_id']?>" alt="" height="40" width="40"></a>
 												<?php }?>
 													<div class="usy-name">
-														<h3><?=$userrow['first_name']?>
-														
-															<?php if(!empty($row['tagfriends'])){
+													<a href="view-profile.php?uid=<?php echo base64_encode($userrow['user_id']);?>"><h3><?=$userrow['first_name']?></h3>
+													</a>
+													<?php if(!empty($row['tagfriends'])){
 																?>
 																<span class="withfrnd">- with </span> 
-														<?php 	//$a=array();
+																<?php 	//$a=array();
 																	 $tagf=$row['tagfriends'];
 																	$sql2='select first_name,user_id from all_user where user_id IN ('.$tagf.')';
 																	$db2->query($sql2)or die($db12->error());
 																while($row1=$db2->fetchArray()){
 																 $a=$row1['first_name'].' ';?>
 																 
-																<a href="view-profile.php?uid=<?=base64_encode($row1['user_id'])?>" class="tagsrfnds11"><?=$row1['first_name']?></a>
-																<?php }
-																}
+<a href="view-profile.php?uid=<?=base64_encode($row1['user_id'])?>" class="tagsrfnds11"><?=$row1['first_name']?></a>
+																<?php }	}
 															
 															//$b=implode(',',$a);
 															//$c=explode(',',$a);
@@ -909,9 +908,9 @@ $pimage=$db1->getSingleResult('select image_id from user_profile where user_id='
 												<div class="comment">
 													<div class="commnt-bx">
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
-											<?php if(!empty($pimage)){ ?>																	
-											<img src="upload/<?=$pimage?>" alt="" height="40" width="40"><?php }else{ ?>
-											<img src="images/resources/user.png" alt="" height="40" width="40">
+											<?php if(!empty($pimage)){ ?>											<a href="view-profile.php?uid=<?php echo base64_encode($rowc['user_id']);?>"> 						
+											<img src="upload/<?=$pimage?>" alt="" height="40" width="40"></a><?php }else{ ?>
+											<a href="view-profile.php?uid=<?php echo base64_encode($rowc['user_id']);?>"> <img src="images/resources/user.png" alt="" height="40" width="40"></a>
 											<?php }?>
 													
 													
@@ -965,19 +964,19 @@ $date=explode('-',$rowr['rdate']);
 
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 $username1=$db1->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$rowr['user_id']);
-$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowc['user_id']);		
+$rpimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$rowr['user_id']);		
 	?>
 	
 																<div class="comment">
 																	<div class="commnt-bx">
 																	<span class="proilf-pic"><!--<img src="images/clock.png" alt=""> -->
 																	<?php if(!empty($rpimage)){ ?>
-																	<img src="upload/<?=$rpimage?>" alt=""> 
+																	<a href="view-profile.php?uid=<?php echo base64_encode($rowr['user_id']);?>"> <img src="upload/<?=$rpimage?>" alt=""> </a>
 																	<?php }else{?>
-																	<img src="images/resources/user.png" alt="" height="40" width="40">
+																	<a href="view-profile.php?uid=<?php echo base64_encode($rowr['user_id']);?>"> <img src="images/resources/user.png" alt="" height="40" width="40"></a>
 																	<?php }?>
 																	 
-																	<span class="user-name-in-coment"><?=$username1?> 1</span> 
+																	<a href="view-profile.php?uid=<?php echo base64_encode($rowr['user_id']);?>"> <span class="user-name-in-coment"><?=$username1?> </span> </a>
 																	<?php if(!empty($rowr['rimage'])){ ?>
 																	<img src="upload/<?=$rowr['rimage']?>" height="50" width="50"/><?php }?>
 																	<span class="commword"><?=$rowr['r_comment']?> 
@@ -1034,12 +1033,12 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade   " id="mange" role="tabpanel" aria-labelledby="mange-tab">
+                                    <div class="tab-pane fade" id="mange" role="tabpanel" aria-labelledby="mange-tab">
                                         <div class="row">
                                             <?php ////////follower All Friends//////////?>
                                                 <?php 
 										$dbuf=new DB();
-										 $sql="SELECT * from followers where follow=".$_SESSION['sess_webid'];
+										  $sql="SELECT * from followers where follow=".$_SESSION['sess_webid'];
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -1056,12 +1055,12 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                             <div class="post_topbar applied-post">
                                                                 <div class="usy-dt">
                                                                     <?php if(!empty($userfpath)){?>
-                                                                        <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                     <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">    <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
+                                                                          <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">   <img src="images/resources/user.png" alt="" height="40" width="40"></a>
                                                                             <?php }?>
                                                                                 <div class="usy-name">
-                                                                                    <h3><?=$usernamef?></h3>
+<a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">                                                                                     <h3><?=$usernamef?></h3></a>
                                                                                     <div class="epi-sec epi2">
                                                                                         <ul class="descp descptab bklink">
                                                                                             <?php if(!empty($woorking)){ ?> 
@@ -1086,7 +1085,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 
                                                     </div>
 											
-                                                    <?php }}else{ echo "<div class='portfolio-gallery-sec'>Result Not Found</div>";}?>
+                                                    <?php } }else{ echo "<div class='portfolio-gallery-sec'>Result Not Found</div>";}?>
                                         </div>
 
                                     </div>
@@ -1095,7 +1094,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                             <?php ////////follower All Friends//////////?>
                                                 <?php 
 										$dbuf=new DB();
-									     $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where work='".$profilerow['work']."')";
+									      $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where work='".$profilerow['work']."')";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -1112,13 +1111,13 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                             <div class="post_topbar applied-post">
                                                                 <div class="usy-dt">
                                                                     <?php if(!empty($userfpath)){?>
-                                                                        <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                       <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">  <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
+                                                                          <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">   <img src="images/resources/user.png" alt="" height="40" width="40"></a>
                                                                             <?php }?>
                                                                                 <div class="usy-name">
-                                                                                    <h3><?=$usernamef?></h3>
-                                                                                    <div class="epi-sec epi2">
+  <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">                                                                                   <h3><?=$usernamef?></h3>
+    </a>                                                                                <div class="epi-sec epi2">
                                                                                         <ul class="descp descptab bklink">
                                                                                            <?php if(!empty($woorking)){ ?> 
 		  <li><img src="images/icon8.png" alt=""><span><?=$woorking?></span></li>
@@ -1151,7 +1150,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                             <?php ////////follower All Friends//////////?>
                                                 <?php 
 										$dbuf=new DB();
-										 $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where college='".$profilerow['college']."')";
+										  $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where college='".$profilerow['college']."')";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -1167,13 +1166,13 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                             <div class="post_topbar applied-post">
                                                                 <div class="usy-dt">
                                                                     <?php if(!empty($userfpath)){?>
-                                                                        <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                       <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">  <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                         <?php }else{ ?>
-                                                                            <img src="images/resources/user.png" alt="" height="40" width="40">
+                                                                           <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">  <img src="images/resources/user.png" alt="" height="40" width="40"></a>
                                                                             <?php }?>
                                                                                 <div class="usy-name">
-                                                                                    <h3><?=$usernamef?></h3>
-                                                                                    <div class="epi-sec epi2">
+    <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">                                                                                 <h3><?=$usernamef?></h3>
+          </a>                                                                          <div class="epi-sec epi2">
                                                                                         <ul class="descp descptab bklink">
                                                                                            <?php if(!empty($woorking)){ ?> 
 		  <li><img src="images/icon8.png" alt=""><span><?=$woorking?></span></li>
@@ -1206,7 +1205,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                 <?php ////////follower All Friends//////////?>
                                                     <?php 
 										$dbuf=new DB();
-										$sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where current_city='".$profilerow['current_city']."')";
+										 $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where current_city='".$profilerow['current_city']."')";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -1222,13 +1221,13 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                                                 <div class="post_topbar applied-post">
                                                                     <div class="usy-dt">
                                                                         <?php if(!empty($userfpath)){?>
-                                                                            <img src="upload/<?=$userfpath?>" alt="" height="50" width="50">
+                                                                           <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">  <img src="upload/<?=$userfpath?>" alt="" height="50" width="50"></a>
                                                                             <?php }else{ ?>
-                                                                                <img src="images/resources/user.png" alt="">
+                                                                             <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">    <img src="images/resources/user.png" alt=""></a>
                                                                                 <?php }?>
                                                                                     <div class="usy-name">
-                                                                                        <h3><?=$usernamef?></h3>
-                                                                                        <div class="epi-sec epi2">
+   <a href="view-profile.php?uid=<?php echo base64_encode($frow['user_id']);?>">                                                                                      <h3><?=$usernamef?></h3>
+       </a>                                                                                 <div class="epi-sec epi2">
                                                                                             <ul class="descp descptab bklink">
                                                                                                 <?php if(!empty($woorking)){ ?> 
 		  <li><img src="images/icon8.png" alt=""><span><?=$woorking?></span></li>
@@ -1370,268 +1369,6 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                             </div>
                             <!--product-feed-tab end-->
 
-                            <div class="product-feed-tab" id="my-bids">
-                                <div class="posts-section">
-                                    <div class="post-bar">
-                                        <div class="post_topbar">
-                                            <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="" height="40" width="40">
-                                                <div class="usy-name">
-                                                    <h3>John Doe</h3>
-                                                    <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="ed-opts">
-                                                <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                <ul class="ed-options">
-                                                    <li><a href="#" title="">Edit Post</a></li>
-                                                    <li><a href="#" title="">Unsaved</a></li>
-                                                    <li><a href="#" title="">Unbid</a></li>
-                                                    <li><a href="#" title="">Close</a></li>
-                                                    <li><a href="#" title="">Hide</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="epi-sec">
-                                            <ul class="descp">
-                                                <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                            </ul>
-                                            <ul class="bk-links">
-                                                <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job_descp">
-                                            <h3>Simple Classified Site</h3>
-                                            <ul class="job-dt">
-                                                <li><span>$300 - $350</span></li>
-                                            </ul>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                            <ul class="skill-tags">
-                                                <li><a href="#" title="">HTML</a></li>
-                                                <li><a href="#" title="">PHP</a></li>
-                                                <li><a href="#" title="">CSS</a></li>
-                                                <li><a href="#" title="">Javascript</a></li>
-                                                <li><a href="#" title="">Wordpress</a></li>
-                                                <li><a href="#" title="">Photoshop</a></li>
-                                                <li><a href="#" title="">Illustrator</a></li>
-                                                <li><a href="#" title="">Corel Draw</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job-status-bar">
-                                            <ul class="like-com">
-                                                <li>
-                                                    <a href="#"><i class="la la-heart"></i> Like</a>
-                                                    <img src="images/liked-img.png" alt="">
-                                                    <span>25</span>
-                                                </li>
-                                                <li>
-                                                    <a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a>
-                                                </li>
-                                            </ul>
-                                            <a><i class="la la-eye"></i>Views 50</a>
-                                        </div>
-                                    </div>
-                                    <!--post-bar end-->
-                                    <div class="post-bar">
-                                        <div class="post_topbar">
-                                            <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="" height="40" width="40">
-                                                <div class="usy-name">
-                                                    <h3>John Doe</h3>
-                                                    <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="ed-opts">
-                                                <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                <ul class="ed-options">
-                                                    <li><a href="#" title="">Edit Post</a></li>
-                                                    <li><a href="#" title="">Unsaved</a></li>
-                                                    <li><a href="#" title="">Unbid</a></li>
-                                                    <li><a href="#" title="">Close</a></li>
-                                                    <li><a href="#" title="">Hide</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="epi-sec">
-                                            <ul class="descp">
-                                                <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                            </ul>
-                                            <ul class="bk-links">
-                                                <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job_descp">
-                                            <h3>Ios Shopping mobile app</h3>
-                                            <ul class="job-dt">
-                                                <li><span>$300 - $350</span></li>
-                                            </ul>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                            <ul class="skill-tags">
-                                                <li><a href="#" title="">HTML</a></li>
-                                                <li><a href="#" title="">PHP</a></li>
-                                                <li><a href="#" title="">CSS</a></li>
-                                                <li><a href="#" title="">Javascript</a></li>
-                                                <li><a href="#" title="">Wordpress</a></li>
-                                                <li><a href="#" title="">Photoshop</a></li>
-                                                <li><a href="#" title="">Illustrator</a></li>
-                                                <li><a href="#" title="">Corel Draw</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job-status-bar">
-                                            <ul class="like-com">
-                                                <li>
-                                                    <a href="#"><i class="la la-heart"></i> Like</a>
-                                                    <img src="images/liked-img.png" alt="">
-                                                    <span>25</span>
-                                                </li>
-                                                <li>
-                                                    <a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a>
-                                                </li>
-                                            </ul>
-                                            <a><i class="la la-eye"></i>Views 50</a>
-                                        </div>
-                                    </div>
-                                    <!--post-bar end-->
-                                    <div class="post-bar">
-                                        <div class="post_topbar">
-                                            <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="" height="40" width="40">
-                                                <div class="usy-name">
-                                                    <h3>John Doe</h3>
-                                                    <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="ed-opts">
-                                                <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                <ul class="ed-options">
-                                                    <li><a href="#" title="">Edit Post</a></li>
-                                                    <li><a href="#" title="">Unsaved</a></li>
-                                                    <li><a href="#" title="">Unbid</a></li>
-                                                    <li><a href="#" title="">Close</a></li>
-                                                    <li><a href="#" title="">Hide</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="epi-sec">
-                                            <ul class="descp">
-                                                <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                            </ul>
-                                            <ul class="bk-links">
-                                                <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job_descp">
-                                            <h3>Simple Classified Site</h3>
-                                            <ul class="job-dt">
-                                                <li><span>$300 - $350</span></li>
-                                            </ul>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                            <ul class="skill-tags">
-                                                <li><a href="#" title="">HTML</a></li>
-                                                <li><a href="#" title="">PHP</a></li>
-                                                <li><a href="#" title="">CSS</a></li>
-                                                <li><a href="#" title="">Javascript</a></li>
-                                                <li><a href="#" title="">Wordpress</a></li>
-                                                <li><a href="#" title="">Photoshop</a></li>
-                                                <li><a href="#" title="">Illustrator</a></li>
-                                                <li><a href="#" title="">Corel Draw</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job-status-bar">
-                                            <ul class="like-com">
-                                                <li>
-                                                    <a href="#"><i class="la la-heart"></i> Like</a>
-                                                    <img src="images/liked-img.png" alt="">
-                                                    <span>25</span>
-                                                </li>
-                                                <li>
-                                                    <a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a>
-                                                </li>
-                                            </ul>
-                                            <a><i class="la la-eye"></i>Views 50</a>
-                                        </div>
-                                    </div>
-                                    <!--post-bar end-->
-                                    <div class="post-bar">
-                                        <div class="post_topbar">
-                                            <div class="usy-dt">
-                                                <img src="images/resources/user.png" alt="" height="40" width="40">
-                                                <div class="usy-name">
-                                                    <h3>John Doe</h3>
-                                                    <span><img src="images/clock.png" alt="">3 min ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="ed-opts">
-                                                <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                <ul class="ed-options">
-                                                    <li><a href="#" title="">Edit Post</a></li>
-                                                    <li><a href="#" title="">Unsaved</a></li>
-                                                    <li><a href="#" title="">Unbid</a></li>
-                                                    <li><a href="#" title="">Close</a></li>
-                                                    <li><a href="#" title="">Hide</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="epi-sec">
-                                            <ul class="descp">
-                                                <li><img src="images/icon8.png" alt=""><span>Frontend Developer</span></li>
-                                                <li><img src="images/icon9.png" alt=""><span>India</span></li>
-                                            </ul>
-                                            <ul class="bk-links">
-                                                <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-                                                <li><a href="#" title="" class="bid_now">Bid Now</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job_descp">
-                                            <h3>Ios Shopping mobile app</h3>
-                                            <ul class="job-dt">
-                                                <li><span>$300 - $350</span></li>
-                                            </ul>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-                                            <ul class="skill-tags">
-                                                <li><a href="#" title="">HTML</a></li>
-                                                <li><a href="#" title="">PHP</a></li>
-                                                <li><a href="#" title="">CSS</a></li>
-                                                <li><a href="#" title="">Javascript</a></li>
-                                                <li><a href="#" title="">Wordpress</a></li>
-                                                <li><a href="#" title="">Photoshop</a></li>
-                                                <li><a href="#" title="">Illustrator</a></li>
-                                                <li><a href="#" title="">Corel Draw</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="job-status-bar">
-                                            <ul class="like-com">
-                                                <li>
-                                                    <a href="#"><i class="la la-heart"></i> Like</a>
-                                                    <img src="images/liked-img.png" alt="">
-                                                    <span>25</span>
-                                                </li>
-                                                <li>
-                                                    <a href="#" title="" class="com"><img src="images/com.png" alt=""> Comment 15</a>
-                                                </li>
-                                            </ul>
-                                            <a><i class="la la-eye"></i>Views 50</a>
-                                        </div>
-                                    </div>
-                                    <!--post-bar end-->
-                                    <div class="process-comm">
-                                        <a href="#" title=""><img src="images/process-icon.png" alt=""></a>
-                                    </div>
-                                    <!--process-comm end-->
-                                </div>
-                                <!--posts-section end-->
-                            </div>
-                            <!--product-feed-tab end-->
                             <div class="product-feed-tab" id="portfolio-dd">
                                 <div class="portfolio-gallery-sec">
                                     <h3>All Picture</h3>

@@ -23,7 +23,7 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 								 <?php if($row['imgid']=='' and empty($row['imgid'])){ ?>
                                             <img src="images/resources/cmp-icon.png" id="rmvid" alt="" style="width: 150px; height:150px;">
                                             <?php }else{?>
-                                             <img src="upload/<?=$row['imgid']?>" id="rmvid" alt="" style="width: 150px;">
+                                             <img src="upload/<?=$row['imgid']?>" id="rmvid" alt="" style="width: 130px;     height: 130px;">
                                            <?php }?>
 									
 									<h3><?=$row['page_name']?></h3>

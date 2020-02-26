@@ -179,23 +179,23 @@ $("#suggesstion-box").hide();
 									Tourism
 								</a>
 								<ul>
-									<!--<li><a href="tour-destination-list.php" title="">Tourist sites</a></li>
-									<li><a href=" " title="">History</a></li>-->
+									<li><a href="tour-destination-list.php" title="">Tourist sites</a></li>
+									<!--<li><a href=" " title="">History</a></li>-->
 									<li><a href="event-home.php" title="">Events</a></li>
 								</ul>
 							</li>
 
 
 							<li>
-								<a href=" " title="">
+								<a href="company-list.php" title="">
 									<span><img src="images/hubbusiness.png" alt=""></span>
 									Business Hub
 								</a>
 								<ul>
-									<li><a href=" " title="">Hotels</a></li>
-									<li><a href="  " title="">Restaurants</a></li>
-									<li><a href=" " title="">Bars and Lounge</a></li>
-									<li><a href=" " title="">Fast foods</a></li>
+									<li><a href="hotel-home.php" title="Hotel">Hotels</a></li>
+									<!--<li><a href="" title="">Restaurants</a></li>
+									<li><a href="" title="">Bars and Lounge</a></li>
+									<li><a href="" title="">Fast foods</a></li>-->
 								</ul>
 							</li>
 
@@ -205,8 +205,8 @@ $("#suggesstion-box").hide();
 									I Can
 								</a>
 								<ul>
-									<li><a href=" " title="">How to cook</a></li>
-									<li><a href=" " title="">Our dialect</a></li>
+									<li><a href="i-can-cook.php" title="i-can-cook.php">How to cook</a></li>
+									<li><a href="language_translator.php" title="">Learn Our Dialects</a></li>
 									  
 								</ul>
 							</li>
