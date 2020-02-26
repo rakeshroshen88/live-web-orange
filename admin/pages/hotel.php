@@ -408,6 +408,26 @@ function getCheckedCheckboxesFor3(checkboxName) {
                                     </div>
 									
 									<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Price Days Wise:</label>
+                                        <div class="col-md-9">
+                                        Sunday:<input name="price1" type="text" class="form-control" value="<?=$row['Sunday']?>"/>
+
+ Monday:<input name="price1" type="text" class="form-control" value="<?=$row['Monday']?>"/>  
+
+ Tuesday:<input name="price1" type="text" class="form-control" value="<?=$row['price']?>"/>  
+ wednesday:<input name="price1" type="text" class="form-control" value="<?=$row['wednesday']?>"/>   
+     
+
+ Thursday:<input name="price1" type="text" class="form-control" value="<?=$row['Thursday']?>"/>  
+
+ Friday:<input name="price1" type="text" class="form-control" value="<?=$row['Friday']?>"/>  
+
+ Saturday:<input name="price1" type="text" class="form-control" value="<?=$row['Saturday']?>"/>  
+
+                                   </div>
+                                    </div>
+									
+									<div class="form-group">
                                         <label class="col-md-3 control-label" for="name"> No of Rooms:</label>
                                         <div class="col-md-9">
                                         <input name="noofrooms" type="text" class="form-control" value="<?=$row['noofrooms']?>"/>
@@ -489,7 +509,7 @@ function getCheckedCheckboxesFor3(checkboxName) {
             									</div>
         								</div>-->
                                    
-                                         <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+                                         <script type="text/javascript" src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
     selector: "textarea",

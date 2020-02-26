@@ -228,7 +228,7 @@ xmlhttp.send();
                             <td width="30%" align="right" class="form-control">Hotel Rate:</td>
                             <td width="70%">
                              <textarea name="rate" cols="50" rows="5" class="form-control" ><?=$row['rate']?></textarea>
-                             <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+                             <script type="text/javascript" src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
     selector: "textarea",

@@ -61,6 +61,7 @@ $updatearr=array(
 					 "eplace"=>$_REQUEST['place'],
 					 "etime"=>$_REQUEST['etime'],
 					  "eventcat"=>$_REQUEST['eventcat'],
+					  "carparking"=>$_REQUEST['car'],
 					 "edate"=>$edate
 					 );
 
@@ -352,7 +353,7 @@ function deladmin(id)
                                         <td colspan="3">
                                         <textarea class="form-control" name="prod_desc"><?=$row['edetail']?></textarea>
                                         
-                                         <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+                                         <script type="text/javascript" src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
     selector: "textarea",
@@ -395,7 +396,12 @@ tinymce.init({
 							<input name="pstatus" type="radio" value="no" <?php if($row['estatus']=="no"){echo " checked";}?>/>Deactive </td>
                                         
                                </tr>  
-							  
+							   <tr>  
+							  <td>  Car Parking  :</td>
+                                        <td> <input name="car" type="radio" value="yes" <?php if($row['carparking']=="yes"){echo " checked";}?>/>Active
+							<input name="car" type="radio" value="no" <?php if($row['carparking']=="no"){echo " checked";}?>/>Deactive </td>
+                                        
+                               </tr>  
 							   <tr><td>  Multi Image  :</td>
 							  
 

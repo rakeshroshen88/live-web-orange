@@ -120,7 +120,7 @@ if(!empty($id))
 									</div>
         								</div>
                                      </div>  
- <script type="text/javascript" src="http://tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+ <script type="text/javascript" src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <script type="text/javascript">
 tinymce.init({
     selector: "textarea",

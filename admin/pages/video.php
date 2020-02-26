@@ -1,46 +1,80 @@
 <?php
-$_TBL_SLIDER='slider_add';
 $mod=$_REQUEST['mod'];
+
 $firstname=$_REQUEST['firstname'];
+
 $id=$_REQUEST['id'];
+
 $act=$_REQUEST['act'];
+
 $stat=$_REQUEST['stat'];
+
 $rec=$_REQUEST['rec'];
+
 $qryStr="firstname=$firstname&mod=$mod&rec=$rec";
+
 if($act=='dac')
+
 	{
-		if($stat=='0')
-			$stat='1';
+
+		if($stat==0)
+
+			$stat=1;
+
 		else
-			$stat='0';
-		$sql="UPDATE $_TBL_SLIDER SET homestatus= '$stat' WHERE id='$id'";
+
+			$stat=0;
+
+		$sql="UPDATE allvideo SET status= '$stat' WHERE id='$id'";
+
 		$db->query($sql);
-		redirect('main.php?mod=sliderr');
+
+		redirect('main.php?mod=video');
+
 	}
+
+
 
 if($act=='del')
+
 	{
+
 		
-		 $sql="DELETE FROM $_TBL_SLIDER WHERE id='$id'";
+
+		 $sql="DELETE FROM allvideo WHERE id='$id'";
+
 		$db->query($sql);
-		redirect('main.php?mod=sliderr');
+
+		redirect('main.php?mod=video');
+
 	}
 
+
+
 ?>
+
 <script>
+
 function deladmin(id)
+
 {
+
 	if(confirm("Are you sure to delete?"))
+
 	{
-		location.href="main.php?mod=sliderr&act=del&id="+id;
+
+		location.href="main.php?mod=video&act=del&id="+id;
+
 	}
+
 }
+
 </script>
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Slider Management</li>
+				<li class="active">Video Management</li>
 			</ol>
 		</div><!--/.row   All count-->
         
@@ -54,8 +88,8 @@ function deladmin(id)
                             
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_SLIDER");	?></div>
-							<div class="text-muted">Total Slider</div>
+							<div class="large"><?=$count=$db->getSingleResult("select count(*) from allvideo");	?></div>
+							<div class="text-muted">Total Video</div>
 						</div>
 					</div>
 				</div>
@@ -67,8 +101,8 @@ function deladmin(id)
 							<em class="glyphicon glyphicon-user glyphicon-l"></em>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-						<div class="large"><?=$count=$db->getSingleResult("select count(*) from $_TBL_SLIDER where homestatus='1'");	?></div>
-							<div class="text-muted">Active Slider</div>
+						<div class="large"><?=$count=$db->getSingleResult("select count(*) from allvideo where status='1'");	?></div>
+							<div class="text-muted">Active Video</div>
 						</div>
 					</div>
 				</div>
@@ -96,11 +130,11 @@ function deladmin(id)
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Slider Management</div>
+					<div class="panel-heading">Video Management</div>
 					<div class="panel-body">
                     
                         <div class="add-pro">
-                            <a href="main.php?mod=add_sliderr&act=add">Add Slider</a>
+                            <a href="main.php?mod=addvideo&act=add">Add Video</a>
                         
                         </div>
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
@@ -108,8 +142,7 @@ function deladmin(id)
                             
 						    <tr>
 						        <th data-field="state" data-checkbox="true" >chk ID</th>
-						        <th data-field="id" data-sortable="true">Type </th>
-								 <th data-field="url" data-sortable="true">Url </th>
+						        <th data-field="id" data-sortable="true">Title </th>
 						       
 						        <th data-field="Date" data-sortable="true">Date</th>
                                 <th data-field="Status" data-sortable="true">Status</th>
@@ -135,7 +168,7 @@ $db1=new DB();
 			}else{
 			$_LIST_LEN=$rec;
 			}
-	 $sql="SELECT * from ".$_TBL_SLIDER.$wherestr." order by id desc";
+	$sql="SELECT * from allvideo".$wherestr." order by id desc";
 	$db->query($sql);
 	$total_records=$db->numRows();
 	$page=new Page;
@@ -147,9 +180,9 @@ $db1=new DB();
 	if($db->numRows()>0)
 		{
 	while($row=$db->fetchArray()){
-	$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']);
+	//$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']);
 	
-$date=explode('-',$row['homedate']);
+$date=explode('-',$row['vdate']);
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 	if(empty($num))
 		{
@@ -159,20 +192,20 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 ?>	
  					<tr>
 						<td></td>
-                        <td> <a href="main.php?mod=add_sliderr&act=edit&id=<?=$row['id']?>"><?=$row['img_type']?></a></td>
+                        <td> <a href="main.php?mod=addvideo&act=edit&id=<?=$row['id']?>"><?=$row['title']?></a></td>
 							
-                   <td> <?=$row['addlink']?></td>
+                   
 						<td> <?php echo date('d M,Y',$st);?></td>
-                    <td> <a href='main.php?mod=sliderr&act=dac&id=<?=$row['id']?>&stat=<?=$row['homestatus']?>'><?=$row['homestatus']=='0'?'Deactive':'Active'?></a> </td>
+                    <td> <a href='main.php?mod=video&act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']=='no'?'Deactive':'Active'?></a> </td>
                            
-                        <td > <a href="main.php?mod=add_sliderr&act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+                        <td > <a href="main.php?mod=addvideo&act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
 						</td>
                      </tr>
 <?php } ?>
 <?php	}else{
 	
 ?>  
-						<tr><td colspan="4" valign="top" align="center">Not found any Staff !</td></tr>                      
+						<tr><td colspan="4" valign="top" align="center">Not found any Record !</td></tr>                      
  <?php   } ?>   					  
 	
 						</table>
