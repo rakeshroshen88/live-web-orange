@@ -304,7 +304,7 @@ width:25px; float:left; margin-right:6px
 </select> </br>
 
 <div class="tranboxtranslator">
-									<textarea name="tlanguage" id="tlanguage" placeholder="Type your Text !" rows="12" cols="50"style="border-radius: 5px;"></textarea>
+									<textarea name="tlanguage" id="tlanguage" placeholder="Type your Text !" rows="8" cols="50"style="border-radius: 5px; font-size: 22px;"></textarea>
 
 									<div class="translate_control-a">
 									<button type="button"  title="Copy" onclick="myFunction()" /><i class="fa fa-clone" aria-hidden="true"></i></button>
@@ -349,7 +349,7 @@ document.querySelector("#paste").addEventListener("click", paste);
 </select></br>
 
 <div class="tranboxtranslator">
-									<textarea rows="12" cols="50" name="rlanguage" id="rlanguage" placeholder="Read Translation Here..." readonly  style="border-radius: 5px;"></textarea>
+									<textarea rows="8" cols="50" name="rlanguage" id="rlanguage" placeholder="Read Translation Here..." readonly  style="border-radius: 5px; font-size: 22px;"></textarea>
 									</br>
 									<div class="translate_control-a">
 									<button type="button" title="clone" onclick="clone()" /><i class="fa fa-clone" aria-hidden="true"></i></button>
@@ -390,50 +390,50 @@ function clone() {
 										 <!-- <input type="text" placeholder="search" name="libsearch"/> -->
 									</div>
 								</div>
-								<div class="row transOptionlist">
-								
-										 <div class="col-md-4">
-										 <h3>English</h3>
-										 <ul id="english">
-										 
-										 <li>Ankle</li>
-										 
-										 
-										 </ul>
-										 </div>
-										 
-										  <div class="col-md-4">
-										 <h3>Our Dialect </h3>
-										 <ul id="ibibo">
-										 
-										 <li>Ankle</li>
+								<div class="rowt">
+							
 										
-										 
-										 </ul>
-										</div>
-										 
-										<div class="col-md-4">
-										 <h3>Pronounciation</h3>
-										  <ul id="ibibomp3">
-										  <style>
-											.controltranstion i{margin:0 10px; color: #ff5e00;}
-										  </style>
-										 <li class="controltranstion">
-										<a href="javascript:void(0)"class='aplay'><i class='fa fa-play' title='play'  aria-hidden='true'></i>
-										</a>
-										<!--<a href="javascript:pauseAudio("")"> <i class="fa fa-volume-off " title="Mute" aria-hidden="true"></i> </a>
-										 
-										 <i class="fa fa-volume-down" title="Valume down" aria-hidden="true"></i>
-										 <i class="fa fa-volume-up" title="Valume Up"  aria-hidden="true"></i>-->
-										 <i class="fa fa-download" title="download"  aria-hidden="true"></i>
-										 
-										 </li>
-										 
-										 
-										
-										 </ul>
-										 </div>
-							   </div>
+<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th>English</th>
+            <th>Our Dialect</th>
+            <th>Pronounciation</th>
+        
+        </tr>
+    </thead>
+	
+    <tbody id="ibibomp3">
+        
+       
+     
+    
+       
+       
+	   </tbody>
+</table>
+
+<table border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td class="gutter">
+                <div class="line number1 index0 alt2" style="display: none;">1</div>
+            </td>
+            <td class="code">
+                <div class="container" style="display: none;">
+                    <div class="line number1 index0 alt2" style="display: none;">&nbsp;</div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+							  </div>
                           
 							</div>
 						  </div>
@@ -454,11 +454,25 @@ function clone() {
         </div>
         </div>
     </main>
+	
+<!--
+
+-->
+	<!-- DataTables CSS -->
+
+<!-- DataTables JS -->
+
+
+
+
 <input type="hidden" name="audioval" id="audioval" value="" />
 <div id="audioplay1"></div>
     <?php include('footer.php') ?>
 
 <script>
+
+
+
 $(document).on('click', '.aplay', function(){
 	var mid = jQuery(this).attr('mid');
 	$("#audioplay1").html('<audio controls="controls" style="opacity: 0;    visibility: hidden; position:absolute;"  autoplay="autoplay" style="" id="cataudio"><source src="//orangestate.ng/img/language/'+mid+'" type="audio/mp3" /><source src="//orangestate.ng/img/language/'+mid+'" type="audio/ogg" /></audio>');	
@@ -499,11 +513,22 @@ $(document).ready(function(){
 			$("#ibibo").html(ibibo);
 			$("#ibibomp3").html(ibibomp3new);
 			$("#rlanguage").css("background","#FFF");
+			 //table.Draw();
+			  $("#example").DataTable();
 		}
 		});
 	});
 	
-	
+	 $(document).ready(function ()
+        {
+            var table = $('#GridView1').DataTable();
+            $('#inputSearch').on('keyup', function ()
+            {
+                table.search(this.value).draw();
+            });
+
+        });
+		
 	$("#languageconvertor").click(function(){
 		var  target=$('#lan_2').val();		
 		var  source=$('#lan_2').val();
@@ -675,5 +700,18 @@ var audio = document.getElementById("cataudio");
   audio.pause(); 
 }  
 
+/* $(document).ready(function() {
+    $('#example').DataTable();
+} ); */
 </script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+<!-- DataTables Select CSS -->
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!-- DataTables Select JS -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js" type="text/javascript"></script>
+
 <?php include('footer.php');?>

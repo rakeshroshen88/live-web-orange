@@ -55,8 +55,8 @@ $allfriend=implode(',',$l);
 	"; */
 	
 	 $query = "
-SELECT * FROM login
-WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN($allfriend)";
+SELECT * FROM login WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN (SELECT f_userid FROM login_details
+	WHERE f_userid  IN($allfriend) and status='Online')";
 
 	$statement = $connect->prepare($query);
 	$statement->execute();
@@ -178,6 +178,7 @@ $(document).ready(function(){
 			url:"chat/fetch_user.php",
 			method:"POST",
 			success:function(data){
+				//alert(data);
 				$('#user_details').html(data);
 			}
 		})
@@ -197,9 +198,9 @@ $(document).ready(function(){
 		})
 	}
 
-	function make_chat_dialog_box(to_user_id, to_user_name)
+	function make_chat_dialog_box(to_user_id, to_user_name, to_user_email)
 	{
-		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><a href="javascript:void(0)" class="start_one"><i class="fa fa-video-camera" aria-hidden="true"></i></a><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
+		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><a href="javascript:void(0)" class="start_one" uid="'+to_user_email+'"><i class="fa fa-video-camera" aria-hidden="true"></i></a><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
 		modal_content += '<div class="chat_history" data-touserid="'+to_user_id+'" id="chat_history_'+to_user_id+'">';
 		modal_content += fetch_user_chat_history(to_user_id);
 		modal_content += fetch_user_chat_history1(to_user_id);
@@ -230,15 +231,19 @@ $(document).ready(function(){
 } */
 
 $(document).on('click', '.start_one', function(){
-     window.open("https://orangestate.ng/video-chat/index.php");
+	var uid = $(this).attr('uid');
+      window.open("https://orangestate.ng/video-chat/index.php");
+	// window.open("https://orangestate.ng/video-chat/index.php?uid="+uid);
 });
 	$(document).on('click', '.start_chat', function(){
 		var to_user_id = $(this).data('touserid');
 		var to_user_name = $(this).data('tousername');
+		var to_user_email = $(this).data('touseremail');
+		//alert(to_user_email);
     if($("#user_dialog_"+to_user_id).length){
       return false;
     }
-		make_chat_dialog_box(to_user_id, to_user_name);
+		make_chat_dialog_box(to_user_id, to_user_name, to_user_email);
 		 /* $("#user_dialog_"+to_user_id).dialog({
 			autoOpen:false,
 			width:400

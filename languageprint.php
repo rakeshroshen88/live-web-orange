@@ -28,14 +28,14 @@ if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio'
 			
 			while($row2=$db2->fetchArray()){
 				//$audio_1=str_replace(" ","",$row2['audio_1']);
-				$english.='<li>'.$row2['language_1'].'</li>';
-				$ibibo.='<li>'.$row2['language_2'].'</li>';
-				$ibibomp3.="<li class='controltranstion'>
+				$ibibomp3.='<tr><td>'.$row2['language_1'].'</td>';
+				$ibibomp3.='<td>'.$row2['language_2'].'</td>';
+				$ibibomp3.="<td>
 							<a href='javascript:void(0)' class='aplay' mid='".$row2['audio_1']."'><i class='fa fa-play' title='play'  aria-hidden='true'></i></a>";
 										
 		$ibibomp3.='<a href="/img/language/'.$row2['audio_1'].'" target="_blank"><i class="fa fa-download" title="download"  aria-hidden="true"></i></a>
 										 
-										 </li>';
+										 </td></tr>';
 			}
 			
 		

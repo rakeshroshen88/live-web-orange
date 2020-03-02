@@ -57,20 +57,31 @@ setcookie ("password","");
 				$stmt3 = $connect->prepare($sqld);				 
 				$stmt3->execute(); */
 				//////////
-				$querynew = "SELECT login_details_id FROM login_details WHERE f_userid = '".$result['user_id']."'";					
+				 $querynew = "SELECT login_details_id FROM login_details WHERE f_userid = '".$result['user_id']."'";					
 				$statement = $connect->prepare($querynew);
 				$statement->execute();
 				$login_details_id = $statement->fetch();
-				$_SESSION['login_details_id'] = $login_details_id->login_details_id;	
-				
-				if($login_details_id->login_details_id > 0){
-				$query2 = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
-				$stmt3 = $chatdb->prepare($query2);				 
+				//print_r($login_details_id);
+				$login_details_id=$login_details_id[0];
+				$_SESSION['login_details_id'] = $login_details_id;	
+				$dats=date('Y-m-d h:i:s');
+				//,last_activity='".$dats."'
+				if($login_details_id > 0){
+				 $query2 = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
+				$stmt3 = $connect->prepare($query2);				 
 				$stmt3->execute();
-				}else{				
-				  $sub_query = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
+				}else{		
+					$sub_query = "
+				INSERT INTO login_details
+	     		(user_id,f_userid,status)
+	     		VALUES ('".$row['user_id']."', '".$result['user_id']."','Online')
+				";
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
+				$_SESSION['login_details_id'] = $connect->lastInsertId();
+				  /* $sub_query = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
+				$statement = $connect->prepare($sub_query);
+				$statement->execute(); */
 				 
 				}
 	}
@@ -90,58 +101,21 @@ setcookie ("password","");
 				";
 				$statement = $connect->prepare($query);
 				$statement->execute($data);  
-	//////////////////////////////////	
-	 
- $query = "
-		SELECT * FROM login
-  		WHERE username = :username
-	";
-	$statement = $connect->prepare($query);
-	$statement->execute(
-		array(
-			':username' => $result['email_id']
-		)
-	);
-	$count = $statement->rowCount();
-	if($count > 0)
-	{
-		$result1 = $statement->fetchAll();
-		foreach($result1 as $row)
-		{
-			 $_SESSION['user_id'] = $row['user_id'];
-			 $_SESSION['username'] = $row['username'];
-				 /* $sqld = "DELETE   FROM login_details WHERE  f_userid='".$result['user_id']."'";
-				$stmt3 = $connect->prepare($sqld);				 
-				$stmt3->execute();
-				//////////
-				$sub_query = "
+				$user_id=$connect->lastInsertId();
+				//////////////////////////////////	
+				$_SESSION['user_id'] = $user_id;
+				$_SESSION['username'] = $result['email_id'];
+			$sub_query = "
 				INSERT INTO login_details
 	     		(user_id,f_userid,status)
-	     		VALUES ('".$row['user_id']."', '".$result['user_id']."','Online')
+	     		VALUES ('".$user_id."', '".$result['user_id']."','Online')
 				";
 				$statement = $connect->prepare($sub_query);
 				$statement->execute();
-				 $_SESSION['login_details_id'] = $connect->lastInsertId(); */
-
-				 $querynew = "SELECT login_details_id FROM login_details WHERE f_userid = '".$result['user_id']."'";					
-				$statement = $connect->prepare($querynew);
-				$statement->execute();
-				$login_details_id = $statement->fetch();
-				$_SESSION['login_details_id'] = $login_details_id->login_details_id;	
-				
-				if($login_details_id->login_details_id > 0){
-				$query2 = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
-				$stmt3 = $chatdb->prepare($query2);				 
-				$stmt3->execute();
-				}else{				
-				 $sub_query = "UPDATE login_details SET status = 'Online' WHERE f_userid = '".$result['user_id']."'";
-				$statement = $connect->prepare($sub_query);
-				$statement->execute();	
-				$_SESSION['login_details_id'] = $login_details_id->login_details_id;		
-				}
-	}} 
-/////////////////////////////////////////////////	
-		
+				 $_SESSION['login_details_id'] = $connect->lastInsertId();
+				 //////////////////////////////
+	 
+ 	
 	}
 	/////////////////////////////////////////////////	
 

@@ -138,14 +138,30 @@ include('chksession.php');
         </div>
         <div class="room-outer">
             <div class="row">
+			  <?php 	
+				$db2=new DB();
+				 $sql="SELECT * FROM $_TBL_HOTEL";
+				$db->query($sql)or die($db->error());
+				while($row2=$db->fetchArray()){	
+				 $cid=$row2['cityid'];
+				 $city=$db2->getSingleResult("select cityname from cities where id=".$id);
+				 $sql2="SELECT * FROM $_TBL_ITEMIMAGE WHERE item_id='".$row2['id']."' limit 0,1";
+				 $db2->query($sql2)or die($db2->error());
+				 $imagerow=$db2->fetchArray();
+				
+		?> 
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="room-item">
                         <div class="room-image">
-                            <img src="img/room1.jpg" alt="image">
+						<?php if(!empty($row2['picture'])){ ?>
+                            <img src="<?=$_SITE_PATH?>holi/<?=$row2['picture']?>" alt="image">
+						<?php }else{ ?>
+						<img src="img/room1.jpg" alt="image">
+						<?php }?>
                         </div>
                         <div class="room-content">
                             <div class="room-title">
-                                <h4>Super Deluxe</h4>
+                                <h4><?=$row2['title']?></h4>
                                 <p>₦1200/Night</p>
                                 <div class="deal-rating">
                                     <span class="fa fa-star checked"></span>
@@ -169,7 +185,9 @@ include('chksession.php');
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 col-xs-6">
+              
+				<?php } ?>  
+			  <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="room-item">
                         <div class="room-image">
                             <img src="img/room1.jpg" alt="image">
