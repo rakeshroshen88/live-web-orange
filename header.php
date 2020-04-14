@@ -225,7 +225,7 @@ $("#suggesstion-box").hide();
 							 
 							 
 							<li>
-								<a href="#" title="" class="not-box-open">
+								<a href="notification.php" title="" class="not-box-open">
 									<span><img src="images/icon7.png" alt=""></span>
 									Notification
 								</a>

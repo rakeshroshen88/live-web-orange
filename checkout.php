@@ -197,7 +197,9 @@ if($dbt->numRows()>0)
 		$ct++; 
 	   //echo $sub_total+=$rowt['cost'];
 	   $grand_total=$grand_total+$rowt['prod_total'];
-	$_SESSION['sess_total']=$grand_total;
+	   $totalvat=($grand_total*7.5)/100;
+	$_SESSION['sess_total']=$grand_total+$totalvat;
+	
 	$shipn=$shipn+$ship2;
 	 }
 	  
@@ -218,10 +220,17 @@ if($dbt->numRows()>0)
         </td>
         <td></td>
       </tr>
+	  
+	  <tr class="visible-xs">
+        <td colspan="3">Total VAT(7.5%)</td> 
+        <td class="text-right"><strong>₦<?=number_format($totalvat,2,'.',',')?></strong>
+        </td>
+        <td></td>
+      </tr>
 
       <tr class="visible-xs">
         <td colspan="3"></td> 
-        <td class="text-right"><strong class="bold">Total ₦ <?=number_format($grand_total+$shipn,2,'.',',')?></strong>
+        <td class="text-right"><strong class="bold">Total ₦ <?=number_format(($grand_total+$shipn+$totalvat),2,'.',',')?></strong>
         </td>
         <td></td>
       </tr>

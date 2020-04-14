@@ -346,51 +346,85 @@ width:25px; float:left; margin-right:6px
 .mr-3{
     margin-right: -2rem !important;
 }
-					</style>					 <!-- Search form -->
-<form class="form-inline active-cyan-4">
+					</style>	
+
+<script>
+
+$(document).ready(function() {
+     $("#example").DataTable();
+} );
+	</script>				<!-- Search form -->
+<!--<form class="form-inline active-cyan-4">
   <input class="form-control form-control-sm mr-3 w-25" type="text" placeholder="Search"
     aria-label="Search">
   <i class="fas fa-search" aria-hidden="true"></i>
-</form>
+</form>-->
 									</div>
 								</div>
-								<div class="row controltranstion" style="margin-top:30px;"></br>
 								
-										 <div class="col-md-4">
-										 <h3><b> Cuisine </b>(A-Z) </h3>
-										 <ul id="english"><?php
-										$sql="SELECT id,title FROM allvideo";
+								
+								
+															
+<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th><b> Cuisine </b>(A-Z) </th>
+            <th>Duration</th>
+            <th>Size</th>
+        
+        </tr>
+    </thead>
+	
+    <tbody>
+         <?php
+										$sql="SELECT * FROM allvideo";
 										$db->query($sql)or die($db->error());
 										while($row=$db->fetchArray()){	?>
-										 <li><?=$row['title']?><span style="float: right; padding-right: 30px;" class="controltranstion"> <a href="i-can-cook-play-video.php?vid=<?=$row['id']?>"class='aplay'><i class='fa fa-play' title='play'  aria-hidden='true'></i>
-										</a></span></li>
-										<?php }?>
-										 </ul>
-										 </div>
-										 
-										  <div class="col-md-4">
-										 <h3 class="controltranstion"><b>Duration </b></h3>
-										 <ul id="ibibo">
-										 <?php
-										$sql="SELECT duration FROM allvideo";
-										$db->query($sql)or die($db->error());
-										while($row=$db->fetchArray()){	?>
-										 <li><?php $du=$row['duration'];
+										<tr>
+										 <td><?=$row['title']?><span style="float: right; padding-right: 30px;" class="controltranstion"> <a href="i-can-cook-play-video.php?vid=<?=$row['id']?>"class='aplay'><i class='fa fa-play' title='play'  aria-hidden='true'></i>
+										</a></span></td>
+								
+										 <td><?php $du=$row['duration'];
 										  $duration=$du/60;
 										  echo number_format($duration,2);
-										 ?> Mins</li>
+										 ?> Mins</td>
 										
-										 <?php }?>
-										 </ul>
-										</div>
+										
+										
+										 <td >
+										 <?=sizeFormat($row['videosize'])?>
+										 </td>
 										 
-										<div class="col-md-4">
-										 <h3 class="controltranstion"><b>Size</b></h3>
-										  <ul id="ibibomp3">
-										  <style>
-											.controltranstion i{margin:0 10px; color: #ff5e00;}
-										  </style><?php
-										  function sizeFormat($bytes){ 
+										
+										
+										</tr>
+										<?php }?>
+		
+       
+     
+    
+       
+       
+	   </tbody>
+</table>
+
+<table border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td class="gutter">
+                <div class="line number1 index0 alt2" style="display: none;">1</div>
+            </td>
+            <td class="code">
+                <div class="container" style="display: none;">
+                    <div class="line number1 index0 alt2" style="display: none;">&nbsp;</div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<?php
+function sizeFormat($bytes){ 
 $kb = 1024;
 $mb = $kb * 1024;
 $gb = $mb * 1024;
@@ -414,18 +448,12 @@ return ceil($bytes / $tb) . ' TB';
 return $bytes . ' B';
 }
 }
-										$sql="SELECT videosize FROM allvideo";
-										$db->query($sql)or die($db->error());
-										while($row=$db->fetchArray()){	?>
-										 <li >
-										 <?=sizeFormat($row['videosize'])?>
-										 </li>
-										 
-										<?php }?>
-										
-										 </ul>
-										 </div>
-							   </div>
+?>		
+								
+								
+								
+								
+								
                           
 							</div>
 						  </div>
@@ -448,224 +476,15 @@ return $bytes . ' B';
     </main>
 <input type="hidden" name="audioval" id="audioval" value="" />
 <div id="audioplay1"></div>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+<!-- DataTables Select CSS -->
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!-- DataTables Select JS -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js" type="text/javascript"></script>
     <?php include('footer.php') ?>
 
-<script>
-$(document).on('click', '.aplay', function(){
-	var mid = jQuery(this).attr('mid');
-	$("#audioplay1").html('<audio controls="controls" style="opacity: 0;    visibility: hidden; position:absolute;"  autoplay="autoplay" style="" id="cataudio"><source src="//orangestate.ng/img/language/'+mid+'" type="audio/mp3" /><source src="//orangestate.ng/img/language/'+mid+'" type="audio/ogg" /></audio>');	
-	
-    
-});
- 
- </script>
-<script>
 
-
-$(document).ready(function(){
-	$("#tlanguage").keyup(function(){
-		var  target=$('#lan_2').val();
-			if(target==''){
-				return false;
-			}
-		$.ajax({
-		type: "POST",
-		url: "languageprint.php",
-		data:'keyword='+$(this).val() + '&lan_1='+$('#lan_1').val() + '&lan_2='+$('#lan_2').val(),
-		beforeSend: function(){
-			//$("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-		},
-		success: function(response){
-			var data = jQuery.parseJSON(response);			
-			var data1=data.message;	
-			var english=data.english;	
-			var ibibo=data.ibibo;	
-			
-			var ibibomp3new=data.ibibomp3;	
-			//var ibibomp3new = ibibomp3.replace(' ');
-			//var ibibomp3new=ibibomp3new.trim();
-			var newdata=data1.trim();
-			$("#rlanguage").show();
-			$("#rlanguage").html(newdata);
-			$("#english").html(english);
-			$("#ibibo").html(ibibo);
-			$("#ibibomp3").html(ibibomp3new);
-			$("#rlanguage").css("background","#FFF");
-		}
-		});
-	});
-	
-	
-	$("#languageconvertor").click(function(){
-		var  target=$('#lan_2').val();		
-		var  source=$('#lan_2').val();
-		if(target=='Ibibio' || target=='Anang' || target=='Oron'){
-			$('#library').show();			
-		}else{
-			$('#library').hide();
-		}
-		$.ajax({
-		type: "POST",
-		url: "texttomp3.php",
-		data:'keyword='+$('#rlanguage').val(),
-		beforeSend: function(){
-			//$("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-		},
-		success: function(data){
-			
-					$("#audioplay").html('<audio controls="controls" autoplay="autoplay" style="opacity: 0; visibility: hidden; position:absolute;"><source src="'+data+'" type="audio/mp3" /><source src="'+data+'" type="audio/ogg" /></audio>');	
-					
-			
-			
-			}
-		});
-		
-	});
-	
-	$("#languageconvertor1").click(function(){
-		var  target=$('#lan_2').val();		
-		var  source=$('#lan_2').val();
-		if(target=='Ibibio' || target=='Anang' || target=='Oron'){
-			$('#library').show();			
-		}else{
-			$('#library').hide();
-		}
-		$.ajax({
-		type: "POST",
-		url: "texttomp3.php",
-		data:'keyword='+$('#tlanguage').val(),
-		beforeSend: function(){
-			//$("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-		},
-		success: function(data){
-			
-					$("#audioplay").html('<audio controls="controls" autoplay="autoplay" style="opacity: 0; visibility: hidden; position:absolute;"><source src="'+data+'" type="audio/mp3" /><source src="'+data+'" type="audio/ogg" /></audio>');	
-					
-			
-			
-			}
-		});
-		
-	});
-	
-	
-	
-	$("#lan_2").change(function(){
-		var  target=$('#lan_2').val();
-		
-		if(target=='Ibibio' || target=='Anang' || target=='Oron'){
-			$('#library').show();
-			$('#languageconvertor').hide();
-			$('.myAudio').show();
-			$('#audioplay1').show();
-		}else{
-			$('#library').hide();
-			$('#audioplay1').hide();
-			$('.myAudio').hide();
-			$('#languageconvertor').show();
-			
-		}
-		$.ajax({
-		type: "POST",
-		url: "transBasedonSelect.php",
-		data:'keyword='+$("#tlanguage").val() + '&lan_1='+$('#lan_1').val() + '&lan_2='+$('#lan_2').val(),
-		beforeSend: function(){
-			//$("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-		},
-		success: function(data){
-		var newdata=data.trim();
-			$("#rlanguage").show();
-			$("#rlanguage").html('');
-			$("#rlanguage").html(newdata);
-			$("#rlanguage").css("background","#FFF");	
-			
-			
-		}
-		});
-	});
-	
-	////////////////////////////////////////////
-	$(".myAudio").click(function(){
-		var  target=$('#lan_2').val();		
-		var  source=$('#lan_2').val();
-		
-		$.ajax({
-		type: "POST",
-		url: "texttomp3.php",
-		data:'keyword='+$('#rlanguage').val() + '&target='+ target,
-		beforeSend: function(){
-			//$("#search-box").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-		},
-		success: function(data){		
-	var audio = document.getElementById("myAudio");
-	var audioval = data.replace(' ');
-	var playlist = audioval.split(',');	
-	var i=1;
-	//console.log(playlist[0]);
-	audio.src = playlist[0];
-	//audio.src = "//orangestate.ng/img/language/95.mp3";
-	audio.play();
-	
-	audio.onended = function() {
-		
-		audio.src = playlist[i];
-		audio.play();
-		i++;
-		
-	 
-	};
-			
-			
-			}
-		});
-		
-	});
-	///////////////////////////////////////////
-
-	
-});
-/* var playlist1= [
-  'https://www.w3schools.com/tags/horse.mp3',
-  'https://demo.twilio.com/hellomonkey/monkey.mp3',
-  'https://www.w3schools.com/tags/horse.mp3'];  */
-/* function audioplaynew(dataaudio)
-{ 
-
-	$("#audioplay1").html('<audio controls="controls" autoplay="autoplay" style="" id="cataudio"><source src="//orangestate.ng/img/language/'+dataaudionew+'" type="audio/mp3" /><source src="//orangestate.ng/img/language/'+dataaudionew+'" type="audio/ogg" /></audio>');	
-} */
-
-
-function playAudio() {
-	
-	var audio = document.getElementById("myAudio");
-
-	var str=$("#audioval").val();
-	var audioval = str.replace(' ');
-	var playlist = audioval.split(',');
-	
-	console.log(playlist);
-	var i=1;
-	//console.log(playlist[0]);
-	audio.src = playlist[0];
-	//audio.src = "//orangestate.ng/img/language/95.mp3";
-	audio.play();
-	
-	audio.onended = function() {
-		
-		audio.src = playlist[i];
-		audio.play();
-		i++;
-		
-	 
-	};
-}
- 
-
-function pauseAudio(){ 
-alert('');
-var audio = document.getElementById("cataudio");
-  audio.pause(); 
-}  
-
-</script>
-<?php include('footer.php');?>

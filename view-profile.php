@@ -88,7 +88,28 @@ while($mrow=$db->fetchArray()){
 												?></b>
                                             </li>
 											
+											
                                         </ul>
+										<?php 
+									
+										$cntf=$db->getSingleResult("SELECT f_id from followers where follow=".$uid." and user_id =".$_SESSION['sess_webid']);
+										if($cntf>0){
+										?>
+										  <a class="clrbtn follownew1"  id="follownew1<?=$cntf?>" fid="<?=$cntf?>" href="javascript:void(0);"> Unfollow</a>
+										<?php }else{ ?>
+										 <a class="clrbtn follownew" id="follownew<?=$uid?>"  fid="<?=$uid?>" href="javascript:void(0);"> Follow</a>
+										<?php }
+										//echo "SELECT status from friendrequest where request_fid=".$uid." and user_id =".$_SESSION['sess_webid'];
+										$status=$db->getSingleResult("SELECT status from friendrequest where request_fid=".$uid." and user_id =".$_SESSION['sess_webid']);
+										if($status==1){
+										?>
+										
+										  <a class="clrbtn freqfollownew"  id="freqfollownew<?=$uid?>" fid="<?=$uid?>" href="javascript:void(0);"> Confirm</a>
+										<?php }elseif($status==2){ ?>
+  <a class="clrbtn"  id="sendreequest<?=$uid?>" fid="<?=$uid?>" href="javascript:void(0);"> Friend</a>
+										<?php }else{ ?>
+										<a class="clrbtn sendreequest"  id="sendreequest<?=$uid?>" fid="<?=$uid?>" href="javascript:void(0);"> Send Friend Request</a>
+										<?php }?>  
                                     </div>
 									 <div class="user_pro_status">
                                         <ul class="flw-status">

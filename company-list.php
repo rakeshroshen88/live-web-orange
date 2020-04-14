@@ -1,5 +1,5 @@
 <?php include('header.php') ?>
- 
+ <div class="vchat" id="vchat">
  <section class="companies-info">
 			<div class="container">
 				<div class="company-title">
@@ -60,5 +60,5 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 		
 
 
-
+ </div>
 <?php include('footer.php') ?>

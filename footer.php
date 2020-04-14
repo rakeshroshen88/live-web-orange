@@ -200,7 +200,7 @@ $(document).ready(function(){
 
 	function make_chat_dialog_box(to_user_id, to_user_name, to_user_email)
 	{
-		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><a href="javascript:void(0)" class="start_one" uid="'+to_user_email+'"><i class="fa fa-video-camera" aria-hidden="true"></i></a><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
+		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><button class="start_one  j-actions m-video_call" data-call="video" uid="'+to_user_email+'" id="'+to_user_email+'"><i class="fa fa-video-camera" aria-hidden="true"></i></button><button class="start_one j-actions m-audio_call" data-call="audio"  uid="'+to_user_email+'"><i class="fa fa-volume-up" aria-hidden="true"></i></button><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
 		modal_content += '<div class="chat_history" data-touserid="'+to_user_id+'" id="chat_history_'+to_user_id+'">';
 		modal_content += fetch_user_chat_history(to_user_id);
 		modal_content += fetch_user_chat_history1(to_user_id);
@@ -230,11 +230,14 @@ $(document).ready(function(){
   
 } */
 
-$(document).on('click', '.start_one', function(){
+/* $(document).on('click', '.start_one', function(){
 	var uid = $(this).attr('uid');
-      window.open("https://orangestate.ng/video-chat/index.php");
+	alert(uid);
+	$("[data-name='"+uid+"']").trigger("click");
+	//$("#"+uid).trigger("click");
+     // window.open("https://orangestate.ng/video-chat/index.php");
 	// window.open("https://orangestate.ng/video-chat/index.php?uid="+uid);
-});
+});  */
 	$(document).on('click', '.start_chat', function(){
 		var to_user_id = $(this).data('touserid');
 		var to_user_name = $(this).data('tousername');
@@ -650,6 +653,10 @@ var action='action';
 
 	</div><!--theme-layout end-->
 
+<style>
+.chatfeature-leftbar {z-index: 99999999 !important;}
+</style>
+<?php include('video-chat/video.php');?>
 
 <footer class="off-white-bg2 pt-95 bdr-top pt-sm-55 clear">
             <!-- Footer Top Start -->

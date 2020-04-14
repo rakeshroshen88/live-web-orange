@@ -132,24 +132,26 @@ if($dbt->numRows()>0)
 $ct++; 
 	   //echo $sub_total+=$rowt['cost'];
 	   $grand_total=$grand_total+$rowt['prod_total'];
+	    $totalvat=($grand_total*7.5)/100;
+	//$_SESSION['sess_total']=$grand_total+$totalvat;
 $shipb=$shipb+$ship3;
 	}} ?>    <li class="list-group-item d-flex justify-content-between border-top1px">
                   <span class="product-name">Shipping &amp; Handling</span>
                   <span class="product-price">₦<?=number_format($shipb,2,'.',',')?></span>
                 </li>
                 
-                <!--<li class="list-group-item d-flex justify-content-between ">
-                  <span class="product-name">TAX / VAT</span>
-                  <span class="product-price">$0</span>
-                </li>-->
+                <li class="list-group-item d-flex justify-content-between ">
+                  <span class="product-name">TAX / VAT(7.5%)</span>
+                  <span class="product-price">₦<?=number_format($totalvat,2,'.',',')?></span>
+                </li>
 				<?php 
 				if(empty($order_row)){
-					$famt=$grand_total+$shipb;
+					$famt=$grand_total+$shipb+$totalvat;
 					$discount=($famt-$famt*50/100);
 					$finalamoun=($famt-$famt*50/100);
 					$_SESSION['finalamoun']=$finalamoun;
 				}else{
-					$finalamoun=$grand_total+$shipb;
+					$finalamoun=$grand_total+$shipb+$totalvat;
 					$_SESSION['finalamoun']=$finalamoun;
 				}
 				?>

@@ -162,7 +162,7 @@ include('chksession.php');
                         <div class="room-content">
                             <div class="room-title">
                                 <h4><?=$row2['title']?></h4>
-                                <p>₦1200/Night</p>
+                                <p>₦<?=$row2['price']?>/Night</p>
                                 <div class="deal-rating">
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star checked"></span>
@@ -173,83 +173,21 @@ include('chksession.php');
                             </div>
                             <div class="room-services mar-bottom-15">
                                 <ul>
-                                    <li><i class="fa fa-bed" aria-hidden="true"></i> 3 Bedrooms</li>
-                                    <li><i class="fa fa-wifi" aria-hidden="true"></i> Wifi</li>
+                                    <li><i class="fa fa-bed" aria-hidden="true"></i>  Bed Rooms</li>
+                                    <li><i class="fa fa-wifi" aria-hidden="true"></i>  Wi-Fi</li>
                                 </ul>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum orci nulla, fermentum in faucibus a, interdum eu nibh.</p>
+                            <p><?=$row2['sortdetail']?></p>
                             <div class="room-btns mar-top-20">
-                                <a href="hotel-details.php" class="btn btn-black mar-right-10">VIEW DETAILS</a>
-                                <a href="hotel-booking.php" class="btn btn-orange">BOOK NOW</a>
+                                <a href="hotel-details.php?hid=<?=base64_encode($row2['id'])?>" class="btn btn-black mar-right-10">VIEW DETAILS</a>
+                                <a href="hotel-booking.php?hid=<?=base64_encode($row2['id'])?>" class="btn btn-orange">BOOK NOW</a>
                             </div>
                         </div>
                     </div>
                 </div>
               
 				<?php } ?>  
-			  <div class="col-md-4 col-sm-6 col-xs-6">
-                    <div class="room-item">
-                        <div class="room-image">
-                            <img src="img/room1.jpg" alt="image">
-                        </div>
-                        <div class="room-content">
-                            <div class="room-title">
-                                <h4>Junior Suite</h4>
-                                <p>₦1200/Night</p>
-                                <div class="deal-rating">
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                </div>
-                            </div>
-                            <div class="room-services mar-bottom-15">
-                                <ul>
-                                    <li><i class="fa fa-bed" aria-hidden="true"></i> 3 Bedrooms</li>
-                                    <li><i class="fa fa-wifi" aria-hidden="true"></i> Wifi</li>
-                                </ul>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum orci nulla, fermentum in faucibus a, interdum eu nibh.</p>
-                            <div class="room-btns mar-top-20">
-                                <a href="hotel-details.php" class="btn btn-black mar-right-10">VIEW DETAILS</a>
-                                <a href="hotel-booking.php" class="btn btn-orange">BOOK NOW</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                    <div class="room-item">
-                        <div class="room-image">
-                            <img src="img/room1.jpg" alt="image">
-                        </div>
-                        <div class="room-content">
-                            <div class="room-title">
-                                <h4>Executive Suite</h4>
-                                <p>₦1200/Night</p>
-                                <div class="deal-rating">
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                </div>
-                            </div>
-                            <div class="room-services mar-bottom-15">
-                                <ul>
-                                    <li><i class="fa fa-bed" aria-hidden="true"></i> 3 Bedrooms</li>
-                                    <li><i class="fa fa-wifi" aria-hidden="true"></i> Wifi</li>
-                                </ul>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum orci nulla, fermentum in faucibus a, interdum eu nibh.</p>
-                            <div class="room-btns mar-top-20">
-                                <a href="hotel-details.php" class="btn btn-black mar-right-10">VIEW DETAILS</a>
-                                <a href="hotel-booking.php" class="btn btn-orange">BOOK NOW</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-
+			
             </div>
         </div>
         <div class="section-btn">

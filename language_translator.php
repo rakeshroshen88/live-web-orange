@@ -714,4 +714,3 @@ var audio = document.getElementById("cataudio");
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js" type="text/javascript"></script>
 
-<?php include('footer.php');?>

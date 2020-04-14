@@ -74,7 +74,7 @@ width:25px; float:left; margin-right:6px
 			Browse
 		</label>
     </section>
-
+<div class="vchat" id="vchat">
     <main>
         <div class="main-section">
             <div class="container">
@@ -290,8 +290,9 @@ width:25px; float:left; margin-right:6px
                                                 <?php ////////follower All Friends//////////?>
                                                     <?php 
 										$dbuf=new DB();
-										//$sql="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
-										 $sql="SELECT * from all_user where user_id NOT IN ( select follow from followers) ";
+										  $sql="SELECT * from followers where follow=".$_SESSION['sess_webid']." and user_id=".$_SESSION['sess_webid'];
+										
+										 //$sql="SELECT * from all_user where user_id NOT IN ( select follow from followers) ";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -1038,7 +1039,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                             <?php ////////follower All Friends//////////?>
                                                 <?php 
 										$dbuf=new DB();
-										  $sql="SELECT * from followers where follow=".$_SESSION['sess_webid'];
+										   $sql="SELECT * from followers where follow=".$_SESSION['sess_webid']." GROUP BY user_id";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -1094,7 +1095,7 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
                                             <?php ////////follower All Friends//////////?>
                                                 <?php 
 										$dbuf=new DB();
-									      $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where work='".$profilerow['work']."')";
+									      $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where work='".$profilerow['work']."' )";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -1481,9 +1482,10 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
             </div>
             <!-- main-section-data end-->
         </div>
-        </div>
+       
     </main>
-	
+</div>
+ </div>
 	<div class="overview-box" id="overview-box">
         <div class="overview-edit">
             <h3>Overview</h3>

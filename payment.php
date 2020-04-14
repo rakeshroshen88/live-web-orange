@@ -12,6 +12,9 @@ if(matchExists($_TBL_ORDER, $whereClause))
 		      $orderid=(string)rand(1000,99999).$_SESSION['sess_webid'];
 		}
 		$_SESSION['sess_orderid']=$orderid;
+		//echo $_SESSION['finalamoun'];
+		echo $tvalue=intval($_SESSION['finalamoun']);
+		
 ?>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <form >
@@ -58,7 +61,7 @@ $(document).ready(function() {
 	  key: 'pk_live_ff9da0378cea58ecfafbfa2d6befd3da90e64255', //live key
 	   //key: 'sk_live_74136133d991099e7d09fda975479ae7e42b991b',
       email: '<?=$user_row['email_id']?>',
-      amount: <?=$_SESSION['finalamoun']?>*100,
+      amount: <?=$tvalue?>*100,
       currency: "NGN",
 	  ref: '<?=$_SESSION['sess_orderid']?>',
      // ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you

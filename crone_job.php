@@ -20,9 +20,9 @@ $to_time = strtotime($last_activity);
 $from_time = strtotime($cuttime);
 $t=round(abs($to_time - $from_time) / 60);
 if($t>10){
- echo $query2 = "UPDATE login_details SET status = 'Offline' WHERE login_details_id = '".$login_details_id."'";
+ /*  $query2 = "UPDATE login_details SET status = 'Offline' WHERE login_details_id = '".$login_details_id."'";
 $statement2 = $connect->prepare($query2);
-$statement2->execute();
+$statement2->execute(); */
 }	
 }
 $evtstr='<table width="740"  style="border:#666666; size:2px;" align="center" cellpadding="10" cellspacing="0" bgcolor="#666666"  >
@@ -79,7 +79,7 @@ $evtstr1.='</p></td>
 									$headers  = "MIME-Version: 1.0\r\n";
 									$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
 									$headers .= "From:$from\r\n";
-									@mail($to, $subject, $message, $headers); 
+									//@mail($to, $subject, $message, $headers); 
 echo "ok";
 //////////////////////////
 ?>
