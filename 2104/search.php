@@ -22,7 +22,7 @@ include('chksession.php');
                                             <a class="nav-link active  " id="mange-tab" data-toggle="tab" href="#mange" role="tab" aria-controls="home" aria-selected="true">All Friends</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="saved-tab" data-toggle="tab" href="#saved" role="tab" aria-controls="profile" aria-selected="false">Frends</a>
+                                            <a class="nav-link" id="saved-tab" data-toggle="tab" href="#saved" role="tab" aria-controls="profile" aria-selected="false">Following</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#applied" role="tab" aria-controls="applied" aria-selected="false">Suggetions Near You</a>
@@ -81,9 +81,9 @@ include('chksession.php');
                                                                     </div>
   <div class="job_descp noborder">
 
-<?php $cnt=$db7->getSingleResult("SELECT count(f_id) from followers where user_id = '".$_SESSION['sess_webid']."' or follow=".$frow['user_id']);
+<?php $cnt=$db7->getSingleResult("SELECT count(f_id) from followers where user_id = '".$_SESSION['sess_webid']."' and follow=".$frow['user_id']);
 							
-							$f_id=$db7->getSingleResult("SELECT f_id from followers where user_id = '".$_SESSION['sess_webid']."' or follow=".$frow['user_id']);
+							$f_id=$db7->getSingleResult("SELECT f_id from followers where user_id = '".$_SESSION['sess_webid']."' and follow=".$frow['user_id']);
 									if($cnt>0){
 									?>
                                                                         <div class="devepbtn appliedinfo noreply">
@@ -187,7 +187,7 @@ include('chksession.php');
 										//$sql="SELECT * from all_user where user_id IN ( select follow from followers) ";
 										$db4=new DB();
 										$l=array();
-										$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid']." or follow=".$_SESSION['sess_webid']." GROUP BY user_id";
+										$sql4="SELECT * from followers where user_id=".$_SESSION['sess_webid']." GROUP BY user_id";
 										$db4->query($sql4);
 										if($db4->numRows()>0)
 										{
@@ -197,8 +197,7 @@ include('chksession.php');
 										}
 										$allfriend=implode(',',$l);
 										
-										 $sql11="select * from all_user where first_name like '%$q%' or last_name like '%$q%' and user_id IN($allfriend) GROUP BY user_id ";
-										//$sql11="SELECT * from followers where user_id=".$_SESSION['sess_webid']." or follow=".$_SESSION['sess_webid']." GROUP BY user_id";
+										$sql11="select * from all_user where first_name like '%$q%' or last_name like '%$q%' and user_id IN($allfriend) GROUP BY user_id ";
 										$db->query($sql11);
 										if($db->numRows()>0)
 										{
@@ -234,9 +233,9 @@ include('chksession.php');
                                                                     </div>
                                                                     <div class="job_descp noborder float-right">
 																	
-																	<?php $cnt=$db6->getSingleResult("SELECT count(f_id) from followers where user_id = '".$_SESSION['sess_webid']."' or follow=".$frow['user_id']);
+																	<?php $cnt=$db6->getSingleResult("SELECT count(f_id) from followers where user_id = '".$_SESSION['sess_webid']."' and follow=".$frow['user_id']);
 							
-							$f_id=$db6->getSingleResult("SELECT f_id from followers where user_id = '".$_SESSION['sess_webid']."' or follow=".$frow['user_id']);
+							$f_id=$db6->getSingleResult("SELECT f_id from followers where user_id = '".$_SESSION['sess_webid']."' and follow=".$frow['user_id']);
 									if($cnt>0){
 									?>
                                                                         <div class="devepbtn appliedinfo noreply">
@@ -270,8 +269,7 @@ include('chksession.php');
                                                     <?php 
 										$dbuf=new DB();
 										$dbus=new DB();
-										
-										 $sqls="SELECT * FROM user_profile where zip_code='".$profilerow['zip_code']."' and user_id NOT IN($allfriend) GROUP BY user_id limit 0,50";
+										 $sqls="SELECT * FROM user_profile where zip_code='".$profilerow['zip_code']."' GROUP BY user_id limit 0,50";
 										//$sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where college='".$profilerow['college']."')";
 										$dbus->query($sqls);
 										if($dbus->numRows()>0)
@@ -330,7 +328,7 @@ include('chksession.php');
 										$db5=new DB();
 										//$sql="SELECT * from followers where user_id=".$_SESSION['sess_webid'];
 										// $sql="SELECT * from followers where follow IN(SELECT user_id from user_profile where current_city='".$profilerow['current_city']."')";
-										 $sql="SELECT * from user_profile where current_city='".$profilerow['current_city']."'  and user_id NOT IN($allfriend) GROUP BY user_id";
+										 $sql="SELECT * from user_profile where current_city='".$profilerow['current_city']."' GROUP BY user_id";
 										$db->query($sql);
 										if($db->numRows()>0)
 										{
@@ -365,9 +363,9 @@ include('chksession.php');
                                                                                     </div>
                                                                     </div>
                                                                     <div class="job_descp noborder float-right">
-							<?php $cnt=$db5->getSingleResult("SELECT count(f_id) from followers where user_id = '".$_SESSION['sess_webid']."' or follow=".$cityrow['user_id']);
+							<?php $cnt=$db5->getSingleResult("SELECT count(f_id) from followers where user_id = '".$_SESSION['sess_webid']."' and follow=".$cityrow['user_id']);
 							
-							$f_id=$db5->getSingleResult("SELECT f_id from followers where user_id = '".$_SESSION['sess_webid']."' or follow=".$cityrow['user_id']);
+							$f_id=$db5->getSingleResult("SELECT f_id from followers where user_id = '".$_SESSION['sess_webid']."' and follow=".$cityrow['user_id']);
 									if($cnt>0){
 									?>
                                                                         <div class="devepbtn appliedinfo noreply">

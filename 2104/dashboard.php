@@ -140,12 +140,19 @@ width:25px; float:left; margin-right:6px
 										</div><!--user-profile end-->
 										<ul class="user-fw-status">
 											<li><!--javascript:void(0)" id="follow-->
-												<a href="my-profile.php"><h4><span class="foocat">Friends </span><span class="follusingnumber"><?php 
-												 $num1=$db->getSingleResult("SELECT count(f_id) from followers where user_id=".$_SESSION['sess_webid']." or follow=".$_SESSION['sess_webid']."");
+												<a href="my-profile.php"><h4><span class="foocat">Following </span><span class="follusingnumber"><?php 
+												 $num1=$db->getSingleResult("SELECT count(f_id) from followers where user_id=".$_SESSION['sess_webid']." limit 0,5");
 												if(empty($num1)){ echo "0";}else{ echo $num1; }
 												?></span></h4></a>
 												
 											</li> 
+											<li>
+												<h4><span class="foocat">Followers </span> <span class="follusingnumber"><?php 
+												 $num=$db->getSingleResult("SELECT count(f_id) from followers where follow=".$_SESSION['sess_webid']);
+												 if(empty($num)){ echo "0";}else{ echo $num; }
+												?></span></h4>
+												
+											</li>
 											<li>
 												<a href="javascript:void(0);" ><h4><span class="foocat">Message </span> <span class="follusingnumber"><?php 
 												 $query = "
@@ -377,19 +384,6 @@ $allfriends=$allfriend;
 }else{
 $allfriends=0;	
 }
-
-
-$sql5="SELECT * from followers where follow=".$_SESSION['sess_webid']."";
-										$db4->query($sql5);
-										if($db4->numRows()>0)
-										{
-										while($row4=$db4->fetchArray()){
-											$l1[]=$row4['user_id'];
-										}
-										}
-										$allfriend1=implode(',',$l1);
-										
-										if(empty($allfriend1)){$allfriend1=0;}
 $db22=new DB();
 $db1=new DB();
 $dblike=new DB();
@@ -398,9 +392,7 @@ $dbc=new DB();
 $dbu=new DB();
 $dbp=new DB();
 $mainuserimage=$db1->getSingleResult('select image_id from user_profile where user_id='.$_SESSION['sess_webid']);
-  //$sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) and post_hide='0' order by post_id desc limit 0,5";
-  
-  $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) or user_id IN($allfriend1) and post_hide='0' order by post_id desc limit 0,5";
+  $sqlp="SELECT * from user_post where FIND_IN_SET(".$_SESSION['sess_webid'].",tagfriends) or user_id='".$_SESSION['sess_webid']."' or user_id IN($allfriends) and post_hide='0' order by post_id desc limit 0,5";
 $dbp->query($sqlp);
 if($dbp->numRows()>0)
 {

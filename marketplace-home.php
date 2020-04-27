@@ -1024,6 +1024,9 @@ if($dbt->numRows()>0)
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$prod_price=str_replace(",","",$row['prod_price']);
 				$prod_sprice=str_replace(",","",$row['prod_sprice']);
@@ -1069,6 +1072,9 @@ if($dbt->numRows()>0)
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1132,6 +1138,9 @@ $cnt=$db->getSingleResult("select count(*) from feedback where pages='product' p
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1212,29 +1221,50 @@ $numberDays = intval($numberDays);
                 <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span> Stores You'll Love<span class="pull-right morevew">View  More</span> </h3>
                 <div class="topliest">
                     <ul>
+					
+						<?php 
+						$dbstore=new DB();
+						//$sqlstore="SELECT * from ".$_TBL_PRODUCT." where catid='28' ORDER BY rand() limit 0,2";
+						$sqlstore="SELECT * from ".$_TBL_PRODUCT." limit 0,2";
+			$db->query($sqlstore);			
+			if($db->numRows()>0){		
+			while($row=$db->fetchArray()){
+				$icon=$dbstore->getSingleResult("SELECT imgid from category where id='".$row['catid']."'");
+				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
+				$goid=base64_encode($row['id']); 
+				$save=$row['prod_price']-$row['prod_sprice'];
+				$mrp=$row['prod_price'];					
+				$persen=$row['prod_price']-$row['prod_sprice'];	
+				$discount=($persen*100)/$mrp;		
+				$orgprice=$row['prod_sprice'];		
+				$finalprice=$row['prod_sprice'];	
+				$star=$row['star'];
+
+				?>
                         <li class="dear1s">
                             <div class="dealimg">
                                  <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
                             </div>
-                            <div class="productdeails1deals">
+                              <div class="productdeails1deals">
                                 <div class="logobrantop">
-                                    <img src="img/calvin-klein.jpg">
+                                    <img src="category/<?=$icon?>">
                                 </div>
-                                <h5>Calvin Klenin </h5>
+                                <h5><?=$row['prod_name']?></h5>
                             </div>
+							 
                         </li>
-                        <li class="dear1s">
-                            <div class="dealimg">
-                                <img src="img/newsimmes2.jpg" alt="product 1">
-                            </div>
-                            <div class="productdeails1deals">
-                                <div class="logobrantop">
-                                    <img src="img/addilogo.jpg">
+			<?php } }else{ ?>
+            <li>
+                <div class="noprod">
+                                    No Prodcuct Available
                                 </div>
-                                <h5>Adidas</h5>
-                            </div>
-                        </li>
-                    </ul>
+            </li>
+
+      <?php  } ?>
+	  </ul>
                 </div>
             </div>
         </div>
@@ -1252,7 +1282,10 @@ $numberDays = intval($numberDays);
 			$db->query($sqltop);			
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
-				$path=$row['prod_large_image'];	
+				$path=$row['prod_large_image'];
+if(empty($path)){
+					$path='noimage.jpg';
+				}				
 				$goid=base64_encode($row['id']);?>
             <div class="big-adds0mill">
 			
@@ -1278,6 +1311,9 @@ $numberDays = intval($numberDays);
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1330,7 +1366,10 @@ $numberDays = intval($numberDays);
 			$db->query($sqltop);			
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
-				$path=$row['prod_large_image'];	
+				$path=$row['prod_large_image'];
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1386,7 +1425,10 @@ $numberDays = intval($numberDays);
 			$db->query($sqltop);			
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
-				$path=$row['prod_large_image'];	
+				$path=$row['prod_large_image'];
+if(empty($path)){
+					$path='noimage.jpg';
+				}				
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1442,6 +1484,9 @@ $numberDays = intval($numberDays);
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1496,6 +1541,9 @@ $numberDays = intval($numberDays);
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1549,6 +1597,9 @@ $numberDays = intval($numberDays);
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
 				$path=$row['prod_large_image'];	
+				if(empty($path)){
+					$path='noimage.jpg';
+				}
 				$goid=base64_encode($row['id']); 
 				$save=$row['prod_price']-$row['prod_sprice'];
 				$mrp=$row['prod_price'];					
@@ -1636,6 +1687,9 @@ $numberDays = intval($numberDays);
 						while($row=$db->fetchArray()){
 
 						$path=$row['prod_large_image'];
+						if(empty($path)){
+					$path='noimage.jpg';
+				}
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
 						$mrp=$row['prod_price'];
@@ -1778,6 +1832,9 @@ $numberDays = intval($numberDays);
 						{
 						while($row=$db->fetchArray()){
 						$path=$row['prod_large_image'];
+						if(empty($path)){
+					$path='noimage.jpg';
+				}
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
 						$mrp=$row['prod_price'];

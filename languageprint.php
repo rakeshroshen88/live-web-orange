@@ -13,9 +13,9 @@ $newtext = implode("','",$newtext);
 
 $newtext = "'".$newtext."'";													//$c=explode(',',$a);
 $db2=new DB();
-if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio' or $source=='Anang' or $source=='Oron'){
+if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $target=='Yoruba' or $source=='Ibibio' or $source=='Anang' or $source=='Oron' or $source=='Yoruba'){
 	$dbuf=new DB();
-	if($target=='Ibibio' or $target=='Anang' or $target=='Oron'){
+	if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $target=='Yoruba'){
 	 $sql="SELECT language_2,category from language where source='".$source."' and target='".$target."' and language_1 IN($newtext)";
 	$db->query($sql);
 	//$array_record=array();
@@ -53,7 +53,7 @@ if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio'
 	die;
 	}
 	
-	if($source=='Ibibio' or $source=='Anang' or $source=='Oron'){
+	if($source=='Ibibio' or $source=='Anang' or $source=='Oron' or $source=='Yoruba'){
 		 $sql="SELECT language_1 from language where source='".$target."' and target='".$source."' and language_2 IN($newtext)";
 	$db->query($sql);
 	//$array_record=array();

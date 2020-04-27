@@ -33,7 +33,7 @@ $db->query($dsql);
 $sql1 = "UPDATE user_profile SET allfriends = '".$friends"' WHERE user_id=".$_SESSION['sess_webid']; */
 
 $conf=$_POST['conf'];
-if($conf=='conf'){
+if($conf=='conf' or $conf !='conf' ){
 $sql1 = "UPDATE friendrequest SET status='2' WHERE request_fid = '".$followid."' and user_id=".$_SESSION['sess_webid']; 
 $db->query($sql1);
 }
@@ -47,57 +47,25 @@ $db->query($sql1);
 			    );
 				//print_r($arr);
      $insid=insertData($arr, 'followers');
-	 $conf=$_POST['conf'];
-if($conf=='conf'){
-$sql1 = "UPDATE friendrequest SET status='2' WHERE request_fid = '".$followid."' and user_id=".$_SESSION['sess_webid']; 
-$db->query($sql1);
-}
-	 //////////////chat///////////////////
 	 
-				/*  $data = array(
-					':username'		=>	$emailid,
-					':name'		=>	$userrow['first_name'],
-					':password'		=>	password_hash('12abc', PASSWORD_DEFAULT),
-					':f_userid'		=>	$followid,
-				);
-				$query = "
-				INSERT INTO login 
-				(username, password, name, f_userid) 
-				VALUES (:username, :password, :name, :f_userid)
-				";
-				$statement = $connect->prepare($query);
-				$statement->execute($data);   */
-	//////////////////////////////////	
- ////////////////////////////////////
-/* $query = "
-		SELECT * FROM login
-  		WHERE username = :username
-	";
-	$statement = $connect->prepare($query);
-	$statement->execute(
-		array(
-			':username' => $userrow['first_name']
-		)
-	);
-	$count = $statement->rowCount();
-	if($count > 0)
-	{
-		$result1 = $statement->fetchAll();
-		foreach($result1 as $row)
-		{
-			 $_SESSION['user_id'] = $row['user_id'];
-			 $_SESSION['username'] = $row['username'];
-				$sub_query = "
-				INSERT INTO login_details
-	     		(user_id,status)
-	     		VALUES ('".$row['user_id']."','Online')
-				";
-				$statement = $connect->prepare($sub_query);
-				$statement->execute();
-				 $_SESSION['login_details_id'] = $connect->lastInsertId();	
-	}} */
-/////////////////////////////////////////////////
-	 echo $regmsg="following";	
+	 ////////////////Notification///////////////////
+	 
+		/* $notarr=array(
+							"user_id"=>$_SESSION['sess_webid'],
+							"f_userid"=>$followid,	
+							"notification_type"=>'follower',
+							"status"=>'1',							
+							"date"=>date('Y-m-d H:i:s')
+			    );
+				//print_r($arr);
+     $not=insertData($notarr, 'notification'); */
+	 //////////////////////////////////
+	 $conf=$_POST['conf'];
+
+//if($conf=='conf'){
+  $sql1 = "DELETE FROM friendrequest WHERE user_id = '".$followid."' and request_fid='".$_SESSION['sess_webid']."'"; 
+$db->query($sql1);
+echo $regmsg="following";	
 }
 	 
 //}

@@ -1,6 +1,5 @@
 <?php include('header.php'); 
 include('chksession.php');
-$db5=new DB();
 						$uid=base64_decode($_REQUEST['uid']);
 						//echo "SELECT user_id FROM user_profile WHERE user_id IN (    SELECT user_id FROM followers WHERE user_id ='".$_SESSION['sess_webid']."') AND user_id IN (    SELECT user_id FROM followers WHERE user_id = '".$uid."')";
 						//SELECT user_id FROM followers WHERE (user_id<>'331' OR follow='331') AND (user_id<>'289' OR follow <>'289')
@@ -76,21 +75,28 @@ while($mrow=$db->fetchArray()){
                                     <div class="user_pro_status">
                                         <ul class="flw-status">
                                             <li>
-                                                <span>Friends</span>
+                                                <span>Following</span>
                                                 <b><?php 
-												
-												 $num1=$db->getSingleResult("SELECT count(f_id) from followers where user_id=".$_SESSION['sess_webid']." or follow=".$_SESSION['sess_webid']."");
-												if(empty($num1)){ echo "0";}else{ echo $num1; }
+												 $num1=$db->getSingleResult("SELECT count(f_id) from followers where user_id=".$uid);
+												if(!empty($num1)){ echo $num1;}else{ echo "0";}
 												?></b>
                                             </li>
+                                            <li>
+                                                <span>Followers</span>
+                                                <b><?php 
+												 $num=$db->getSingleResult("SELECT count(f_id) from followers where follow=".$uid);
+												 if(!empty($num)){ echo $num;}else{ echo "0";}
+												?></b>
+                                            </li>
+											
 											
                                         </ul>
 										<?php 
 									
-										$cntf=$db->getSingleResult("SELECT f_id from followers where (user_id=".$uid." and follow =".$_SESSION['sess_webid'].") or (user_id=".$_SESSION['sess_webid']." and follow =".$uid.")");
+										$cntf=$db->getSingleResult("SELECT f_id from followers where user_id=".$uid." and follow =".$_SESSION['sess_webid']);
 										if($cntf>0){
 										?>
-										  <a class="clrbtn follownew1"  id="follownew1<?=$cntf?>" fid="<?=$cntf?>" href="javascript:void(0);"> Unfriend </a>
+										  <a class="clrbtn follownew1"  id="follownew1<?=$cntf?>" fid="<?=$cntf?>" href="javascript:void(0);"> Unfollow</a>
 										<?php }else{ ?>
 										 <a class="clrbtn sendreequest" id="sendreequest<?=$uid?>"  fid="<?=$uid?>" href="javascript:void(0);"> Add as a friend</a>
 										<?php }
@@ -170,7 +176,14 @@ while($mrow=$db->fetchArray()){
                                     <div class="star-descp">
                                         <span><?=$profilerow['current_company']?>
 													</span>
-                                    
+                                        <ul>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star-half-o"></i></li>
+                                        </ul>
+                                        <a href="javascript:void(0);" title="">Status</a>
                                     </div>
                                     <!--star-descp end-->
                                     <div class="tab-feed st2 settingjb">
@@ -327,7 +340,7 @@ while($mrow=$db->fetchArray()){
                                                                     <div class="job_descp noborder">
 
                                                                         <div class="devepbtn appliedinfo noreply">
-                                                                            <a class="clrbtn follownew1"  id="follownew1<?=$frow['f_id']?>" fid="<?=$frow['f_id']?>" href="javascript:void(0);"> Unfriend </a>
+                                                                            <a class="clrbtn follownew1"  id="follownew1<?=$frow['f_id']?>" fid="<?=$frow['f_id']?>" href="javascript:void(0);"> Unfollow</a>
 
                                                                         </div>
                                                                     </div>
@@ -385,7 +398,7 @@ while($mrow=$db->fetchArray()){
                                                                     <div class="job_descp noborder">
 
                                                                         <div class="devepbtn appliedinfo noreply">
-                                                                            <a class="clrbtn follownew1"  id="follownew<?=$frow['f_id']?>"   fid="<?=$frow['f_id']?>" href="javascript:void(0);"> Unfriend </a>
+                                                                            <a class="clrbtn follownew1"  id="follownew<?=$frow['f_id']?>"   fid="<?=$frow['f_id']?>" href="javascript:void(0);"> Unfollow</a>
 
                                                                         </div>
                                                                     </div>
@@ -442,7 +455,7 @@ while($mrow=$db->fetchArray()){
                                                                     <div class="job_descp noborder">
 
                                                                         <div class="devepbtn appliedinfo noreply">
-                                                                            <a class="clrbtn follownew1"  id="<?=$frow['f_id']?>" fid="<?=$frow['f_id']?>" href="javascript:void(0);"> Unfriend </a>
+                                                                            <a class="clrbtn follownew1"  id="<?=$frow['f_id']?>" fid="<?=$frow['f_id']?>" href="javascript:void(0);"> Unfollow</a>
 
                                                                         </div>
                                                                     </div>

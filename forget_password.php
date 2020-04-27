@@ -15,57 +15,238 @@ if(isset($_REQUEST['send']) and $_REQUEST['send']=='save' )
 					
 					 $errMsg='Your account has been suspendend!';
 				}else if($row['user_status']=="1"){
-     $evtstr='<table width="500"  style="border:#666666; size:2px;" align="center" cellpadding="10" cellspacing="0" bgcolor="#666666"  >
-  <tr>
-    <td valign="top"><table width="94%" border="0" cellspacing="0" cellpadding="0"  align="center"  style="border:#666666; size:2px;" >
-      <tr>
-        <td><img src="images/logo.png" /><br><br></td>
-      </tr>
-      
-      
-      <tr>
-        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td height="122" valign="top"><table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#FFFFFF">
-              <tr valign="top">
-                <td width="50%"><table width="100%" border="0" cellpadding="6" cellspacing="0" bgcolor="#FFFFFF">
-                    <tr>
-                      <td colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;"><br> Hi '.$row['first_name'].'</span></p>
-					  </td>
-  </tr>
-					  <tr>
-                      <td width="60%" colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;">Your Login details:</span></p>
-                        <p>';
-$evtstr1.='</p></td>
-                    </tr>  
-                    </tr>  
-                   
-                </table></td>
-              </tr>
-              
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td bgcolor="#666666"><table width="100%" border="0" cellpadding="10" cellspacing="0" bgcolor="#666666">
-          <tr>
-            <td style="font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;color: #000000;"><div align="center" style="style4">
+     $evtstr='<table class="table_full editable-bg-color bg_color_e6e6e6 editable-bg-image" bgcolor="#e6e6e6" width="100%" align="center" mc:repeatable="castellab" mc:variant="Header" cellspacing="0" cellpadding="0" border="0">
+	
+	<tbody><tr><td height="70"></td></tr>
+	<tr>
+		<td>
+			
+			<table class="table1 editable-bg-color bg_color_303f9f" bgcolor="orange" width="600" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+				
+				<tbody><tr><td height="25"></td></tr>
+				<tr>
+					<td>
+						
+						<table class="table1" width="520" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+							<tbody><tr>
+								<td>
+									
+									<table width="50%" align="left" border="0" cellspacing="0" cellpadding="0">
+										<tbody><tr>
+											<td align="left" class="editable-img">
+												<a href="#">
+													<img editable="true" mc:edit="image007" src="https://orangestate.ng/images/logo.png" width="68" style="display:block; line-height:0; font-size:0; border:0;" border="0" alt="logo">
+												</a>
+											</td>
+										</tr>
+										<tr><td height="22"></td></tr>
+									</tbody></table>
 
-,</h6>
+									<table width="50%" align="right" border="0" cellspacing="0" cellpadding="0">
+									
+										<tbody><tr><td height="3"></td></tr>
+										<tr>
+											<td align="right">
+												
+											</td>
+										</tr>
+									</tbody></table>
 
-</div></td>
-          </tr>
-        </table></td>
-      </tr>
-      
-    </table></td>
-  </tr>
-</table>';
+								</td>
+							</tr>
+
+							
+							<tr><td height="60"></td></tr>
+
+							<tr>
+								<td align="center">
+									<div class="editable-img">
+										<img editable="true" mc:edit="image009" src="https://orangestate.ng/images/circle-icon-password.png" style="display:block; line-height:0; font-size:0; border:0;" border="0" alt="">
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="40"></td></tr>
+
+							<tr>
+								<td mc:edit="text009" align="center" class="text_color_ffffff" style="color: #ffffff; font-size: 30px; font-weight: 700; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text">
+										<span class="text_container">
+											<multiline>
+												Retrive Password
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="30"></td></tr>
+
+							<tr>
+								<td mc:edit="text010" align="center" class="text_color_ffffff" style="color: #ffffff; font-size: 12px; font-weight: 300; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text">
+										<span class="text_container">
+											<multiline>
+												'.date('l').', '.date('d-m-Y').'
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+				
+				<tr><td height="104"></td></tr>
+			</tbody></table>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			
+			<table class="table1 editable-bg-color bg_color_ffffff" bgcolor="#ffffff" width="600" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+	
+				<tbody><tr><td height="60"></td></tr>
+
+				<tr>
+					<td>
+						
+						<table class="table1" width="520" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+
+							<tbody><tr>
+								<td mc:edit="text011" align="left" class="center_content text_color_282828" style="color: #282828; font-size: 20px; font-weight: 700; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text">
+										<span class="text_container">
+											<multiline>
+												Hi '.$row['first_name'].' '.$row['last_name'].' ,
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="10"></td></tr>
+
+							<tr>
+								<td mc:edit="text012" align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="20"></td></tr>
+
+							<tr>
+								<td mc:edit="text013" align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												Below to retrieve your password
+											</multiline>
+										</span>';
+									$evtstr1='</div>
+								</td>
+							</tr>
+
+						
+							
+
+							<tr>
+								<td mc:edit="text014" align="left" class="center_content" style="font-size: 14px; line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="20"></td></tr>
+
+							
+							<tr><td height="20"></td></tr>
+
+							<tr>
+								<td mc:edit="text016" align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												Thanks
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+							
+							<tr><td height="5"></td></tr>
+
+							<tr>
+								<td mc:edit="text017" align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												OrangeState team
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="20"></td></tr>
+
+							<tr>
+								<td mc:edit="text018" align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+											Any questions? Get in touch by <a href="https://orangestate.ng/contact-us.php" target="_blank" class="text_color_303f9f" style="color:#303f9f; text-decoration: none;">&nbsp; Email &nbsp; </a> 
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+
+				
+				<tr><td height="60"></td></tr>
+			</tbody></table>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			
+			<table class="table1" width="600" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+				
+				<tbody><tr><td height="40"></td></tr>
+
+			
+				
+				<tr><td height="70"></td></tr>
+			</tbody></table>
+		</td>
+	</tr>
+</tbody></table>';
 									$to=$_POST['email'];
                                     $from = "support@orangestate.ng";
                                     $subject="Forget Password Conformation Email!";
-									$msg.='Email: '.$row['email_id'].'<br>';
+									$msg.='<br>Email: '.$row['email_id'].'<br>';
 									$msg.='password : '.base64_decode($row['password']).'<br>';				
 									
 									  $message=$evtstr.$msg.$evtstr1;
@@ -74,7 +255,8 @@ $evtstr1.='</p></td>
 									$headers .= "From:$from\r\n";
 									@mail($to, $subject, $message, $headers);
 
-					echo"<script>alert('Your Password has been successfully Sent to Your E-mail! ')</script>";	
+					//echo"<script>alert('Your Password has been successfully Sent to Your E-mail! ')</script>";
+						$errMsg='Your Password has been successfully Sent to Your E-mail! ';
 }
 			}else{$errMsg= "Email address does not exit!";}}
 

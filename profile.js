@@ -2,13 +2,13 @@
 jQuery(document).on("click", "#overviewsave", function(e){  
 		
 		var overview = jQuery('#overview').val();		
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='overview='+overview ;
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -62,13 +62,13 @@ jQuery(document).on("click", "#expsave", function(e){
 		
 		var exp = jQuery('#exp2').val();	
 		var subject = jQuery('#subject2').val();			
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='exp='+exp+'&subject='+subject+'&add=add';
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -120,13 +120,13 @@ jQuery(document).on("click", "#expsave", function(e){
 jQuery(document).on("click", "#coninfosave", function(e){  
 		var form=jQuery("#contactinfoform");
 			
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -176,13 +176,13 @@ jQuery(document).on("click", "#coninfosave", function(e){
 jQuery(document).on("click", "#educationsave", function(e){  
 		var form=jQuery("#educationinfoform");
 			
-		var social_AjaxURL='http://orangestate.ng/ajax_add_education.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_add_education.php';
 		
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -232,13 +232,13 @@ jQuery(document).on("click", "#skillssave", function(e){
 		
 		var skills = jQuery('#skills').val();
 			
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='skills='+skills;
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -287,13 +287,13 @@ jQuery(document).on("click", "#savelocation", function(e){
 		
 		var current_city = jQuery('#current_city').val();	
 		var hometown = jQuery('#hometown').val();			
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='current_city='+current_city+'&hometown='+hometown;
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -350,7 +350,7 @@ jQuery(document).on("click", "#savelocation", function(e){
 		//jQuery(document).on("click", "#upload_file2", function(e){  
 	
 	
-   var social_AjaxURL='http://orangestate.ng/uploadgallery.php';
+   var social_AjaxURL1=social_AjaxURL+'uploadgallery.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -361,7 +361,7 @@ jQuery(document).on("click", "#savelocation", function(e){
 
    // AJAX request
    $.ajax({
-     url: social_AjaxURL, 
+     url: social_AjaxURL1, 
      type: 'post',
      data: form_data,
      dataType: 'json',
@@ -390,13 +390,13 @@ jQuery(document).on("click", "#gallerysave", function(e){
 		
 		var galleryname = jQuery('#galleryname').val();	
 		var imgid = jQuery('#imgid').val();			
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='galleryname='+galleryname;
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -439,17 +439,17 @@ jQuery(document).on("click", "#gallerysave", function(e){
 	});
 	
 jQuery("#file1").on('change', function() {
-  
+ // alert('');
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://orangestate.ng/upload/';
-	var social_AjaxURL='http://orangestate.ng/profileimageupload.php';
+	var BASEURL1=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'profileimageupload.php';
         var fd = new FormData();
         var files = $('#file1')[0].files[0];
        
         fd.append('file',files);
 
         $.ajax({
-            url: social_AjaxURL,
+            url: social_AjaxURL1,
             type: 'post',
             data: fd,
             contentType: false,
@@ -459,7 +459,7 @@ jQuery("#file1").on('change', function() {
                 if(response != 0){
                     //alert(response);
                     jQuery("#rmvid").hide();
-                    jQuery(".user-pro-img").html('<img src="'+BASEURL + response +'" />');
+                    jQuery(".user-pro-img").html('<img src="'+BASEURL1 + response +'" />');
                     
                    // jQuery("#imgid").val(data.result.attach_id);
                  //jQuery('#imgid').val(response); 
@@ -475,15 +475,16 @@ jQuery("#file1").on('change', function() {
 jQuery("#file2").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://orangestate.ng/upload/';
-	var social_AjaxURL='http://orangestate.ng/coverimageupload.php';
-        var fd = new FormData();
+	var BASEURL1=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'coverimageupload.php';
+	//alert(social_AjaxURL1);
+    var fd = new FormData();
         var files = $('#file2')[0].files[0];
        
         fd.append('file',files);
 
         $.ajax({
-            url: social_AjaxURL,
+            url: social_AjaxURL1,
             type: 'post',
             data: fd,
             contentType: false,
@@ -493,7 +494,7 @@ jQuery("#file2").on('change', function() {
                 if(response != 0){
                     //alert(response);
                     jQuery("#coverid").hide();
-                    jQuery(".cover-sec1").html('<img src="'+BASEURL + response +'" />');
+                    jQuery(".cover-sec1").html('<img src="'+BASEURL1 + response +'" />');
                     
                    // jQuery("#imgid").val(data.result.attach_id);
                  //jQuery('#imgid').val(response); 
@@ -512,7 +513,7 @@ jQuery(document).on("click", ".skillsdel", function(e){
  
 		
 		var delid = jQuery(this).attr('delid');		
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='delid=' + delid ;
 			e.preventDefault();
 		Swal.fire({
@@ -526,7 +527,7 @@ jQuery(document).on("click", ".skillsdel", function(e){
 }).then((result) => {
   if (result.value) {
     	$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -594,13 +595,13 @@ jQuery(document).on("click", "#educationupdate", function(e){
 	
 			var id = jQuery(this).attr('eid');
 		
-		var social_AjaxURL='http://orangestate.ng/educationupdate.php';
+		var social_AjaxURL1=social_AjaxURL+'educationupdate.php';
 		//var social_AjaxURL='http://localhost/orangeraponew/ajax_add_education.php';
 		
 			//e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -632,13 +633,13 @@ jQuery(document).on("click", "#educationupdate", function(e){
 jQuery(document).on("click", "#educationeditupdate", function(e){  
 		var form=jQuery("#educationupdateform");
 			
-		var social_AjaxURL='http://orangestate.ng/ajax_add_education.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_add_education.php';
 		
 		
 			//e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -689,13 +690,13 @@ jQuery(document).on("click", ".exp_open1", function(e){
 	
 			var id = jQuery(this).attr('eid');
 		
-		var social_AjaxURL='http://orangestate.ng/expupdate.php';
+		var social_AjaxURL1=social_AjaxURL+'expupdate.php';
 		//var social_AjaxURL='http://localhost/orangeraponew/ajax_add_education.php';
 		
 			//e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -728,13 +729,13 @@ jQuery(document).on("click", "#updateexpsave", function(e){
 		var exp = jQuery('#exp1').val();	
 		var expid = jQuery('#expid1').val();
 		var subject = jQuery('#subject1').val();
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='exp='+exp+'&subject='+subject+'&expid='+expid;
-		
+		//alert(dataString);
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -784,7 +785,7 @@ jQuery(document).on("click", ".gallerydel", function(e){
  
 		
 		var delidg = jQuery(this).attr('delidg');		
-		var social_AjaxURL='http://orangestate.ng/ajax_user_update.php';
+		var social_AjaxURL=social_AjaxURL+'ajax_user_update.php';
 		var dataString ='delidg=' + delidg ;
 			e.preventDefault();
 		Swal.fire({
@@ -865,7 +866,7 @@ setTimeout(function(){
 		
 		var f_id = jQuery(this).attr('fid');
 		
-		var social_AjaxURL='http://orangestate.ng/ajax_unfollow.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_unfollow.php';
 		var dataString ='followid=' + f_id ;
 			
 		Swal.fire({
@@ -879,7 +880,7 @@ setTimeout(function(){
 }).then((result) => {
   if (result.value) {
     	$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -944,10 +945,10 @@ setTimeout(function(){
 	
 ///////////////////////////////////////
 jQuery("#file4").on('change', function() {
-  
+  alert('hello');
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://orangestate.ng/upload/';
-	var social_AjaxURL='http://orangestate.ng/compcoverimageupload.php';
+	var BASEURL=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'compcoverimageupload.php';
         var fd = new FormData();
         var files = $('#file4')[0].files[0];
        
@@ -975,19 +976,54 @@ jQuery("#file4").on('change', function() {
             },
         });
     });
+	
+////////////////////////////////////////////////
+jQuery("#file55").on('change', function() {
+
+//$("#profilesubmit").click(function(){
+	var BASEURL=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'compcoverimageupload.php';
+        var fd = new FormData();
+        var files = $('#file55')[0].files[0];
+       
+        fd.append('file',files);
+
+        $.ajax({
+            url: social_AjaxURL1,
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+               
+                if(response != 0){
+                    //alert(response);
+                    jQuery("#coverid").hide();
+                    jQuery(".cover-sec1").html('<img src="'+BASEURL + response +'" />');
+                    
+                   // jQuery("#imgid").val(data.result.attach_id);
+                 //jQuery('#imgid').val(response); 
+                }else{
+                    jQuery('#file55').focus();
+                    //alert('file not uploaded');
+                }
+            },
+        });
+    });
+	
 ////////////////////////////////////////////////
 jQuery("#file3").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://orangestate.ng/upload/';
-	var social_AjaxURL='http://orangestate.ng/companyprofileimageupload.php';
+	var BASEURL=social_AjaxURL+'upload/';
+	var social_AjaxURL1=social_AjaxURL+'companyprofileimageupload.php';
         var fd = new FormData();
         var files = $('#file3')[0].files[0];
        
         fd.append('file',files);
 
         $.ajax({
-            url: social_AjaxURL,
+            url: social_AjaxURL1,
             type: 'post',
             data: fd,
             contentType: false,
@@ -1016,13 +1052,13 @@ jQuery(document).on("click", "#comoverviewsave", function(e){
 		var overview = jQuery('#overview').val();
 		var comid = jQuery(this).attr('cid');	
 	
-		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_comp_update.php';
 		var dataString ='overview='+overview+'&cid='+comid ;
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1074,13 +1110,13 @@ jQuery(document).on("click", "#comoverviewsave", function(e){
 jQuery(document).on("click", "#compinfosave", function(e){  
 		var form=jQuery("#contactinfoform");
 			
-		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_comp_update.php';
 		
 		
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1130,13 +1166,13 @@ jQuery(document).on("click", "#compinfosave", function(e){
 		var cid = jQuery(this).attr('cid');	
 		
 		var imgid = jQuery('#imgid').val();			
-		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
+		var social_AjaxURL1=social_AjaxURL='ajax_comp_update.php';
 		var dataString ='cid='+cid;
-		alert(dataString);
+		//alert(dataString);
 			e.preventDefault();
 		
 					$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1184,7 +1220,7 @@ jQuery(document).on("click", "#compinfosave", function(e){
 		//jQuery(document).on("click", "#upload_file2", function(e){  
 	
 	
-   var social_AjaxURL='http://orangestate.ng/uploadcompgallery.php';
+   var social_AjaxURL1=social_AjaxURL+'uploadcompgallery.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -1195,7 +1231,7 @@ jQuery(document).on("click", "#compinfosave", function(e){
 
    // AJAX request
    $.ajax({
-     url: social_AjaxURL, 
+     url: social_AjaxURL1, 
      type: 'post',
      data: form_data,
      dataType: 'json',
@@ -1223,7 +1259,7 @@ jQuery(document).on("click", ".cgallerydel", function(e){
 		
 		var delidg = jQuery(this).attr('delidcg');
 var img = jQuery(this).attr('img');		
-		var social_AjaxURL='http://orangestate.ng/ajax_comp_update.php';
+		var social_AjaxURL1=social_AjaxURL+'ajax_comp_update.php';
 		var dataString ='delidg=' + delidg+ '&img=' + img ;
 			e.preventDefault();
 		Swal.fire({
@@ -1237,7 +1273,7 @@ var img = jQuery(this).attr('img');
 }).then((result) => {
   if (result.value) {
     	$.ajax({
-            	    url: social_AjaxURL,
+            	    url: social_AjaxURL1,
             	    async: true,
             	    cache: false,
             	    //data: {catid: catids},
@@ -1301,15 +1337,15 @@ setTimeout(function(){
 jQuery("#p").on('change', function() {
   
 //$("#profilesubmit").click(function(){
-	var BASEURL='http://orangestate.ng/product/';
-	var social_AjaxURL='http://orangestate.ng/prodimg.php';
+	var BASEURL=social_AjaxURL+'product/';
+	var social_AjaxURL1=social_AjaxURL+'prodimg.php';
         var fd = new FormData();
         var files = $('#p')[0].files[0];
        
         fd.append('file',files);
 
         $.ajax({
-            url: social_AjaxURL,
+            url: social_AjaxURL1,
             type: 'post',
             data: fd,
             contentType: false,
@@ -1333,7 +1369,7 @@ jQuery("#p").on('change', function() {
 
 	//////////////////////Multiple file product Upload for post/////////////////////// 
 	jQuery("#mp").on('change', function() {
-   var social_AjaxURL='http://orangestate.ng/mproduct.php';
+   var social_AjaxURL1=social_AjaxURL+'mproduct.php';
    var form_data = new FormData();
 
    // Read selected files
@@ -1344,7 +1380,7 @@ jQuery("#p").on('change', function() {
 
    // AJAX request
    $.ajax({
-     url: social_AjaxURL, 
+     url: social_AjaxURL1, 
      type: 'post',
      data: form_data,
      dataType: 'json',
@@ -1360,4 +1396,309 @@ jQuery("#p").on('change', function() {
 
 });
 
+///////////Socail link/////////////////
+jQuery(document).on("click", "#socalsave", function(e){  
+		
+		var link = jQuery('#link').val();
+			
+		var social_AjaxURL1=social_AjaxURL+'ajax_comp_update.php';
+		var dataString ='link='+link;
+		
+			e.preventDefault();
+		
+					$.ajax({
+            	    url: social_AjaxURL1,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {
+						//$("#experience-box").hide();
+						$("#skills-box1").removeClass("open");
+						$(".wrapper").removeClass("overlay");
+            		   
+                       if(data != 0){
+						   swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						  setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
+						//window.location.reload(true);
+						
+            		    }
+            		    else {
+            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            			  //  alert("Error While this deleting a record");
+            				
+            		    }
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
+		
+///////////Socail link/////////////////
+jQuery(document).on("click", "#csocalsave", function(e){  
+		
+		var clink = jQuery('#clink').val();
+			var cuserid = jQuery('#cuserid').val();
+			
+		var social_AjaxURL1=social_AjaxURL+'ajax_comp_update.php';
+		var dataString ='clink='+clink+'&cuserid='+cuserid;
+		
+			e.preventDefault();
+		
+					$.ajax({
+            	    url: social_AjaxURL1,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {
+						//$("#experience-box").hide();
+						$("#skills-box1").removeClass("open");
+						$(".wrapper").removeClass("overlay");
+            		   
+                       if(data != 0){
+						   swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						  setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
+						//window.location.reload(true);
+						
+            		    }
+            		    else {
+            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            			  //  alert("Error While this deleting a record");
+            				
+            		    }
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
+		
+/* 	$('.send_chatemoji1').click(function() {
+		var cid = jQuery(this).attr('pid');
+	//$(".emoji1[pid='" + cid + "']").toggle();
+            $(".emoji1[pid='" + cid + "']").lazy({
+                bind: "event",
+                delay: 0
+            });
+        }); */
+		
+		/* $('.send_chatemoji').click(function() {
+            $('.emoji1').lazy({
+                bind: "event",
+                delay: 0
+            });
+        }); */
+		
+$(".send_chatemoji1").click(function(){
+	var cid = jQuery(this).attr('cid');
+	
+	//$(".wishlistcartemoji1[cid='" + cid + "']").toggle();
+  var x = event.clientX;
+  var y = event.clientY;
+  document.getElementById('wishlistcartemoji1').style.top = y + "px";
+  document.getElementById('wishlistcartemoji1').style.left = x + "px";
+  $('.emojinew').attr('pid', cid);
+  /* var coords = "X coords: " + x + ", Y coords: " + y;
+  alert(coords); */
+  
+  $(".wishlistcartemoji1").toggle();
+});
+
+$(".send_chatemoji").click(function(){
+ // $(".wishlistcartemoji").toggle();
+ var cid = jQuery(this).attr('cid');
+ $(".wishlistcartemoji[cid='" + cid + "']").toggle();
+});
+
+
+///////////updte user profile/////////////////
+jQuery(document).on("click", "#changepassword", function(e){  
+		
+		var oldpassword = jQuery('#oldpassword').val();
+		var newpassword = jQuery('#newpassword').val();
+		var renewpassword = jQuery('#renewpassword').val();
+		if(oldpassword ==''){
+			$("#oldpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);    
+			
+			$('#p_error').html('Please Enter Old Password'); 
+						 
+			return false;
+		}else{
+		$("#oldpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}
+		
+		if(newpassword ==''){
+			$('#p_error').html('Please Enter New Password'); 
+						 
+			return false;
+		}
+	
+		if(newpassword != renewpassword){
+			$("#renewpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);        
+			$('#p_error').html('Password Not Matched'); 
+						 
+			return false;
+		}else{
+		$("#renewpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}
+		var social_AjaxURL1=social_AjaxURL+'ajax_changepassword.php';
+		var dataString ='oldpassword='+oldpassword + '&newpassword='+newpassword ;
+		
+			e.preventDefault();
+		
+					$.ajax({
+            	    url: social_AjaxURL1,
+            	    async: true,
+            	    cache: false,
+            	    //data: {catid: catids},
+					type: 'POST',
+					 data: dataString,
+					 //data: profileuploadtn,
+            	    			
+            	    success: function (data) {
+						$('#p_error').html(data); 
+					   //alert(data);
+            		   //var spancontainer=$('span#record'+catids);
+            		   //$('#loadimg').html('<img src="../images/load.gif">');  	 
+                       if(data != 0){
+						  swal.fire({
+						  type: 'success',
+						  title: '',
+						  text: data,
+						  showConfirmButton: false,
+						  timer: 1500
+						  
+						});
+						setTimeout(function(){
+							window.location.reload(true);
+						   }, 7000);
+						   //$('#overview').html(data);  
+						   //window.location.href= MEDIA_URL+'index.php';
+            			 //window.location.reload(true);
+            		    }
+            		    else {
+            		   	$('#p_error').html('Please fill Mandatory Fields !'); 
+            			  //  alert("Error While this deleting a record");
+            				
+            		    }
+            	    },
+            	    error : function(XMLHttpRequest, textStatus, errorThrown) {
+            		    alert(textStatus);
+            	    }
+            	});
+            	
+        
+    	
+	});
+	
+	
+	
+	$("#oldpassword").focusout(function(){
+	var oldpassword = $("#oldpassword").val();
+	if(oldpassword ==''){
+			$("#oldpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);    
+			
+			$('#p_error').html('Please Enter Old Password'); 
+						 
+			return false;
+		}else{
+		$("#oldpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}
+	});
+	$("#newpassword").focusout(function(){
+		var newpassword = $("#newpassword").val();
+	if (newpassword=='') {
+        //alert(errors.join("\n"));
+		$("#newpassword").css("border-color", "#FF0000");
+        $('#changepassword').attr('disabled',true);
+        $("#p_error").text(errors.join("\n"));
+        return false;
+    }else{
+		$("#newpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		  $('#changepassword').attr('disabled',false);
+	}	
+	});
+	
+	$("#renewpassword").focusout(function(){
+	var renewpassword = $("#renewpassword").val();
+	if(renewpassword ==''){
+			$("#renewpassword").css("border-color", "#FF0000");
+			$('#changepassword').attr('disabled',true);        
+			$('#p_error').html('Password Not Matched'); 
+						 
+			return false;
+		}else{
+		$("#renewpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		$('#changepassword').attr('disabled',false);	
+		}	
+	});
+	$("#newpassword").focusout(function(){
+	var p = $("#newpassword" ).val();
+	//alert(p);
+    var errors = [];
+    if (p.length < 8) {
+        errors.push("Your password must be at least 8 characters");
+    }
+    if (p.search(/[a-z]/i) < 0) {
+        errors.push("Your password must contain at least one letter.");
+    }
+    if (p.search(/[0-9]/) < 0) {
+        errors.push("Your password must contain at least one digit.");
+    }
+    if (errors.length > 0) {
+        //alert(errors.join("\n"));
+		$("#newpassword").css("border-color", "#FF0000");
+        $('#changepassword').attr('disabled',true);
+        $("#p_error").text(errors.join("\n"));
+        return false;
+    }else{
+		$("#newpassword").css("border-color", "#00FF00");
+		$('#p_error').html(''); 
+		  $('#changepassword').attr('disabled',false);
+	}
+			 });
+		
 	

@@ -1,4 +1,7 @@
 <!-- Modal -->
+
+ 
+
 <?php //////////////////////////?>
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -19,7 +22,34 @@
 
   </div>
 </div>
+<style>
+#group_chat_message
+{
+	width: 100%;
+	height: auto;
+	min-height: 0px;
+	overflow: auto;
+	padding:6px 24px 6px 12px;
+}
 
+.image_upload
+{
+	position: absolute;
+	top:3px;
+	right:3px;
+}
+.image_upload > form > input
+{
+    display: none;
+}
+
+.image_upload img
+{
+    width: 24px;
+    cursor: pointer;
+}
+
+</style>
 
 
 <?php //////////////////////////?>
@@ -67,6 +97,54 @@ SELECT * FROM login WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN 
 	</div>
 	<div id="user_details" ></div>
 </div>
+<input type="hidden" id="is_active_group_chat_window" value="yes" />
+					<button type="button" name="group_chat" id="group_chat" class="btn btn-info btn-lg btn-warning btn-xs"  data-toggle="modal" data-target="#myModals">Group Chat</button>
+
+  <!-- Modal <button type="button" class="btn " data-toggle="modal" data-target="#myModals">Open Modal</button>
+-->
+  <div class="modal fade" id="myModals" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+		  <div id="group_chat_dialog" title="Group Chat Window" style="display:none;">
+	<div id="group_chat_history" style="height:400px; border:1px solid #ccc; overflow-y: scroll; margin-bottom:24px; padding:16px; ">
+
+	</div>
+	<div class="form-group">
+
+		<div class="chat_message_area">
+			<div id="group_chat_message" contenteditable class="form-control">
+
+			</div>
+			<div class="image_upload">
+				<form id="uploadImage" method="post" action="upload.php">
+					<label for="uploadFile"><img src="chat/upload.png" /></label>
+					<input type="file" name="uploadFile" id="uploadFile" accept=".jpg, .png" />
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="form-group" align="right">
+		<button type="button" name="send_group_chat" id="send_group_chat" class="btn btn-info">Send</button>
+	</div>
+</div>
+
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
 
 
 <!--
@@ -98,11 +176,15 @@ SELECT * FROM login WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN 
 			<br />
 			<br />
 
-		</div>-->
+		</div>
 
-<!--
-<div id="group_chat_dialog" title="Group Chat Window">
-	<div id="group_chat_history" style="height:400px; border:1px solid #ccc; overflow-y: scroll; margin-bottom:24px; padding:16px;">
+<div class="col-md-2 col-sm-3">
+					<input type="hidden" id="is_active_group_chat_window" value="no" />
+					<button type="button" name="group_chat" id="group_chat" class="btn btn-warning btn-xs">Group Chat</button>
+				</div>
+				<!--
+<div id="group_chat_dialog" title="Group Chat Window" style="display:none;">
+	<div id="group_chat_history" style="height:400px; border:1px solid #ccc; overflow-y: scroll; margin-bottom:24px; padding:16px; ">
 
 	</div>
 	<div class="form-group">
@@ -113,7 +195,7 @@ SELECT * FROM login WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN 
 			</div>
 			<div class="image_upload">
 				<form id="uploadImage" method="post" action="upload.php">
-					<label for="uploadFile"><img src="upload.png" /></label>
+					<label for="uploadFile"><img src="chat/upload.png" /></label>
 					<input type="file" name="uploadFile" id="uploadFile" accept=".jpg, .png" />
 				</form>
 			</div>
@@ -123,8 +205,8 @@ SELECT * FROM login WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN 
 		<button type="button" name="send_group_chat" id="send_group_chat" class="btn btn-info">Send</button>
 	</div>
 </div>
--->
 
+-->
 <script>
 $(document).ready(function(){
 
@@ -132,7 +214,7 @@ $(document).ready(function(){
 
 	fetch_user();
 
-
+/* 
  setInterval(function(){
 
 		update_last_activity();
@@ -148,7 +230,7 @@ $(document).ready(function(){
 
 		offline_chat();
 
-	}, 1000000); 
+	}, 1000000);  */
  
 	function log()
 	{
@@ -466,10 +548,15 @@ function emoji()
 		})
 	});
 
+/* $('#group_chat_dialog').dialog({
+		autoOpen:false,
+		width:400
+	}); */
 
 
 	$('#group_chat').click(function(){
-		//$('#group_chat_dialog').dialog('open');
+		$('#group_chat_dialog').show();
+		$('#group_chat_dialog').dialog('open');
 		$('#is_active_group_chat_window').val('yes');
 		fetch_group_chat_history();
 	});
@@ -496,8 +583,9 @@ function emoji()
 	});
 
 	function fetch_group_chat_history()
-	{
+	{ //alert();
 		var group_chat_dialog_active = $('#is_active_group_chat_window').val();
+		//alert(group_chat_dialog_active);
 		var action = "fetch_data";
 		if(group_chat_dialog_active == 'yes')
 		{
@@ -507,6 +595,7 @@ function emoji()
 				data:{action:action},
 				success:function(data)
 				{
+					//alert(data);
 					$('#group_chat_history').html(data);
 				}
 			})
@@ -656,7 +745,21 @@ var action='action';
 <style>
 .chatfeature-leftbar {z-index: 99999999 !important;}
 </style>
-<?php include('video-chat/video.php');?>
+<?php  
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+         $url = "https://";   
+    else  
+         $url = "http://";   
+    // Append the host(domain name, ip) to the URL.   
+    $url.= $_SERVER['HTTP_HOST'];   
+    
+    // Append the requested resource location to the URL   
+     $url.= $_SERVER['REQUEST_URI'];    
+       $url1=substr($url,0,40);
+    //echo $url;  
+	if($url!='https://orangestate.ng/get-started.php' or $url!='https://orangestate.ng/hotel-booking.php'){
+  ?>   
+	<?php include('video-chat/video.php'); } ?>
 
 <footer class="off-white-bg2 pt-95 bdr-top pt-sm-55 clear">
             <!-- Footer Top Start -->

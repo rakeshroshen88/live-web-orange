@@ -1,7 +1,7 @@
 <?php include('config.inc.php');
    $target=$_POST['target'];
   
-   if($target=='Ibibio' or $target=='Anang' or $target=='Oron'){
+   if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $target=='Yoruba'){
 	$text=$_POST['keyword'];
 	$newtext = explode(" ", $text);
 	$newtext = implode("','",$newtext);

@@ -226,7 +226,7 @@ $("#suggesstion-box").hide();
  
 							<li class="viewcaronhouse">
 							<span class="cart-design">
-									<img src="images/users.png" alt="" style="width: 27px;">
+									<img src="images/icon7.png" alt="">
 									<span class="cartnumber"><?php 
 												 echo $notcountfrnd=$db->getSingleResult("SELECT count(id) from friendrequest where request_fid='".$_SESSION['sess_webid']."' and status='1'");
 												 
@@ -322,12 +322,9 @@ while($mrow=$dbmut->fetchArray()){
  							 
 					<li class="viewcaronhouse">
 							<span class="cart-design">
-									<img src="images/icon7.png" alt="" style="width: 30px;">
+									<img src="images/icon7.png" alt="">
 									<span class="cartnumber"><?php 
-												 $notcount=$db->getSingleResult("SELECT count(id) from notification where user_id='".$_SESSION['sess_webid']."' and status='1' and notification_type='liked'");
-												
-												$notcount1=$db->getSingleResult("SELECT count(id) from notification where user_id='".$_SESSION['sess_webid']."' and status='1' and notification_type='comment'");
-												echo $notcount+$notcount1;
+												echo $notcount=$db->getSingleResult("SELECT count(id) from notification where user_id='".$_SESSION['sess_webid']."' and status='1' and notification_type='liked'");
 												?></span>
 
 								</span>
@@ -388,13 +385,13 @@ $user_id=$db->getSingleResult("select user_id from user_post where  post_id='$pp
 		//$ship1=$db->getSingleResult("select shippingcharge from $_TBL_PRODUCT where  id='$ppid'");
 			if($rowt['status']=='1'){
 			?>
- <div class="carlisting1main" style="background-color: aliceblue;">
+ <div class="carlisting1main">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> You Like on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
- <div class="carlisting1main" >
+ <div class="carlisting1main" style="background-color: aliceblue;">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;" /><span class="prodcutname"> You Like on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 
@@ -420,13 +417,13 @@ $user_id=$db->getSingleResult("select user_id from user_post where  post_id='$pp
 		//$ship1=$db->getSingleResult("select shippingcharge from $_TBL_PRODUCT where  id='$ppid'");
 			if($rowt['status']=='1'){
 			?>
- <div class="carlisting1main" style="background-color: aliceblue;">
+ <div class="carlisting1main">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Like on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
- <div class="carlisting1main" >
+ <div class="carlisting1main" style="background-color: aliceblue;">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Like on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 
@@ -448,13 +445,13 @@ $image_id=$db->getSingleResult('select image_id from user_profile where user_id=
 		$post_title=$db->getSingleResult("select post_title from user_post where  post_id='$ppid'");
   if($rowt['status']=='1'){
 			?>
-		<div class="carlisting1main" style="background-color: aliceblue;">
+		<div class="carlisting1main">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> You Comment on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
- <div class="carlisting1main">
+ <div class="carlisting1main" style="background-color: aliceblue;">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> You Comment on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 
@@ -477,13 +474,13 @@ $image_id=$db->getSingleResult('select image_id from user_profile where user_id=
 		$post_title=$db->getSingleResult("select post_title from user_post where  post_id='$ppid'");
   if($rowt['status']=='1'){
 			?>
-		<div class="carlisting1main" style="background-color: aliceblue;">
+		<div class="carlisting1main">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Comment on  your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
- <div class="carlisting1main" >
+ <div class="carlisting1main" style="background-color: aliceblue;">
                     <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Comment on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 

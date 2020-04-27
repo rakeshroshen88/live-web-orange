@@ -25,10 +25,11 @@ $password=base64_encode($_POST['password1']);
 					 "first_name"=>$name,
 					 "last_name"=>$lastname,
 					 "email_id"=>$emial,
-					 "mobile_no"=>$phoneno1,
+					 "mobile_no"=>$phoneno,
 					 "password"=>$password,
 					 "uniqueid"=>$uniqueid,
 					 "country"=>$country,
+					 "countrycode"=>$countrycode,
 					 "user_status"=>0,	
 					 "joindate"=>date("Y-m-d")
 
@@ -102,57 +103,228 @@ curl_setopt_array($curl, array(
 						//print_r($updatear1);
 						$insidm=insertData($updatear1, 'user_profile');
 								$_SESSION['sess_otp']=$uniqueid;
-								
-							 $evtstr='<table width="740"  style="border:#666666; size:2px;" align="center" cellpadding="10" cellspacing="0" bgcolor="#666666"  >
-  <tr>
-    <td valign="top"><table width="94%" border="0" cellspacing="0" cellpadding="0"  align="center"  style="border:#666666; size:2px;" >
-      <tr>
-        <td><img src="//orangestate.ng/images/logo.png" style="width:200px" /><br><br></td>
-      </tr>
-      
-      
-      <tr>
-        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td height="122" valign="top"><table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#FFFFFF">
-              <tr valign="top">
-                <td width="50%"><table width="100%" border="0" cellpadding="6" cellspacing="0" bgcolor="#FFFFFF">
-                    <tr>
-                      <td colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;"></span></p>
-					  </td>
-  </tr>
-					  <tr>
-                      <td width="60%" colspan="4" valign="top" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #003300;"><p><span style="font-size:16px;font-weight: bold;color: #333333;">Registration  detail :</span></p>
-                        <p>';
-$evtstr1.='</p></td>
-                    </tr>  
-                    </tr>  
-                   
-                </table></td>
-              </tr>
-              
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td bgcolor="#666666"><table width="100%" border="0" cellpadding="10" cellspacing="0" bgcolor="#666666">
-          <tr>
-            <td style="font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;color: #000000;"><div align="center" style="style4">
-
-</div></td>
-          </tr>
-        </table></td>
-      </tr>
-      
-    </table></td>
-  </tr>
-</table>'; 
-$msg.='Email: '.$_REQUEST['email1'].'<br><br>';
-$msg.='Name: '.$_REQUEST['name1'].'<br><br>';                                    
+						
+$evtstr='<table class="table_full editable-bg-color bg_color_e6e6e6 editable-bg-image" bgcolor="#e6e6e6" width="100%" align="center" mc:repeatable="castellab" mc:variant="Header" cellspacing="0" cellpadding="0" border="0">
+	
+	<tbody><tr><td height="70"></td></tr>
+	<tr>
+		<td>
+			
+			<table class="table1 editable-bg-color bg_color_303f9f" bgcolor="orange" width="600" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+				
+				<tbody><tr><td height="25"></td></tr>
+				<tr>
+					<td>
+						
+						<table class="table1" width="520" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+							<tbody><tr>
+								<td>
 									
-$msg.='Phone No.: '.$_REQUEST['phoneno'].'<br><br>';
-$msg.='Password: '.$_REQUEST['password1'].'<br><br>';									
+									<table width="50%" align="left" border="0" cellspacing="0" cellpadding="0">
+										<tbody><tr>
+											<td align="left" class="editable-img">
+												
+											</td>
+										</tr>
+										<tr><td height="22"></td></tr>
+									</tbody></table>
+
+									<table width="50%" align="right" border="0" cellspacing="0" cellpadding="0">
+									
+										<tbody><tr><td height="3"></td></tr>
+										<tr>
+											<td align="right">
+												
+											</td>
+										</tr>
+									</tbody></table>
+
+								</td>
+							</tr>
+
+							
+							<tr><td height="60"></td></tr>
+
+							<tr>
+								<td align="center">
+									<div class="editable-img">
+										<img editable="true" mc:edit="image009" src="https://orangestate.ng/images/resources/user.png" style="display:block; line-height:0; font-size:0; border:0;" border="0" alt="">
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="40"></td></tr>
+
+							<tr>
+								<td align="center" class="text_color_ffffff" style="color: #ffffff; font-size: 30px; font-weight: 700; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text">
+										<span class="text_container">
+											<multiline>
+												Get Registration Details
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="30"></td></tr>
+
+							<tr>
+								<td align="center" class="text_color_ffffff" style="color: #ffffff; font-size: 12px; font-weight: 300; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text">
+										<span class="text_container">
+											<multiline>
+												'.date('l').', '.date('d-m-Y').'
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+				
+				<tr><td height="104"></td></tr>
+			</tbody></table>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			
+			<table class="table1 editable-bg-color bg_color_ffffff" bgcolor="#ffffff" width="600" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+	
+				<tbody><tr><td height="60"></td></tr>
+
+				<tr>
+					<td>
+						
+						<table class="table1" width="520" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+
+							<tbody><tr>
+								<td align="left" class="center_content text_color_282828" style="color: #282828; font-size: 20px; font-weight: 700; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text">
+										<span class="text_container">
+											<multiline>
+												Hi '.$name.' '.$lastname.' ,
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="10"></td></tr>
+
+							<tr>
+								<td align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="20"></td></tr>
+
+							<tr>
+								<td align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												Below to retrieve your Detais
+											</multiline>
+										</span>';
+									$evtstr1='</div>
+								</td>
+							</tr>
+
+						
+							
+
+
+							
+							<tr><td height="20"></td></tr>
+
+							
+							<tr><td height="20"></td></tr>
+
+							<tr>
+								<td  align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												Thanks
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+							
+							<tr><td height="5"></td></tr>
+
+							<tr>
+								<td align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+												OrangeState team
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+
+							
+							<tr><td height="20"></td></tr>
+
+							<tr>
+								<td  align="left" class="center_content text_color_a1a2a5" style="color: #a1a2a5; font-size: 14px;line-height: 2; font-weight: 500; font-family: lato, Helvetica, sans-serif; mso-line-height-rule: exactly;">
+									<div class="editable-text" style="line-height: 2;">
+										<span class="text_container">
+											<multiline>
+											Any questions? Get in touch by <a href="https://orangestate.ng/contact-us.php" target="_blank" class="text_color_303f9f" style="color:#303f9f; text-decoration: none;">&nbsp; Email &nbsp; </a> 
+											</multiline>
+										</span>
+									</div>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+
+				
+				<tr><td height="60"></td></tr>
+			</tbody></table>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			
+			<table class="table1" width="600" align="center" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+				
+				<tbody><tr><td height="40"></td></tr>
+
+			
+				
+				<tr><td height="70"></td></tr>
+			</tbody></table>
+		</td>
+	</tr>
+</tbody></table>';
+						
+					
+$msg.='<br>Email: '.$_REQUEST['email1'].'<br>';
+$msg.='Name: '.$_REQUEST['name1'].'<br>'; 
+$msg.='Phone No.: '.$_REQUEST['phoneno'].'<br>';
+$msg.='Password: '.$_REQUEST['password1'].'<br>';									
 $message=$evtstr.$msg.$evtstr1;
 //////////////////////////
 $to=$_REQUEST['email1'];
@@ -185,16 +357,10 @@ exit;
 } */
 
 /////////////////////////
-                                /* 	 $to=$_REQUEST['email1'];
-                                    $from = "rakeshroshen88@gmail.com";
+                                 $to=$_REQUEST['email1'];
+                                    $from = "admin@orangestate.ng";
                                     $subject="Thank you for registering with Us. You one time OTP: " . $uniqueid;
 
-				                    $msg.='Email: '.$_REQUEST['email1'].'<br><br>';
-									$msg.='Name: '.$_REQUEST['name1'].'<br><br>';                                    
-									
-									$msg.='Phone No.: '.$_REQUEST['phoneno'].'<br><br>';
-									$msg.='Password: '.$_REQUEST['password1'].'<br><br>';									
-							     	 $message=$evtstr.$msg.$evtstr1;
 									$headers  = "MIME-Version: 1.0\r\n";
 									$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
 									$headers .= "From:$from\r\n";
@@ -202,13 +368,13 @@ exit;
                     
                     
                    //////////Site Admin////////////
-                     $adminto="c.k.roy90@gmail.com";
+                     $adminto="admin@orangestate.ng";
                     $adminfrom=$_REQUEST['email1'];
                     $querysubject="Registration from user !"; 
                     $adminheaders  = "MIME-Version: 1.0\r\n";
                     $adminheaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
                     $adminheaders .= "From:$adminfrom\r\n";                   
-                    @mail($adminto, $subject, $message, $adminheaders); */ 
+                    @mail($adminto, $subject, $message, $adminheaders);  
                     
                     /////////////////////////////////////////
 					 $decoded = base64_encode($insid);

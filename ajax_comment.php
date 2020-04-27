@@ -18,6 +18,21 @@ if(isset($_POST['formData'])){
 							"comment_status"=>1,							
 							"cdate"=>date('Y-m-d H:i:s')
 			    );
+				
+				////////////////Notification///////////////////
+	 $user_id=$db->getSingleResult("select user_id from user_post where  post_id='$post_id'");	
+
+ $notarr=array(
+							"user_id"=>$_SESSION['sess_webid'],
+							"f_userid"=>$user_id,
+							"post_id"=>$post_id,							
+							"notification_type"=>'comment',
+							"status"=>'1',							
+							"date"=>date('Y-m-d H:i:s')
+			    );
+				//print_r($arr);
+     $not=insertData($notarr, 'notification'); 
+	 //////////////////////////////////
 				//print_r($arr);
      $insid=insertData($arr, 'comment');
 	 $dbc=new DB();

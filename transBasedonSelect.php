@@ -4,17 +4,17 @@
   $text = $_POST['keyword']; 
 
 $text2 = 'Comment vas-tu';
- $source=$_POST['lan_1'];
- $target=$_POST['lan_2'];
+  $source=$_POST['lan_1'];
+  $target=$_POST['lan_2'];
 //$newtext=str_replace(' ', ', ', $text); 
 $newtext = explode(" ", $text); 
 
 $newtext = implode("','",$newtext);
 
 $newtext = "'".$newtext."'";													//$c=explode(',',$a);
-if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio' or $source=='Anang' or $source=='Oron'){
+if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio' or $source=='Anang' or $source=='Oron' or $source=='Yoruba' or $target=='Yoruba'){
 	$dbuf=new DB();
-	if($target=='Ibibio' or $target=='Anang' or $target=='Oron'){
+	if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $target=='Yoruba'){
 	 $sql="SELECT language_2 from language where source='".$source."' and target='".$target."' and language_1 IN($newtext)";
 	$db->query($sql);
 	//$array_record=array();
@@ -25,7 +25,7 @@ if($target=='Ibibio' or $target=='Anang' or $target=='Oron' or $source=='Ibibio'
 	}
 	}
 	
-	if($source=='Ibibio' or $source=='Anang' or $source=='Oron'){
+	if($source=='Ibibio' or $source=='Anang' or $source=='Oron' or $source=='Yoruba'){
 		 $sql="SELECT language_1 from language where source='".$target."' and target='".$source."' and language_2 IN($newtext)";
 	$db->query($sql);
 	//$array_record=array();
