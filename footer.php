@@ -759,7 +759,7 @@ var action='action';
     //echo $url;  
 	if($url!='https://orangestate.ng/get-started.php' or $url!='https://orangestate.ng/hotel-booking.php'){
   ?>   
-	<?php include('video-chat/video.php'); } ?>
+	<?php //include('video-chat/video.php'); } ?>
 
 <footer class="off-white-bg2 pt-95 bdr-top pt-sm-55 clear">
             <!-- Footer Top Start -->

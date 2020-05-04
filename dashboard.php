@@ -1152,6 +1152,11 @@ echo $reward=$dbrew->getSingleResult('select reward from '.$_TBL_USER." where us
 						while($row=$db->fetchArray()){
 
 						$path=$row['prod_large_image'];
+						if(!empty($path)){
+							$path=$path;
+						}else{
+							$path='noimage.jpg'; 
+						}
 
 						$goid=base64_encode($row['id']); 
 

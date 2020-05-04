@@ -65,7 +65,7 @@ xmlhttp.send();
                                  
 								<option value="all">All categories</option>
 									<?php $db1=new DB();
-								 $sql1="SELECT * FROM $_TBL_CAT where status='yes'";
+								 $sql1="SELECT * FROM $_TBL_CAT where status='yes' limit 0,12";
 								 $db1->query($sql1)or die($db1->error());
 								 while($row1=$db1->fetchArray()){
 								 $catid=$row1['id'];
@@ -264,7 +264,7 @@ xmlhttp.send();
 									<ul class="avail-checks">
 										<li><a href="?cid=all" catid="all"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <small>All Products</small> </a>
 										</li>
-										<?php  $sql1="select * from category";//die;
+										<?php  $sql1="select * from category where status='yes'";//die;
 										$db->query($sql1);
 										if($db->numRows()> 0)
 											{
@@ -302,10 +302,23 @@ xmlhttp.send();
 									<?php 
 						 if(!empty($_GET['cid'])){
 							 if($_GET['cid']=='all'){
-							 $sql="SELECT * from ".$_TBL_PRODUCT.' and prod_status=1 ORDER BY rand() DESC desc'; }else{
-								 if(!empty($_GET['sid'])){
+								 if($_GET['brands']=='all'){
+							  $sql="SELECT * from ".$_TBL_PRODUCT.' where prod_status=1 AND brandname >= 0 ORDER BY rand()'; 
+								 }else{
+									  $sql="SELECT * from ".$_TBL_PRODUCT." where prod_status=1 ORDER BY rand()"; 
+								 }
+							 }else{
+								 if(!empty($_GET['sid']) and (empty($_GET['tid'])) and (empty($_GET['4thcid']))){
 								  $sql="SELECT * from ".$_TBL_PRODUCT." where prod_status=1 and catid=".$_GET['cid']." and subcatid=".$_GET['sid']." ORDER BY rand() DESC";
-								 }else{									/*  if($_GET['cid']=='19'){									 $sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC";										}else{ */										$sql="SELECT * from ".$_TBL_PRODUCT." where prod_status=1 and catid=".$_GET['cid']." ORDER BY rand() DESC";										//}
+								 }else if(!empty($_GET['sid']) and (!empty($_GET['tid'])) and (empty($_GET['4thcid']))){
+
+								$sql="SELECT * from ".$_TBL_PRODUCT." where prod_status=1 and catid=".$_GET['cid']." and subcatid=".$_GET['sid']." and subsubcatid=".$_GET['tid']." ORDER BY rand() DESC";
+								}else if(!empty($_GET['sid']) and (!empty($_GET['tid'])) and (!empty($_GET['4thcid']))){
+
+								$sql="SELECT * from ".$_TBL_PRODUCT." where prod_status=1 and catid=".$_GET['cid']." and subcatid=".$_GET['sid']." and subsubcatid=".$_GET['tid']." and 4thcatid=".$_GET['4thcid']." ORDER BY rand() DESC";
+									 
+								 }else{
+								 $sql="SELECT * from ".$_TBL_PRODUCT." where prod_status=1 and catid=".$_GET['cid']." ORDER BY rand() DESC";										//}
 								 }
 							 }
 						}else{														
@@ -313,12 +326,18 @@ xmlhttp.send();
 						}
 						 
 						 //." where catid='".$catid1."' and subcatid='$subid1' and subsubcatid='$subsubid' order by id desc";
+						 $dbq=new DB();
 						$db->query($sql);
 						if($db->numRows()>0)
 						{
 						while($row=$db->fetchArray()){
 						
 						$path=$row['prod_large_image'];
+						if(!empty($path)){
+	$path=$path;
+}else{
+	$path='noimage.jpg'; 
+}
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
 						$mrp=$row['prod_price'];
@@ -326,6 +345,7 @@ xmlhttp.send();
 						$discount=($persen*100)/$mrp;
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
+						$prodquantity=$dbq->getSingleResult("SELECT SUM(prodquantity) from prodattributes where prodid=".$row['id']);
 	
 						?>
 									<!-- one product--->
@@ -367,7 +387,7 @@ xmlhttp.send();
 
 						</div>
 												                    </div>
-												                     
+												           <?php if($prodquantity>0){?>
 												                    <div class="_2aac2_3bwnD _549f7_zvZ8u _49c0c_3Cv2D _977c5_2vBMq">
 												                        <button class="_0a08a_3czMG addtocartnew1" type="button" pid="<?=$row['id']?>" tono="1">Add To Cart</button>
 												                    </div>
@@ -375,7 +395,13 @@ xmlhttp.send();
 																 <button class="_0a08a_3czMG addtowishlist" type="button" pid="<?=$row['id']?>" tono="1">Add To Wishlist</button>
                                                                     
                                                                 </div>
-												                </form>
+												                
+														   <?php }else{ ?>
+														    <button id="out" disabled="disabled">Buy </button>
+                                        			<button id="out1" disabled="disabled"    >Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
+														   <?php } ?>
+																
+																</form>
 												            </div>
 												        </div>
 												    </div>

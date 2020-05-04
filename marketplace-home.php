@@ -498,6 +498,7 @@ if($dbt->numRows()>0)
                                     <div class="row">
 						<?php    
 						$dbc=new DB();
+						$dbq=new DB();
 						$cnt=$dbc->getSingleResult("SELECT count(*) FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand()");
 						
 						$sql="SELECT * FROM product WHERE prod_date > DATE_SUB(NOW(), INTERVAL 2 WEEK) ORDER BY rand() DESC limit 0,4";									
@@ -506,6 +507,11 @@ if($dbt->numRows()>0)
 						{
 						while($row=$db->fetchArray()){
 						$path=$row['prod_large_image'];
+						if(!empty($path)){
+	$path=$path;
+}else{
+	$path='noimage.jpg'; 
+}
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
 						$mrp=$row['prod_price'];
@@ -513,6 +519,7 @@ if($dbt->numRows()>0)
 						$discount=($persen*100)/$mrp;
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
+						$prodquantity=$dbq->getSingleResult("SELECT SUM(prodquantity) from prodattributes where prodid=".$row['id']);
 							?>
                                         <div class="col-md-3 wdith20a"><!--wdith20a-->
                                             <div class="bbe45_3oExY _22339_3gQb9">
@@ -568,6 +575,11 @@ if($dbt->numRows()>0)
 						{
 						while($row=$db->fetchArray()){
 						$path=$row['prod_large_image'];
+						if(!empty($path)){
+	$path=$path;
+}else{
+	$path='noimage.jpg'; 
+}
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
 						$mrp=$row['prod_price'];
@@ -575,6 +587,7 @@ if($dbt->numRows()>0)
 						$discount=($persen*100)/$mrp;
 						$orgprice=$row['prod_sprice'];
 						$finalprice=$row['prod_sprice'];
+						$prodquantity=$dbq->getSingleResult("SELECT SUM(prodquantity) from prodattributes where prodid=".$row['id']);
 							?>
                                         <div class="col-md-3 wdith20a">
                                             <div class="bbe45_3oExY _22339_3gQb9">
@@ -1218,41 +1231,34 @@ $numberDays = intval($numberDays);
         </div>
         <div class="col-md-6">
             <div class="topdealsbar topselection featuredband">
-                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span> Stores You'll Love<span class="pull-right morevew">View  More</span> </h3>
+                <h3> <span class="listicon"><i class="fa fa-grav" aria-hidden="true"></i></span> Stores You'll Love<span class="pull-right morevew"> <a href="marketplace.php?cid=all&brands=all"> View  More</a></span> </h3>
                 <div class="topliest">
                     <ul>
 					
 						<?php 
 						$dbstore=new DB();
 						//$sqlstore="SELECT * from ".$_TBL_PRODUCT." where catid='28' ORDER BY rand() limit 0,2";
-						$sqlstore="SELECT * from ".$_TBL_PRODUCT." limit 0,2";
+			$sqlstore="SELECT * from category limit 0,2";
 			$db->query($sqlstore);			
 			if($db->numRows()>0){		
 			while($row=$db->fetchArray()){
-				$icon=$dbstore->getSingleResult("SELECT imgid from category where id='".$row['catid']."'");
-				$path=$row['prod_large_image'];	
+				$icon=$row['icon'];
+				$path=$row['imgid'];	
 				if(empty($path)){
 					$path='noimage.jpg';
 				}
-				$goid=base64_encode($row['id']); 
-				$save=$row['prod_price']-$row['prod_sprice'];
-				$mrp=$row['prod_price'];					
-				$persen=$row['prod_price']-$row['prod_sprice'];	
-				$discount=($persen*100)/$mrp;		
-				$orgprice=$row['prod_sprice'];		
-				$finalprice=$row['prod_sprice'];	
-				$star=$row['star'];
-
+				$goid=base64_encode($row['id']);
+				
 				?>
                         <li class="dear1s">
                             <div class="dealimg">
-                                 <a href="product-details.php?pid=<?=base64_encode($row['id'])?>">  <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>"></a>
+                                 <a href="marketplace.php?cid=<?=$row['id']?>">  <img src="<?=$_SITE_PATH?>category/<?=$path?>" alt="<?=$row['catname']?>"></a>
                             </div>
                               <div class="productdeails1deals">
                                 <div class="logobrantop">
                                     <img src="category/<?=$icon?>">
                                 </div>
-                                <h5><?=$row['prod_name']?></h5>
+                                <h5><?=$row['catname']?></h5>
                             </div>
 							 
                         </li>

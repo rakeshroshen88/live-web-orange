@@ -28,6 +28,11 @@ if ($db->numRows() > 0)
 }
 $catname = $db->getSingleResult('select catname from category where id=' . $row['catid']);
 $path = $row['prod_large_image'];
+if(!empty($path)){
+							$path=$path;
+						}else{
+							$path='noimage.jpg'; 
+						}
 $path1 = $row['image1'];
 $path2 = $row['image2'];
 $goid = base64_encode($row['id']);
@@ -78,7 +83,15 @@ if ($dbt->numRows() > 0)
 
     while ($rowt = $dbt->fetchArray())
     {
-        $pathslider = $rowt['imgid']; ?>
+        $pathslider = $rowt['imgid']; 
+		
+		if(!empty($pathslider)){
+							$pathslider=$pathslider;
+						}else{
+							$pathslider='noimage.jpg'; 
+						}
+		
+		?>
        <div class="carousel-item">
            <img class="d-block w-100" src="<?=$_SITE_PATH
 ?>product/<?=$pathslider
@@ -118,7 +131,13 @@ if ($dbt->numRows() > 0)
 
     while ($rowt = $dbt->fetchArray())
     {
-        $pathslider = $rowt['imgid']; ?>
+        $pathsliders = $rowt['imgid']; 
+		 if(!empty($pathsliders)){
+            $pathslider=$pathsliders;
+          }else{
+			$pathslider='noimage.jpg'; 
+        }
+		?>
                                                                 <li data-target="#carousel-thumb" data-slide-to="1"><img class="d-block w-100" src="<?=$_SITE_PATH
 ?>product/<?=$pathslider
 ?>" class="img-fluid"></li>
@@ -208,10 +227,12 @@ if ($dbt->numRows() > 0)
  $proprice2=str_replace(",","",$row['prod_price']);
  echo $price=number_format( $proprice2,2);?></span> </h3>
                                         			<div class="strockstage">
-													<?php if($row['total']>0){ ?>
+													<?php
+													$prodquantity=$db->getSingleResult("SELECT SUM(prodquantity) from prodattributes where prodid=".$row['id']);
+													if($prodquantity > 0){ ?>
                                         				<span class="instock">In Stock</span>
 													<?php }else{ ?>
-                                        				<span class="Outstock">Out of Stock</span>
+                                        				<!--<span class="Outstock">Out of Stock</span>-->
 													<?php } ?>
                                         			</div>
 
@@ -232,19 +253,36 @@ if(!empty($prodcolor)){
 					{
 					while($rownew=$db->fetchArray()){ 
 					if(!empty($rownew['prodcolor'])){
+						if(!empty($rownew['thumbnail'])){
+							$patht='product/small/'.$rownew['thumbnail'];
+						}else{
+							$patht='img/noimg.jpg';
+						}
 					?>
-                                        				<li><a href="javascript:void(0)" class="pickcolor" pcolor="<?=$rownew['prodcolor']?>" pcolor1="<?=$rownew['image_id']?>"><img src="product/small/<?=$rownew['thumbnail']?>" title="Green" alt="product Color" /></a></li>
+                                        				<li><a href="javascript:void(0)" class="pickcolor" pcolor="<?=$rownew['prodcolor']?>" pcolor1="<?=$rownew['image_id']?>">
+														<img src="<?=$patht?>" title="Green" alt="product Color" /></a></li>
 					<?php }  }} ?>
 					</ul>
-					<?php 
-				$sql="SELECT prodsize from prodattributes where prodid=".$row['id'];
-				$db->query($sql);
-				if($db->numRows()>0)
-					{
-				while($rownew=$db->fetchArray()){ ?>
-                                        				<input type="radio"  name="inlineRadioOptions" value="<?=$rownew['prodsize']?>"  /><?=$rownew['prodsize']?> 
-					<?php }} ?>
+					 
                                         		</div>
+
+                                                <div class="produ-color produc-size">
+                                                 
+<h5>Size</h5>  
+                <?php 
+                 $sql="SELECT prodsize from prodattributes where prodid=".$row['id'];
+                $db->query($sql);
+                if($db->numRows()>0)
+                    {
+                while($rownew=$db->fetchArray()){ ?>
+                        <div class="sizedib">
+                                                        <input type="radio"  id="size_<?=$rownew['prodsize']?>"  name="inlineRadioOptions" value="<?=$rownew['prodsize']?>"  />
+                                                        <label for="size_<?=$rownew['prodsize']?>"></label><?=$rownew['prodsize']?>
+                                                    </div>
+
+                    <?php }} ?>
+                                                </div>
+
 
                                         		<div class="Quantity-product">
                                         			<h5>Quantity</h5>
@@ -282,29 +320,28 @@ $('.sub').click(function () {
     	if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
 		}
 });
-$("#out").click(function(){
-  alert("product not in stock right now !");
-});
-$("#out1").click(function(){
-  alert("product not in stock right now !");
-});
+
 </script>
 
                                         		</div>
 												
                                         		<div class="buybtn-newdesign">
-												<?php if($row['total']>0){ ?>
+												<?php if($prodquantity>0){ ?>
                                         			<button pid="<?=$row['id']?>" class="addtocart">Buy </button>
                                         			<button pid="<?=$row['id']?>" class="addtocartnew">Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
 												<?php }else{ ?>
-												<button id="out">Buy </button>
-                                        			<button id="out1">Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
+												    <button id="out" disabled="disabled">Buy </button>
+                                        			<button id="out1" disabled="disabled"    >Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
 												<?php } ?>
                                         			<button class="hearticon_whilish_btn addtowishlist" pid="<?=$row['id']?>" tono="1"><i class="fa fa-heart-o" aria-hidden="true"></i></button>
                                         		</div>
 
                                         		<div class="compare-pric-titme">
-                                        			<p>Compare Price of similar items: N10,254</p>
+												<?php if(!empty($row['prodtype'])){ ?>
+                                                    <p>Type: <?=$row['prodtype']?> </p>
+													<?php } if(!empty($row['prodcapacity'])){ ?>
+                                                    <p>Capacity: <?=$row['prodcapacity']?></p> <?php } ?>
+                                        			<!--<p>Compare Price of similar items: N10,254</p>-->
                                         		</div>
                                         		<div class="addthis_inline_share_toolbox"></div>
 
@@ -332,28 +369,36 @@ $("#out1").click(function(){
                                         			<div class="card tab-card">
         <div class="card-header tab-card-header">
           <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+		  <?php  if(!empty($row['sort_detail'])){ ?>
             <li class="nav-item">
-                <a class="nav-link" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">Overview</a>
+                <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">Overview</a>
             </li>
+			<?php } if(!empty($row['prod_detail'])){ ?>
             <li class="nav-item">
                 <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">Specification</a>
             </li>
+			<?php } if(!empty($row['shipping'])){ ?>
             <li class="nav-item">
                 <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab" aria-controls="Three" aria-selected="false">Shipping</a>
             </li>
+			<?php } if(!empty($row['warranty'])){ ?>
             <li class="nav-item">
                 <a class="nav-link" id="four-tab" data-toggle="tab" href="#four" role="tab" aria-controls="Three" aria-selected="false">Warranty</a>
             </li>
+			<?php } if(!empty($row['rpolicy'])){ ?>
             <li class="nav-item">
                 <a class="nav-link" id="five-tab" data-toggle="tab" href="#five" role="tab" aria-controls="Three" aria-selected="false">Return Policy</a>
             </li>
+			<?php } //if(!empty($row['prodtype'])){ ?>
             <li class="nav-item">
                 <a class="nav-link" id="six-tab" data-toggle="tab" href="#six" role="tab" aria-controls="Three" aria-selected="false">Reviews</a>
             </li>
+			<?php  if(!empty($row['manufacturer'])){ ?>
 			
 			<li class="nav-item">
-                <a class="nav-link" id="seven-tab" data-toggle="tab" href="#seven" role="tab" aria-controls="Three" aria-selected="false">Manufacturer details</a>
+                <a class="nav-link" id="seven-tab" data-toggle="tab" href="#seven" role="tab" aria-controls="Three" aria-selected="false">Manufacturer</a>
             </li>
+			<?php } ?>
 
           </ul>
         </div>
@@ -361,8 +406,7 @@ $("#out1").click(function(){
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
 			<?=$row['sort_detail']?>
-            <!--<p class="card-text">simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p> 
-            <p class="card-text">simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p> -->             
+                     
           </div>
           <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
             <?=$row['prod_detail']?>
@@ -379,14 +423,14 @@ $("#out1").click(function(){
           </div>
 
           <div class="tab-pane fade p-3" id="six" role="tabpanel" aria-labelledby="three-tab">
-		  <h3><a href="feedback.php?pid=<?=$_REQUEST['pid']?>&page=<?=base64_encode('product')?>" class="pull-right writereviebtn">Write Review</a></h3>
+		  <h3>
+            <a href="feedback.php?pid=<?=$_REQUEST['pid']?>&page=<?=base64_encode('product')?>" class="mb-10  writereviebtn">Write Review</a></h3>
             <?php
 					$dbn=new DB();
-				     $sqln="select * from feedback where pages='product' and prod_id =".$pid;
+				     $sqln="select * from feedback where pages='product' and prod_id =".$pid." limit 0,2";
 					$dbn->query($sqln);
 					if($dbn->numRows()>0){	
-					?>
-					<h3 class="title">Reviews </h3>
+					?> 
 					<?php while($rowfeed=$dbn->fetchArray()){
 					$image_id=$db->getSingleResult("SELECT image_id from user_profile where user_id=".$rowfeed['user_id']);
 					$first_name=$db->getSingleResult("SELECT first_name from all_user where user_id=".$rowfeed['user_id']);
@@ -473,6 +517,11 @@ $("#out1").click(function(){
 						{
 						while($row=$db->fetchArray()){						
 						$path=$row['prod_large_image'];
+						if(!empty($path)){
+							$path=$path;
+						}else{
+							$path='noimage.jpg'; 
+						}
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
 						$mrp=$row['prod_price'];
@@ -514,6 +563,11 @@ if($rowcount>10){
 						{
 						while($row=$db->fetchArray()){						
 						$path=$row['prod_large_image'];
+						if(!empty($path)){
+							$path=$path;
+						}else{
+							$path='noimage.jpg'; 
+						}
 						$goid=base64_encode($row['id']); 
 						$save=$row['prod_price']-$row['prod_sprice']; 			
 						$mrp=$row['prod_price'];
@@ -618,6 +672,11 @@ if ($db->numRows() > 0)
     while ($row = $db->fetchArray())
     {
         $path = $row['prod_large_image'];
+		if(!empty($path)){
+							$path=$path;
+						}else{
+							$path='noimage.jpg'; 
+						}
         $goid = base64_encode($row['id']);
         $save = $row['prod_price'] - $row['prod_sprice'];
         $mrp = $row['prod_price'];
@@ -679,6 +738,11 @@ if ($db->numRows() > 0)
     while ($row = $db->fetchArray())
     {
         $path = $row['prod_large_image'];
+		if(!empty($path)){
+							$path=$path;
+						}else{
+							$path='noimage.jpg'; 
+						}
         $goid = base64_encode($row['id']);
         $save = $row['prod_price'] - $row['prod_sprice'];
         $mrp = $row['prod_price'];
@@ -1028,3 +1092,13 @@ if ($dbn->numRows() > 0)
                     console.log(results.violations);
                 });
             </script>
+
+
+<script type="text/javascript">
+    $("#out").click(function(){
+  alert("product not in stock right now !");
+});
+$("#out1").click(function(){
+  alert("product not in stock right now !");
+});
+</script>
