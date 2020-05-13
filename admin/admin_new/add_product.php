@@ -8,6 +8,7 @@ $makearr2=array();
 $makearr2=getValuesArr( $_TBL_SUBCAT, "id","subcatname","", "" );
 $db1=new DB();
 $prodid=$_REQUEST['id'];
+if(empty($prodid)){ $prodid=0; }
 $act=$_REQUEST['act'];
 if(!empty($prodid))
 	{
@@ -17,15 +18,15 @@ if(!empty($prodid))
 	}
 	
 	
-if($_POST['Submit']=="Save")
+if($_POST['Submit']=="Save & Next")
 {
 
 	
 $up=new UPLOAD();
-$uploaddir="../product/";
-$uploaddir1="../product/medium/";
-$uploaddir2="../product/small/";
-$target_dir = "../product/";
+$uploaddir="../../product/";
+$uploaddir1="../../product/medium/";
+$uploaddir2="../../product/small/";
+$target_dir = "../../product/";
 $target_file = $target_dir . $rnd.basename($_FILES["largeimage"]["name"]);
 $ppath='';
 $check_type="jpg|jpeg|gif|png";
@@ -59,7 +60,7 @@ $bytes = 1024;
 $KB = 1024;
 $totalBytes = $bytes * $KB;
 
-$UploadFolder = "../product/small";
+$UploadFolder = "../../product/small";
  
 $counter = 0;
 $counter1 = 0;
@@ -114,6 +115,8 @@ $sort_detail = mysqli_real_escape_string($link, $_REQUEST['sort_detail']);
 $shipping = mysqli_real_escape_string($link, $_REQUEST['shipping']);
 $warranty = mysqli_real_escape_string($link, $_REQUEST['warranty']);
 $return = mysqli_real_escape_string($link, $_REQUEST['return-policy']);
+$manufacturer = mysqli_real_escape_string($link, $_REQUEST['manufacturer']);
+$material = mysqli_real_escape_string($link, $_REQUEST['material']);
 //$prod_detail=$_REQUEST['prod_desc'];
 $array_values=array();
 if (isset($_POST["input_array_name"]) && is_array($_POST["input_array_name"])){ 
@@ -195,14 +198,9 @@ $updatearr=array(
 					 "subcatid"=>$sid,
 					 "subsubcatid"=>$ssid,
 					 "4thcatid"=>$sssid,
-					 "userid"=>0,
-					 "color"=>$array_values2,
-					 "allsize"=>$array_values3,
-					 //"quantity"=>$array_valuesqunt,
-					 //"prodcapacity"=>$array_valuescapnew,
-					 //"prodtype"=>$array_valuestypenew,
+					 "userid"=>0,		
 					 "weight"=>$_REQUEST['weight'],
-					 "manufacturer"=>$_REQUEST['manufacturer'],
+					 "manufacturer"=>$manufacturer,
 					 "country"=>$_REQUEST['country'],
 					 "tax"=>$_REQUEST['tax'],
 					 "prod_name"=>$prodname,					
@@ -211,24 +209,19 @@ $updatearr=array(
 					 "shipping"=>$shipping,
 					 "warranty"=>$warranty,		
 					 "rpolicy"=>$return,						 
-					 "prod_large_image"=>$_REQUEST['mainimage'],						
+					 "prod_large_image"=>$_REQUEST['pimage'],						
 					 "prod_sprice"=>$_REQUEST['sprodprice'],
 					 "brandname"=>$_REQUEST['brandname'],
 					 "prod_date"=>date('Y-m-d h:i:s'),
 					 "prod_status"=>$_REQUEST['pstatus'],
-					 "material"=>$_REQUEST['material'],
-					 "prodsize1"=>$_REQUEST['size'],
-					 "prodsize2"=>$_REQUEST['size1'],
-					 "prodsize3"=>$_REQUEST['size2'],
-					 "prodsize4"=>$_REQUEST['size3'],
+					 "material"=>$material,					 
 					 "newrelease"=>$_REQUEST['newrelease'],	
 					 "populer"=>$_REQUEST['populer'],	
 					 "shippingcharge"=>$_REQUEST['shippingcharge'],
 					 "sort_detail"=>$sort_detail,
 					 "featured"=>$_REQUEST['featured'],
-					 "prodcapacity"=>$_REQUEST['prodcapacity'],
-					 "prodtype"=>$_REQUEST['prodtype'],
-					 "star"=>$_REQUEST['star']
+					 "star"=>$_REQUEST['star'],
+					  "discount"=>$_REQUEST['discount']
 					 
 				 );
 		
@@ -297,8 +290,8 @@ if($act=="edit")
 				$array_valuesidsnew=explode(",",$array_valuesids);
 				$quantitycount=count($quantitynew);
 				$prodid=$_REQUEST['id'];
-				$sql="DELETE FROM prodattributes WHERE prodid='$prodid'";
-				$db->query($sql);
+				/* $sql="DELETE FROM prodattributes WHERE prodid='$prodid'";
+				$db->query($sql); */
 				for($i=0;$i<$quantitycount;$i++){
 					if(!empty($array_image[$i])){ $img=$array_image[$i]; }else{ $img=$array_update[$i]; }
 					if(!empty($array_image1[$i])){ $img1=$array_image1[$i]; }else{ $img1=$array_update1[$i]; }
@@ -306,19 +299,19 @@ if($act=="edit")
 					"prodid"=>$prodid,
 					"prodcolor"=>$colornew[$i],
 					 "prodsize"=>$sizenew[$i],
-					 "prodquantity"=>$quantitynew[$i],
-					 //"prodcapacity"=>$array_valuescapnew1[$i],
-					 //"prodtype"=>$array_valuestypenew1[$i],
+					  "prodcapacity"=>$array_valuescapnew1[$i],
+					  "prodprice"=>$array_valuestypenew1[$i],
+					 "prodquantity"=>$quantitynew[$i],					 
 					 "image_id"=>$img,
 					 "thumbnail"=>$img1
 					);
 
-				/* 	$whereClausenew=" id=".$array_valuesidsnew[$i];
+					$whereClausenew=" id=".$array_valuesidsnew[$i];
 					if(!empty($array_valuesidsnew[$i])){
 					updateData($updatearrnew, 'prodattributes', $whereClausenew);
-					}else{			 */		
+					}else{					
 					$insidq=insertData($updatearrnew, 'prodattributes');		
-					//}
+					}
 				}
 					
 					$errMsg='<br><b>Update Successfully!</b><br>';
@@ -338,31 +331,54 @@ if($act=="edit")
 				$sizenew=explode(",",$array_values3);
 				$quantitynew=explode(",",$array_valuesqunt);	
 				$array_valuescapnew1=explode(",",$array_valuescapnew);
-				$array_valuestypenew1=explode(",",$array_valuestypenew);				
+				$array_valuestypenew1=explode(",",$array_valuestypenew);
+				$array_image1=explode(",",$array_valuesfilenew1);
 				//$clrcount=count($colornew);
 				$quantitycount=count($quantitynew);
 				//$prodid=$_REQUEST['id'];
 				for($i=0;$i<$quantitycount;$i++){
+					if(!empty($array_image[$i])){ $img=$array_image[$i]; }else{ $img=$array_update[$i]; }
+					if(!empty($array_image1[$i])){ $img1=$array_image1[$i]; }else{ $img1=$array_update1[$i]; }
 					$updatearr11=array(
 					"prodid"=>$insid,
 					"prodcolor"=>$colornew[$i],
 					 "prodsize"=>$sizenew[$i],
 					 "prodquantity"=>$quantitynew[$i],
-					 "prodcapacity"=>$array_valuescapnew1[$i],
-					 "prodtype"=>$array_valuestypenew1[$i],
-					 "image_id"=>$array_image[$i]
+					  "prodcapacity"=>$array_valuescapnew1[$i],
+					 "prodprice"=>$array_valuestypenew1[$i],
+					 "image_id"=>$img,
+					 "thumbnail"=>$img1
 					);	
 					$insidq=insertData($updatearr11, 'prodattributes');					
 				}
 						$errMsg='<br><b>Product Added Successfully!</b><br>';
 						//redirect('main.php?mod=viewproduct');
+						}else{
+							$errMsg1='<b>There was some error!</b>';
 						}
 					
 				   }
 			}
 	}
 
-?>
+
+  $act1=$_REQUEST['act1'];
+ $id1=$_REQUEST['id1'];
+
+ if($act1=='del'){
+	 $sqld="DELETE FROM prodattributes WHERE id='$id1'";	
+	 $db->query($sqld);	
+	 } ?>
+<script>
+var id=<?=$prodid?>;
+var url= window.location.href; 
+
+	 function deladmin(id1){
+		 if(confirm("Are you sure to delete?"))	{
+			 location.href='https://orangestate.ng/admin/admin_new/add_product.php?act=edit&id='+id+'&act1=del&id1='+id1;
+			 }
+		} 
+		</script>
 
 
 <div class="app-heading-container app-heading-bordered bottom">
@@ -402,6 +418,27 @@ if($act=="edit")
                                         </div>
 
                                         <strong>Success!</strong> <?=$errMsg?> 
+
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span class="fa fa-times"></span></button>
+
+                                    </div>                                           
+
+                                </div>
+
+					<?php } ?>
+					
+					<?php if(!empty($errMsg1)){?>
+                        <div class="col-md-12">                                          
+
+                                    <div class="alert alert-danger alert-icon-block alert-dismissible" role="alert">
+
+                                        <div class="alert-icon">
+
+                                            <span class="icon-checkmark-circle"></span> 
+
+                                        </div>
+
+                                        <strong>Error!</strong> <?=$errMsg1?> 
 
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span class="fa fa-times"></span></button>
 
@@ -500,6 +537,22 @@ if($act=="edit")
                                                 </div> 
 
 
+                                                <div class="form-group">
+
+                                                    <div class="row">
+
+                                                        <label class="col-md-2 control-label">Short Description</label>
+
+                                                        <div class="col-md-10"> 
+ <textarea name="sort_detail" class="editor-base" ><?=$row['sort_detail']?></textarea>
+                                                          
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
 
                                                 <div class="form-group">
 
@@ -518,22 +571,6 @@ if($act=="edit")
                                                 </div>
 
 
-
-                                                <div class="form-group">
-
-                                                    <div class="row">
-
-                                                        <label class="col-md-2 control-label">Short Description</label>
-
-                                                        <div class="col-md-10"> 
- <textarea name="sort_detail" class="editor-base" ><?=$row['sort_detail']?></textarea>
-                                                          
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
 
 
 
@@ -606,7 +643,7 @@ if($act=="edit")
 
                                                             <select class="form-control"name="pstatus">
 
-                                                                <option value="0" <?php if($row['prod_status']=="1"){echo " selected";}?>>Active</option>
+                                                                <option value="1" <?php if($row['prod_status']=="1"){echo " selected";}?>>Active</option>
 
                                                                 <option value="0" <?php if($row['prod_status']=="0"){echo " selected";}?>>In-Active</option>
 
@@ -744,7 +781,7 @@ $makearr=getValuesArr( "countries", "countries_name","countries_name","", "" );?
 							 ?>
 							 
 									 <select  name="category" id="category"  class="form-control" >
-													<option>Select cateory</option><?php
+													<option value="0">Select cateory</option><?php
 									while($row1=$db->fetchArray()){
 									if($row1['id']==$row['catid']){ $select1='selected';}
 								?>
@@ -763,10 +800,10 @@ $makearr=getValuesArr( "countries", "countries_name","countries_name","", "" );?
 									<?php if($act=="edit"){ ?>
                                                 <div class="form-group">
 
-                                                    <div class="row">
-
-                                                        <label class="col-md-2 control-label">Sub Category <span class="">*</span></label>
-
+                                                    <div class="row" >
+														<div id="subcatid">
+                                                        <label class="col-md-2 control-label">Sub Category </label>
+													
                                                         <div class="col-md-10">
 														
 									
@@ -789,30 +826,14 @@ $makearr=getValuesArr( "countries", "countries_name","countries_name","", "" );?
 						
 						 <?php } ?>
                                     
-								
-									
+								</div>
 
-									
-
-                                                           <!-- <select class="form-control">
-
-                                                                <option>Red</option>
-
-                                                                <option>Orange</option>
-
-                                                                <option>Pink</option>
-
-                                                                <option>Blue</option>
-
-                                                            </select>-->
-
-                                                               
-
-                                                        </div>
-
-                                                    </div>
+                                                  </div>
+												  
+												  </div>
 
                                                 </div>	<?php } ?>
+										<?php if($act !="edit"){ ?>
 									<div class="form-group">
 
                                          <div class="row">
@@ -823,6 +844,7 @@ $makearr=getValuesArr( "countries", "countries_name","countries_name","", "" );?
 										</div>
 
                                       </div>
+									  
 									  <div class="form-group">
 
                                           <div class="row">
@@ -833,9 +855,23 @@ $makearr=getValuesArr( "countries", "countries_name","countries_name","", "" );?
 									       </div>
 
                                      </div>
+									 
+									 
+									 <div class="form-group">
+
+                                      <div class="row">
+										<div id="4thsubcatid">						
+
+										</div>
+									  </div>
+
+                             </div>
+										<?php } ?>
 						
 									<?php if($act=="edit"){ ?>
 									<div class="form-group">
+									 <div class="row">
+									<div id="subsubcatid">
 									<?php $cid=$row['catid'];
 									$subcatid=$row['subcatid'];
 									 $sql="SELECT * FROM $_TBL_SUBSUBCAT WHERE catid=$cid and subcatid=$subcatid";
@@ -856,7 +892,7 @@ $db->query($sql)or die($db->error());
 
 </div>
  <?php } ?>
-									 </div>
+									 </div> </div> </div>
 									<?php } ?>
 									
 									
@@ -865,6 +901,8 @@ $db->query($sql)or die($db->error());
 						if(!empty($tid)){
 									?>
 									<div class="form-group">
+									 <div class="row">
+									<div id="4thsubcatid">	
 									<?php 
 
 						
@@ -885,18 +923,10 @@ $db->query($sql)or die($db->error());
 				   </select> </div>
 
  <?php } ?>
-									 </div>
-									<?php } }?>
+									 </div> </div> </div>
+									<?php } } ?>
 									
-									<div class="form-group">
-
-                                      <div class="row">
-										<div id="4thsubcatid">						
-
-										</div>
-									  </div>
-
-                             </div>
+									<?php ?>
                                         <div class="form-group">
 										<div class="row">
                                         <label class="col-md-2 control-label" for="name"> Product Manufacturer</label>
@@ -1192,9 +1222,31 @@ $db->query($sql)or die($db->error());
 				<input type="hidden" name="input_imgid[]"  value="<?=$rownew['image_id']?>" />
 				
 				<input type="hidden" name="input_imgid1[]"  value="<?=$rownew['thumbnail']?>" />
-				
+				<div class="row" style="display: flex;">
 				<div class="col-md-2">
-					<label class="" for="color"> Color</label><input type="text" name="input_array_name[]" class="form-control" placeholder="Color" value="<?=$rownew['prodcolor']?>" /></div>
+					<label class="" for="color"> Color</label><!--<input type="text" name="input_array_name[]" class="form-control" placeholder="Color" value="<?=$rownew['prodcolor']?>" />-->
+					<?php  echo $color=$rownew['prodcolor'];
+							$db22=new DB();
+							  $sql22="SELECT * FROM allproductcolor";
+							$db22->query($sql22)or die($db22->error());
+							 if($db22->numRows()>0){
+								
+							 ?>
+							 
+									 <select  name="input_array_name[]" id="input_array_name[]"  class="form-control" >
+													<option value="">select</option><?php
+									while($row1=$db22->fetchArray()){
+									
+								?>
+		
+                        <option value="<?=$row1['nameofcolor']?>" <?php if($row1['nameofcolor']===$color){ echo "selected"; } ?> ><?=$row1['nameofcolor']?></option>
+						  <?php }?>
+						   </select>
+						
+						 <?php } ?>
+					
+					
+					</div>
 				<div class="col-md-2">
 					<label class="" for="color"> Thumbnail</label><input type="file" name="input_array_file[]" class="form-control" placeholder="Input File" /></div>
 				
@@ -1203,11 +1255,24 @@ $db->query($sql)or die($db->error());
 				<div class="col-md-2">
 					<label class="" for="prodsize"> Product Size</label><input type="text" name="input_array_size[]" class="form-control"  placeholder="Input size" value="<?=$rownew['prodsize']?>" /></div>
 				<div class="col-md-2">
-					<label class="" for="Quantity"> Quantity</label><input type="text" name="input_array_qtn[]" class="form-control" id="quantity"  placeholder="Quantity" value="<?=$rownew['prodquantity']?>"  /></div>
+					<label class="" for="Quantity"> Quantity<span class="required">*</span></label><input type="text" name="input_array_qtn[]" class="form-control" id="quantity"  placeholder="Quantity" value="<?=$rownew['prodquantity']?>"  /></div>
+					
+					<div class="col-md-2">
+					<label class="" for="Price"> Price<span class="required">*</span></label>
+					<input type="text" name="input_array_type[]" class="form-control" placeholder="Price" value="<?=$rownew['prodprice']?>" /></div>
+				<div class="col-md-2">
+				<label class="" for="Capacity"> Capacity<span class="required">*</span></label>
+				<input type="text" name="input_array_capacity[]" class="form-control" placeholder="Capacity" value="<?=$rownew['prodcapacity']?>" /></div>
+					
+					
+					<div class="col-md-2" style="margin-top: 30px;">
+					<a href='javascript:deladmin("<?=$rownew['id']?>")' > <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>
+					</div>
+				</div>
 				
 					<?php } } 
-				if(empty($color)){
-				?><div class="row">
+				if(empty($color)){ 
+				?><div class="row" style="display: flex;">
 					<div class="col-md-2"> <label class="" for="color"> Color</label>
 					
 					<?php $color=$row['color'];
@@ -1220,7 +1285,7 @@ $db->query($sql)or die($db->error());
 							 
 									 <select  name="input_array_name[]" id="input_array_name[]"  class="form-control" >
 													<option value="0">Select color</option><?php
-									while($row1=$db->fetchArray()){
+									while($row1=$db22->fetchArray()){
 									if($row1['id']==$row['color']){ $select1='selected';}
 								?>
 		
@@ -1240,11 +1305,21 @@ $db->query($sql)or die($db->error());
 					<label class="" for="color"> Color Image </label>
 					<input type="file" name="input_array_file1[]" class="form-control" /></div>
 					<div class="col-md-2">
-					<label class="" for="color"> Size</label>
+					<label class="" for="Size"> Size</label>
 					<input type="text" name="input_array_size[]" class="form-control"  /></div>
 					<div class="col-md-2">
-					<label class="" for="color"> Quantity</label>
+					<label class="" for="Quantity"> Quantity<span class="required">*</span></label>
 					<input type="text" name="input_array_qtn[]" id="quantity" class="form-control"   ></div>
+					
+					<div class="col-md-2">
+					<label class="" for="Price"> Price<span class="required">*</span></label>
+					<input type="text" name="input_array_type[]" class="form-control" placeholder="Price" /></div>
+				<div class="col-md-2">
+				<label class="" for="Capacity"> Capacity<span class="required">*</span></label>
+				<input type="text" name="input_array_capacity[]" class="form-control" placeholder="Capacity"  /></div>
+
+					
+					
 				</div>
 				<?php } ?>
 					
@@ -1273,6 +1348,21 @@ $db->query($sql)or die($db->error());
 
                                                 </div>-->
 
+  <div class="form-group">
+
+                                                    <div class="row">
+
+                                                        <label class="col-md-2 control-label">Discount (In %) </label>
+
+                                                        <div class="col-md-10">
+
+                                                                <input name="discount" id="discount" type="text" class="form-control" value="<?=$row['discount']?>" / > 
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
 
 
 
@@ -1291,13 +1381,13 @@ $db->query($sql)or die($db->error());
                                                         <div class="col-md-10">
 
                                                             <select class="form-control" name="tax" id="tax">
-<option>Select</option>
+<option value="0">Select</option>
 <?php  $dbnew=new DB();
 		$ct=1;
 		$sql12="SELECT * FROM alltax WHERE status='1'";
 		$dbnew->query($sql12)or die($dbnew->error());
 		while($row2=$dbnew->fetchArray()){	?>
-               <option value="<?=$row2['tax']?>"><?=$row2['tax']?></option>
+               <option value="<?=$row2['tax']?>"><?=$row2['tax']?> %</option>
 		<?php } ?>
 
                                                             </select>
@@ -1391,6 +1481,7 @@ $db->query($sql)or die($db->error());
                                             </tbody>
 											<?php $cnt=1;
 											$dbi=new DB();
+											$img2=$row['prod_large_image'];
 		if(!empty($_REQUEST['id'])){
 		$sqli="SELECT * FROM productimage WHERE pid=".$_REQUEST['id'];
 		$dbi->query($sqli)or die($dbi->error());
@@ -1401,7 +1492,10 @@ $db->query($sql)or die($db->error());
 		<tr class="<?=$row1['imgid']?>">
 		<td><?=$cnt?></td>
 		<td><div class="thmis"><img src="../../product/<?=$row1['imgid']?>" width="50"></div></td>
-		<td><input type="radio" id="pimage" name="pimage" value="<?=$row1['imgid']?>"></td>
+		<td>
+	
+		<input type="radio" id="pimage" name="pimage" value="<?=$row1['imgid']?>"	
+		<?php if($row1['imgid']===$img2){ echo "checked"; }?>></td>
 		<td><button class="btn btn-default btn-icon deleteimg" img="<?=$row1['imgid']?>"><span class="fa fa-times"></span></button></td>
 		</tr>
 											 
@@ -1474,7 +1568,7 @@ $db->query($sql)or die($db->error());
 
                                                     <div class="row">
 
-                                                        <label class="col-md-2 control-label">Shipping <span class="">*</span></label>
+                                                        <label class="col-md-2 control-label">Shipping </label>
 
                                                         <div class="col-md-10"> 
 <textarea name="shipping" class="editor-base"><?=$row['shipping']?></textarea>
@@ -1491,7 +1585,7 @@ $db->query($sql)or die($db->error());
 
                                                     <div class="row">
 
-                                                        <label class="col-md-2 control-label">Warranty<span class="">*</span></label>
+                                                        <label class="col-md-2 control-label">Warranty</label>
 
                                                         <div class="col-md-10"> 
 <textarea name="warranty" class="editor-base"><?=$row['warranty']?></textarea>
@@ -1509,7 +1603,7 @@ $db->query($sql)or die($db->error());
 
                                                     <div class="row">
 
-                                                        <label class="col-md-2 control-label">Return Policy<span class="">*</span></label>
+                                                        <label class="col-md-2 control-label">Return Policy</label>
 
                                                         <div class="col-md-10"> 
  <textarea name="return-policy" class="editor-base"><?=$row['rpolicy']?></textarea>
@@ -1581,10 +1675,10 @@ $db->query($sql)or die($db->error());
                             <p class="text-right">
 							
 							
-                                <button class="btn btn-default btn-icon-fixed"><span class="icon-menu-circle"></span> Cancel</button>
+                                <button class="btn btn-default btn-icon-fixed"><span class="icon-menu-circle"></span> Reset</button>
 
                                 <!--<button class="btn btn-success btn-icon-fixed"><span class="icon-arrow-up-circle"></span> Save</button>-->
-<input name="Submit" id="submit" type="submit" class="btn btn-success btn-icon-fixed" value="Save"  />
+<input name="Submit" id="submit" type="submit" class="btn btn-success btn-icon-fixed" value="Save & Next"  />
                                
 
                             </p>
@@ -1610,7 +1704,7 @@ $db->query($sql)or die($db->error());
 </div>
 
 
-
+<input type="hidden" name="cnt" id="cnt" value="" />
                         
 
                     </div> <!-- END PAGE CONTAINER -->
@@ -1621,9 +1715,35 @@ $db->query($sql)or die($db->error());
 $('a[href$="#Prices"]').closest('li').addClass("error");
  $("#error_name").text("* You have to enter your first name!");
 <p id="demo"></p>-->  
-<script type="text/javascript" src="https://orangestate.ng/js/sweetalert2@8.js"></script>                  
+<script type="text/javascript" src="https://orangestate.ng/js/sweetalert2@8.js"></script>  
+<?php							
+								$db22=new DB();
+							   $sql22="SELECT * FROM allproductcolor";
+							$db22->query($sql22)or die($db22->error());
+							 if($db22->numRows()>0){
+								 $datanew.='<label class="" for="color"> Color</label><select  name="input_array_name[]" id="input_array_name[]"  class="form-control" ><option value="0">Select color</option>';
+									while($row1=$db22->fetchArray()){
+										$aa=$row1['nameofcolor'];
+										 $datanew.='<option value="'.$aa.'">'.$aa.'</option>'; }
+										  $datanew.='</select>'; 
+										
+										 } 
+										
+										
+										 ?> 
 <script>
+/* $(".add_fields").click(function () {
+   $(".appendme").append('<?=$datanew?>');
+}); */
+
 $(document).ready(function(){
+	
+	jQuery(document).on("change",".pimagenew",function(){
+	 var pimage = $(".pimagenew").attr('pimage');	
+	
+	$('#mainimage').val(pimage);
+});
+	
 	$("#prodname").focusout(function(){
 				
 					if($(this).val()==''){
@@ -1673,7 +1793,7 @@ $(document).ready(function(){
         	}
        });
 	   
-	   
+	
 	   $("#prodprice").focusout(function(){
 
     		if($(this).val()==''){
@@ -1689,7 +1809,7 @@ $(document).ready(function(){
 
         	}
        });
-	var sprodprice = $.trim($('#sprodprice').val());
+	
 	$("#sprodprice").focusout(function(){
 
     		if($(this).val()==''){
@@ -1705,63 +1825,8 @@ $(document).ready(function(){
 
         	}
        });
-	if( sprodprice == ''){
-        		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);        			
-        	}
-	
-	$("#tax").focusout(function(){
 
-    		if($(this).val()==''){
-        		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);
-        			
-        	}
-        	else
-        	{
-        		$(this).css("border-color", "#2eb82e");
-        		$('#submit').attr('disabled',false);				
-        		
-
-        	}
-       });
 	
-	$('form').submit(function () {
-			
-    // Get the Login Name value and trim it
-    var prodname = $.trim($('#prodname').val());
-	
-	if( prodname === ''){
-        		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);
-return false;        			
-        	}
-	 var sku = $.trim($('#sku').val());
-	if( sku === ''){
-        		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);    
-return false;					
-        	}
-	
-var category = $.trim($('#category').val());
-	if( category == ''){
-        		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);   
-return false;					
-        	}	
-			
-			
-	var prodprice = $.trim($('#prodprice').val());
-	if( prodprice == ''){
-        		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);        			
-        	}
-	var tax = $.trim($('#tax').val());
-	if( tax == ''){
-        		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);        			
-        	}
-	var quantity = $.trim($('#quantity').val());
 	$("#quantity").focusout(function(){
 
     		if($(this).val()==''){
@@ -1777,21 +1842,106 @@ return false;
 
         	}
        });
-		if( quantity == ''){
+	
+	
+	$("#tax").focusout(function(){
+
+    		if($(this).val()=='' || $(this).val()=='0'){
         		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);        			
+        			$('#submit').attr('disabled',true);
+        			
+        	}
+        	else
+        	{
+        		$(this).css("border-color", "#2eb82e");
+        		$('#submit').attr('disabled',false);				
+        		
+
+        	}
+       }); 
+	
+	$('form').submit(function () {
+			
+    // Get the Login Name value and trim it
+    var prodname = $.trim($('#prodname').val());
+	
+	if( prodname === ''){
+        		$('#prodname').css("border-color", "#FF0000");
+        		$('#submit').attr('disabled',true);
+				return false;        			
+        	}
+	 var sku = $.trim($('#sku').val());
+	 if( sku === ''){
+        		$('#sku').css("border-color", "#FF0000");
+        		$('#submit').attr('disabled',true);    
+				return false;					
+        	}
+	
+var category = $.trim($('#category').val());
+	if( category === '' || category=='0' ){
+		
+		 $('#category').css("border-color", "#FF0000");
+		 $('#submit').attr('disabled',true);
+		 $('a[href$="#home"]').closest('li').removeClass("error");		
+		 $('a[href$="#Categories"]').closest('li').addClass("error");
+		return false;				
+     }
+	var prodprice = $.trim($('#prodprice').val());	
+	if( prodprice === '' || prodprice==''){
+        		$('#prodprice').css("border-color", "#FF0000");
+        		$('#submit').attr('disabled',true);
+				$('a[href$="#home"]').closest('li').removeClass("error");		
+		        $('a[href$="#Categories"]').closest('li').removeClass("error");
+				$('a[href$="#Prices"]').closest('li').addClass("error");
+				return false;	
+        	}
+	var sprodprice = $.trim($('#sprodprice').val());
+	if( sprodprice == '' || sprodprice==''){
+        		$('#sprodprice').css("border-color", "#FF0000");
+        		$('#submit').attr('disabled',true);
+				$('a[href$="#home"]').closest('li').removeClass("error");		
+		        $('a[href$="#Categories"]').closest('li').removeClass("error");
+				$('a[href$="#Prices"]').closest('li').addClass("error");
+				return false;	
+        	}
+	var quantity = $.trim($('#quantity').val());	
+	if( quantity === '' || quantity==''){
+        	$('#quantity').css("border-color", "#FF0000");
+        	$('#submit').attr('disabled',true);
+			$('a[href$="#home"]').closest('li').removeClass("error");		
+		    $('a[href$="#Categories"]').closest('li').removeClass("error");
+			$('a[href$="#Prices"]').closest('li').addClass("error");
+			return false;        			
         	}
 			
-	if (category === '') {
-		$('a[href$="#home"]').closest('li').removeClass("error");
-		$('a[href$="#home"]').closest('li').removeClass("active");
-		$('a[href$="#Categories"]').closest('li').addClass("error");
-		$('a[href$="#Categories"]').closest('li').addClass("active");
-         jQuery("#home").removeClass("active");
-		  jQuery("#Categories").addClass("active");
-        return false;
-    }		
-    // Check if empty of not
+	var tax = $.trim($('#tax').val());
+	if( tax == '' || tax==''){
+        $('#tax').css("border-color", "#FF0000");
+        $('#submit').attr('disabled',true);
+		$('a[href$="#home"]').closest('li').removeClass("error");		
+		$('a[href$="#Categories"]').closest('li').removeClass("error");
+		$('a[href$="#Prices"]').closest('li').addClass("error");
+        return false; 
+	 }	
+	
+	 
+  var pimage = document.getElementsByName('pimage');
+  var imgValue = false;  
+  for(var i=0; i<pimage.length;i++){
+   if(pimage[i].checked == true){
+    imgValue = true; 
+   }
+  }
+  if(!imgValue){  
+   $('#submit').attr('disabled',false);
+   $('a[href$="#home"]').closest('li').removeClass("error");		
+   $('a[href$="#Categories"]').closest('li').removeClass("error");
+   $('a[href$="#Prices"]').closest('li').removeClass("error");
+   $('a[href$="#Images"]').closest('li').addClass("error");
+   return false;
+  }
+	
+	/* 	
     if (prodprice === '' || sprodprice === ''|| tax === '' || quantity === '') {
 		$('a[href$="#home"]').closest('li').removeClass("error");
 		$('a[href$="#home"]').closest('li').removeClass("active");
@@ -1801,14 +1951,11 @@ return false;
 		  jQuery("#Prices").addClass("active");
         return false;
     }
-	
+ */	
 	
 });
 
-jQuery("#pimage").click(function() {
-	 var pimage = jQuery('#pimage').val();
-	jQuery('#mainimage').val(pimage);
-});
+
 $("#category").change(function() {
   var str=$(this).val();
 	
@@ -1882,7 +2029,11 @@ var str=$(this).val();
 });
 
 	jQuery("#filesnew").on('change', function() {
-  
+	var $cnt = $("#cnt");
+    var a = $cnt.val();    
+    a++;
+	 $cnt.val(a);
+	
    var social_AjaxURL='//orangestate.ng/admin/pages/uploadprod.php';
    var form_data = new FormData();
 
@@ -1901,13 +2052,21 @@ var str=$(this).val();
      contentType: false,
      processData: false,
      success: function (response) {
-		jQuery(".uploaded-img").html( '<tr class="'+ response +'"><td>1</td> <td><div class="thmis"><img src="https://orangestate.ng/product/'+ response +'" width="50"></div></td><td><input type="radio" id="pimage" name="pimage" value="'+ response +'"></td><td><button class="btn btn-default btn-icon deleteimg" img="'+ response +'"><span class="fa fa-times"></span></button></td></tr>');
+		jQuery(".uploaded-img").append( '<tr class="im'+ a +'"><td>'+ a +'</td> <td><div class="thmis"><img src="https://orangestate.ng/product/'+ response +'" width="50"></div></td><td><input type="radio" id="pimage" name="pimage" value="'+ response +'" pimage="'+ response +'" class="pimagenew"></td><td><button class="btn btn-default btn-icon deleteimg1" img="'+ a +'"><span class="fa fa-times"></span></button></td></tr>');
 		
      }
    });
 
 });
 
+jQuery(document).on("click", ".deleteimg1", function(e){
+var $cnt = $("#cnt");
+    var a = $cnt.val();    
+    a--;
+	 $cnt.val(a);
+var img = jQuery(this).attr('img');
+jQuery('.im'+img+'').hide();
+});
 jQuery(document).on("click", ".deleteimg", function(e){
 
 
@@ -1933,7 +2092,8 @@ jQuery(document).on("click", ".deleteimg", function(e){
 					type: 'POST',
 					data: dataString,
             	    success: function (data) {
-						jQuery('.'+data+'').html('');
+						window.location.reload(true);
+						jQuery("#Images").addClass("active");
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
@@ -1967,7 +2127,7 @@ jQuery(document).ready(function() {
 		
         if(x < max_fields){ 
             x++; 
-            jQuery(wrapper).append('<div class="row"><div class="col-md-2"> <label class="" for="color"> Color</label><input type="text" name="input_array_name[]" placeholder="Color" class="form-control"/> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div class="col-md-2"> <label class="" for="color"> Thumbnail</label><input type="file" name="input_array_file[]" placeholder="file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div class="col-md-2"> <label class="" for="color"> Color Image</label><input type="file" name="input_array_file1[]" placeholder="file" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div class="col-md-2"> <label class="" for="color"> Size</label><input type="text" name="input_array_size[]" placeholder="size" class="form-control" /> <a href="javascript:void(0);" class="remove_field">Remove</a></div><div class="col-md-2"> <label class="" for="Quntity"> Quntity</label><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Quantity"  /> <a href="javascript:void(0);" class="remove_field">Remove</a></div></div>');
+            jQuery(wrapper).append('<div class="row" style="display: flex;"><div class="col-md-2 appendme"><?php echo $datanew;?> </div><div class="col-md-2"> <label class="" for="color"> Thumbnail</label><input type="file" name="input_array_file[]" placeholder="file" class="form-control" /> </div><div class="col-md-2"> <label class="" for="color"> Color Image</label><input type="file" name="input_array_file1[]" placeholder="file" class="form-control" /> </div><div class="col-md-2"> <label class="" for="color"> Size</label><input type="text" name="input_array_size[]" placeholder="size" class="form-control" /> </div><div class="col-md-2"> <label class="" for="Quntity"> Quntity</label><input type="text" name="input_array_qtn[]" class="form-control" placeholder="Quantity"  /> </div><div class="col-md-2"><label class="" for="Price"> Price<span class="required">*</span></label><input type="text" name="input_array_type[]" class="form-control" placeholder="Price" /></div><div class="col-md-2"><label class="" for="Capacity"> Capacity<span class="required">*</span></label><input type="text" name="input_array_capacity[]" class="form-control" placeholder="Capacity"  /></div><a href="javascript:void(0);" class="remove_field add_fields btn btn-info pull-right hidden-mobile" style="margin-right: 20px; margin-top: 30px;">Remove</a></div>');
         }
     });
 	

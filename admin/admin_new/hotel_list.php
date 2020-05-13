@@ -1,26 +1,40 @@
-<?php include("header.php") ?>
-<?php $makearr1=array();
-$makearr1=getValuesArr( $_TBL_USER, "user_id","first_name","", "" );
- $mod=$_REQUEST['mod'];
- $innumber=$_REQUEST['innumber'];
- $id=$_REQUEST['id'];
- $act=$_REQUEST['act'];
- $stat=$_REQUEST['stat'];
- $rec=$_REQUEST['rec'];
- $qryStr="innumber=$innumber&mod=$mod&rec=$rec";
- if($act=='dac'){	
- if($stat==0)
-	 $stat=1;	
- else		
-	 $stat=0;		
- $sql="UPDATE $_TBL_ORDER SET status='$stat' WHERE id='$id'";	
- $db->query($sql);		
- } 
- if($act=='del'){
-	 $sql="DELETE FROM $_TBL_ORDER WHERE id='$id'";	
-	 $db->query($sql);	
-	 } ?>
-	 <script>function deladmin(id){	if(confirm("Are you sure to delete?"))	{		location.href="<?=$_PAGE.'?'.$qryStr?>&mod=order&act=del&id="+id;	}}</script>
+<?php include("header.php");
+$mod=$_REQUEST['mod'];
+$firstname=$_REQUEST['firstname'];
+$id=$_REQUEST['id'];
+$act=$_REQUEST['act'];
+$stat=$_REQUEST['stat'];
+$rec=$_REQUEST['rec'];
+$qryStr="mod=$mod&firstname=$firstname";
+if($act=='dac')
+	{
+		if($stat==0)
+			$stat=1;
+		else
+			$stat=0;
+		$sql="UPDATE $_TBL_HOTEL SET homestatus= '$stat' WHERE id='$id'";
+		$db->query($sql);
+		
+	}
+
+if($act=='del')
+	{
+		
+		$sql="DELETE FROM $_TBL_HOTEL WHERE id='$id'";
+		$db->query($sql);
+	
+	}
+
+?>
+<script>
+function deladmin(id)
+{
+	if(confirm("Are you sure to delete?"))
+	{
+		location.href="<?=$_PAGE.'?'.$qryStr?>&act=del&id="+id;
+	}
+}
+</script>
 
     <div class="app-heading-container app-heading-bordered bottom">
         <ul class="breadcrumb">
@@ -64,16 +78,49 @@ $makearr1=getValuesArr( $_TBL_USER, "user_id","first_name","", "" );
                                 <table class="table table-striped table-bordered datatable-extended" id="sortable-data">
                                     <thead>
                                         <tr>										<th>Sl No #</th>
-                                            <th>Order #</th>
-                                            <th>Purchased on</th>
-                                            <th>Bill to Name</th>
-                                            <th>Total Price</th>
+                                            <th>Title</th>
+                                            <th>Date</th>
+                                            
                                           
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody><?php	$db1=new DB(); $ct=1;   $sql="SELECT * from user_order";	$db->query($sql);	if($db->numRows()>0)	{	while($row=$db->fetchArray()){	$num=$db1->getSingleResult('select count(*) from '.$_TBL_ORDER." where id=".$row['id']);	 $name=$db1->getSingleResult('select first_name from all_user where user_id='.$row['userid']);			$arr1=@explode(' ',$row['buydate']);		$edate=@explode('-',$arr1[0]);		$stamp1=@mktime(0,0,0,$edate[2],$edate[1],$edate[0]);		if($row['order_status']=="0")	{	$sta="<b style='color:red;'>Pending</b>";	}elseif($row['order_status']=="1"){		$sta="Cancelled";	}elseif($row['order_status']=="2"){		$sta="Confirmed";	}			?>							<tr>						<td><?=$ct?></td>                         <td><a href="//orangestate.ng/admin/admin_new/order_view.php?id=<?=$row[orderid]?>"><?=$row['orderid']?></a></td>						 <td ><?=date('dS'.' '.'M',$stamp1)?><?=date('Y',$stamp1)?></td>						 <td ><?php echo $name;?></td>	<td align='center'>₦ <?=$row['totalprice']?></td>                           																																			                           <td>					   <?php echo $sta;?>							  </td>                        							 <td><a href="//orangestate.ng/admin/admin_new/order_view.php?id=<?=$row['orderid']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>							</td>                     </tr>
+                                    <tbody>
+<?php
+$ct=1;
+ $sql="SELECT * from ".$_TBL_HOTEL.$wherestr." order by id desc";
+	$db->query($sql);
+	$total_records=$db->numRows();
+	$page=new Page;
+	$page->show_disabled_links=true;
+	$page->set_page_data($_PAGE,$total_records,50,10,true,true,true);
+	$page->set_qry_string($qryStr);
+	$db->query($page->get_limit_query($sql));
+	
+	if($db->numRows()>0)
+		{
+	while($row=$db->fetchArray()){
+	/* $num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']); */
+	
+$date=explode('-',$row['date']);
+$st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
+	
+		
+?>	
+<tr>
+						<td><?=$ct?></td>
+                        <td> <a href="//orangestate.ng/admin/admin_new/add-hotel.php?act=edit&id=<?=$row['id']?>"><?=$row['title']?></a></td>
+							
+                       
+						<td> <?php echo date('d M,Y',$st);?></td>
+                    <td> <a href='//orangestate.ng/admin/admin_new/hotel_list.php?act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']==0?'Deactive':'Active'?></a> </td>
+                           
+                        <td > <a href="//orangestate.ng/admin/admin_new/add-hotel.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>
+						</td>
+                     </tr>
+
+								
                                       
 	<?php $ct=$ct+1; } } ?>  
                                     </tbody>

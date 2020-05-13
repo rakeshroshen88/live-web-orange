@@ -61,6 +61,7 @@ if(matchExists($_TBL_ORDER, $whereClause))
 		
    } */
    $dbup=new DB();
+  
  $sql1="select * from ".$_TBL_TEMPORDER." where sessionid='".session_id()."'";
  $db->query($sql1);
  if($db->numRows()>0)
@@ -71,11 +72,18 @@ if(matchExists($_TBL_ORDER, $whereClause))
 		$prodid.=$row['prodid'].',';
 		$cost.=$row['cost'].',';
 		$total.=$row['prod_total'].',';
-		 $quantity.=$row['quantity'].',';
-		 $totalproduct=$db1->getSingleResult('select total from '.$_TBL_PRODUCT." where id=".$row['prodid']);
-		 $restprod=($totalproduct-$row['quantity']);
-		 $sqlup="UPDATE $_TBL_PRODUCT SET total='".$restprod."' WHERE id=".$row['prodid'];
-		$dbup->query($sqlup);	
+		$quantity.=$row['quantity'].',';
+		$shippingcharge.=$row['shippingcharge'].',';
+		$tax.=$row['tax_amt'].',';
+		$prod_image.=$row['prod_image'].',';
+		$tax_percent.=$row['tax_percent'].',';
+		$discount1.=$row['discount'].',';
+		$prodsize.=$row['prodsize'].',';
+		$prodcolor.=$row['prodcolor'].',';
+		 $totalproduct=$db1->getSingleResult("select prodquantity from prodattributes where prodid=".$row['prodid']." and prodcolor='".$row['prodcolor']."'");
+		 $restprod=($totalproduct-$row['quantity']); 
+		 $sqlup="UPDATE prodattributes SET prodquantity='".$restprod."' WHERE prodid=".$row['prodid']." and prodcolor='".$row['prodcolor']."'";
+		 $dbup->query($sqlup);	
 	
 	}
 }
@@ -90,7 +98,21 @@ $errMsg="";
   $dbu->numRows();
   $billrow1=$dbu->fetchArray();
 $approvel=$_REQUEST['response'];
+$transaction=$_REQUEST['transaction'];
 $orderid=$_SESSION['sess_orderid'];
+if($_REQUEST['pm']=='cod' and $_REQUEST['c']=='D4KFGXsdfsdf46'){
+	  $us="select * from ".$_TBL_USER." where user_id=".$_SESSION['sess_webid'];
+	  $db->query($us);
+	  $db->numRows(); 
+	  $user_row=$db->fetchArray();
+	  $orderid=(string)rand(10000,999999).rand(100,9999).$_SESSION['sess_webid'];
+		$whereClause=" orderid='".$orderid."'" ;	
+		if(matchExists($_TBL_ORDER, $whereClause))
+		{
+			
+		      $orderid=(string)rand(1000,99999).$_SESSION['sess_webid'];
+		}
+		$_SESSION['sess_orderid']=$orderid;
 $ordarr=array(
 						"userid"=>$_SESSION['sess_webid'],
 						"prodid"=>$prodid,						
@@ -98,12 +120,48 @@ $ordarr=array(
 						"billid"=>$_SESSION['billid'],
 						"product_name"=>$prodname,
 						"price"=>$cost,
-						//"used_coupone"=>$_SESSION['sess_coupcode'],
+						"prodcolor"=>$prodcolor,
+						"shippingcharge"=>$shippingcharge,
+						"prodsize"=>$prodsize,
+						"tax_amt"=>$tax,
+						"paymentmd"=>'cod',
+						"tax_percent"=>$tax_percent,
+						"discount"=>$discount1,
 						"quantity"=>$quantity,
 						"subtotal"=>$total,
-						"approvel"=>$approvel,
+						"prod_image"=>$prod_image,
+						"approvel"=>'pending',
+						"ipaddress"=>$_SERVER['REMOTE_ADDR'],
+						"transaction_id"=>'',
 						"totalprice"=>$_SESSION['sess_total'],						
 						"buydate"=>date('Y-m-d H:i:s'));
+						
+}else{
+							
+							$ordarr=array(
+						"userid"=>$_SESSION['sess_webid'],
+						"prodid"=>$prodid,						
+						"orderid"=>$_SESSION['sess_orderid'],
+						"billid"=>$_SESSION['billid'],
+						"product_name"=>$prodname,
+						"price"=>$cost,
+						"prodcolor"=>$prodcolor,
+						"shippingcharge"=>$shippingcharge,
+						"prodsize"=>$prodsize,
+						"tax_amt"=>$tax,
+						"paymentmd"=>'Online',
+						"tax_percent"=>$tax_percent,
+						"discount"=>$discount1,
+						"quantity"=>$quantity,
+						"subtotal"=>$total,
+						"prod_image"=>$prod_image,
+						"approvel"=>$approvel,
+						"ipaddress"=>$_SERVER['REMOTE_ADDR'],
+						"transaction_id"=>$transaction,
+						"totalprice"=>$_SESSION['sess_total'],						
+						"buydate"=>date('Y-m-d H:i:s'));
+						}
+						
 //print_r($ordarr);						
 				
 $insid=insertData($ordarr, $_TBL_ORDER);
@@ -125,7 +183,13 @@ $db->query($del);
 									$qtyarr=explode(',',$row['quantity']);
 									$pricearr=explode(',',$row['price']);	
 									$subtotalarr=explode(',',$row['subtotal']);
-						         	 $cn=count($prodarray)-1;
+						         	 $cn=count($qtyarr)-1;
+									 $shiparr=explode(',',$row['shippingcharge']);
+	$prodcolorarr=explode(',',$row['prodcolor']);
+	$prodsizearr=explode(',',$row['prodsize']);
+	$taxarr=explode(',',$row['tax_amt']);
+	$discountparr=explode(',',$row['discount']);
+	print_r($discountparr);
 						         	
 $shipid=$db1->getSingleResult("select billid from ".$_TBL_ORDER." where orderid='".$orderid."'");
 $sql="select * from ".$_TBL_BILL." where id=".$shipid;
@@ -145,11 +209,7 @@ $userrow=$db1->fetchArray();
   $bdate=explode(' ',$row['buydate']);
   $newbdate=explode(' ',$bdate[0]);
   $date= $newbdate[0].'/'.$newbdate[0].'/'.$newbdate[0];
-if(!empty($billrow['discount'])){
- $discount=$billrow['discount'];
-}else{
-$discount=0;	
-}
+
  
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //code to implement api
@@ -186,7 +246,7 @@ $discount=0;
     <td height="15" align="left">Order Confirmation</td>
   </tr>
   <tr>
-   <td colspan="3" align="left" style="padding: 20px 0;" ><img src="images/logo.png"  width="200" align="middle"></td>
+   <td colspan="3" align="left" style="padding: 20px 0;" ><img src="https://orangestate.ng/images/logo.png"  width="200" align="middle"></td>
    
     
   </tr>
@@ -222,7 +282,7 @@ $discount=0;
    <tr>
     <td> Address:'.$billrow['billing_adress'].'<br />'.$billrow['billing_adress1'].'<br />State:'.$billrow['billing_state'].' <br />Phone:'.$billrow['billing_phone'].'<br />E-Mail:'.$billrow['billing_email'].'</td>
     <td>Order Total:</td>
-    <td  align="right">₦'.($row['totalprice']-$discount).'</td>
+    <td  align="right">₦'.($row['totalprice']).'</td>
   </tr>
   
   
@@ -247,7 +307,7 @@ $discount=0;
   <tr>
     <td></td>
     <td style="padding: 10px 0;"><strong>Amount: </strong>   </td>
-    <td style="padding: 10px 0;"  align="right"> <strong>₦'.($row['totalprice']-$discount).' </strong></td>
+    <td style="padding: 10px 0;"  align="right"> <strong>₦'.(number_format(($row['totalprice']),2,'.',',')).' </strong></td>
   </tr>
   
   <tr>
@@ -274,7 +334,7 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
   
   
   <tr>
-    <td colspan="3" align="center" style="padding:5px; background:#079CA8; color:#fff;"><strong>Your Item(S) Details: </strong>
+    <td colspan="3" align="center" style="padding:5px; background:#ffc107; color:#fff;"><strong>Your Item(S) Details: </strong>
     </td>
   </tr>
   
@@ -300,30 +360,37 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
     				</tr>';
                     for($i=0;$i<$cn;$i++)
 				{
-					$pname=$db1->getSingleResult("select prod_name from ".$_TBL_PRODUCT." where id=".$prodidarr[$i]);
-					$price=$db1->getSingleResult("select prod_price from ".$_TBL_PRODUCT." where id=".$prodidarr[$i]);
-					$qtyarr[$i];	
-					$prodarray[$i];
-					$pricearr[$i];
-					number_format($subtotalarr[$i],2,'.',',');
-                    $ship3=$db->getSingleResult("select shippingcharge from ".$_TBL_PRODUCT." where  id=".$prodidarr[$i]);
+					
+					$prodcolor=$prodcolorarr[$i];
+					$prodsize=$prodsizearr[$i];
                     $invdetail.='<tr>
-    						<td style="color: #585858; text-align:center; padding: 10px;     border-left: 2px solid #ccc;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;">'.$prodarray[$i].'</td>
+    						<td style="color: #585858; text-align:center; padding: 10px;     border-left: 2px solid #ccc;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;">'.$prodarray[$i].','.$prodcolor.','.$prodsize.'</td>
     						<td style="color: #585858;     border: 2px solid #ccc; padding: 10px; text-align:center;   border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;">'.$qtyarr[$i].'</td>
     						<td style="color: #585858;  border: 2px solid #ccc; padding: 10px; text-align:center;   border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"> ₦'.$pricearr[$i].'</td>
                             <td style="color: #585858; text-align:center;padding: 10px;     border-right: 2px solid #ccc;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" > ₦'.number_format($subtotalarr[$i],2,'.',',').'</td>
     					
     				</tr>';
+					
+					
+					$shipb=$shipb+$shiparr[$i];	
+					$taxprice=$taxprice+$taxarr[$i];
+					$discountprice=$discountprice+$discountparr[$i];
                     $subtotal+=$subtotalarr[$i];
-											 $grand_total+=$subtotalarr[$i];			 
-								
-							$shipb=$shipb+$ship3;		
+					$grand_total+=$subtotalarr[$i];			 
+					
 																
 									}
 												
                     
                     
-                   $invdetail.=' 
+                   $invdetail.=' <tr>
+    						<td style="width:50%;    border-left: 2px solid #ccc;color: #585858; text-align:center; padding: 10px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"></td>
+    						<td colspan="2" style="width:10%; color: #585858;padding: 10px; text-align:center;    font-size: 13px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"><b> Discount</b> <p>
+</p>
+ </td>   					
+                            <td style="width:20%;     border-right: 2px solid #ccc; color: #585858; text-align:center;padding: 10px;    border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" >-₦'.number_format($discountprice,2,'.',',').'</td>
+    					
+    				</tr>
 				   <tr>
     						<td style="width:50%;    border-left: 2px solid #ccc;color: #585858; text-align:center; padding: 10px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"></td>
     						<td colspan="2" style="width:10%; color: #585858;padding: 10px; text-align:center;    font-size: 13px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"><b> Shipping &amp; Handling</b> <p>
@@ -332,6 +399,19 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
                             <td style="width:20%;     border-right: 2px solid #ccc; color: #585858; text-align:center;padding: 10px;    border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" > ₦'.number_format($shipb,2,'.',',').'</td>
     					
     				</tr>
+					
+					<tr>
+							
+							
+    						<td style="width:50%;    border-left: 2px solid #ccc;color: #585858; text-align:center; padding: 10px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"></td>
+    						<td colspan="2" style="width:10%; color: #585858;padding: 10px; text-align:center;    font-size: 13px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"><b> Tax &amp; VAT</b> <p>
+</p>
+ </td>   					
+                            <td style="width:20%;     border-right: 2px solid #ccc; color: #585858; text-align:center;padding: 10px;    border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" > ₦'.number_format($taxprice,2,'.',',').'</td>
+    					
+    				</tr>
+					
+					
 				   
 				   
 				   <tr>
@@ -339,7 +419,7 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
     						<td colspan="2" style="width:10%; color: #585858;padding: 10px; text-align:center;    font-size: 13px;  border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;"><b> Net Amount</b> <p>
 </p>
 (Including applicable shipping cost & tex) </td>   					
-                            <td style="width:20%;     border-right: 2px solid #ccc; color: #585858; text-align:center;padding: 10px;    border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" > ₦'.number_format(($grand_total+$shipb-$discount),2,'.',',').'</td>
+                            <td style="width:20%;     border-right: 2px solid #ccc; color: #585858; text-align:center;padding: 10px;    border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;" > ₦'.number_format(($row['totalprice']),2,'.',',').'</td>
     					
     				</tr>
                     
@@ -347,7 +427,7 @@ incase you dont receive  your order or if it is delivered in an unsatisfactory c
                 
                     
                     <tr>
-                    	<td colspan="4" style="  padding: 50px; text-align: center;"><a href="javascript:void(0)" onClick="window.print();"  style="background: #079AA7; padding: 9px; border-radius:5px;
+                    	<td colspan="4" style="  padding: 50px; text-align: center;"><a href="javascript:void(0)" onClick="window.print();"  style="background: #ffc107; padding: 9px; border-radius:5px;
     color: #fff;"> Print this Page</a></td>
     					
     				</tr>

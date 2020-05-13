@@ -61,13 +61,25 @@ $prodid=$_REQUEST['mid'];
 
 if(isset($_POST['updatecart']) and $_POST['updatecart']=="doupdate")
 		{
-		  $totitem=$_POST['cart'];
-	 $itemprice=$_POST['itemprice'];
+		$totitem=$_POST['cart'];
+		$itemprice=$_POST['itemprice'];
+		$prodid=$_POST['prodid'];
+		$ship=$_POST['ship'];
+		$tax=$_POST['tax'];
+		
 		for($i=0;$i<sizeof($totitem);$i++)
-			{
-				 $total=$_POST['cart'.$totitem[$i]]*$itemprice[$i];				
+			{   $discount=$db->getSingleResult('select discount from product where id='.$prodid[$i]);
+			$shipnew=$db->getSingleResult('select shippingcharge from product where id='.$prodid[$i]);
+				
+				$totaldiscount=($itemprice[$i]*$discount/100)*$_POST['cart'.$totitem[$i]];
+				$shippingchargeupdate=$shipnew*$_POST['cart'.$totitem[$i]];
+				 $total=$_POST['cart'.$totitem[$i]]*$itemprice[$i];	
+				 $totaltaxupdate=($total*$tax[$i]/100);
 				$uparr=array(
 							"quantity"=>$_POST['cart'.$totitem[$i]],
+							"discount"=>$totaldiscount,
+							"shippingcharge"=>$shippingchargeupdate,
+							"tax_amt"=>$totaltaxupdate,
 							"prod_total"=>$total
 													);
 				//print_r($uparr);die();
@@ -126,7 +138,7 @@ if(isset($_POST['updatecart']) and $_POST['updatecart']=="doupdate")
         <th style="width:50%">Product</th>
         <th style="width:10%">Price</th>
         <th style="width:8%">Quantity</th>
-        <th style="width:22%" class="text-right">Subtotal</th>
+        <th style="width:22%" class="text-right">Product Total</th>
         <th style="width:10%"></th>
       </tr>
     </thead>
@@ -145,23 +157,25 @@ if($dbt->numRows()>0)
 	{
 		$grand_total=0;
 		while($rowt=$dbt->fetchArray()){
-		$ppid=$rowt['prodid'];
 		
-		
-		  $path2=$db->getSingleResult("select prod_large_image from $_TBL_PROD1 where  id='$ppid'");
+		   $path2=$rowt['prod_image'];
+		   $shippingcharge=$rowt['shippingcharge'];
+		   $tax_amt=$rowt['tax_amt'];
           if(!empty($path2)){
             $path1=$path2;
           }else{
          $path1='noimage.jpg'; 
         }
-  		//$productprice=$db->getSingleResult("select prod_sprice from $_TBL_PROD where  id='$ppid'");
+  	
 		 
 			   $mrp=$rowt['mrp'];
 				$persen=$rowt['mrp']*$rowt['quantity']-$rowt['cost']*$rowt['quantity'];
-				$discount=($persen*100)/$mrp;
+				$discount=$rowt['discount'];
 			    $orgprice=$rowt['cost'];
 			    $finalprice=$row['cost'];
-			 $ship2=$db->getSingleResult("select shippingcharge from $_TBL_PRODUCT where  id='$ppid'");
+			
+			 
+			
 ?>
       <tr>
         <td data-th="Product">
@@ -181,9 +195,12 @@ if($dbt->numRows()>0)
         <td data-th="Quantity">
           <input type="number" class="form-control text-center" name="cart<?=$rowt['id']?>" value="<?php echo $rowt['quantity'];?>" onkeyup="chkupdatecart();">
 		  <input name="cart[]" type="hidden" value="<?=$rowt['id']?>" />
+		   <input name="prodid[]" type="hidden" value="<?=$rowt['prodid']?>" />
         </td>
         <td data-th="Subtotal" class="text-right">₦ <?=number_format($rowt['prod_total'],2,'.',',')?>
 		<input name="itemprice[]" type="hidden"  value="<?=$rowt['cost']?>"/>
+		
+		<input name="tax[]" type="hidden"  value="<?=$rowt['tax_percent']?>"/>
 		</td>
         <td class="actions" data-th="">
           <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i>
@@ -195,12 +212,16 @@ if($dbt->numRows()>0)
 
 <?php 
 		$ct++; 
-	   //echo $sub_total+=$rowt['cost'];
+	   //echo $sub_total+=$rowt['cost']; $shippingcharge=$rowt['shippingcharge'];
+		
+	   
 	   $grand_total=$grand_total+$rowt['prod_total'];
-	   $totalvat=($grand_total*7.5)/100;
-	$_SESSION['sess_total']=$grand_total+$totalvat;
+	   $totaltax_amt=$totaltax_amt+$tax_amt;
+	   $discountamt=$discountamt+$discount;
+	   $shipn=$shipn+$shippingcharge;
+	$_SESSION['sess_total']=$grand_total+$shipn+$totaltax_amt-$discountamt;
 	
-	$shipn=$shipn+$ship2;
+	
 	 }
 	  
 	  }else{?> 
@@ -213,24 +234,49 @@ if($dbt->numRows()>0)
 
     </tbody>
     <tfoot>
-
-      <tr class="visible-xs">
-        <td colspan="3">Shiping Charges</td> 
-        <td class="text-right"><strong>₦<?=number_format($shipn,2,'.',',')?></strong>
+	<?php if($grand_total==0){ $grand_total=0;}?>
+	<tr class="visible-xs">
+        <td colspan="3" align="right">Grass Total</td> 
+        <td class="text-right"><strong>₦<?=number_format($grand_total,2,'.',',')?></strong>
+        </td>
+        <td></td>
+      </tr>
+	<?php if($discountamt==0){ $discountamt=0;}?>
+<tr class="visible-xs">
+        <td colspan="3" align="right">Discount</td> 
+        <td class="text-right"><strong>- ₦<?=number_format($discountamt,2,'.',',')?></strong>
         </td>
         <td></td>
       </tr>
 	  
 	  <tr class="visible-xs">
-        <td colspan="3">Total VAT(7.5%)</td> 
-        <td class="text-right"><strong>₦<?=number_format($totalvat,2,'.',',')?></strong>
+        <td colspan="3" align="right">Sub Total</td> 
+        <td class="text-right"><strong>₦<?=number_format(($grand_total-$discountamt),2,'.',',')?></strong>
         </td>
         <td></td>
       </tr>
+	  <?php if($shipn==0){ $shipn=0;}?>
+      <tr class="visible-xs">
+        <td colspan="3" align="right">Shiping & Handling</td> 
+        <td class="text-right"><strong>₦<?=number_format($shipn,2,'.',',')?></strong>
+        </td>
+        <td></td>
+      </tr>
+	  
+	   
+	  
+	  <tr class="visible-xs">
+        <td colspan="3" align="right">Total Tax</td> 
+        <td class="text-right"><strong>₦<?=number_format($totaltax_amt,2,'.',',')?></strong>
+        </td>
+        <td></td>
+      </tr>
+	  
+	  
 
       <tr class="visible-xs">
         <td colspan="3"></td> 
-        <td class="text-right"><strong class="bold">Total ₦ <?=number_format(($grand_total+$shipn+$totalvat),2,'.',',')?></strong>
+        <td class="text-right"><strong class="bold">Total ₦ <?=number_format(($_SESSION['sess_total']),2,'.',',')?></strong>
         </td>
         <td></td>
       </tr>

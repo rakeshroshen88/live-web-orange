@@ -20,7 +20,7 @@ if($act=='dac')
 			$stat=0;
 		}
 		
-		$sql="UPDATE $_TBL_PROD1 SET prod_status='$stat' WHERE id='$id'";
+		$sql="UPDATE $_TBL_PROD SET prod_status='$stat' WHERE id='$id'";
 		$db->query($sql);
 		
 	}
@@ -29,14 +29,14 @@ if($act=='dac')
 if($act=='del')
 	{
 		
-		$sql="DELETE FROM ".$_TBL_PROD1." WHERE id='$id'";
+		echo $sql="DELETE FROM ".$_TBL_PROD." WHERE id='$id'";
 		$db->query($sql);
 		
 	}
 
 ?>
 <script>
-function deladmin(id)
+function deladminnew(id)
 {
 	if(confirm("Are you sure to delete?"))
 	{
@@ -152,7 +152,7 @@ function deladmin(id)
                                     <tbody>
 									  <?php
 			$db1=new DB();
-	
+			$ct=1;
 			$sql="SELECT * from product order by id desc";
 			$db->query($sql);		
 	
@@ -160,16 +160,18 @@ function deladmin(id)
 					{
 				while($row=$db->fetchArray()){
 				$cat=$db1->getSingleResult("select catname from category where id=".$row['catid']);
+				$quantity=$db1->getSingleResult("select prodquantity from prodattributes where prodid=".$row['id']);
+				if(empty($quantity) or $quantity==0){ $quantity=0; }
 				$subcatname=$db1->getSingleResult('select subcatname from '.$_TBL_SUBCAT." where id=".$row['subcatid']);
-					$subsubcatname=$db1->getSingleResult('select subsubcatname from '.$_TBL_SUBSUBCAT." where id=".$row['subsubcatid']);
-			$date=explode('-',$row['prod_date']);
-			$st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
+				$subsubcatname=$db1->getSingleResult('select subsubcatname from '.$_TBL_SUBSUBCAT." where id=".$row['subsubcatid']);
+			    $date=explode('-',$row['prod_date']);
+				$st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 			
 ?>	
 
                                         <tr>
 
-                                            <td>252</td>
+                                            <td><?=$ct?></td>
 
                                             <td><?php echo $row['prod_name'];?> </td>
 
@@ -177,12 +179,12 @@ function deladmin(id)
 
                                             <td><?php echo $row['prod_sku'];?> </td>
 
-                                            <td><?php echo $row['prod_sku'];?> </td>
+                                            <td><?php echo $row['prod_sprice'];?> </td>
 
-                                            <?php if($row['total']<10){?>
-										   <td><b style="color:red;"><?php echo $row['total'];?> (Low)</b> </td>
+                                            <?php if($quantity<10){?>
+										   <td><b style="color:red;"><?php echo $quantity;?> (Low)</b> </td>
 										   <?php }else{ ?>
-										   <td><?php echo $row['total'];?> </td>
+										   <td><?php echo $quantity;?> </td>
 										   <?php } ?>
 
                                             <td>  <a href='<?=$_PAGE."?".$qryStr?>&act=dac&id=<?=$row[id]?>&stat=<?=$row[prod_status]?>'><?=$row[prod_status]==0?'Deactive':'Active'?></a> </td>
@@ -193,7 +195,7 @@ function deladmin(id)
 
                                         </tr>
 
-<?php } ?>
+<?php $ct=$ct+1; } ?>
 <?php	}else{
 	
 ?>  

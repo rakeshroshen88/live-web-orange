@@ -247,7 +247,7 @@ if(!empty($prodcolor)){
 <?php } ?>	
                                         			<ul>
 													<?php 
-				$sql="SELECT image_id,prodcolor,thumbnail from prodattributes where prodid=".$row['id'];
+				$sql="SELECT * from prodattributes where prodid=".$row['id'];
 				$db->query($sql);
 				if($db->numRows()>0)
 					{
@@ -260,7 +260,9 @@ if(!empty($prodcolor)){
 						}
 					?>
                                         				<li><a href="javascript:void(0)" class="pickcolor" pcolor="<?=$rownew['prodcolor']?>" pcolor1="<?=$rownew['image_id']?>">
-														<img src="<?=$patht?>" title="Green" alt="product Color" /></a></li>
+														<img src="<?=$patht?>" title="Green" alt="product Color" /></a>
+														<span><?=$rownew['prodcolor']?></span>
+														</li>
 					<?php }  }} ?>
 					</ul>
 					 
@@ -270,13 +272,13 @@ if(!empty($prodcolor)){
                                                  
 <h5>Size</h5>  
                 <?php 
-                 $sql="SELECT prodsize from prodattributes where prodid=".$row['id'];
+                 $sql="SELECT prodsize from prodattributes where prodid=".$row['id']." GROUP BY prodsize";
                 $db->query($sql);
                 if($db->numRows()>0)
                     {
                 while($rownew=$db->fetchArray()){ ?>
                         <div class="sizedib">
-                                                        <input type="radio"  id="size_<?=$rownew['prodsize']?>"  name="inlineRadioOptions" value="<?=$rownew['prodsize']?>"  />
+                                                        <input type="radio"  id="size_<?=$rownew['prodsize']?>"  name="inlineRadioOptions" value="<?=$rownew['prodsize']?>" class="productsize" pz="<?=$rownew['prodsize']?>" pq="<?=$rownew['prodquantity']?>" pid="<?=$row['id']?>"  />
                                                         <label for="size_<?=$rownew['prodsize']?>"></label><?=$rownew['prodsize']?>
                                                     </div>
 
@@ -293,7 +295,53 @@ if(!empty($prodcolor)){
     <button type="button" id="add" class="add">+</button>
 </div>
 <input type="hidden" name="input_array_name" id="input_array_name" value=""/ >
-<script type="text/javascript">
+
+
+                                        		</div>
+												
+                                        		<div class="buybtn-newdesign">
+												<?php if($prodquantity>0){ ?>
+                                        			<button pid="<?=$row['id']?>" class="addtocart">Buy </button>
+                                        			<button pid="<?=$row['id']?>" class="addtocartnew">Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
+												<?php }else{ ?>
+												    <button id="out" disabled="disabled">Buy </button>
+                                        			<button id="out1" disabled="disabled"    >Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
+												<?php } ?>
+                                        			<button class="hearticon_whilish_btn addtowishlist" pid="<?=$row['id']?>" tono="1"><i class="fa fa-heart-o" aria-hidden="true"></i></button>
+                                        		</div>
+
+                                        		
+												
+												
+												
+												
+												
+												
+												
+												<div class="compare-pric-titme">
+												<?php if(!empty($row['prodtype'])){ ?>
+                                                    <p>Type: <?=$row['prodtype']?> </p>
+													<?php } if(!empty($row['prodcapacity'])){ ?>
+                                                    <p>Capacity: <?=$row['prodcapacity']?></p> <?php } ?>
+                                        			<!--<p>Compare Price of similar items: N10,254</p>-->
+                                        		</div>
+                                        		<div class="addthis_inline_share_toolbox"></div>
+
+
+
+                                        	</div>
+
+                                        </div>
+                                        </div>
+										
+										<script type="text/javascript">
+$('.productsize').click(function(){
+	var pid = jQuery(this).attr('pid');
+	var pz = jQuery(this).attr('pz');
+	var pq = jQuery(this).attr('pq');
+	alert(pq);
+	
+});	
 $('.pickcolor').click(function(){
   var pcolor = jQuery(this).attr('pcolor');
   var pimage = jQuery(this).attr('pcolor1');
@@ -322,35 +370,6 @@ $('.sub').click(function () {
 });
 
 </script>
-
-                                        		</div>
-												
-                                        		<div class="buybtn-newdesign">
-												<?php if($prodquantity>0){ ?>
-                                        			<button pid="<?=$row['id']?>" class="addtocart">Buy </button>
-                                        			<button pid="<?=$row['id']?>" class="addtocartnew">Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
-												<?php }else{ ?>
-												    <button id="out" disabled="disabled">Buy </button>
-                                        			<button id="out1" disabled="disabled"    >Add to Cart <i class="fa fa-cart-plus" aria-hidden="true"></i> </button>
-												<?php } ?>
-                                        			<button class="hearticon_whilish_btn addtowishlist" pid="<?=$row['id']?>" tono="1"><i class="fa fa-heart-o" aria-hidden="true"></i></button>
-                                        		</div>
-
-                                        		<div class="compare-pric-titme">
-												<?php if(!empty($row['prodtype'])){ ?>
-                                                    <p>Type: <?=$row['prodtype']?> </p>
-													<?php } if(!empty($row['prodcapacity'])){ ?>
-                                                    <p>Capacity: <?=$row['prodcapacity']?></p> <?php } ?>
-                                        			<!--<p>Compare Price of similar items: N10,254</p>-->
-                                        		</div>
-                                        		<div class="addthis_inline_share_toolbox"></div>
-
-
-
-                                        	</div>
-
-                                        </div>
-                                        </div>
                                         <div class="product_details-tabs-new mt-3 ">
 
                                         <div class="row">

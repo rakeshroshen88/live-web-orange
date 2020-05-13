@@ -1,7 +1,6 @@
 <?php include( 'header.php'); include( 'chksession.php');
 $makearr=array();
-$makearr=getValuesArr( $_TBL_COUNTRIES, "country_id","name","", "" );
-
+$makearr=getValuesArr( "countries", "countries_name","countries_name","", "" );
 ////////////////////
 if(!empty($_REQUEST['billing_firstname'])){
 $billing_firstname=$_REQUEST['billing_firstname'];
@@ -39,7 +38,10 @@ if(matchExists($_TBL_BILL, $whereClause1))
    $bid=$db->getSingleResult("SELECT id from $_TBL_BILL where userid=".$_SESSION['sess_webid']);
 		   $_SESSION['billid']=$bid;
 			updateData($billupdatearr, $_TBL_BILL, $whereClause1);
-			redirect("payment.php");
+			
+			if($_POST['pm']=='cod'){ redirect("order-sucessful.php?c=D4KFGXsdfsdf46&pm=cod"); }else{
+		redirect("payment.php");
+		}
 			
 		}else{
 
@@ -49,7 +51,9 @@ if(matchExists($_TBL_BILL, $whereClause1))
 		
 		if($insid1>0)
 		{
-			redirect("payment.php");
+		if($_POST['pm']=='cod'){ redirect("order-sucessful.php?c=D4KFGXsdfsdf46&pm=cod"); }else{
+		redirect("payment.php");
+		}
 		}
 }
 }
@@ -96,6 +100,7 @@ $dbu=new DB();
             <div class="card-content">
               <ul class="list-group mb-3 checkoutlist-rpdoct">
                <?php $grand_total=0;
+			   $shipn=0;
 $ct=1;
 $dbt=new DB;
 $sqlt="select * from ".$_TBL_TEMPORDER." where sessionid='".session_id()."'";
@@ -107,13 +112,15 @@ if($dbt->numRows()>0)
 			$ppid=$rowt['prodid'];
 		 
 		
-		  $path2=$db->getSingleResult("select prod_large_image from $_TBL_PRODUCTUCT where  id='$ppid'");
+		  $path2=$rowt['prod_image'];
+		   $shippingcharge=$rowt['shippingcharge'];
+		   $tax_amt=$rowt['tax_amt'];
           if(!empty($path2)){
             $path1=$path2;
           }else{
          $path1='noimage.jpg'; 
         }
-		 $ship3=$db->getSingleResult("select shippingcharge from $_TBL_PRODUCT where  id='$ppid'");
+		
 			
 			?>
 
@@ -124,34 +131,52 @@ if($dbt->numRows()>0)
                     <small class="text-muted"><?php if(!empty($rowt['sort_detail'])){
 		echo $rowt['sort_detail']; } ?></small>
                   </div>
+				  <span class="text-muted"><?php if(!empty($rowt['quantity'])){
+		echo $rowt['quantity']; } ?></span>
                   <span class="text-muted">₦<?php if(!empty($rowt['cost'])){
 		echo number_format($rowt['cost'],2,'.',','); } ?></span>
                 </li>
                              
 	<?php
 $ct++; 
+$discount=$rowt['discount'];
+$shipn=$shipn+$shippingcharge;
 	   //echo $sub_total+=$rowt['cost'];
+	    $discountamt=$discountamt+$discount;
 	   $grand_total=$grand_total+$rowt['prod_total'];
-	    $totalvat=($grand_total*7.5)/100;
+	       $totaltax_amt=$totaltax_amt+$tax_amt;
 	//$_SESSION['sess_total']=$grand_total+$totalvat;
-$shipb=$shipb+$ship3;
-	}} ?>    <li class="list-group-item d-flex justify-content-between border-top1px">
+
+	}} ?>   
+
+ <li class="list-group-item d-flex justify-content-between border-top1px">
+                  <span class="product-name">Grass Total</span>
+                  <span class="product-price">₦<?=number_format($grand_total,2,'.',',')?></span>
+                </li>
+				
+				
+				 <li class="list-group-item d-flex justify-content-between border-top1px">
+                  <span class="product-name">Discount</span>
+                  <span class="product-price">-₦<?=number_format($discountamt,2,'.',',')?></span>
+                </li>
+
+	<li class="list-group-item d-flex justify-content-between border-top1px">
                   <span class="product-name">Shipping &amp; Handling</span>
-                  <span class="product-price">₦<?=number_format($shipb,2,'.',',')?></span>
+                  <span class="product-price">₦<?=number_format($shipn,2,'.',',')?></span>
                 </li>
                 
                 <li class="list-group-item d-flex justify-content-between ">
-                  <span class="product-name">TAX / VAT(7.5%)</span>
-                  <span class="product-price">₦<?=number_format($totalvat,2,'.',',')?></span>
+                  <span class="product-name">TAX / VAT</span>
+                  <span class="product-price">₦<?=number_format($totaltax_amt,2,'.',',')?></span>
                 </li>
 				<?php 
 				if(empty($order_row)){
-					$famt=$grand_total+$shipb+$totalvat;
+					$famt=$_SESSION['sess_total'];
 					$discount=($famt-$famt*50/100);
 					$finalamoun=($famt-$famt*50/100);
 					$_SESSION['finalamoun']=$finalamoun;
 				}else{
-					$finalamoun=$grand_total+$shipb+$totalvat;
+					$finalamoun=$_SESSION['sess_total'];
 					$_SESSION['finalamoun']=$finalamoun;
 				}
 				?>
@@ -159,7 +184,14 @@ $shipb=$shipb+$ship3;
                   <span class="product-name success bold finalprice">Order Total</span>
                   <span class="product-price bold finalprice">₦<?=number_format($finalamoun,2,'.',',')?></span>
                 </li>
-                
+				 <li class="list-group-item d-flex justify-content-between">
+				 <?php  if(empty($order_row)){ ?>
+                  <span class="product-name success bold finalprice">Get First Time User Additional 50% Discount &nbsp;</span>
+				   <span class="product-price bold finalprice">₦<?=number_format($finalamoun,2,'.',',')?></span>
+				 <?php }?>
+                 
+                </li>
+               
               
               </ul>
             </div>
@@ -282,8 +314,19 @@ $shipb=$shipb+$ship3;
                         Phone Number required.
                       </div>
                     </div>
+					<div class="col-md-3 mb-3">
+					<label for="online">Payment Mode</label><br>
+					<input type="radio" id="cod" name="pm" value="cod" required>
+					<label for="cod">COD</label>
+					<input type="radio" id="online" name="pm" value="online" required>
+					<label for="online">ONLINE</label><br>
+									   
+                 
+				  </div>
+				  
                   </div>
                   <hr class="mb-2">
+				
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="same-address" checked="">
                     <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>

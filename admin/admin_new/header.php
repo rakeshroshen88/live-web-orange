@@ -1,3 +1,8 @@
+ <?php include("../../config.inc.php");
+if(empty($_SESSION['SES_ADMIN_ID'])){
+		 redirect("https://orangestate.ng/admin/index.php");
+	 }
+?> 
 <!DOCTYPE html>
 <html lang="en">
     <head>                        
@@ -12,6 +17,7 @@
         <link rel="stylesheet" href="css/styles.css">
         <!-- EOF CSS INCLUDE -->
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <script type="text/javascript" src="https://orangestate.ng/js/sweetalert2@8.js"></script> 
 		<style>
 		.btn.btn-icon-fixed span[class^='icon-'], .btn.btn-icon-fixed span.fa {
     position: absolute;
@@ -24,11 +30,7 @@
 		</style>
     </head>
     <body>        
-        <?php
-	//include("../common.php");
-	include("../../config.inc.php");
-
-	?>
+      
         <!-- APP WRAPPER -->
         <div class="app">           
 
@@ -43,5 +45,5 @@
                 <div class="app-content app-sidebar-left">
                     <!-- START APP HEADER -->
                    	<?php include("headerbar.php") ?>
-             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>      	 
+                 	 
                     <!-- END PAGE HEADING -->
