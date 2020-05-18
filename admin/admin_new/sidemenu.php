@@ -65,12 +65,41 @@
 								
 								 <li><a href="https://orangestate.ng/admin/admin_new/hotel_list.php"><span class="nav-icon-hexa">View</span> Hotel</a></li>
 								  <li><a href="https://orangestate.ng/admin/admin_new/add-hotel.php?act=add"><span class="nav-icon-hexa">Add</span> Hotel</a></li>
+								  
+								  
+								  
+								   <li><a href="https://orangestate.ng/admin/admin_new/hotel_list_type.php"><span class="nav-icon-hexa">View</span> Room Type</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_types.php?act=add"><span class="nav-icon-hexa">Add</span> Room Type</a></li>
+								  
+								  
+								  
+								  
+								  
+								   <li><a href="https://orangestate.ng/admin/admin_new/rooms_list.php"><span class="nav-icon-hexa">View</span> Hotel Rooms</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_rooms.php?act=add"><span class="nav-icon-hexa">Add</span> Hotel Rooms</a></li>
 								 
 
 								  
                                   </ul>
                             </li>     
+						
+
+ <li>
+							<?php 
 								
+								$totalhub=$db->getSingleResult("select count(id) from business_hub");?>
+                                <a href="#"><span class="nav-icon-hexa text-orange-100">BH</span> Business Management <span class="label label-success label-bordered label-ghost">+<?=$totalhub?></span></a>
+                                <ul> 		
+
+								
+								 <li><a href="https://orangestate.ng/admin/admin_new/business_list.php"><span class="nav-icon-hexa">View</span> Business</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_businesshub.php?act=add"><span class="nav-icon-hexa">Add</span> Business</a></li>
+								 
+									<li><a href="https://orangestate.ng/admin/admin_new/add_services.php?act=add"><span class="nav-icon-hexa">Add</span> Business Service</a></li> 
+								  
+                                  </ul>
+                            </li>     
+												
                            
                         </ul>
                     </nav>

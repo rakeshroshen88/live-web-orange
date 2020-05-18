@@ -8,20 +8,12 @@ $makearr=array();
 $makearr=getValuesArr( "countries", "countries_id","countries_name","", "" );
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	{
-	
-		
-	$up=new UPLOAD();
-$uploaddir1="../holi/thumb/";
-$uploaddir2="../holi/medium/";
-$uploaddir3="../holi/";
-$check_type="jpg|jpeg|gif|png";
-/////////////////////////////////////////////////////////////////////////////////////////////////
+
 $valid_formats = array("jpg", "png", "gif");
 $max_file_size = 1024*100000; //100 kb
 $path = "../../upload/"; // Upload directory
 $count = 0;
  $_SESSION['picid']=uniqid();
-
 	// Loop $_FILES to exeicute all files
 	foreach ($_FILES['files']['name'] as $f => $name) {     
 	    if ($_FILES['files']['error'][$f] == 4) {
@@ -43,7 +35,7 @@ $count = 0;
 					 "image"=>$name,
 					 "userid"=>$_SESSION['SES_ADMIN_ID']
 						);	
-				$insidi=insertData($updatearrimg, $_TBL_ITEMIMAGE);
+				$insidi=insertData($updatearrimg, 'hotel_room_image');
 					
 					
 	            $count++; // Number of successfully uploaded file
@@ -54,92 +46,28 @@ $count = 0;
 
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-if(empty($_REQUEST['amenities'])){
-	 $an=$_REQUEST['amenities1'];
-}else{
-	 $an=$_REQUEST['amenities'];
-	
-}
-
-
-if(empty($_REQUEST['rateid'])){
-	$rateid=$_REQUEST['rateid1'];
-}else{
-	$rateid=$_REQUEST['rateid'];
-	
-}
-
-
-
-
-if(empty($_REQUEST['popularplaceid'])){
-	$popularplaceid=$_REQUEST['popularplaceid1'];
-}else{
-	$popularplaceid=$_REQUEST['popularplaceid'];
-	
-}
-
-
- $prod_detail=$_REQUEST['prod_desc'];
- if(empty($_REQUEST['cityname'])){
-	$city=$_REQUEST['cityid'];
-}else{
-	$city=$_REQUEST['cityname'];
-	
-}
 if(empty($_REQUEST['flightid'])){
 	$fac=$_REQUEST['flightid1'];
 }else{
 	$fac=$_REQUEST['flightid'];
 	
 }
-if($act=="edit")
-	{
 
-	if(!empty($_FILES['largeimage']['name']))
-		{
-		$largeimage=$up->upload_file($uploaddir3,"largeimage",true,true,0,$check_type);
-				}else{
-		$largeimage=$_REQUEST['image3'];
-		}
 	
-	}else{
-	
-	$largeimage=$up->upload_file($uploaddir3,"largeimage",true,true,0,$check_type);
-	
-	}
-
 $link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
-$catname = mysqli_real_escape_string($link, $_REQUEST['catname']);
-$cat_desc = mysqli_real_escape_string($link, $_REQUEST['cat_desc']);
-$address = mysqli_real_escape_string($link, $_REQUEST['address']);	
+$title = mysqli_real_escape_string($link, $_REQUEST['title']);
+$roomdetail = mysqli_real_escape_string($link, $_REQUEST['roomdetail']);
+
 $updatearr=array(	
-					 "title"=>$_REQUEST['title'],	
-					 "detail"=>$prod_detail,
-					 "price"=>$_REQUEST['price'],					
-					 "place"=>$_REQUEST['place'],					
-					 "chkin"=>$_REQUEST['chkin'],
-					 "chkout"=>$_REQUEST['chkout'],
-					 "picture"=>$largeimage,					 
-					  "starrating"=>$_REQUEST['star'],
-					  "day"=>$_REQUEST['day'],
-					  "noofroom"=>$_REQUEST['noofrooms'],
-					  "nooffloor"=>$_REQUEST['nooffloor'],
-					   "address"=>$address,
-					"night"=>$_REQUEST['night'],
+					 "title"=>$title,					
+					 "price"=>$_REQUEST['price'],
+					"room_type"=>$_REQUEST['room_type'],
+					"hotel_id"=>$_REQUEST['hotel'],					 
+					 "roomdetail"=>$roomdetail,
+					 "starrating"=>$_REQUEST['star'],					 
 					 "discount"=>$_REQUEST['discount'],
-					 "status"=>$_REQUEST['pstatus'],
-					"stateid"=>$_REQUEST['state'],
-					"country"=>$_REQUEST['country'],
-					"landmark"=>$_REQUEST['landmark'],
-					"sortdetail"=>$_REQUEST['sortdetail'],
-					"cityid"=>$city,	
-						"popularplaceid"=>$popularplaceid,	
-						"rateid"=>$rateid,	
-					"amenities"=>$an,
-						"facilityid"=>$fac,
-					"featured"=>$_REQUEST['featured'],						
+					 "status"=>$_REQUEST['pstatus'],					 
+					 "facilityid"=>$fac,			
 					 "date"=>date('Y-m-d')
 					 );
 		
@@ -147,25 +75,22 @@ $updatearr=array(
 			if($act=="edit")
 				{
 					$whereClause=" id=".$_REQUEST['prodid'];
-					updateData($updatearr, $_TBL_HOTEL, $whereClause);
-					/////////////////price Table///////////////////////
-					/* $whereClause=" id=".$_REQUEST['prodid'];
-					updateData($updatearr, $_TBL_HOTEL, $whereClause); */
-					////////////////////////////////////////
+					updateData($updatearr, 'hotel_rooms', $whereClause);
+					
 					
 					$errMsg='<br><b>Update Successfully!</b><br>';
 					if(isset($_SESSION["picid"]))
 					{
-					$db->query("update $_TBL_ITEMIMAGE set item_id=".$_REQUEST['id']." where item_id='".$_SESSION["picid"]."' and userid=".$_SESSION['SES_ADMIN_ID']);
+					$db->query("update hotel_room_image set item_id=".$_REQUEST['id']." where item_id='".$_SESSION["picid"]."' and userid=".$_SESSION['SES_ADMIN_ID']);
 					unset($_SESSION["picid"]);
 					}else{
-				$db->query("update $_TBL_ITEMIMAGE set item_id=".$_REQUEST['id']." where item_id='".$_REQUEST['id']."' and userid=".$_SESSION['SES_ADMIN_ID']);		
+				$db->query("update hotel_room_image set item_id=".$_REQUEST['id']." where item_id='".$_REQUEST['id']."' and userid=".$_SESSION['SES_ADMIN_ID']);		
 					}
 					
 				}elseif($act=="add"){
 				
-					$insid=insertData($updatearr, $_TBL_HOTEL);
-					$db->query("update $_TBL_ITEMIMAGE set item_id=".$insid." where item_id='".$_SESSION["picid"]."' and userid=".$_SESSION['SES_ADMIN_ID']);
+					$insid=insertData($updatearr, 'hotel_rooms');
+					$db->query("update hotel_room_image set item_id=".$insid." where item_id='".$_SESSION["picid"]."' and userid=".$_SESSION['SES_ADMIN_ID']);
 					unset($_SESSION["picid"]);
 					if($insid>0)
 						{
@@ -173,6 +98,8 @@ $updatearr=array(
 							
 							
 							
+						}else{
+							$errMsg='<br><b>Error!</b><br>';
 						}
 					
 				}
@@ -184,7 +111,7 @@ $updatearr=array(
 $db1=new DB();
 if(!empty($prodid))
 	{
-		$sql="SELECT * FROM $_TBL_HOTEL WHERE id=$prodid";
+		$sql="SELECT * FROM hotel_rooms WHERE id=$prodid";
 		$db->query($sql)or die($db->error());
 		$row=$db->fetchArray();	
 	}
@@ -195,9 +122,9 @@ if(!empty($prodid))
 
                             <li><a href="#">Dashboard</a></li>
 
-                            <li><a href="#">Product</a></li>
+                            <li><a href="#">Hotel</a></li>
 
-                            <li class="active">Hotel</li>
+                            <li class="active">Rooms</li>
 
                         </ul>
 
@@ -298,177 +225,131 @@ if(!empty($prodid))
                                     <div class="block-content margin-bottom-0">
 
                                          
-
-                                                
-
-                                                    <div class="row" >
+<div class="row">
 													<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Country</label>
+                                        <label class="col-md-2 control-label" for="name"> Room Type<span class="required">*</span></label>
                                         <div class="col-md-10">
-										<?php echo createComboBox($makearr,"country",$row['country'] ," id='country' class='form-control country'")?>
-                                      
-                                        </div><br>
+							<?php 
+                             
+							$sql="SELECT * FROM rooms_type";
+							$db->query($sql)or die($db->error()); ?>
+
+						 <select  name="room_type" id="room_type"  class="form-control" required>
+						 <option value="0">Select Room Type</option>
+						 <?php	//echo $row['catid'];
+						while($row2=$db->fetchArray()){
+					
+						
+						?>		
+                        <option value="<?=$row2['id']?>" <?php if($row2['id'] == $row['room_type']){ echo 'selected'; } ?>><?=$row2['roomtype']?></option>
+                  <?php }?>
+				   </select>
+                                        </div>
                                     </div>
                                                         
                                                     </div>
-													
-													
-													<div class="row">
-													<div class="form-group" id="showstate">
-<?php $stateid=$row['stateid'];
-if(!empty($stateid)){
- $sqlstate="SELECT * FROM state WHERE country_id=".$row['country'];
-}else{
-	$sqlstate="SELECT * FROM state order by id limit 0,5";
-}
-$db->query($sqlstate)or die($db->error());
- if($db->numRows()>0){
- ?>
-  <label class="col-md-2 control-label" for="name"> State</label>
- <div class="col-md-10">
-		 <select  name="state" id="state" class="form-control">
-                        <option value="0">Select State</option><?php
-		while($row1=$db->fetchArray()){
-		  
-		?>
-		
-                        <option value="<?=$row1['id']?>" <?php if($row1['id']==$stateid){ echo "selected"; }?> ><?=$row1['name']?></option>
-                  <?php }?>
-				   </select> </div><br/>
+<br>
 
- <?php } ?>
-                                       
-													</div>
-                                                        
-                                                    </div>
-													
-													<div class="row" >
-													<div class="form-group" id="showcity">
-<?php
-		$city=$row['cityid'];
-		if(!empty($city)){
-  $sql1="SELECT * FROM cities WHERE state_id='$stateid'";
-}else{
-	 $sql1="SELECT * FROM cities order by id limit 0,5";
-}
-		
-		$db1->query($sql1)or die($db1->error());?>
-		 <label class="col-md-2 control-label" for="name"> Select City</label>
-          <div class="col-md-10">
-		 <select  name="cityname" id="cityname"  class="form-control">
-                        <option>Select city</option><?php
-		while($row1=$db1->fetchArray()){
-		  
-		?>
-		
-                        <option value="<?=$row1['id']?>" <?php if($row1['id']==$city){ echo "selected"; }?>><?=$row1['name']?></option>
+<div class="row">
+													<div class="form-group">
+                                        <label class="col-md-2 control-label" for="name"> Hotel<span class="required">*</span></label>
+                                        <div class="col-md-10">
+							<?php 
+                             
+							$sql1="SELECT * FROM hotel";
+							$db->query($sql1)or die($db->error()); ?>
+
+						 <select  name="hotel" id="hotel"  class="form-control" required>
+						 <option value="0">Select Hotel</option>
+						 <?php	//echo $row['catid'];
+						while($row2=$db->fetchArray()){
+					
+						
+						?>		
+                        <option value="<?=$row2['id']?>" <?php if($row2['id'] == $row['hotel_id']){ echo 'selected'; } ?>><?=$row2['title']?></option>
                   <?php }?>
 				   </select>
-		</div>
-                                       
-													</div>
+                                        </div>
+                                    </div>
                                                         
                                                     </div>
-													<div class="row" >
+<br>
+                                                
+<div class="row" >
 									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Hotel Name:</label>
+                                        <label class="col-md-2 control-label" for="name"> Title:</label>
                                         <div class="col-md-10">
                                         <input name="title" type="text" class="form-control" value="<?=$row['title']?>" requirment/>  
                                         </div>
                                     </div>
 									</div>
-									
-<br>
-<div class="row" >
-<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Hotel Amenities</label>
+                                                    <div class="row" >
+									<div class="form-group">
+                                        <label class="col-md-2 control-label" for="name"> Room Amenities</label>
                                         <div class="col-md-10">
-										<div class="data">
-							      <?php           
-     $db1=new DB();
-	 $ct=0;
-	  $amenities=$row['amenities'];
-       $sql1="SELECT * FROM $_TBL_AMENITIES where status='1' and id IN($amenities)";
-	 $db1->query($sql1)or die($db1->error());
-	  while($row1=$db1->fetchArray()){
-	   $selected='checked';
-		  ?>
-								<div class="app-checkbox success inline"> 
-                                        <label><input type="checkbox" name="employee" onchange="getCheckedCheckboxesFor('employee');" value="<?php echo $row1['id']?>" <?=$selected?> > <?php echo $row1['title']?><span></span></label> 
-                                    </div>
-		  
-	  <!--<span>
-    <input name="employee" type="checkbox" onchange="getCheckedCheckboxesFor('employee');" value="<?php echo $row1['id']?>"/>
-    <label for="employee"><?php echo $row1['title']?></label>
-    </span> -->
-		
-							<?php $ct=$ct+1;  }
-		 $sql1="SELECT * FROM $_TBL_AMENITIES where status='1' and id NOT IN($amenities)";
-	 $db1->query($sql1)or die($db1->error());
-	  while($row1=$db1->fetchArray()){
+                                        <div class="data">
+	  <?php           
+      $db1=new DB();
+	  $ct=0;
+	   $facilityid=$row['facilityid'];
+      $sql1="SELECT * FROM $_TBL_FACI where status='1' and id IN($facilityid)";
+	  $db1->query($sql1)or die($db1->error());
+	  while($row2=$db1->fetchArray()){ 
 	  
-		  ?>
-								<div class="app-checkbox success inline"> 
-                                        <label><input type="checkbox" name="employee" onchange="getCheckedCheckboxesFor('employee');" value="<?php echo $row1['id']?>" > <?php echo $row1['title']?><span></span></label> 
+	   $selected='checked';
+	  
+	  ?>	
+		<div class="app-checkbox success inline"> 
+                                        <label><input type="checkbox" name="employee1" onchange="getCheckedCheckboxesFor1('employee1');" value="<?php echo $row2['id']?>" <?=$selected?> > <?php echo $row2['title']?><span></span></label> 
                                     </div>
-		  
-	  <!--<span>
-    <input name="employee" type="checkbox" onchange="getCheckedCheckboxesFor('employee');" value="<?php echo $row1['id']?>"/>
-    <label for="employee"><?php echo $row1['title']?></label>
-    </span> -->
-		
-							<?php $ct=$ct+1;  }?>		
+						
+							<?php  }
+							
+							 $sql1="SELECT * FROM $_TBL_FACI where status='1' and id NOT IN($facilityid)";
+	  $db1->query($sql1)or die($db1->error());
+	  while($row2=$db1->fetchArray()){ 
+	  
+	  
+	  ?>	
+		<div class="app-checkbox success inline"> 
+                                        <label><input type="checkbox" name="employee1" onchange="getCheckedCheckboxesFor1('employee1');" value="<?php echo $row2['id']?>" > <?php echo $row2['title']?><span></span></label> 
+                                    </div>
+						
+							<?php  }?>
 							
 							
 							
 							
-							</div><input type='hidden' name="amenities" id='emplist' value='' />
-							<input type='hidden' name="amenities1"  value='<?php echo $row['amenities']?>' />
+							
+							
+							
+							</div>
+							<input type='hidden' name="flightid" id='emplist1' value='' />
+							<input type='hidden' name="flightid1"  value='<?php echo $row['facilityid']?>' />
+							
+                         
                                         </div>
                                     </div>
-</div>									
-									<div class="row" >
+									</div>
+	
+							<div class="row" >
 									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Max Price:</label>
+                                        <label class="col-md-2 control-label" for="name"> Price:</label>
                                         <div class="col-md-10">
-                                        <input name="price" type="nubber" class="form-control" value="<?=$row['price']?>"/>  
+                                        <input name="price" type="number" class="form-control" value="<?=$row['price']?>"/>  
                                         </div>
                                     </div>
 									</div>
 									<div class="row" >
 									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> No of Rooms:</label>
+                                        <label class="col-md-2 control-label" for="name"> Room Detail :</label>
                                         <div class="col-md-10">
-                                        <input name="noofrooms" type="text" class="form-control" value="<?=$row['noofroom']?>"/>
+                                         <textarea name="roomdetail" cols="50" rows="5" class="editor-base" ><?=$row['roomdetail']?></textarea> 
                                         </div>
                                     </div>
 									</div>
-									<div class="row" >
-									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> No of Floors</label>
-                                        <div class="col-md-10">
-                                       <input name="nooffloor" type="text" class="form-control" value="<?=$row['nooffloor']?>"/>
-                                        </div>
-                                    </div>
-									</div>
-									<div class="row" >
-									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Address:</label>
-                                        <div class="col-md-10">
-                                        <input name="address" type="text" class="form-control" value="<?=$row['address']?>"/>  
-                                        </div>
-                                    </div>
-									</div>
-									<div class="row" >
-									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Landmark :</label>
-                                        <div class="col-md-10">
-                                         <input name="landmark" type="text" class="form-control" value="<?=$row['landmark']?>"/>
-                                        </div>
-                                    </div>
-									</div>
-								
-								   	<div class="row" >
+									
+							   	<div class="row" >
 								 <div class="form-group">
                                         <label class="col-md-2 control-label" for="name">Star Rating:(0-5):</label>
                                         <div class="col-md-10">
@@ -484,53 +365,8 @@ $db->query($sqlstate)or die($db->error());
                                     </div>
 								</div>
 								
-								
-								<div class="row" >
-								<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Check In</label>
-                                        <div class="col-md-10">
-                                        <input name="chkin" type="time" class="form-control" value="<?=$row['chkin']?>"/>  
-                                        </div>
-                                    </div>
-								</div>
-									<div class="row" >
-									 <div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Check Out</label>
-                                        <div class="col-md-10">
-                                         <input name="chkout" type="time" class="form-control" value="<?=$row['chkout']?>"/>  
-                                        </div>
-                                    </div>
-									</div>
-									
-									<div class="row" >
-							   <div class="form-group">
-                                        <label class="col-md-2 control-label" for="sortdetail"> Sort Details</label>
-                                        <div class="col-md-10">
-                                      <textarea name="sortdetail" cols="50" rows="5" class="editor-base" ><?=$row['sortdetail']?></textarea>
-                                        </div>
-                                    </div>
-							   </div>
-							   <div class="row" >
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Description</label>
-                                        <div class="col-md-10">
-                                      <textarea name="prod_desc" cols="50" rows="5" class="editor-base" ><?=$row['detail']?></textarea>
-                                        </div>
-                                    </div>
-												
-                      </div>
 
-
-<div class="row">
-<div class="form-group">
-        									<label class="col-md-2 control-label"> Image</label>
-        									<div class="col-md-10">
-                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['picture']){?><a href="javascript:void(0)" onclick="javascript:window.open('../viewaimage.php?img=<?=$row['picture']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
-        									 
-        									</div>
-        								</div>
-</div>  
-  <div class="row">
+ <div class="row">
   <div class="form-group">
         									<label class="col-md-2 control-label"> Multiple Image:</label>
         									<div class="col-md-10">
@@ -559,34 +395,15 @@ $db->query($sqlstate)or die($db->error());
 														</div> </div></div>
 
  <div class="row">
-										 	<div class="form-group">
-                									<label class="col-md-2 control-label"> Featured</label>
-                									<div class="col-md-10">
-                                                       
-                    								
-                    									<div class="radio">
-                    										<label>
-                    												<input name="featured" type="radio" value="1"<?php if($row['status']=="1"){echo " checked";}?>/>Yes
-						
-                    										</label>
-                    									</div>
-                    									<div class="radio">
-                    										<label>
-                    											<input name="featured" type="radio" value="0"<?php if($row['status']=="0"){echo " checked";}?>/>No
-                    										</label>
-                    									</div>
-														</div> </div></div>
-
- <div class="row">
 <div class="form-group">
-<label class="col-md-2 control-label"></label>
+<label class="col-md-2 control-label"> </label>
 <div class="col-md-10">                								
  <tr>
 <td ></td>                                                
  <?php	if($act=="edit")
 	{
 
-		 $sql2="SELECT * FROM $_TBL_ITEMIMAGE WHERE item_id=".$_REQUEST['id'];
+		 $sql2="SELECT * FROM hotel_room_image WHERE item_id=".$_REQUEST['id'];
 		$db2->query($sql2)or die($db2->error());
 			
 	
@@ -602,7 +419,7 @@ $db->query($sqlstate)or die($db->error());
 			}else{$newtr='<td>';}
 		
 ?>
- <?=$newtr?><span id='<?=$imagerow['id']?>'><img src="<?=$_SITE_PATH?>upload/<?=$imagerow['image']?>" style="width:100px; height:100px;" /><a href="javascript:void(0)" id="submit1" atr="<?=$imagerow['id']?>" onClick="deleteFile('<?=$imagerow['id']?>');">Delete</a></span></td>
+ <?=$newtr?><span id='<?=$imagerow['id']?>'><img src="<?=$_SITE_PATH?>upload/<?=$imagerow['image']?>" style="width:100px; height:100px;"/><a href="javascript:void(0)" id="submit1" atr="<?=$imagerow['id']?>" onClick="deleteFile('<?=$imagerow['id']?>');">Delete</a></span></td>
   
 <?php $inum=($inum+1); }
  
@@ -721,7 +538,7 @@ var str=$(this).val();
         });
 });
 
-jQuery(document).on("change","#cityname1",function(){
+jQuery(document).on("change","#cityname",function(){
 var str=$(this).val();
 	var social_AjaxURL='//orangestate.ng/admin/pages/ajhotel.php';
         var dataString ="hid=" + str ;
@@ -741,6 +558,28 @@ var str=$(this).val();
             },
         });
 });
+
+function deleteFile(id)
+{
+	var aurl="//orangestate.ng/admin/pages/delete-filerooms.php";
+	 var dataString ="imageid=" + id ;
+        $.ajax({
+            url: aurl,
+            async: true,
+            cache: false,
+			type: 'POST',
+			data: dataString,
+            success: function(response){
+            
+                if(response != 0){
+                  $("#"+id).hide();	
+                }else{
+                
+                }
+            },
+        });
+
+}
 
 </script>
 
@@ -873,29 +712,6 @@ function getCheckedCheckboxesFor3(checkboxName) {
 		$('#emplist3').val(values);
     });
     return values;
-}
-
-
-function deleteFile(id)
-{
-	var aurl="//orangestate.ng/admin/pages/delete-filehotels.php";
-	 var dataString ="imageid=" + id ;
-        $.ajax({
-            url: aurl,
-            async: true,
-            cache: false,
-			type: 'POST',
-			data: dataString,
-            success: function(response){
-            
-                if(response != 0){
-                  $("#"+id).hide();	
-                }else{
-                
-                }
-            },
-        });
-
 }
 	</script>
 

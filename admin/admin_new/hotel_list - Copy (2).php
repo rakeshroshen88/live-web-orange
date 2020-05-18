@@ -39,8 +39,8 @@ function deladmin(id)
     <div class="app-heading-container app-heading-bordered bottom">
         <ul class="breadcrumb">
             <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Hotel</a></li>
-            <li class="active">Manage Hotel</li>
+            <li><a href="#">Products</a></li>
+            <li class="active">Manage Orders</li>
         </ul>
     </div>
 
@@ -54,8 +54,8 @@ function deladmin(id)
                             <!-- START HEADING -->
                             <div class="app-heading app-heading-small">
                                 <div class="title">
-                                    <h5>Manage Hotel</h5>
-                                    <p>List of all Hotel</p>
+                                    <h5>Manage Orders</h5>
+                                    <p>List of all Orders</p>
                                 </div>
 
                                 <div class="heading-elements">

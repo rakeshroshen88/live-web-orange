@@ -1,68 +1,3 @@
-<?php
-
-//$catid=$_REQUEST['id'];
-$prodid=$_REQUEST['id'];
-$act=$_REQUEST['act'];
-$errMsg='';
-
-if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
-	{
-
- $prod_detail=$_REQUEST['prod_desc'];
-if(empty($_REQUEST['cityname'])){
-	$city=$_REQUEST['cityid'];
-}else{
-	$city=$_REQUEST['cityname'];
-	
-}
-$updatearr=array(	
-					 "title"=>htmlentities($_REQUEST['prodname']),	
-					 "status"=>$_REQUEST['pstatus'],
-					 "conperson"=>$_REQUEST['conperson'],
-					 "phone"=>$_REQUEST['phone'],
-					 "rate"=>$_REQUEST['rate'],	
-					"stateid"=>$_REQUEST['statetitle'],					
-					"cityid"=>$city,	
-					 "date"=>date('Y-m-d')
-					 );
-		
-				//print_r($updatearr);die;
-			if($act=="edit")
-				{
-					$whereClause=" id=".$_REQUEST['prodid'];
-					updateData($updatearr, $_TBL_HOTELLIST, $whereClause);
-					$errMsg='<br><b>Update Successfully!</b><br>';
-					
-				}elseif($act=="add"){
-				
-					$insid=insertData($updatearr, $_TBL_HOTELLIST);
-					if($insid>0)
-						{
-							$errMsg='<br><b>Added Successfully!</b><br>';
-							
-								redirect('main.php?mod=hotellist');
-							
-							
-							
-						}
-					
-				}
-			
-			
-			
-			//}
-	}
-$db1=new DB();
-if(!empty($prodid))
-	{
-		$sql="SELECT * FROM $_TBL_HOTELLIST WHERE id=$prodid";
-		$db->query($sql)or die($db->error());
-		$row=$db->fetchArray();	
-		$e=$row['date'];
-		 $e3=explode('-',$e);
-		  $edate=$e3[1].'/'.$e3[2].'/'.$e3[0];
-	}
-?>
 
 <script>
 function deladmin(id)
@@ -165,46 +100,7 @@ xmlhttp.send();
                           <tr>
                             <td colspan="2">&nbsp;</td>
                           </tr>
-						  <tr>
-                            <td width="39%" align="right" class="form-control">Select state:</td>
-                            <td width="61%">
-							<select id="statetitle" name="statetitle" class="form-control" onchange="return showUser(this.value);">
-                        <option value='0'>Select state</option>
-		<?php $db1=new DB();
-		$sql1="SELECT * FROM $_TBL_STATE WHERE status='1'";
-		$db1->query($sql1)or die($db11->error());
-		while($row1=$db1->fetchArray()){
-		 $tt=$row1['id'];
-		?>				
-                        <option value="<?=$row1['id']?>" <?php if($row1['id']==$row['stateid']){echo " selected";}?>><?=$row1['title']?></option>
-		<?php }?>	
-                    </select>
-                                                       </td>
-                          </tr>
-						   <!--<tr>
-                            <td width="39%" align="right" class="form-control">Select city:</td>
-                        <td width="70%">
-						<?php $db11=new DB();
-		$idnew=$row['stateid'];
-		 $sql1="SELECT * FROM cities WHERE stateid='$idnew'";
-		$db11->query($sql1)or die($db11->error());
-		
-		?>
-		
-		 <select  name="cityname" class="form-control" onchange="return showhotel(this.value);">
-                        <option>Select city</option><?php
-		while($row1=$db11->fetchArray()){
-		  if($idnew==$row1['stateid']){ $sl='selected';}
-		?>
-		
-                        <option value="<?=$row1['id']?>" <?=$sl?>><?=$row1['cityname']?></option>
-                  <?php }?>
-				   </select>
-                              <div  id="txtHint"></div>
-               
-                 </td>
-                          </tr>-->
-						   <tr>
+					     <tr>
 						    <td> </td> <td>
 						   <div  id="txtHint"></div> </td>
 						    </tr>
@@ -224,7 +120,7 @@ xmlhttp.send();
                             <td width="70%">
                               <input name="phone" type="text" class="form-control" value="<?=$row['phone']?>"/>                            </td>
                           </tr>
-						  <tr>
+						  <!--<tr>
                             <td width="30%" align="right" class="form-control">Hotel Rate:</td>
                             <td width="70%">
                              <textarea name="rate" cols="50" rows="5" class="form-control" ><?=$row['rate']?></textarea>
@@ -248,7 +144,28 @@ tinymce.init({
     ]
 });
 </script>    </td>
-                          </tr>		
+                          </tr>	-->
+ <tr><td colspan="2">
+<div class="form-group">
+                                        <label class="col-md-3 control-label" for="name"> Price Days Wise:</label>
+                                        <div class="col-md-9">
+                                        Sunday:<input name="Sunday" type="text" class="form-control" value="<?=$row['Sunday']?>"/>
+
+ Monday:<input name="Monday" type="text" class="form-control" value="<?=$row['Monday']?>"/>  
+
+ Tuesday:<input name="Tuesday" type="text" class="form-control" value="<?=$row['Tuesday']?>"/>  
+ Wednesday:<input name="wednesday" type="text" class="form-control" value="<?=$row['wednesday']?>"/>   
+     
+
+ Thursday:<input name="Thursday" type="text" class="form-control" value="<?=$row['Thursday']?>"/>  
+
+ Friday:<input name="Friday" type="text" class="form-control" value="<?=$row['Friday']?>"/>  
+
+ Saturday:<input name="Saturday" type="text" class="form-control" value="<?=$row['Saturday']?>"/>  
+
+                                   </div>
+                                    </div></td>
+										 </tr>					  
                           <tr>
                             <td>&nbsp;</td>
 							<td align="left">

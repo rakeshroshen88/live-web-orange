@@ -12,7 +12,7 @@ if($act=='dac')
 			$stat=1;
 		else
 			$stat=0;
-		$sql="UPDATE $_TBL_HOTEL SET homestatus= '$stat' WHERE id='$id'";
+		$sql="UPDATE business_hub SET status= '$stat' WHERE id='$id'";
 		$db->query($sql);
 		
 	}
@@ -20,7 +20,7 @@ if($act=='dac')
 if($act=='del')
 	{
 		
-		$sql="DELETE FROM $_TBL_HOTEL WHERE id='$id'";
+		$sql="DELETE FROM business_hub WHERE id='$id'";
 		$db->query($sql);
 	
 	}
@@ -39,8 +39,8 @@ function deladmin(id)
     <div class="app-heading-container app-heading-bordered bottom">
         <ul class="breadcrumb">
             <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Hotel</a></li>
-            <li class="active">Manage Hotel</li>
+            <li><a href="#">Business</a></li>
+            <li class="active">Manage Business Hub</li>
         </ul>
     </div>
 
@@ -54,8 +54,8 @@ function deladmin(id)
                             <!-- START HEADING -->
                             <div class="app-heading app-heading-small">
                                 <div class="title">
-                                    <h5>Manage Hotel</h5>
-                                    <p>List of all Hotel</p>
+                                    <h5>Manage Business</h5>
+                                    <p>List of all Business Hub</p>
                                 </div>
 
                                 <div class="heading-elements">
@@ -89,7 +89,7 @@ function deladmin(id)
                                     <tbody>
 <?php
 $ct=1;
- $sql="SELECT * from ".$_TBL_HOTEL.$wherestr." order by id desc";
+ $sql="SELECT * from business_hub order by id desc";
 	$db->query($sql);
 	$total_records=$db->numRows();
 	$page=new Page;
@@ -110,13 +110,13 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 ?>	
 <tr>
 						<td><?=$ct?></td>
-                        <td> <a href="//orangestate.ng/admin/admin_new/add-hotel.php?act=edit&id=<?=$row['id']?>"><?=$row['title']?></a></td>
+                        <td> <a href="//orangestate.ng/admin/admin_new/add_businesshub.php?act=edit&id=<?=$row['id']?>"><?=$row['title']?></a></td>
 							
                        
 						<td> <?php echo date('d M,Y',$st);?></td>
-                    <td> <a href='//orangestate.ng/admin/admin_new/hotel_list.php?act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']==0?'Deactive':'Active'?></a> </td>
+                    <td> <a href='//orangestate.ng/admin/admin_new/business_list.php?act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']==0?'Deactive':'Active'?></a> </td>
                            
-                        <td > <a href="//orangestate.ng/admin/admin_new/add-hotel.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>
+                        <td > <a href="//orangestate.ng/admin/admin_new/add_businesshub.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>
 						</td>
                      </tr>
 
