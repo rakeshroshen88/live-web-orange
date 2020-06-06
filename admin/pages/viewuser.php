@@ -239,93 +239,30 @@ function deladmin(id)
 
                             
 
-                            <?php
-
+<?php
 $db1=new DB();
-
-	$wherestr=" ";
-
-	
-
-	//if(!empty($wherestr)){$wherestr.=" and catname='Story'";}else{$wherestr=" where catname='Story'";}
-
-	if(!empty($_REQUEST['firstname']) or isset($_REQUEST['firstname']))
-
-		{
-
-		$wherestr=" where first_name like '%$firstname%'";
-
-		}
-
-		if(empty($rec))
-
-			{
-
-			$_LIST_LEN=10;
-
-			}else{
-
-			$_LIST_LEN=$rec;
-
-			}
-
-	 $sql="SELECT * from ".$_TBL_USER.$wherestr." order by user_id desc";
-
-	$db->query($sql);
-
-	$total_records=$db->numRows();
-
-	$page=new Page;
-
-	$page->show_disabled_links=true;
-
-	$page->set_page_data($_PAGE,$total_records,50,10,true,true,true);
-
-	$page->set_qry_string($qryStr);
-
-	$db->query($page->get_limit_query($sql));
-
-	
-
-	if($db->numRows()>0)
-
-		{
-
-	while($row=$db->fetchArray()){
-
-	$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where user_id=".$row['userid']);
-
-	
-
+$sql="SELECT * from ".$_TBL_USER.$wherestr." order by user_id desc";
+$db->query($sql);
+$total_records=$db->numRows();
+$page=new Page;
+$page->show_disabled_links=true;
+$page->set_page_data($_PAGE,$total_records,50,10,true,true,true);
+$page->set_qry_string($qryStr);
+$db->query($page->get_limit_query($sql));
+if($db->numRows()>0)
+{
+while($row=$db->fetchArray()){
+$num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where user_id=".$row['userid']);
 $date=explode('-',$row['joindate']);
-
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
-
-	if(empty($num))
-
-		{
-
-		$num=0;
-
-		}
-
-		
-
-?>	
-
- 					<tr>
+?>                  <tr>
 
 						<td></td>
 
                         <td> <a href="main.php?mod=adduser&act=edit&id=<?=$row['user_id']?>"><?=$row['first_name']?></a></td>
-
-							
-
                         <td> <?=$row['email_id']?></td>
-
 						<td> <?php echo date('d M,Y',$st);?></td>
-
-                    <td> <a href='main.php?mod=view&act=dac&id=<?=$row['user_id']?>&stat=<?=$row['user_status']?>'><?=$row['user_status']==0?'Deactive':'Active'?></a> </td>
+                        <td> <a href='main.php?mod=view&act=dac&id=<?=$row['user_id']?>&stat=<?=$row['user_status']?>'><?=$row['user_status']==0?'Deactive':'Active'?></a> </td>
 
                            
 
@@ -345,7 +282,7 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 
 ?>  
 
-						<tr><td colspan="5" valign="top" align="center">Not found any Staff !</td></tr>                      
+						<tr><td colspan="5" valign="top" align="center">User Not found !</td></tr>                      
 
  <?php   } ?>   					  
 

@@ -47,7 +47,6 @@ $aboutus=$FormData['aboutus'];
 $postal_code=$FormData['postal_code'];
 $intrest_area=implode(',', $_POST["area"]);
 //print_r($intrest_area);
-if(!empty($current_city)){
 		$arr=array(
 							"user_id"=>$_SESSION['sess_webid'],
 							"image_id"=>$_SESSION['sess_img'],
@@ -72,5 +71,5 @@ if(!empty($current_city)){
 		 updateData($arr, 'user_profile', $whereClause);		
     // $insid=insertData($arr, 'user_profile');
 	 echo $regmsg="Profile Added Successfully !";	
-}
+
 ?>

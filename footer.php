@@ -10,7 +10,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title">Edit Post</h4>
       </div>
       <div class="modal-body" id="post_body">
 
@@ -98,7 +98,7 @@ SELECT * FROM login WHERE user_id != '".$_SESSION['user_id']."' and f_userid IN 
 	<div id="user_details" ></div>
 </div>
 <input type="hidden" id="is_active_group_chat_window" value="yes" />
-					<button type="button" name="group_chat" id="group_chat" class="btn btn-info btn-lg btn-warning btn-xs"  data-toggle="modal" data-target="#myModals">Group Chat</button>
+					<!--<button type="button" name="group_chat" id="group_chat" class="btn btn-info btn-lg btn-warning btn-xs"  data-toggle="modal" data-target="#myModals">Group Chat</button>-->
 
   <!-- Modal <button type="button" class="btn " data-toggle="modal" data-target="#myModals">Open Modal</button>
 -->
@@ -215,7 +215,7 @@ $(document).ready(function(){
 	fetch_user();
 
 /* 
- setInterval(function(){
+setInterval(function(){
 
 		update_last_activity();
 		fetch_user();
@@ -230,8 +230,8 @@ $(document).ready(function(){
 
 		offline_chat();
 
-	}, 1000000);  */
- 
+	}, 1000000);  
+  */
 	function log()
 	{
 		$.ajax({
@@ -282,11 +282,18 @@ $(document).ready(function(){
 
 	function make_chat_dialog_box(to_user_id, to_user_name, to_user_email)
 	{
-		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><button class="start_one  j-actions m-video_call" data-call="video" uid="'+to_user_email+'" id="'+to_user_email+'"><i class="fa fa-video-camera" aria-hidden="true"></i></button><button class="start_one j-actions m-audio_call" data-call="audio"  uid="'+to_user_email+'"><i class="fa fa-volume-up" aria-hidden="true"></i></button><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
+		/* var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><button class="start_one  j-actions m-video_call" data-call="video" uid="'+to_user_email+'" id="'+to_user_email+'"><i class="fa fa-video-camera" aria-hidden="true"></i></button><button class="start_one j-actions m-audio_call" data-call="audio"  uid="'+to_user_email+'"><i class="fa fa-volume-up" aria-hidden="true"></i></button><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
+		modal_content += '<div class="chat_history" data-touserid="'+to_user_id+'" id="chat_history_'+to_user_id+'">';
+		modal_content += fetch_user_chat_history(to_user_id);
+		modal_content += fetch_user_chat_history1(to_user_id);
+		modal_content += '</div>'; */
+		
+		var modal_content = '<div class="chatbox" id="user_dialog_'+to_user_id+'"><div class="conversation-box"><div class="con-title mg-3"><div class="chat-user-info"><img src="images/resources/us-img1.png" alt="" height="40" width="40"><h3>'+to_user_name+'<span class="status-info"></span></h3></div><div class="st-icons"><a href="#" title="" class="close-chat"><i class="la la-close"></i></a></div></div>';
 		modal_content += '<div class="chat_history" data-touserid="'+to_user_id+'" id="chat_history_'+to_user_id+'">';
 		modal_content += fetch_user_chat_history(to_user_id);
 		modal_content += fetch_user_chat_history1(to_user_id);
 		modal_content += '</div>';
+		
 		//modal_content += '</div> <div id="#emoji'"></div>';
 		//modal_content += emoji(to_user_id);
 		//modal_content += '<div>test66</div>';
@@ -757,7 +764,7 @@ var action='action';
      $url.= $_SERVER['REQUEST_URI'];    
        $url1=substr($url,0,40);
     //echo $url;  
-	if($url!='https://orangestate.ng/get-started.php' or $url!='https://orangestate.ng/hotel-booking.php'){
+	/* if($url!='https://orangestate.ng/get-started.php' or $url!='https://orangestate.ng/hotel-booking.php'){ */
   ?>   
 	<?php //include('video-chat/video.php'); } ?>
 
@@ -809,7 +816,9 @@ var action='action';
 
                                         <li><a href="#">Order History</a></li>
 
-                                        <li><a href="#">Site Map</a></li>
+                                        <li><a href="https://orangestate.ng/submitticket.php">Help</a></li>
+										
+										<li><a href="https://orangestate.ng/submitticket.php">Submit Tickets</a></li>
                                         <li><a href="#">Gift Certificates</a></li>
                                     </ul>
                                 </div>
@@ -932,8 +941,44 @@ var action='action';
 <script src="js/sweetalert2@8.js"></script>
 <script src="js/media.js"></script>
 <script src="js/profile.js"></script>
-	
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!----    ---->
+
+<script src="js/slick.js"></script>
+
+
+<script>
+$(document).ready(function(){
+    $('.business_cat').slick({
+        slidesToShow: 10,
+        slidesToScroll: 1,
+        autoplay: false,
+        autoplaySpeed: 1500,
+        arrows: true,
+        dots: false,
+        pauseOnHover: false,
+        responsive: [{
+            breakpoint: 768,
+            settings: {
+                slidesToShow: 4
+            }
+        }, {
+            breakpoint: 520,
+            settings: {
+                slidesToShow: 3
+            }
+        }]
+    });
+});
+</script>
+
+
+
+
+
+
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 	
 <script>
     function signOut() {

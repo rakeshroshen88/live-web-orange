@@ -367,9 +367,9 @@ while($mrow=$dbmut->fetchArray()){
 										
 			  <li class="" >
 			  <p id="tempshow">
-               <?php 
-$dbt=new DB;
-  $sqlt="select * from notification where user_id='".$_SESSION['sess_webid']."' and  notification_type='liked'";
+<?php 
+$dbt=new DB;?>
+  <!--<?php $sqlt="select * from notification where user_id='".$_SESSION['sess_webid']."' and  notification_type='liked'";
 $dbt->query($sqlt);
 if($dbt->numRows()>0)
 	{
@@ -389,18 +389,18 @@ $user_id=$db->getSingleResult("select user_id from user_post where  post_id='$pp
 			if($rowt['status']=='1'){
 			?>
  <div class="carlisting1main" style="background-color: aliceblue;">
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> You Like on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0"><?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?><span class="prodcutname"> You Like on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
  <div class="carlisting1main" >
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;" /><span class="prodcutname"> You Like on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0"><?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?><span class="prodcutname"> You Like on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 
-			<?php }}} 
+			<?php }}} ?>-->
 	
-	$sqlt="select * from notification where f_userid='".$_SESSION['sess_webid']."' and  notification_type='liked'";
+	<?php $sqlt="select * from notification where f_userid='".$_SESSION['sess_webid']."' and  notification_type='liked'";
 $dbt->query($sqlt);
 if($dbt->numRows()>0)
 	{
@@ -421,17 +421,18 @@ $user_id=$db->getSingleResult("select user_id from user_post where  post_id='$pp
 			if($rowt['status']=='1'){
 			?>
  <div class="carlisting1main" style="background-color: aliceblue;">
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Like on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0"><?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?><span class="prodcutname"> <?=$name?> Like on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
  <div class="carlisting1main" >
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Like on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0"><?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?><span class="prodcutname"> <?=$name?> Like on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 
-			<?php }}} 
-	
+			<?php }}}?> 
+			<!--
+<?php	
 $sqlt="select * from notification where user_id='".$_SESSION['sess_webid']."' and notification_type='comment'";
 $dbt->query($sqlt);
 if($dbt->numRows()>0)
@@ -449,18 +450,24 @@ $image_id=$db->getSingleResult('select image_id from user_profile where user_id=
   if($rowt['status']=='1'){
 			?>
 		<div class="carlisting1main" style="background-color: aliceblue;">
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> You Comment on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0">
+					
+					<?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?>
+					
+					<span class="prodcutname"> You Comment on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
  <div class="carlisting1main">
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> You Comment on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0">
+					<?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?>
+					<span class="prodcutname"> You Comment on <?=$name?> <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 
-			<?php }}} 
+			<?php }}} ?>-->
 	
-	
+<?php	
 $sqlt="select * from notification where f_userid='".$_SESSION['sess_webid']."' and notification_type='comment'";
 $dbt->query($sqlt);
 if($dbt->numRows()>0)
@@ -478,13 +485,17 @@ $image_id=$db->getSingleResult('select image_id from user_profile where user_id=
   if($rowt['status']=='1'){
 			?>
 		<div class="carlisting1main" style="background-color: aliceblue;">
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Comment on  your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0">
+					<?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?>
+					<span class="prodcutname"> <a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><?=$name?></a> Comment on  your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div>                
 	<?php
 			}else{ ?>
  <div class="carlisting1main" >
-                    <h6 class="my-0"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/><span class="prodcutname"> <?=$name?> Comment on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
+                    <h6 class="my-0">
+					<?php if(!empty($image_id)){ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="upload/<?=$image_id?>" height="40px;" width="40px;" style="border-radius: 50%;"/></a><?php }else{ ?><a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><img src="images/resources/user.png" alt="" height="40" width="40" style="border-radius: 50%;"></a><?php } ?>
+					<span class="prodcutname"> <a href="view-profile.php?uid=<?php echo base64_encode($user_id);?>"><?=$name?></a> Comment on your <a href="view-post.php?pid=<?=$ppid?>" >Post</a></span>
 		<span class="text-muted"></span></h6><hr>
          </div> 
 			<?php }}} 
@@ -545,14 +556,14 @@ if($dbt->numRows()>0)
 		while($rowt=$dbt->fetchArray()){
 		
 		$ppid=$rowt['prodid'];		
-		$path2=$db->getSingleResult("select prod_large_image from $_TBL_PRODUCTUCT where  id='$ppid'");
+		$path2=$rowt['prod_large_image'];
           if(!empty($path2)){
             $path1=$path2;
           }else{
          $path1='noimage.jpg'; 
         }
-		
-		$ship1=$db->getSingleResult("select shippingcharge from $_TBL_PRODUCT where  id='$ppid'");
+		   
+		  
 			
 			?>
  <div class="carlisting1main">
@@ -568,8 +579,11 @@ if($dbt->numRows()>0)
              </div>                
 	<?php
 $ct++; 
-	  
+	   $discount=$rowt['discount'];
+	   $ship1=$rowt['shippingcharge'];
+	   $tax_amt=$rowt['tax_amt'];
 	   $grand_total=$grand_total+$rowt['prod_total'];
+	   $totalvat=$totalvat+$tax_amt;
 	   $ship=$ship+$ship1;
 
 	}} ?>  </p></li> 
@@ -579,11 +593,16 @@ $ct++;
                   <span class="product-name">Shipping &amp; Handling</span>
                   <span class="product-price shiping">₦<?=number_format($ship,2,'.',',')?></span>
                 </li>
+				
+				<li class="list-group-item d-flex justify-content-between border-top1px">
+                  <span class="product-name">Total &amp; VAT</span>
+                  <span class="product-price shiping">₦<?=number_format($totalvat,2,'.',',')?></span>
+                </li>
                 
                 
                 <li class="list-group-item d-flex justify-content-between">
                   <span class="product-name success bold finalprice">Order Total</span>
-                  <span class="product-price bold finalprice gt">₦<?=number_format($grand_total+$ship,2,'.',',')?></span>
+                  <span class="product-price bold finalprice gt">₦<?=number_format(($grand_total+$ship+$totalvat-$discount),2,'.',',')?></span>
                 </li>
                 
                 <hr>

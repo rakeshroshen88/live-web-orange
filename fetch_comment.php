@@ -1,59 +1,28 @@
-<?php 
-include_once("config.inc.php");
-include('chksession.php');
-if(isset($_POST['formData'])){
-						$FormData = array();
-						$AllFormData = parse_str($_POST['formData'], $FormData);	
-				}
-		$post_id=$_POST['pid'];
-		$uid=$_POST['uid'];
-		$comment=$_POST['postcomment'];
-		$cimage=$_POST['cimage'];
-		/* if(!empty($comment)){ */
-		$arr=array(
-							"user_id"=>$uid,
-							"post_id"=>$post_id,
-							"comment"=>$comment,
-							"cimage"=>$cimage,
-							"comment_status"=>1,							
-							"cdate"=>date('Y-m-d H:i:s')
-			    );
-				
-				////////////////Notification///////////////////
-	 $user_id=$db->getSingleResult("select user_id from user_post where  post_id='$post_id'");	
+<?php
 
- $notarr=array(
-							"user_id"=>$_SESSION['sess_webid'],
-							"f_userid"=>$user_id,
-							"post_id"=>$post_id,							
-							"notification_type"=>'comment',
-							"status"=>'1',							
-							"date"=>date('Y-m-d H:i:s')
-			    );
-				
-     $not=insertData($notarr, 'notification'); 
-	 //////////////////////////////////
-				//print_r($arr);
-     $insid=insertData($arr, 'comment');
-	 $dbc=new DB();
+// configuration
+include 'config.inc.php';
+/* $post_id=$db->getSingleResult("SELECT post_id from comment where c_id=".$_POST['comid']); */
+$post_id = $_POST['pid'];
+$comallcount=$db->getSingleResult("SELECT count(c_id) from comment where post_id=".$post_id);	
+ $row = $_POST['row'];
+/* $post_id = $_POST['postid']; */
+$rowperpage = $row+5;
+ $dbc=new DB();
 	 $dbr=new DB();
-	 //echo $regmsg="comment Added Successfully !";	
-	  $sqlc="SELECT * from comment where post_id=".$post_id.' and c_id='.$insid;
+	 $sqlc="SELECT * from comment where post_id=".$post_id." limit ".$row.",".$rowperpage;
 		$dbc->query($sqlc);
 		if($dbc->numRows()>0)
 		{
-		$rowc=$dbc->fetchArray();
-		}
+		while($rowc=$dbc->fetchArray()){
+		
 		$username=$dbc->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$rowc['user_id']);
 
 		$pimage=$dbc->getSingleResult('select image_id from user_profile where user_id='.$rowc['user_id']);	
-		
-
-
-
 ?>
 
-  <div class="comment">
+
+ <div class="comment" >
 				                    <div class="contact contact-rounded contact-lg">
 				                    	<div class="comnetimg">
 				                    		<?php if(!empty($pimage)){ ?>
@@ -123,8 +92,8 @@ if(isset($_POST['formData'])){
 
 						           <?php }} ///////////////?>
 
-<span id="replydisplay1<?=$rowc['c_id']?>"></span>
-						         <div id="replydisplay<?=$rowc['c_id']?>" style="display:none;">
+
+						           <div id="replydisplay<?=$rowc['c_id']?>" style="display:none;">
 													<div class="post-comment">
 													<div class="cm_img">
 														<?php if(!empty($mainuserimage)){ ?>
@@ -139,8 +108,8 @@ if(isset($_POST['formData'])){
 													<input type="hidden" name="uid" id="uid<?=$rowc['c_id']?>" value="<?=$rowc['user_id']?>" >
 													<input type="hidden" name="cid" id="cid<?=$rowc['c_id']?>" value="<?=$rowc['c_id']?>" >
 													<input type="hidden" name="rimage" id="rimage<?=$rowc['c_id']?>" value="" >
-													<label class="cemeraicon" for="rimageupload<?=$rowc['c_id']?>"><i class="fa fa-camera" aria-hidden="true"></i></label>
-													<input type="file" id="rimageupload<?=$rowc['c_id']?>" name="rimageupload" class="rimageupload" cid="<?=$rowc['c_id']?>" >
+													<label class="cemeraicon" for="rimageupload"><i class="fa fa-camera" aria-hidden="true"></i></label>
+													<input type="file" id="rimageupload" name="rimageupload" >
 													<p class="lead emoji-picker-container">
 													<input type="text"  rid="<?=$rowc['c_id']?>"  placeholder="Reply on comment" name="rpostcomment" class="rp" id="rpostcomment<?=$rowc['c_id']?>" data-emojiable="true">
 													</p>
@@ -150,39 +119,11 @@ if(isset($_POST['formData'])){
 												</div>
 									</div>
 
-				                    
 				                  
 
 
 
 				                </div>
-<!--				    
-<script src="lib/js/config.js"></script>
-    <script src="lib/js/util.js"></script>
-    <script src="lib/js/jquery.emojiarea.js"></script>
-    <script src="lib/js/emoji-picker.js"></script>-->
-	<script>
-	
-	$( 'input[type=button]' ).on('click', function(){
-            var cursorPos = $('#text').prop('selectionStart');
-            var v = $('#text').val();
-            var textBefore = v.substring(0,  cursorPos );
-            var textAfter  = v.substring( cursorPos, v.length );
-            $('#text').val( textBefore+ $(this).val() +textAfter );
-        });
-		
-      $(function() {
-        // Initializes and creates emoji set from sprite sheet
-        window.emojiPicker = new EmojiPicker({
-          emojiable_selector: '[data-emojiable=true]',
-          assetsPath: 'lib/img/',
-          popupButtonClasses: 'fa fa-smile-o'
-        });
-        // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
-        // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
-        // It can be called as many times as necessary; previously converted input fields will not be converted again
-        window.emojiPicker.discover();
-      });
-	  </script>
-	  <link href="lib/css/emoji.css" rel="stylesheet">
+				    
 
+		<?php }} //else{ echo "No more comment found"; } ?>

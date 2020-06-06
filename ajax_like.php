@@ -32,15 +32,15 @@ $cnt=$db->getSingleResult("SELECT count(like_id) from post_like where do_like = 
 			    );
 				//print_r($arr);
      $not=insertData($notarr, 'notification'); */
-if($cnt == 0){$cnt=0;}
+
 }else{
 $sql1 = "UPDATE post_like SET do_like = '0' WHERE post_id=".$post_id." and user_id=".$_SESSION['sess_webid']; 
 $db->query($sql1);
 //echo $regmsg="Like";	
 
 ////////notification//////////////
-	 $notarr=array(
-							"user_id"=>$_SESSION['sess_webid'],
+	 /* $notarr=array(
+							"user_id"=>$uid,
 							"post_id"=>$post_id,	
 							"f_userid"=>$uid,
 							"notification_type"=>'unlike',
@@ -48,11 +48,10 @@ $db->query($sql1);
 							"date"=>date('Y-m-d H:i:s')
 			    );
 				//print_r($arr);
-     $not=insertData($notarr, 'notification');
+     $not=insertData($notarr, 'notification'); */
 $status = true;
 $message = "like";
 $cnt=$db->getSingleResult("SELECT count(like_id) from post_like where do_like = '1' and  post_id=".$post_id);
-if($cnt == 0){$cnt=0;}
 
 }
 
@@ -86,8 +85,9 @@ if($cnt == 0){$cnt=0;}
 				//print_r($arr);
      $not=insertData($notarr, 'notification');
 	 /////////////////////////////
+					$cnt=$db->getSingleResult("SELECT count(like_id) from post_like where do_like = '1' and  post_id=".$post_id);
+
 				 
-				 if($cnt == 0){$cnt=0;}
 				if($insid !== false){
 					$status = true;
 					$message = "liked";

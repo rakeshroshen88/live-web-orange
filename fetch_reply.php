@@ -1,35 +1,16 @@
 <?php 
 include_once("config.inc.php");
 include('chksession.php');
-if(isset($_POST['formData'])){
-						$FormData = array();
-						$AllFormData = parse_str($_POST['formData'], $FormData);	
-				}
-		$post_id=$_POST['pid'];
-		$uid=$_POST['uid'];
-		$cid=$_POST['cid'];
-		$rcomment=$_POST['rpostcomment'];
-		$rimage=$_POST['rimage'];
-		if(empty($rcomment)){$rcomment='';}
-		/* if(!empty($rcomment)){ */
-		$arr=array(
-							"user_id"=>$uid,
-							"post_id"=>$post_id,
-							"c_id"=>$cid,
-							"rimage"=>$rimage,
-							"r_comment"=>$rcomment,							
-							"r_status"=>1,							
-							"rdate"=>date('Y-m-d H:i:s')
-			    );
-	  
-     $insid=insertData($arr, 'reply');
+$cid=$_POST['cid'];
+$row = $_POST['row'];
+$rowperpage = $row+5;
 $db1=new DB();
 $dbr=new DB();
-$sqlr="SELECT * from reply where c_id=".$cid.' and r_id='.$insid;
+$sqlr="SELECT * from reply where c_id=".$cid." limit ".$row.",".$rowperpage;
 $dbr->query($sqlr);
 if($dbr->numRows()>0)
 {
-$rowr=$dbr->fetchArray();
+while($rowr=$dbr->fetchArray()){
 $date=explode('-',$rowr['rdate']);
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 $username1=$db1->getSingleResult('select first_name from '.$_TBL_USER." where user_id=".$rowr['user_id']);
@@ -62,5 +43,5 @@ $rpimage=$db1->getSingleResult('select image_id from user_profile where user_id=
 	
 																
  <?php } 			
-
+}
 ?>
