@@ -193,8 +193,8 @@ $("#suggesstion-box").hide();
 								</a>
 								<ul>
 									<li><a href="hotel-home.php" title="Hotel">Hotels</a></li>
-									<!--<li><a href="" title="">Restaurants</a></li>
-									<li><a href="" title="">Bars and Lounge</a></li>
+									<li><a href="business_directory_home.php" title="">Business Directory</a></li>
+									<!--<li><a href="" title="">Bars and Lounge</a></li>
 									<li><a href="" title="">Fast foods</a></li>-->
 								</ul>
 							</li>
