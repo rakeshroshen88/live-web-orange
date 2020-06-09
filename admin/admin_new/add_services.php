@@ -10,12 +10,28 @@ $prodid=$_REQUEST['id'];
 		$db->query($sql);
 		$err='Deleted Successfull';
 	}
-	
+	$up=new UPLOAD();
+$uploaddir3="../../upload/";
+$check_type="jpg|jpeg|gif|png";
+
+	if($act=="edit")
+	{
+	if(!empty($_FILES['largeimage']['name']))
+		{
+		$largeimage=$up->upload_file($uploaddir3,"largeimage",true,true,0,$check_type);
+		
+		}else{
+		$largeimage=$_REQUEST['image3'];
+		}	
+	}else{	
+	$largeimage=$up->upload_file($uploaddir3,"largeimage",true,true,0,$check_type);
+	}
 	
 if($_POST['Submit']=="Save")
 {
 $updatearr11=array(
-					"title"=>$_POST['title']				
+					"title"=>$_POST['title'],
+					"imgid"=>$largeimage					
 					);
 if($act=='add'){
 $insidq=insertData($updatearr11, 'directory_service');
@@ -23,7 +39,7 @@ if($insidq>0){ $err='Added Successfull'; }else{ $err='There is some issue ';
 	
 }
 }elseif($act=='edit'){
-$sql="UPDATE directory_service SET title= '".$_POST['title']."' WHERE id='$prodid'";
+$sql="UPDATE directory_service SET title= '".$_POST['title']."',imgid= '".$largeimage."' WHERE id='$prodid'";
 $db->query($sql);
 $err='Updated Successfull';
 }
@@ -189,7 +205,7 @@ if(!empty($prodid))
                                        <tr role="row" class="odd">
                                             <td class="sorting_1"><?=$ct?>.</td>
                                             <td><?=$row['title']?></td>
-                                           <td><a href="//orangestate.ng/admin/admin_new/add_sevices.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladminnew("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>
+                                           <td><a href="//orangestate.ng/admin/admin_new/add_services.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladminnew("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>
 						</a></td>
                                         </tr>
 												<?php }else{ ?>
@@ -257,6 +273,7 @@ function deladminnew(id)
 								
 						<input type="hidden" name="prodid" value="<?=$_REQUEST['id']?>">
 						<input type="hidden" name="act" value="<?=$_REQUEST['act']?>">
+						 <input type="hidden" name="image3" value="<?=$row1['imgid']?>" />
             
 
                          <!-- RECENT ACTIVITY -->
@@ -292,6 +309,18 @@ function deladminnew(id)
                                                         </div>
 
                                                     </div>
+													
+													
+								<div class="row">
+								<div class="form-group">
+        								<label class="col-md-2 control-label">  Image</label>
+        						        <div class="col-md-10">
+                                         <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row1['imgid']){?><a href="javascript:void(0)" onclick="javascript:window.open('../viewhubimage.php?img=<?=$row1['imgid']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
+        									 
+        							 </div>
+        							</div>
+								</div>  
+
 
                                                 </div> 
 

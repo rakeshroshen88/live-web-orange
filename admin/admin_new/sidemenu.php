@@ -7,10 +7,32 @@
                         <ul>
                             <li class="title">MAIN</li>
                             <li><a href="index.php"><span class="nav-icon-hexa text-bloody-100">Ds</span> Dashboard</a></li>
-                            <li>
+						 <li>
 							<?php 
 								
-								$totalproduct=$db->getSingleResult("select count(id) from product");?>
+								$totaluser=$db->getSingleResult("select count(user_id) from all_user");?>
+                                <a href="#"><span class="nav-icon-hexa text-orange-100">UM</span> User Management <span class="label label-success label-bordered label-ghost">+<?=$totaluser?></span></a>
+                                <ul> 		
+
+								
+								 <li><a href="https://orangestate.ng/admin/admin_new/view_user.php"><span class="nav-icon-hexa">View</span> Users</a></li>
+								 
+								 <li><a href="https://orangestate.ng/admin/admin_new/add_users.php?act=add"><span class="nav-icon-hexa">Add</span> Users</a></li>
+								 
+								 
+									
+								  
+                                  </ul>
+                            </li>     
+						
+
+
+
+
+						  <li>
+							<?php 
+								
+								$totalproduct=$db->getSingleResult("select count(id) from product where newrelease='yes'");?>
                                 <a href="#"><span class="nav-icon-hexa text-orange-100">PM</span> Product Management <span class="label label-success label-bordered label-ghost">+<?=$totalproduct?></span></a>
                                 <ul> 		
 
@@ -44,14 +66,64 @@
                                   </ul>
                             </li>     
 								
-								<?php 
+							
+
+
+  <li>
+							<?php 
+								
+								//$totalproduct=$db->getSingleResult("select count(id) from product where newrelease='yes'");?>
+                                <a href="#"><span class="nav-icon-hexa text-orange-100">FD</span> Food Ordering <span class="label label-success label-bordered label-ghost">+<?=$totalproduct?></span></a>
+                                <ul> 		
+
+								<li><a href="https://orangestate.ng/admin/admin_new/restaurants_list.php?act=add"><span class="nav-icon-hexa">View</span> Restaurants</a>
+								<ul><li><a href="https://orangestate.ng/admin/admin_new/restaurants_list.php?act=add"><span class="nav-icon-hexa">View</span> Restaurants</a></li>
+								<li><a href="https://orangestate.ng/admin/admin_new/add_restaurants.php?act=add"><span class="nav-icon-hexa">Add</span> Restaurants</a></li>
+								
+								  
+								</ul>
+								
+								</li>
+								 
+								  <li>
+								 <a href=""><span class="nav-icon-hexa">View</span> Product</a>
+								 <ul>
+								 <li><a href="https://orangestate.ng/admin/admin_new/recipe_list.php"><span class="nav-icon-hexa">View</span> Recipe</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_recipe.php?act=add"><span class="nav-icon-hexa">Add</span> Recipe</a></li>
+								  
+								   <li><a href="https://orangestate.ng/admin/admin_new/recipe_category_list.php"><span class="nav-icon-hexa">View</span> Category</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_recipe_cat.php?act=add"><span class="nav-icon-hexa">Add</span> Category</a></li>
+								 
+								 <li><a href="https://orangestate.ng/admin/admin_new/extra_list.php"><span class="nav-icon-hexa">View</span> Product</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_extra.php?act=add"><span class="nav-icon-hexa">Add</span> Product</a></li>
+								  </ul>
+								</li>
+								 
+								 
+								 <li>
+								 <a href=""><span class="nav-icon-hexa">View</span> Extra</a>
+								 <ul>
+								 <li><a href="https://orangestate.ng/admin/admin_new/extra_list.php"><span class="nav-icon-hexa">View</span> Extra</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_extra.php?act=add"><span class="nav-icon-hexa">Add</span> Extra</a></li>
+								  </ul>
+								</li>
+							
+								  
+                                  </ul>
+                            </li>     
+							
+							<?php 
 								
 								 $newordercount=$db->getSingleResult("select count(id) from user_order where order_status='0'");?>
-                            <li><a href="https://orangestate.ng/admin/admin_new/order_list.php"><span class="nav-icon-hexa text-yellow-100">OM</span> Order Management <span class="label label-success label-bordered label-ghost">+<?=$newordercount?></span></a>
+                            <li><a href=""><span class="nav-icon-hexa text-yellow-100">OM</span> Order Management <span class="label label-success label-bordered label-ghost">+<?=$newordercount?></span></a>
 							<ul>
-                                    <li>
-							 <a href="https://orangestate.ng/admin/admin_new/order_list.php"><span class="nav-icon-hexa text-lime-200">View</span> Order</a>
+                             
+								
+							<li>
+							 <a href="https://orangestate.ng/admin/admin_new/order_list.php"><span class="nav-icon-hexa text-lime-200">View</span> Product Order</a>
 								</li>
+								
+								 <li><a href="https://orangestate.ng/admin/admin_new/hotel_order_list.php?act=add"><span class="nav-icon-hexa">View</span> Hotel Order </a></li>
 							</ul>
 							</li>
                             
@@ -77,6 +149,8 @@
 								  
 								   <li><a href="https://orangestate.ng/admin/admin_new/rooms_list.php"><span class="nav-icon-hexa">View</span> Hotel Rooms</a></li>
 								  <li><a href="https://orangestate.ng/admin/admin_new/add_rooms.php?act=add"><span class="nav-icon-hexa">Add</span> Hotel Rooms</a></li>
+								  
+								 
 								 
 
 								  
@@ -100,7 +174,29 @@
                                   </ul>
                             </li>     
 												
-                           
+              
+
+							<li>
+							<?php 
+								
+								/* $totalhub=$db->getSingleResult("select count(id) from support_system where status='Open'"); */?>
+                                <a href="#"><span class="nav-icon-hexa text-orange-100">WEB</span> Web Management <span class="label label-success label-bordered label-ghost"></span></a>
+                                <ul> 		
+
+								
+								 <li><a href="https://orangestate.ng/admin/admin_new/view_ticket.php"><span class="nav-icon-hexa">View</span> Ticket</a></li>
+								 
+								 <li><a href="https://orangestate.ng/admin/admin_new/open_ticket.php?act=add"><span class="nav-icon-hexa">Open</span> Ticket</a></li>
+								 
+								 
+								 <li><a href="https://orangestate.ng/admin/admin_new/view_adds.php"><span class="nav-icon-hexa">View</span> Ads</a></li>
+								 
+								 <li><a href="https://orangestate.ng/admin/admin_new/add_edit_adds.php?act=add"><span class="nav-icon-hexa">Add</span> Ads</a></li>
+									
+								  
+                                  </ul>
+                            </li>     
+						
                         </ul>
                     </nav>
                 </div>
