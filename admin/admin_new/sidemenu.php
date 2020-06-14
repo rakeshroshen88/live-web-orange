@@ -88,14 +88,13 @@
 								  <li>
 								 <a href=""><span class="nav-icon-hexa">View</span> Product</a>
 								 <ul>
-								 <li><a href="https://orangestate.ng/admin/admin_new/recipe_list.php"><span class="nav-icon-hexa">View</span> Recipe</a></li>
-								  <li><a href="https://orangestate.ng/admin/admin_new/add_recipe.php?act=add"><span class="nav-icon-hexa">Add</span> Recipe</a></li>
+								 <li><a href="https://orangestate.ng/admin/admin_new/recipe_list.php"><span class="nav-icon-hexa">View</span> Product</a></li>
+								  <li><a href="https://orangestate.ng/admin/admin_new/add_recipe.php?act=add"><span class="nav-icon-hexa">Add</span> Product</a></li>
 								  
 								   <li><a href="https://orangestate.ng/admin/admin_new/recipe_category_list.php"><span class="nav-icon-hexa">View</span> Category</a></li>
 								  <li><a href="https://orangestate.ng/admin/admin_new/add_recipe_cat.php?act=add"><span class="nav-icon-hexa">Add</span> Category</a></li>
 								 
-								 <li><a href="https://orangestate.ng/admin/admin_new/extra_list.php"><span class="nav-icon-hexa">View</span> Product</a></li>
-								  <li><a href="https://orangestate.ng/admin/admin_new/add_extra.php?act=add"><span class="nav-icon-hexa">Add</span> Product</a></li>
+								 
 								  </ul>
 								</li>
 								 
@@ -103,10 +102,13 @@
 								 <li>
 								 <a href=""><span class="nav-icon-hexa">View</span> Extra</a>
 								 <ul>
-								 <li><a href="https://orangestate.ng/admin/admin_new/extra_list.php"><span class="nav-icon-hexa">View</span> Extra</a></li>
-								  <li><a href="https://orangestate.ng/admin/admin_new/add_extra.php?act=add"><span class="nav-icon-hexa">Add</span> Extra</a></li>
+								 <li><a href="https://orangestate.ng/admin/admin_new/extra_list.php?act=add"><span class="nav-icon-hexa">View</span> Extra</a></li>
+								  <!--<li><a href="https://orangestate.ng/admin/admin_new/add_extra.php?act=add"><span class="nav-icon-hexa">Add</span> Extra</a></li>-->
 								  </ul>
 								</li>
+								
+								
+								
 							
 								  
                                   </ul>
@@ -124,6 +126,11 @@
 								</li>
 								
 								 <li><a href="https://orangestate.ng/admin/admin_new/hotel_order_list.php?act=add"><span class="nav-icon-hexa">View</span> Hotel Order </a></li>
+								 
+								 <li>
+								 <a href="https://orangestate.ng/admin/admin_new/food_order.php"><span class="nav-icon-hexa">View</span> Food Order</a>
+								 
+								 </li>
 							</ul>
 							</li>
                             
@@ -191,7 +198,9 @@
 								 
 								 <li><a href="https://orangestate.ng/admin/admin_new/view_adds.php"><span class="nav-icon-hexa">View</span> Ads</a></li>
 								 
-								 <li><a href="https://orangestate.ng/admin/admin_new/add_edit_adds.php?act=add"><span class="nav-icon-hexa">Add</span> Ads</a></li>
+								 <li><a href="https://orangestate.ng/admin/admin_new/add_edit_adds.php?act=add"><span class="nav-icon-hexa">Add Ads</a></li>
+								 
+								 <li><a href="https://orangestate.ng/admin/admin_new/deliverycharge.php?act=add"><span class="nav-icon-hexa">Delivery</span> Charges</a></li>
 									
 								  
                                   </ul>

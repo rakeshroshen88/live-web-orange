@@ -12,16 +12,16 @@ $updatearr1=array(	 "order_status"=>$_POST['jobstatus'],
 						);
 						
 					$whereClause=" orderid=".$_POST['invid'];
-					updateData($updatearr1, $_TBL_ORDER, $whereClause);
+					/* updateData($updatearr1, 'food_order', $whereClause); */
 }
-$sql="select * from ".$_TBL_ORDER." where orderid='".$orderid."'";
+$sql="select * from food_order where orderid='".$orderid."'";
 $db->query($sql);
 if($db->numRows()>0)
 	{
 	$grand_total=0;
 	$row=$db->fetchArray();
 	 $prodidarr=explode(',',$row['prodid']);
-	 $prodarray=explode(',',$row['product_name']);
+	 $prodarray=explode(',',$row['receipy_name']);
 	 $qtyarr=explode(',',$row['quantity']);
 	$pricearr=explode(',',$row['price']);	
 	$subtotalarr=explode(',',$row['subtotal']);
@@ -363,7 +363,7 @@ if(isset($_POST['submit']))
 						"invoiceid"=>$_POST['invid'],
 						"comment"=>$_POST['comment'],
 						"order_status"=>$_POST['jobstatus'],
-						"order_type"=>'product',
+						"order_type"=>'food',
 						"order_status_date"=>date('Y-m-d h:i:s')
 						
 				);
@@ -557,7 +557,7 @@ updateData($updatearr1, $_TBL_ORDER, $whereClause);
 	$updatearrinv=array(
 						"order_id"=>$orderid,
 						"payment_status"=>'Paid',
-						"order_type"=>'product',
+						"order_type"=>'food',
 						"totalamount"=>$row['totalprice'],
 						"customer_name"=>$shiprow['billing_firstname'].' '.$billrow['billing_lastname'],
 						"is_closed"=>'0',
@@ -676,7 +676,7 @@ updateData($updatearr1, $_TBL_ORDER, $whereClause);
 			<td style="border-collapse:collapse;padding:32px;background:#ffffff;,Arial,Helvetica,sans-serif">
 				<p style="padding:0;margin:0">Hi '.$billrow['billing_firstname'].' '.$billrow['billing_lastname'].'
 					
-					<br>Your order <br>has been ready to shipment.<br>
+					<br>Your order <br>has been ready to delivery.<br>
 					If you have not made this transaction or notice any error please contact us at <a href="mailto:support@Orangestate.ng" style="color:#673ab7" target="_blank">support@Orangestate.ng</a> 
 					<br>
 					<br>Cheers!
@@ -783,7 +783,7 @@ updateData($updatearr1, $_TBL_ORDER, $whereClause);
 
                 <li><a href="#Inoices" data-toggle="tab">Inoices</a></li>
 
-                <li><a href="#Shipments" data-toggle="tab">Shipments</a></li>
+                <li><a href="#Shipments" data-toggle="tab">Delivery</a></li>
 
                       
 
@@ -798,7 +798,8 @@ $( "#send_email" ).on( "click", function() {
 
 		var oid = jQuery(this).attr('oid');
 		var social_AjaxURL='//orangestate.ng/admin/pages/send_email.php';
-		var dataString ='id='+oid+'&order_type=product';
+		var dataString ='id='+oid+'&order_type=food';
+
 			
 				Swal.fire({
 				  title: 'Are you sure?',
@@ -845,7 +846,7 @@ $( "#orderhold" ).on( "click", function() {
  
 		var oid = jQuery(this).attr('oid');
 		var social_AjaxURL='//orangestate.ng/admin/pages/order_hold.php';
-		var dataString ='id='+oid+'&order_type=product';
+		var dataString ='id='+oid+'&order_type=food';
 
 			
 				Swal.fire({
@@ -891,7 +892,8 @@ $( "#cancel" ).on( "click", function() {
  
 		var oid = jQuery(this).attr('oid');
 		var social_AjaxURL='//orangestate.ng/admin/pages/order_cancel.php';
-		var dataString ='id='+oid+'&order_type=product';
+		var dataString ='id='+oid ;
+
 			
 				Swal.fire({
 				  title: 'Are you sure?',
@@ -948,12 +950,12 @@ $( "#ordership" ).on( "click", function() {
 		}
 		
 		var social_AjaxURL='//orangestate.ng/admin/pages/order_ship.php';
-		var dataString ='id=' + oid + '&traking=' + traking + '&courier=' + courier + '&payment_status=' +jobstatus+'&order_type=product';
+		var dataString ='id=' + oid + '&traking=' + traking + '&courier=' + courier + '&payment_status=' +jobstatus+'&order_type=food';
 
 			
 				Swal.fire({
 				  title: 'Are you sure?',
-				  text: "want to shipment this Order..?",
+				  text: "want to delivery this Order..?",
 				  type: 'warning',
 				  showCancelButton: true,
 				  confirmButtonColor: '#3085d6',
@@ -971,7 +973,7 @@ $( "#ordership" ).on( "click", function() {
 						
 					Swal.fire({
 					  type: 'success',					 
-					  text: 'Order Has been shiped!'
+					  text: 'Order Has been delivered!'
 					});
 						
             	    },
@@ -1053,7 +1055,7 @@ jQuery(document).on("click", ".deleteinv", function(e){
 
                                 <button class="btn btn-warning btn-icon-fixed"><span class="icon-arrow-up-circle"></span> Create Invoice</button>
 
-                                <button class="btn btn-warning btn-icon-fixed "><span class="icon-arrow-up-circle"></span> Shipment</button>
+                                <button class="btn btn-warning btn-icon-fixed "><span class="icon-arrow-up-circle"></span> Delivery</button>
 
                                
 							 
@@ -1543,8 +1545,7 @@ for($i=0;$i<$cn;$i++)
 
                                                                                 <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span></h5>
 
-                                                                                <strong>SKU:</strong> <?=$sku?>
-
+                                                                                
                                                                             </div>
 
                                                                         </div>
@@ -1632,7 +1633,7 @@ for($i=0;$i<$cn;$i++)
                                                     <div class="app-heading app-heading-small app-heading-bordered orderDetailsbox">
 									<?php 
 									$db2=new DB();
-									 $statusorder="select * from $_TBL_STATUS where invoiceid='$orderid' order by id desc limit 0,1";
+									 $statusorder="select * from $_TBL_STATUS where invoiceid='$orderid' and order_type ='food' order by id desc limit 0,1";
 									$db1->query($statusorder);
 									$row1=$db1->fetchArray();
 									?>
@@ -1652,7 +1653,12 @@ for($i=0;$i<$cn;$i++)
                                                                <select name="jobstatus" class="form-control">
 											<option value="0" selected="selected" <?php if($row1['order_status']=="0"){echo "selected";}?>>Pending</option>
 											<option value="1" <?php if($row1['order_status']=="1"){echo "selected";}?>>Cancelled</option>
-											<option value="2" <?php if($row1['order_status']=="2"){echo "selected";}?>>Processed</option>
+											<option value="2"  selected="selected">confirm</option>
+											
+											<option value="3" <?php if($row1['order_status']=="3"){echo "selected";}?>>Processed</option>
+
+
+
 											</select>
 
 
@@ -1981,9 +1987,9 @@ $sta="Hold";
 
                                         <div class="title">
 
-                                            <h2>Shippment</h2>
+                                            <h2>Delivery</h2>
 
-                                            <p>Shipment Details</p>
+                                            <p>Delivery Details</p>
 
                                         </div>                                
 
@@ -1999,11 +2005,11 @@ $sta="Hold";
 
 		                                        <tr>
 
-		                                            <th>Shipment #</th>
+		                                            <th>Delivery #</th>
 
-		                                            <th>Ship to Name</th>
+		                                            <th>Delivery to Name</th>
 
-		                                            <th>Shipment Date</th>
+		                                            <th>Delivery Date</th>
 
 		                                            <th>Order Id</th>
 
@@ -2382,7 +2388,7 @@ while($shiprow=$db->fetchArray()){
 
                                                     <div class="app-heading-container app-heading-bordered top">
 
-                                                        Shipping Address
+                                                        Delivery Address
 
                                                     </div>
 
@@ -2491,7 +2497,7 @@ $shiprow1=$dbsp->fetchArray();
 
                                                     <div class="app-heading-container app-heading-bordered top">
 
-                                                       Shipping & Handling Information
+                                                       Delivery & Handling Information
 
                                                     </div>
 
@@ -2599,8 +2605,7 @@ for($i=0;$i<$cn;$i++)
 
                                                                                 <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span></h5>
 
-                                                                                <strong>SKU:</strong> <?=$sku?>
-
+                                                                                
                                                                             </div>
 
                                                                         </div>
@@ -2688,7 +2693,7 @@ for($i=0;$i<$cn;$i++)
                                                     <div class="app-heading app-heading-small app-heading-bordered orderDetailsbox">
 									<?php 
 									$db2=new DB();
-									 $statusorder="select * from $_TBL_STATUS where invoiceid='$orderid' order by id desc limit 0,1";
+									 $statusorder="select * from $_TBL_STATUS where invoiceid='$orderid' and order_type='food' order by id desc limit 0,1";
 									$db1->query($statusorder);
 									$row1=$db1->fetchArray();
 									?>
@@ -2707,7 +2712,8 @@ for($i=0;$i<$cn;$i++)
                                            <select name="jobstatus" class="form-control">
 											<option value="0"  >Pending</option>
 											<option value="1" >Cancelled</option>
-											<option value="2"  selected="selected">Processed</option
+											<option value="2"  selected="selected">confirm</option>
+											<option value="3"  selected="selected">Processed</option
 >											<option value="4"  >Hold</option>
 											</select>
 
@@ -2763,7 +2769,7 @@ for($i=0;$i<$cn;$i++)
  
                                                                      <h2 class="text-right">
 
-                                                                         Shipping & Handling <span class="width100">₦<?=number_format($shiptotal2,2,'.',',')?>
+                                                                         Delivery & Handling <span class="width100">₦<?=number_format($shiptotal2,2,'.',',')?>
                                                                      </h2>
 																	 
 																	   <h2 class="text-right">
@@ -2883,7 +2889,7 @@ for($i=0;$i<$cn;$i++)
 
                         <div class="modal-header">                        
 
-                            <h4 class="modal-title" id="modal-large-header">Shipment</h4>
+                            <h4 class="modal-title" id="modal-large-header">Delivery</h4>
 
                         </div>
 
@@ -3249,7 +3255,7 @@ for($i=0;$i<$cn;$i++)
 
                                                     <div class="app-heading-container app-heading-bordered top">
 
-                                                       Shipping & Handling Information
+                                                       Delivery & Handling Information
 
                                                     </div>
 
@@ -3371,8 +3377,7 @@ for($i=0;$i<$cn;$i++)
 
                                                                                 <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span></h5>
 
-                                                                                <strong>SKU:</strong> <?=$sku?>
-
+                                                                                
                                                                             </div>
 
                                                                         </div>
@@ -3504,7 +3509,7 @@ for($i=0;$i<$cn;$i++)
 
                                                             <ul>
 <?php 
-$statusorder="select * from $_TBL_STATUS where invoiceid='$orderid'";
+$statusorder="select * from $_TBL_STATUS where invoiceid='$orderid' and order_type='food'";
 $db1->query($statusorder);
 while($row2=$db1->fetchArray()){ 
 $arr1=@explode(' ',$row2['order_status_date']);
@@ -3587,7 +3592,7 @@ $sta="Hold";
  
                                                                      <h2 class="text-right">
 
-                                                                         Shipping & Handling <span class="width100">₦<?=number_format($shiptotal1,2,'.',',')?>
+                                                                         Delivery & Handling <span class="width100">₦<?=number_format($shiptotal1,2,'.',',')?>
                                                                      </h2>
 																	 
 																	   <h2 class="text-right">

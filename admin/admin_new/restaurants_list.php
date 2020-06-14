@@ -40,7 +40,7 @@ function deladminnew(id)
 {
 	if(confirm("Are you sure to delete?"))
 	{
-		location.href="//orangestate.ng/admin/admin_new/product_list.php?act=del&id="+id;
+		location.href="//orangestate.ng/admin/admin_new/restaurants_list.php?act=del&id="+id;
 	}
 }
 </script>

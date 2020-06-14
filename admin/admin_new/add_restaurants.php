@@ -269,9 +269,7 @@ if(!empty($prodid))
 <?php $stateid=$row['state_id'];
 if(!empty($stateid)){
  $sqlstate="SELECT * FROM state WHERE country_id=".$row['country_id'];
-}else{
-	$sqlstate="SELECT * FROM state order by id limit 0,5";
-}
+
 $db->query($sqlstate)or die($db->error());
  if($db->numRows()>0){
  ?>
@@ -287,7 +285,7 @@ $db->query($sqlstate)or die($db->error());
                   <?php }?>
 				   </select> </div><br/>
 
- <?php } ?>
+ <?php } } ?>
                                        
 													</div>
                                                         
@@ -297,13 +295,9 @@ $db->query($sqlstate)or die($db->error());
 													<div class="form-group" id="showcity">
 <?php
 		$city=$row['city_id'];
-		if(!empty($city)){
+  if(!empty($city)){
   $sql1="SELECT * FROM cities WHERE state_id='$stateid'";
-}else{
-	 $sql1="SELECT * FROM cities order by id limit 0,5";
-}
-		
-		$db1->query($sql1)or die($db1->error());?>
+  $db1->query($sql1)or die($db1->error());?>
 		 <label class="col-md-2 control-label" for="name"> Select City</label>
           <div class="col-md-10">
 		 <select  name="cityname" id="cityname"  class="form-control">
@@ -315,7 +309,8 @@ $db->query($sqlstate)or die($db->error());
                         <option value="<?=$row1['id']?>" <?php if($row1['id']==$city){ echo "selected"; }?>><?=$row1['name']?></option>
                   <?php }?>
 				   </select>
-		</div>
+  </div>
+  <?php }?>
                                        
 													</div>
                                                         
@@ -488,16 +483,11 @@ $db->query($sqlstate)or die($db->error());
 <td ></td>                                                
  <?php	if($act=="edit")
 	{
-
-		 $sql2="SELECT * FROM $_TBL_ITEMIMAGE WHERE item_id=".$_REQUEST['id'];
-		$db2->query($sql2)or die($db2->error());
-			
-	
-	}?>   
-    <?php if($db2->numRows()>0)	
-	{
 		$inum=0;		
-		while($imagerow=$db2->fetchArray()){
+		$slider_image=$row['slider_image'];
+		$slider_image=explode(",",$slider_image);
+		$cnt=count($slider_image);
+		for($i=0;$i<=$cnt; $i++){
 			
 			if($inum>3){				
 			echo $newtr='</tr><tr><td>';
@@ -505,7 +495,11 @@ $db->query($sqlstate)or die($db->error());
 			}else{$newtr='<td>';}
 		
 ?>
- <?=$newtr?><span id='<?=$imagerow['id']?>'><img src="<?=$_SITE_PATH?>upload/<?=$imagerow['image']?>" style="width:100px; height:100px;" /><a href="javascript:void(0)" id="submit1" atr="<?=$imagerow['id']?>" onClick="deleteFile('<?=$imagerow['id']?>');">Delete</a></span></td>
+ <?=$newtr?><span id='<?=$imagerow['id']?>'>
+ 
+ <img src="<?=$_SITE_PATH?>upload/food_ordering/restaurant/<?=$slider_image[$i]?>" style="width:100px; height:100px;" />
+ 
+ <!--<a href="javascript:void(0)" id="submit1" atr="<?=$imagerow['id']?>" onClick="deleteFile('<?=$imagerow['id']?>');">Delete</a>--></span></td>
   
 <?php $inum=($inum+1); }
  

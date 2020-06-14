@@ -111,12 +111,13 @@ if($act=="edit")
 	}
 
 $link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "orangestate_orange");
-$catname = mysqli_real_escape_string($link, $_REQUEST['catname']);
-$cat_desc = mysqli_real_escape_string($link, $_REQUEST['cat_desc']);
+$title = mysqli_real_escape_string($link, $_REQUEST['title']);
+$prod_desc = mysqli_real_escape_string($link, $_REQUEST['prod_desc']);
 $address = mysqli_real_escape_string($link, $_REQUEST['address']);	
+$sortdetail = mysqli_real_escape_string($link, $_REQUEST['sortdetail']);
 $updatearr=array(	
-					 "title"=>$_REQUEST['title'],	
-					 "detail"=>$prod_detail,
+					 "title"=>$title,	
+					 "detail"=>$prod_desc,
 					 "price"=>$_REQUEST['price'],					
 					 "place"=>$_REQUEST['place'],					
 					 "chkin"=>$_REQUEST['chkin'],
@@ -133,7 +134,7 @@ $updatearr=array(
 					"stateid"=>$_REQUEST['state'],
 					"country"=>$_REQUEST['country'],
 					"landmark"=>$_REQUEST['landmark'],
-					"sortdetail"=>$_REQUEST['sortdetail'],
+					"sortdetail"=>$sortdetail,
 					"cityid"=>$city,	
 						"popularplaceid"=>$popularplaceid,	
 						"rateid"=>$rateid,	

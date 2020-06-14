@@ -11,9 +11,9 @@ if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	
 		
 	$up=new UPLOAD();
-$uploaddir1="../../upload/food_ordering/restaurant/";
-$uploaddir2="../../upload/food_ordering/restaurant/";
-$uploaddir3="../../upload/food_ordering/restaurant/";
+$uploaddir1="../../upload/food_ordering/recipe/";
+$uploaddir2="../../upload/food_ordering/recipe/";
+$uploaddir3="../../upload/food_ordering/recipe/";
 $check_type="jpg|jpeg|gif|png";
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $valid_formats = array("jpg", "png", "gif");
@@ -107,11 +107,21 @@ if (isset($_POST["input_array_size"]) && is_array($_POST["input_array_size"])){
 }
 $array_values3=implode(",",$array_values1);
 
+$array_extra=array();
+if (isset($_POST["siteID"]) && is_array($_POST["siteID"])){ 
+	$siteID = array_filter($_POST["siteID"]); 
+    foreach($siteID as $field_valueextra){
+        $array_extra[]= $field_valueextra;
+    }
+}
+$array_valuesextra=implode(",",$array_extra);
+
 $updatearr=array(	
 					 "recipe_name"=>$title,	
 					  "description"=>$prod_detail,
 					  "resturant_id"=>$_REQUEST['resturant_id'],
 					  "recipe_category_id"=>$_REQUEST['recipe_category_id'],
+					  "extra_id"=>$array_valuesextra,
 					 "image"=>$largeimage,
 "price"=>$array_valuestypenew,
 "size"=>$array_values3,					 
@@ -140,9 +150,9 @@ $updatearr=array(
 					if($insid>0)
 						{
 							$errMsg='<br><b>Added Successfully!</b><br>';
-							
-							
-							
+						
+						}else{
+							$errMsg1='<br><b>Error!</b><br>';
 						}
 					
 				}
@@ -343,7 +353,22 @@ if(!empty($prodid))
 									<div class="form-group col-md-6">
                                         <label class="col-md-12 control-label" for="name"> Tax class :</label>
                                         <div class="col-md-12">
-                                         <input name="tax_class" type="text" class="form-control" value="<?=$row['tax_class']?>"/>
+										  <select class="form-control" name="tax_class" id="tax_class">
+<option value="0">Select</option>
+<?php  $dbnew=new DB();
+		$ct=1;
+		$sql12="SELECT * FROM alltax WHERE status='1'";
+		$dbnew->query($sql12)or die($dbnew->error());
+		while($row2=$dbnew->fetchArray()){
+$tax=$row2['tax'];			?>
+               <option value="<?=$row2['tax']?>" <?php if($row['tax_class']=='$tax'){ echo "selected";} ?>><?=$row2['tax']?> %</option>
+		<?php } ?>
+
+                                                            </select>
+
+                                                            
+										
+                                        <!-- <input name="tax_class" type="text" class="form-control" value="<?=$row['tax_class']?>"/>-->
                                         </div>
                                     </div>
 									
@@ -398,7 +423,7 @@ if(!empty($prodid))
 											
         									<label class="col-md-12 control-label"> Image</label>
         									<div class="col-md-12">
-                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['main_image']){?><a href="javascript:void(0)" onclick="javascript:window.open('../resviewaimage.php?img=<?=$row['main_image']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
+                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['image']){?><a href="javascript:void(0)" onclick="javascript:window.open('../recipe.php?img=<?=$row['image']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
         									 </div>
         									
         								</div>
@@ -421,6 +446,32 @@ if(!empty($prodid))
                     									  </div>
 													</div>
 											   </div>
+										
+										
+										 <div class="col-md-6">
+                <label class="control-label">Extras:</label>
+            <select name="siteID[]" id="siteID"  class="form-control abcd" multiple="">
+  <option value='0' selected='true'> Not associated to any product </option>
+  <?php 
+                             
+							$sql="SELECT * FROM resturant_recipe_options";
+							$db->query($sql)or die($db->error()); ?>
+
+						
+						 <?php	//echo $row['catid'];
+						while($row2=$db->fetchArray()){
+					
+						
+						?>		
+                        <option value="<?=$row2['id']?>" ><?=$row2['option_name']?></option>
+                  <?php }?>
+				  
+</select>
+	
+               
+			   </div>
+  
+										
 										</div>
 
 
@@ -436,14 +487,18 @@ if(!empty($prodid))
                                     </div>
 												
 								</div>
-
-
-
+								<style>.alert-info {
+    color: #11511a;
+    border-color: rgba(0,0,0,0.1);
+    background-color: #d2dfd4;
+}</style>
+<h2>Price</h2>
+<p class="alert alert-info alert-with-icon m-t-xs"><i class="fa fa-info-circle"></i> Set single product price or multiple prices based on size. For example, if you add pizza you can add different sizes for small, medium, family pizzas.</p>
 <div class="row">
-		  <div class="form-group col-md-12">
+		  <div class="form-group col-md-6">
 								 <div class="row">
 								<?php //echo $array_values; ?>
-								 <label class="col-md-12 control-label" for="size"> Add Attribute  (If applicabe)</label>
+								 <label class="col-md-12 control-label" for="size"> Set different price based on size</label>
 				<div class="col-md-12">
 				<div class="wrapper">
 				<?php
@@ -838,8 +893,13 @@ jQuery(document).ready(function() {
 });
 </script>
 
-
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet">	
 
 <?php include("footer.php") ?>
 
-	
+	<script>
+ $(function () {
+  $("select").select2();
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>

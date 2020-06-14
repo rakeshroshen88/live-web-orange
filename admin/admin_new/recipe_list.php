@@ -130,8 +130,8 @@ function deladminnew(id)
                                         <tr>
 
                                             <th>ID</th>
-
-                                            <th width="350">Product Name</th>
+<th>Image</th>
+                                            <th>Product Name</th>
 
                                             <th>Category</th>
 
@@ -165,7 +165,7 @@ function deladminnew(id)
                                         <tr>
 
                                             <td><?=$ct?></td>
-
+<td><img src="../../upload/food_ordering/recipe/<?=$row['image']?>" height="100" width="100"/></td>
                                             <td><?php echo $row['recipe_name'];?> </td>
 
                                             <td><?php echo $catname;?> </td>
