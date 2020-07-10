@@ -134,6 +134,7 @@ function deladminnew(id)
                                             <th width="350"> Name</th>
 
                                             <th>Type</th>
+											 <th>Orders</th>
 
                                             <th>Address</th>
 
@@ -149,13 +150,19 @@ function deladminnew(id)
 									  <?php
 			$db1=new DB();
 			$ct=1;
-			$sql="SELECT * from resturant_detail order by id desc";
+			if($_SESSION['Super_admin']=='superadmin'){
+			 $sql="SELECT * from resturant_detail order by id desc";
+			}else{
+				 $sql="SELECT * from resturant_detail where adminid='".$_SESSION['SES_ADMIN_ID']."' order by id desc";
+			}
 			$db->query($sql);		
 	
 				if($db->numRows()>0)
 					{
 				while($row=$db->fetchArray()){
 				$cat=$db1->getSingleResult("select catname from category where id=".$row['catid']);
+				$count=$db1->getSingleResult("select count(*) from food_order where resturant_id=".$row['id']);
+				
 				$quantity=$db1->getSingleResult("select prodquantity from prodattributes where prodid=".$row['id']);
 				if(empty($quantity) or $quantity==0){ $quantity=0; }
 				$subcatname=$db1->getSingleResult('select subcatname from '.$_TBL_SUBCAT." where id=".$row['subcatid']);
@@ -172,7 +179,7 @@ function deladminnew(id)
                                             <td><a href="//orangestate.ng/admin/admin_new/add_restaurants.php?act=edit&id=<?=$row['id']?>"><?php echo $row['title'];?> </a></td>
 
                                             <td><?php echo $row['food_type'];?> </td>
-
+											  <td><?php echo $count; ?> </td>
                                             <td><?php echo $row['address'];?> </td>
 
 

@@ -11,9 +11,9 @@ if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
 	
 		
 	$up=new UPLOAD();
-$uploaddir1="../holi/thumb/";
-$uploaddir2="../holi/medium/";
-$uploaddir3="../holi/";
+$uploaddir1="../../holi/thumb/";
+$uploaddir2="../../holi/medium/";
+$uploaddir3="../../holi/";
 $check_type="jpg|jpeg|gif|png";
 /////////////////////////////////////////////////////////////////////////////////////////////////
 $valid_formats = array("jpg", "png", "gif");
@@ -318,10 +318,8 @@ if(!empty($prodid))
 													<div class="form-group" id="showstate">
 <?php $stateid=$row['stateid'];
 if(!empty($stateid)){
- $sqlstate="SELECT * FROM state WHERE country_id=".$row['country'];
-}else{
-	$sqlstate="SELECT * FROM state order by id limit 0,5";
-}
+  $sqlstate="SELECT * FROM state WHERE country_id=".$row['country'];
+
 $db->query($sqlstate)or die($db->error());
  if($db->numRows()>0){
  ?>
@@ -337,7 +335,7 @@ $db->query($sqlstate)or die($db->error());
                   <?php }?>
 				   </select> </div><br/>
 
- <?php } ?>
+<?php } } ?>
                                        
 													</div>
                                                         
@@ -349,9 +347,7 @@ $db->query($sqlstate)or die($db->error());
 		$city=$row['cityid'];
 		if(!empty($city)){
   $sql1="SELECT * FROM cities WHERE state_id='$stateid'";
-}else{
-	 $sql1="SELECT * FROM cities order by id limit 0,5";
-}
+
 		
 		$db1->query($sql1)or die($db1->error());?>
 		 <label class="col-md-2 control-label" for="name"> Select City</label>
@@ -366,15 +362,15 @@ $db->query($sqlstate)or die($db->error());
                   <?php }?>
 				   </select>
 		</div>
-                                       
+		<?php } ?>                          
 													</div>
                                                         
                                                     </div>
 													<div class="row" >
 									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> Hotel Name:</label>
+                                        <label class="col-md-2 control-label" for="name"> Hotel Name <span class="required">*</span></label>
                                         <div class="col-md-10">
-                                        <input name="title" type="text" class="form-control" value="<?=$row['title']?>" requirment/>  
+                                        <input name="title" type="text" class="form-control" value="<?=$row['title']?>" required/>  
                                         </div>
                                     </div>
 									</div>
@@ -388,6 +384,7 @@ $db->query($sqlstate)or die($db->error());
 							      <?php           
      $db1=new DB();
 	 $ct=0;
+	 if(!empty($amenities)){ 
 	  $amenities=$row['amenities'];
        $sql1="SELECT * FROM $_TBL_AMENITIES where status='1' and id IN($amenities)";
 	 $db1->query($sql1)or die($db1->error());
@@ -403,7 +400,8 @@ $db->query($sqlstate)or die($db->error());
     <label for="employee"><?php echo $row1['title']?></label>
     </span> -->
 		
-							<?php $ct=$ct+1;  }
+	 <?php $ct=$ct+1;  } }
+							if(empty($amenities)){ $amenities=0;}
 		 $sql1="SELECT * FROM $_TBL_AMENITIES where status='1' and id NOT IN($amenities)";
 	 $db1->query($sql1)or die($db1->error());
 	  while($row1=$db1->fetchArray()){
@@ -438,9 +436,9 @@ $db->query($sqlstate)or die($db->error());
 									</div>
 									<div class="row" >
 									<div class="form-group">
-                                        <label class="col-md-2 control-label" for="name"> No of Rooms:</label>
+                                        <label class="col-md-2 control-label" for="name"> No of Rooms <span class="required">*</span></label>
                                         <div class="col-md-10">
-                                        <input name="noofrooms" type="text" class="form-control" value="<?=$row['noofroom']?>"/>
+                                        <input name="noofrooms" type="text" class="form-control" value="<?=$row['noofroom']?>" required/>
                                         </div>
                                     </div>
 									</div>
@@ -526,7 +524,7 @@ $db->query($sqlstate)or die($db->error());
 <div class="form-group">
         									<label class="col-md-2 control-label"> Image</label>
         									<div class="col-md-10">
-                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['picture']){?><a href="javascript:void(0)" onclick="javascript:window.open('../viewaimage.php?img=<?=$row['picture']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
+                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['picture']){?><a href="javascript:void(0)" onclick="javascript:window.open('../hotelimage.php?img=<?=$row['picture']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
         									 
         									</div>
         								</div>
@@ -679,6 +677,9 @@ $db->query($sqlstate)or die($db->error());
     </div> 
 <!--<script type="text/javascript" src="https://orangestate.ng/js/sweetalert2@8.js"></script>                  
 -->
+<?php include("footer.php") ?>
+
+
 <script>
 jQuery(document).on("change","#country",function(){
 var str=$(this).val();
@@ -744,86 +745,7 @@ var str=$(this).val();
 });
 
 </script>
-
-	<script>
-
-function showUser(str)
-{
-	
-if (str=="0")
-  {
-  document.getElementById("txtHint").innerHTML="";
-  
-  return;
-  }else { 
-  
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  
-  
-  
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-		
-    document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
-	
-	
-    }
-  }
-  
-xmlhttp.open("GET","pages/ajcity.php?q="+str,true);
-xmlhttp.send();
-}
-}
-
-
-
-function showhotel(str)
-{
-	
-if (str=="0")
-  {
-  document.getElementById("txtHinthotel").innerHTML="";
-  
-  return;
-  }else { 
-  
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp1=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp1=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  
-  
-  
-xmlhttp1.onreadystatechange=function()
-  {
-  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
-    {
-		
-    document.getElementById("txtHinthotel").innerHTML=xmlhttp1.responseText;
-	
-	
-    }
-  }
-  
-xmlhttp1.open("GET","pages/ajhotel.php?q="+str,true);
-xmlhttp1.send();
-}
-}
-
-</script>														  
+													  
 <script language="javascript">
 function getCheckedCheckboxesFor(checkboxName) {
     var checkboxes = document.querySelectorAll('input[name="' + checkboxName + '"]:checked'), values = [];
@@ -900,7 +822,5 @@ function deleteFile(id)
 }
 	</script>
 
-
-<?php include("footer.php") ?>
 
 	

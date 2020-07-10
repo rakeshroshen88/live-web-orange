@@ -148,7 +148,12 @@ function deladminnew(id)
 									  <?php
 			$db1=new DB();
 			$ct=1;
-			$sql="SELECT * from resturant_recipe order by id desc";
+			
+			if($_SESSION['Super_admin']=='superadmin'){
+			 $sql="SELECT * from resturant_recipe order by id desc";
+			}else{
+				 $sql="SELECT * from resturant_recipe where adminid='".$_SESSION['SES_ADMIN_ID']."' order by id desc";
+			}
 			$db->query($sql);		
 	
 				if($db->numRows()>0)

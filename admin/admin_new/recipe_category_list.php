@@ -150,7 +150,13 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 						<td> <?php echo date('d M,Y',$st);?></td>
                     <td> <a href='https://orangestate.ng/admin/admin_new/recipe_category_list.php?act=dac&id=<?=$row['id']?>&stat=<?=$row['status']?>'><?=$row['status']=='no'?'Deactive':'Active'?></a> </td>
                            
-                        <td > <a href="https://orangestate.ng/admin/admin_new/add_recipe_cat.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+                        <td > <?php if($_SESSION['Super_admin']=='superadmin'){ ?>
+						<a href="https://orangestate.ng/admin/admin_new/add_recipe_cat.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> 
+						
+						&nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span></a>
+						<?php }else{ ?>
+						Not Allowed
+						<?php } ?>
 						</td>
                      </tr>
                                       

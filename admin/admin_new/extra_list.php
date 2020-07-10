@@ -180,9 +180,9 @@ function deladminnew(id)
 
                                            
                                             <th>Status</th>
-
+<?php if($_SESSION['Super_admin']=='superadmin'){ ?>
                                             <th>Action</th>
-
+<?php } ?>
                                         </tr>
 
                                     </thead>
@@ -211,9 +211,10 @@ function deladminnew(id)
                                             <td>  <a href='<?=$_PAGE."?".$qryStr?>&act=dac&id=<?=$row[id]?>&stat=<?=$row[status]?>'><?=$row[status]==0?'Deactive':'Active'?></a> </td>
 
                                             <!--<td><a href=""> Edit </a> <a href=""> Delete </a></td>-->
+											<?php if($_SESSION['Super_admin']=='superadmin'){ ?>
 											<td><a href="//orangestate.ng/admin/admin_new/extra_list.php?act=edit&id=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladminnew("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>
 											</a></td>
-
+											<?php } ?>
                                         </tr>
 
 <?php $ct=$ct+1; } ?>

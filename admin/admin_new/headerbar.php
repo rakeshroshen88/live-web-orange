@@ -8,7 +8,8 @@
                         </form>    
                     
                         <ul class="app-header-buttons pull-right">
-                            <li>
+						<?php if($_SESSION['Super_admin']=='superadmin'){ ?>
+						<li>
                                 <div class="contact contact-rounded contact-bordered contact-lg contact-ps-controls">
                                     <img src="assets/images/users/user_1.jpg" alt="John Doe">
                                     <div class="contact-container">
@@ -29,7 +30,72 @@
                                     </div>
                                 </div>
                             </li>        
-                        </ul>
+                        <?php }else{ ?>
+                            <li>
+                                <div class="contact contact-rounded contact-bordered contact-lg contact-ps-controls">
+                                    <img src="//orangestate.ng/images/icon7.png" alt="John Doe">
+								<?php 
+
+
+								$sql="SELECT * from food_order where order_status='0' and  resturant_id=".$_SESSION['rid'];	 $db->query($sql);
+									$nooforder=$db->numRows();
+									if(empty($nooforder)){ $nooforder=0; }
+										?>
+                                    <div class="contact-container">
+                                        <a href="#"><?=$nooforder?></a>
+                                        <span>New Orders</span>
+                                    </div>
+                                    <div class="contact-controls">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-default btn-icon" data-toggle="dropdown"><span class="icon-cog"></span></button>                        
+                                            <ul class="dropdown-menu dropdown-left">
+                                                
+												<?php
+												if($db->numRows()>0){
+												while($row=$db->fetchArray()){	/*$num= $db1->getSingleResult("select count(*) from food_order where id=".$row['id']); */?>
+												<li><a href="//orangestate.ng/admin/admin_new/food_order_details.php?id=<?=$row[orderid]?>"><?=$row['orderid']?>&nbsp;₦ <?=$row['totalprice']?></a>
+												
+												
+												
+												</li> 
+												<?php }}?>
+                                                <!--<li><a href="#"><span class="icon-envelope"></span> Messages <span class="label label-danger pull-right">+24</span></a></li>
+                                                <li><a href="#"><span class="icon-users"></span> Contacts <span class="label label-default pull-right">76</span></a></li>-->
+                                                <li class="divider"></li>
+                                                <li><a href="../logout.php"><span class="icon-exit"></span> Log Out</a></li> 
+                                            </ul>
+                                        </div>                    
+                                    </div>
+                                </div>
+                            </li>        
+                        
+						
+						
+						 <li>
+                                <div class="contact contact-rounded contact-bordered contact-lg contact-ps-controls">
+                                    <img src="assets/images/users/user_1.jpg" alt="John Doe">
+                                    <div class="contact-container">
+                                        <a href="#"><?=$_SESSION['SES_ADMIN_USER']?></a>
+                                        <span>Administrator</span>
+                                    </div>
+                                    <div class="contact-controls">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-default btn-icon" data-toggle="dropdown"><span class="icon-cog"></span></button>                        
+                                            <ul class="dropdown-menu dropdown-left">
+                                                <li><a href="#"><span class="icon-cog"></span> Settings</a></li> 
+                                                <li><a href="#"><span class="icon-envelope"></span> Messages <span class="label label-danger pull-right">+24</span></a></li>
+                                                <li><a href="#"><span class="icon-users"></span> Contacts <span class="label label-default pull-right">76</span></a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="../logout.php"><span class="icon-exit"></span> Log Out</a></li> 
+                                            </ul>
+                                        </div>                    
+                                    </div>
+                                </div>
+                            </li>        
+                        
+						<?php } ?>
+						
+						</ul>
                     </div>
                     <!-- END APP HEADER  -->
                     

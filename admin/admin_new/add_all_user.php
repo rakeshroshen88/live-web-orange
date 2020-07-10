@@ -1,7 +1,9 @@
 <?php include("header.php"); 
-$_TBL_USER='all_user';
 
 $id=$_REQUEST['id'];
+if(empty($id)){
+$id=$_SESSION['SES_ADMIN_ID'];	
+}
 $act=$_REQUEST['act'];
 $errMsg='';
 if(isset($_POST['Submit']) and $_POST['Submit']=="Save")
@@ -29,40 +31,45 @@ if($act=="edit")
 	$password=base64_encode($_POST['password']);
 
 $updatearr=array(	 
-					 "first_name"=>$_REQUEST['firstname'],
+					 "adminname"=>$_REQUEST['firstname'],
 					 "last_name"=>$_REQUEST['lastname'],	
-					 "email_id"=>$_REQUEST['email'],
-					 "mobile_no"=>$_REQUEST['userphone'],
+					 "adminemail"=>$_REQUEST['email'],
+					 "adminphone"=>$_REQUEST['userphone'],
 					 "usertype"=>$_REQUEST['usertype'],
-					 "password"=>$password,
-					 "joindate"=>date("Y-m-d")
+					 "adminpassword"=>$_POST['password'],
+					 "image"=>$largeimage,
+					 "admindate"=>date("Y-m-d")
 					
 						);
+						
+						/* print_r($updatearr); */
 	
 	if($act=="edit")
 		{
-		$whereClause=" user_id!=".$_REQUEST['id']." and  email_id='".$_REQUEST['email']."'";
+		$whereClause=" id!=".$id." and  adminemail='".$_REQUEST['email']."'";
 		}elseif($act=="add"){
-		$whereClause=" email_id='".$_REQUEST['email']."'";
+		$whereClause=" adminemail='".$_REQUEST['email']."'";
 		}
 	
-	if(matchExists($_TBL_USER, $whereClause))
+	if(matchExists('admin', $whereClause))
 		{
 			 $errMsg='<br>'.$_REQUEST['email'].' already exist!<br>';
 		}else{
 			if($act=="edit")
 				{
-					echo "update user_profile set image_id='".$largeimage."', twon='".$_REQUEST["city"]."', address='".$_REQUEST["address"]."' where user_id='".$_REQUEST["id"]."'";
-					$whereClause=" user_id=".$_REQUEST['id'];
-					updateData($updatearr, $_TBL_USER, $whereClause);
-					$db->query("update user_profile set image_id='".$largeimage."', twon='".$_REQUEST["city"]."', address='".$_REQUEST["address"]."' where user_id='".$_REQUEST["id"]."'");
+					
+					$whereClause=" id=".$id;
+					updateData($updatearr, 'admin', $whereClause);
+					
 					$errMsg='<br><b>Updated Successfully!</b><br>';
 				}elseif($act=="add")
 					{	 
-						$insid=insertData($updatearr, $_TBL_USER);
+						$insid=insertData($updatearr, 'admin');
 						if($insid>0)
 							{
 								$errMsg='<br><b>User Added Successfully!</b><br>';							
+							}else{
+								$errMsg1='<br><b>There is an some error!</b><br>';
 							}
 					
 					}
@@ -74,12 +81,10 @@ $updatearr=array(
 $dbn=new DB();
 if(!empty($id))
 	{
-		$sql="SELECT * FROM $_TBL_USER WHERE user_id=$id";
+		 $sql="SELECT * FROM admin WHERE id=$id";
 		$db->query($sql)or die($db->error());
 		$row=$db->fetchArray();	
-		$sqln="select * from user_profile where user_id =".$id;
-						$dbn->query($sqln);
-						$profilerow=$dbn->fetchArray();
+		
 	}
 ?>
 
@@ -162,7 +167,7 @@ if(!empty($id))
 						
 						<input type="hidden" name="prodid" value="<?=$row['id']?>" />
 						<input type="hidden" name="act" value="<?=$act?>" />
-						<input type="hidden" name="image3" value="<?=$row['imagepath']?>" />
+						<input type="hidden" name="image3" value="<?=$row['image']?>" />
 						
             <div class="tab-content">
 
@@ -193,7 +198,7 @@ if(!empty($id))
                                     <div class="form-group">
                                         <label class="col-md-22 control-label" for="name">Name<span class="required">*</span></label>
                                         <div class="col-md-12">
-                                        <input id="firstname" name="firstname" type="text" placeholder="Your name" class="form-control" value="<?=$row['first_name']?>" required>
+                                        <input id="firstname" name="firstname" type="text" placeholder="Your name" class="form-control" value="<?=$row['adminname']?>" required>
                                         </div>
                                     </div>
 							  </div>
@@ -208,7 +213,7 @@ if(!empty($id))
 								<div class="form-group">
 									<label class="col-md-12 control-label" for="email">Your E-mail<span class="required">*</span></label>
 									<div class="col-md-12">
-										<input id="email" name="email" type="text" placeholder="Your email" class="form-control" value="<?=$row['email_id']?>" required>
+										<input id="email" name="email" type="text" placeholder="Your email" class="form-control" value="<?=$row['adminemail']?>" required>
 									</div>
 								</div>
                                </div>
@@ -218,7 +223,7 @@ if(!empty($id))
                                    <div class="form-group">
 									<label class="col-md-12 control-label" for="email"> Phone No<span class="required">*</span></label>
 									<div class="col-md-12">
-										  <input name="userphone" placeholder="Your Phone No" type="text" class="form-control" value="<?=$row['mobile_no']?>" required/>          
+										  <input name="userphone" placeholder="Your Phone No" type="text" class="form-control" value="<?=$row['adminphone']?>" required/>          
 									</div>
 								</div>
                               </div> 
@@ -230,26 +235,41 @@ if(!empty($id))
 							  </div>
 							  
 							  <div class="row">
-							  
+							  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-22 control-label" for="name">User Type<span class="required">*</span></label>
+                                        <div class="col-md-12">
+                                        <select  name="usertype" id="usertype"  class="form-control" required>
+
+						 <option value="superadmin" <?php if('superadmin' == $row['usertype']){ echo 'selected'; } ?>>Super admin</option>
+
+                        <option value="hotel" <?php if('hotel' == $row['usertype']){ echo 'selected'; } ?>>Hotel </option>
+						<option value="product" <?php if('product' == $row['usertype']){ echo 'selected'; } ?>>Product </option>
+						<option value="restaurant" <?php if('restaurant' == $row['usertype']){ echo 'selected'; } ?>>Restaurant </option>
+
+                
+				   </select>
+
+                                        </div>
+                                    </div>
+							  </div>
 							 
 							  <div class="col-md-6">  
                                    <div class="form-group">
 									<label class="col-md-12 control-label" for="password"> Password</label>
 									<div class="col-md-12">
-										  <input name="password" placeholder="Your Password" type="text" class="form-control" value="<?=base64_decode($profilerow['password'])?>"/>          
+										  <input name="password" placeholder="Your Password" type="text" class="form-control" value="<?=$row['adminpassword']?>"/>          
 									</div>
 								</div>
                               </div> 
 							 
 							 
-							 <div class="col-md-6">
-                               </div>
-							   
+							 
 							 </div>
                              
 							  
 							  
-							  
+							  <!--
 							  <div class="row">
 							 
 							   
@@ -272,6 +292,8 @@ if(!empty($id))
                                </div>
 							  
 							  </div>
+							  
+							  -->
 							  <div class="row">
 							  </div>
 							  <div class="row">
@@ -281,7 +303,7 @@ if(!empty($id))
                                     	<div class="form-group">
         									<label class="col-md-12 control-label">  Image</label>
         									<div class="col-md-12">
-                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span> <!-- <?php if($row['image_id']){?><a href="javascript:void(0)" onclick="javascript:window.open('../viewnimage2.php?img=<?=$row['image_id']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>-->
+                                                <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span> <!-- <?php if($row['image']){?><a href="javascript:void(0)" onclick="javascript:window.open('../viewnimage2.php?img=<?=$row['image']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>-->
         									 
         									</div>
         								</div>
@@ -352,8 +374,7 @@ if(!empty($id))
                     </div> <!-- END PAGE CONTAINER -->
 
     </div> 
-<!--<script type="text/javascript" src="https://orangestate.ng/js/sweetalert2@8.js"></script>                  
--->
+
 
 
 

@@ -31,6 +31,8 @@ if($db->numRows()>0)
 	$taxarr=explode(',',$row['tax_amt']);
 	$discountparr=explode(',',$row['discount']);
 	$tax_percent=explode(',',$row['tax_percent']);
+	$extra_option_name=explode(',',$row['extra_option_name']);
+	$extra_option_price=explode(',',$row['extra_option_price']);
 	
 	 $cn=count($qtyarr)-1;
 	 
@@ -62,7 +64,7 @@ if(!empty($_REQUEST['sendemil']))
                                             border="0"
                                             height="30"
                                             src="https://orangestate.ng/images/logo.png"
-                                            alt="Flipkart.com"
+                                            alt=""
                                             style="border: none;"
                                             class="CToWUd"
                                         />
@@ -351,6 +353,10 @@ style="font-size: 14px; font-weight: normal; font-style: normal; font-stretch: n
 			 $sta="Confirmed";
 		 }elseif($row['order_status']=="3"){
 			 $sta="Processed";
+		 }elseif($row['order_status']=="4"){
+			$sta="Hold";	
+		  }elseif($row['order_status']=="5"){
+			 $sta="Delivered";
 		 }
 		 
 	}
@@ -383,6 +389,8 @@ if($_POST['jobstatus']=="0")
 	$sta="Processed";
 	}elseif($_POST['jobstatus']=="4"){
 	$sta="Hold";
+	}elseif($_POST['jobstatus']=="5"){
+	$sta="Delivered";
 	}
 
 	$whereClause=" invoiceid='".$_POST['invid']."'";
@@ -790,12 +798,18 @@ updateData($updatearr1, $_TBL_ORDER, $whereClause);
             </ul>
 
         </div>
-
+<style>
+#semail{
+    margin-top: -38px;
+    width: 220px;
+}
+</style>
 <script>	
 $(document).ready(function(){
 
 $( "#send_email" ).on( "click", function() {
 
+$('#orderloader').show();
 		var oid = jQuery(this).attr('oid');
 		var social_AjaxURL='//orangestate.ng/admin/pages/send_email.php';
 		var dataString ='id='+oid+'&order_type=food';
@@ -818,13 +832,15 @@ $( "#send_email" ).on( "click", function() {
 					type: 'POST',
 					data: dataString,
             	    success: function (data) {
-						
+					$('#orderloader').hide();
 					Swal.fire({
 					  type: 'success',
 					  title: 'success',
 					  text: 'Order Has been send!'
 					});
-						
+						setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
             		    alert(textStatus);
@@ -843,7 +859,8 @@ $( "#send_email" ).on( "click", function() {
 
 
 $( "#orderhold" ).on( "click", function() {
- 
+ $('#orderloader').show();
+
 		var oid = jQuery(this).attr('oid');
 		var social_AjaxURL='//orangestate.ng/admin/pages/order_hold.php';
 		var dataString ='id='+oid+'&order_type=food';
@@ -866,11 +883,15 @@ $( "#orderhold" ).on( "click", function() {
 					type: 'POST',
 					data: dataString,
             	    success: function (data) {
-						
+						$('#orderloader').hide();
+
 					Swal.fire({
 					  type: 'success',					  
 					  text: 'Order Has been send!'
 					});
+					setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
 						
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -889,10 +910,11 @@ $( "#orderhold" ).on( "click", function() {
 });
 
 $( "#cancel" ).on( "click", function() {
- 
+ $('#orderloader').show();
+
 		var oid = jQuery(this).attr('oid');
 		var social_AjaxURL='//orangestate.ng/admin/pages/order_cancel.php';
-		var dataString ='id='+oid ;
+		var dataString ='id='+oid + '&order_type=food';
 
 			
 				Swal.fire({
@@ -912,11 +934,15 @@ $( "#cancel" ).on( "click", function() {
 					type: 'POST',
 					data: dataString,
             	    success: function (data) {
-						
+						$('#orderloader').hide();
+
 					Swal.fire({
 					  type: 'success',					  
 					  text: 'Order Has been Canceled!'
 					});
+					setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
 						
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -935,7 +961,8 @@ $( "#cancel" ).on( "click", function() {
 });
 
 $( "#ordership" ).on( "click", function() {
- 
+ $('#orderloader').show();
+
 		var oid = jQuery(this).attr('oid');
 		var traking = jQuery('#traking').val();
 		var jobstatus = jQuery('#jobstatus').val();
@@ -970,11 +997,15 @@ $( "#ordership" ).on( "click", function() {
 					type: 'POST',
 					data: dataString,
             	    success: function (data) {
-						
+						$('#orderloader').hide();
+
 					Swal.fire({
 					  type: 'success',					 
 					  text: 'Order Has been delivered!'
 					});
+					setTimeout(function(){
+							window.location.reload(true);
+						   }, 5000);
 						
             	    },
             	    error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1047,28 +1078,29 @@ jQuery(document).on("click", ".deleteinv", function(e){
                              
 
                             <p class="text-right">
+							<span style="display:none;" id="orderloader"><img src="//orangestate.ng/images/loading.gif" /> Just a moment...</span>
 						<?php if($row['order_status']==1){ ?>
-						<button class="btn btn-default btn-icon-fixed cancel"><span class="icon-menu-circle"></span> Cancel</button>
-							  <button class="btn btn-warning btn-icon-fixed " ><span class="icon-arrow-up-circle"></span> Send Email</button>
+						<button class="btn btn-default btn-icon-fixed cancel"><span class="icon-menu-circle" id="cancel"></span> Cancel</button>
+							  <button class="btn btn-warning btn-icon-fixed " ><span class="icon-arrow-up-circle" ></span> Send Email</button>
 							
-                                <button class="btn btn-warning btn-icon-fixed "><span class="icon-arrow-up-circle" ></span> Hold</button>
+                                <button class="btn btn-warning btn-icon-fixed "><span class="icon-arrow-up-circle" id="hold"></span> Hold</button>
 
-                                <button class="btn btn-warning btn-icon-fixed"><span class="icon-arrow-up-circle"></span> Create Invoice</button>
+                                <button class="btn btn-warning btn-icon-fixed"><span class="icon-arrow-up-circle" id="inv"></span> Create Invoice</button>
 
-                                <button class="btn btn-warning btn-icon-fixed "><span class="icon-arrow-up-circle"></span> Delivery</button>
+                                <button class="btn btn-warning btn-icon-fixed "><span class="icon-arrow-up-circle" id="delivery"></span> Delivery</button>
 
                                
 							 
 						
 						<?php }else{ ?>
-                             <button class="btn btn-default btn-icon-fixed cancel" id="cancel" oid="<?=$orderid?>"><span class="icon-menu-circle"></span> Cancel</button>
-							  <button class="btn btn-warning btn-icon-fixed send_email" id="send_email" oid="<?=$orderid?>"><span class="icon-arrow-up-circle"></span> Send Email</button>
+                             <button class="btn btn-default btn-icon-fixed cancel" id="cancel" oid="<?=$orderid?>"><span class="icon-menu-circle" id="cancel"></span> Cancel</button>
+							  <button class="btn btn-warning btn-icon-fixed send_email" id="send_email" oid="<?=$orderid?>"><span class="icon-arrow-up-circle" ></span> Send Email</button>
 							
-                                <button class="btn btn-warning btn-icon-fixed orderhold"  id="orderhold" oid="<?=$orderid?>"><span class="icon-arrow-up-circle" ></span> Hold</button>
+                                <button class="btn btn-warning btn-icon-fixed orderhold"  id="orderhold" oid="<?=$orderid?>"><span class="icon-arrow-up-circle" id="hold" ></span> Hold</button>
 
                                 <button class="btn btn-warning btn-icon-fixed" data-toggle="modal" data-target="#modal-full"><span class="icon-arrow-up-circle"></span> Create Invoice</button>
 
-                                <button class="btn btn-warning btn-icon-fixed ordership1" id="ordership1" oid="<?=$orderid?>" data-toggle="modal" data-target="#modal-full1"><span class="icon-arrow-up-circle"></span> Shipment</button>
+                                <button class="btn btn-warning btn-icon-fixed ordership1" id="ordership1" oid="<?=$orderid?>" data-toggle="modal" data-target="#modal-full1"><span class="icon-arrow-up-circle" id="delivery"></span> Delivery</button>
 
                                
 							 
@@ -1413,7 +1445,7 @@ jQuery(document).on("click", ".deleteinv", function(e){
 
                                                                     <h2>Online Payment</h2>
 
-                                                                    <h2>Order was placed using NGN</h2> 
+                                                                   
 
                                                                 </div>
 
@@ -1503,9 +1535,7 @@ jQuery(document).on("click", ".deleteinv", function(e){
 
                                                                     <th width="300">Product</th>
 
-                                                                    <th>Item Status</th>
-
-                                                                    <th>Original Price</th>
+                                                                   
 
                                                                     <th>Price</th>
 
@@ -1543,7 +1573,12 @@ for($i=0;$i<$cn;$i++)
 
                                                                             <div class="item-text">
 
-                                                                                <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span></h5>
+                                                                                <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span>
+	</br><span><?=$extra_option_name[$i]?></span>
+																				
+																				
+																				
+																				</h5>
 
                                                                                 
                                                                             </div>
@@ -1552,11 +1587,10 @@ for($i=0;$i<$cn;$i++)
 
                                                                     </td>
 
-                                                                    <td><?=$sta?></td>
+                                                                    
+                                                                   
 
-                                                                    <td>₦<?=$prod_price?></td>
-
-                                                                    <td><b> ₦<?=$pricearr[$i]?></b> </td> 
+                                                                    <td><b> ₦<?=$pricearr[$i]?></b>₦ <?=$extra_option_price[$i]?> </td> 
 
                                                                     <td> <?php 		
 		echo $qtyarr[$i];		
@@ -1571,9 +1605,11 @@ for($i=0;$i<$cn;$i++)
                                                                     <td><b> ₦ <?=number_format($subtotalarr[$i],2,'.',',')?></b>  </td> 
 
                                                                     <td> ₦ <?=number_format($taxarr[$i],2,'.',',')?></td> 
-
+																	<?php if(!empty($tax_percent[$i])){ ?>
                                                                     <td> <?php  echo $tax_percent[$i]; ?>%</td> 
-
+																	<?php }else{?>
+																		 <td>0 %</td>
+																	<?php } ?>
                                                                    <td>₦ <?=number_format($discountprice,2,'.',',')?></td> 
 
                                                                     <td>₦ <?=number_format(($subtotalarr[$i]+$shipprice),2,'.',',')?></td> 
@@ -1653,11 +1689,11 @@ for($i=0;$i<$cn;$i++)
                                                                <select name="jobstatus" class="form-control">
 											<option value="0" selected="selected" <?php if($row1['order_status']=="0"){echo "selected";}?>>Pending</option>
 											<option value="1" <?php if($row1['order_status']=="1"){echo "selected";}?>>Cancelled</option>
-											<option value="2"  selected="selected">confirm</option>
+											<option value="2" <?php if($row1['order_status']=="2"){echo "selected";}?> >Confirm</option>
 											
 											<option value="3" <?php if($row1['order_status']=="3"){echo "selected";}?>>Processed</option>
 
-
+<option value="3" <?php if($row1['order_status']=="4"){echo "selected";}?>>Hold</option>
 
 											</select>
 
@@ -1762,19 +1798,19 @@ $sta="Hold";
                                                                
 
                                                                 <div class="col-md-12">
+<h2 class="text-right">
 
+                                                                         Sub Total <span class="width100">₦<?=number_format(($subtotal-$discountprice),2,'.',',')?></span>
+
+                                                                     </h2>
+ 
                                                                     <h2 class="text-right">
 
                                                                          Discount <span class="width100">-₦<?=number_format($discountprice,2,'.',',')?></span>
 
                                                                      </h2>
 
-                                                                     <h2 class="text-right">
-
-                                                                         Sub Total <span class="width100">₦<?=number_format(($subtotal-$discountprice),2,'.',',')?></span>
-
-                                                                     </h2>
- 
+                                                                     
                                                                      <h2 class="text-right">
 
                                                                          Shipping & Handling <span class="width100">₦<?=number_format($shiptotal,2,'.',',')?>
@@ -2472,8 +2508,7 @@ $shiprow1=$dbsp->fetchArray();
                                                                 <div class="col-md-12">
 
                                                                     <h2>Online Payment</h2>
-
-                                                                    <h2>Order was placed using NGN</h2> 
+ 
 
                                                                 </div>
 
@@ -2563,10 +2598,8 @@ $shiprow1=$dbsp->fetchArray();
 
                                                                     <th width="300">Product</th>
 
-                                                                    <th>Item Status</th>
-
-                                                                    <th>Original Price</th>
-
+                                                                  
+                                                                    
                                                                     <th>Price</th>
 
                                                                     <th>Qty</th>
@@ -2603,7 +2636,10 @@ for($i=0;$i<$cn;$i++)
 
                                                                             <div class="item-text">
 
-                                                                                <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span></h5>
+                                                                                <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span>
+																				</br><span><?=$extra_option_name[$i]?></span>
+																				
+																				</h5>
 
                                                                                 
                                                                             </div>
@@ -2612,11 +2648,10 @@ for($i=0;$i<$cn;$i++)
 
                                                                     </td>
 
-                                                                    <td><?=$sta?></td>
+                                                                  
+                                                                   
 
-                                                                    <td>₦<?=$prod_price?></td>
-
-                                                                    <td><b> ₦<?=$pricearr[$i]?></b> </td> 
+                                                                    <td><b> ₦<?=$pricearr[$i]?></b>₦ <?=$extra_option_price[$i]?> </td> 
 
                                                                     <td> <?php 		
 		echo $qtyarr[$i];		
@@ -2632,7 +2667,11 @@ for($i=0;$i<$cn;$i++)
 
                                                                      <td> ₦ <?=number_format($taxarr[$i],2,'.',',')?></td> 
 
+                                                                   <?php if(!empty($tax_percent[$i])){ ?>
                                                                     <td> <?php  echo $tax_percent[$i]; ?>%</td> 
+																	<?php }else{?>
+																		 <td>0 %</td>
+																	<?php } ?>
 
                                                                    <td>₦ <?=number_format($discountprice2,2,'.',',')?></td> 
 
@@ -2710,11 +2749,11 @@ for($i=0;$i<$cn;$i++)
 
                                                            
                                            <select name="jobstatus" class="form-control">
-											<option value="0"  >Pending</option>
-											<option value="1" >Cancelled</option>
-											<option value="2"  selected="selected">confirm</option>
-											<option value="3"  selected="selected">Processed</option
->											<option value="4"  >Hold</option>
+											<option value="0" <?php if($row['order_status']==0){ echo "selected"; }?> >Pending</option>
+											<option value="1" <?php if($row['order_status']==1){ echo "selected"; }?> >Cancelled</option>
+											<option value="2" <?php if($row['order_status']==2){ echo "selected"; }?> >confirm</option>
+											<option value="3" <?php if($row['order_status']==3){ echo "selected"; }?>  >Processed</option
+>											<option value="4" <?php if($row['order_status']==4){ echo "selected"; }?>  >Hold</option>
 											</select>
 
 
@@ -2754,6 +2793,14 @@ for($i=0;$i<$cn;$i++)
                                                                
 
                                                                 <div class="col-md-12">
+																
+																
+																 <h2 class="text-right">
+
+                                                                         Sub Total <span class="width100">₦<?=number_format(($subtotal2-$discountprice2),2,'.',',')?></span>
+
+                                                                     </h2>
+ 
 
                                                                     <h2 class="text-right">
 
@@ -2761,12 +2808,7 @@ for($i=0;$i<$cn;$i++)
 
                                                                      </h2>
 
-                                                                     <h2 class="text-right">
-
-                                                                         Sub Total <span class="width100">₦<?=number_format(($subtotal2-$discountprice2),2,'.',',')?></span>
-
-                                                                     </h2>
- 
+                                                                    
                                                                      <h2 class="text-right">
 
                                                                          Delivery & Handling <span class="width100">₦<?=number_format($shiptotal2,2,'.',',')?>
@@ -3231,7 +3273,7 @@ for($i=0;$i<$cn;$i++)
 
                                                                     <h2>Online Payment</h2>
 
-                                                                    <h2>Order was placed using NGN</h2> 
+                                                                   
 
                                                                 </div>
 
@@ -3335,9 +3377,7 @@ for($i=0;$i<$cn;$i++)
 
                                                                     <th width="300">Product</th>
 
-                                                                    <th>Item Status</th>
-
-                                                                    <th>Original Price</th>
+                                                                  
 
                                                                     <th>Price</th>
 
@@ -3375,7 +3415,10 @@ for($i=0;$i<$cn;$i++)
 
                                                                             <div class="item-text">
 
-                                                                                <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span></h5>
+                                                                                <h5 class="title"><span id="order_item_621_title"><?=$prodarray[$i]?></span>
+</br><span><?=$extra_option_name[$i]?></span>
+																				
+																				</h5>
 
                                                                                 
                                                                             </div>
@@ -3384,11 +3427,8 @@ for($i=0;$i<$cn;$i++)
 
                                                                     </td>
 
-                                                                    <td><?=$sta?></td>
-
-                                                                    <td>₦<?=$prod_price?></td>
-
-                                                                    <td><b> ₦<?=$pricearr[$i]?></b> </td> 
+                                                                  
+                                                                    <td><b> ₦<?=$pricearr[$i]?></b> ₦ <?=$extra_option_price[$i]?></td> 
 
                                                                     <td> <?php 		
 		echo $qtyarr[$i];		
@@ -3404,7 +3444,11 @@ for($i=0;$i<$cn;$i++)
 
                                                                      <td> ₦ <?=number_format($taxarr[$i],2,'.',',')?></td> 
 
+                                                                   <?php if(!empty($tax_percent[$i])){ ?>
                                                                     <td> <?php  echo $tax_percent[$i]; ?>%</td> 
+																	<?php }else{?>
+																		 <td>0 %</td>
+																	<?php } ?>
 
                                                                    <td>₦ <?=number_format($discountprice1,2,'.',',')?></td> 
 
@@ -3577,19 +3621,19 @@ $sta="Hold";
                                                                
 
                                                                 <div class="col-md-12">
-																
+																<h2 class="text-right">
+
+                                                                         Sub Total <span class="width100">₦<?=number_format(($subtotal1-$discountprice1),2,'.',',')?></span>
+
+                                                                     </h2>
+ 
 																 <h2 class="text-right">
 
                                                                          Discount <span class="width100">-₦<?=number_format($discountprice1,2,'.',',')?></span>
 
                                                                      </h2>
 
-                                                                     <h2 class="text-right">
-
-                                                                         Sub Total <span class="width100">₦<?=number_format(($subtotal1-$discountprice1),2,'.',',')?></span>
-
-                                                                     </h2>
- 
+                                                                     
                                                                      <h2 class="text-right">
 
                                                                          Delivery & Handling <span class="width100">₦<?=number_format($shiptotal1,2,'.',',')?>

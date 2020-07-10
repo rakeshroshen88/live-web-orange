@@ -1,5 +1,4 @@
 <?php include("header.php");
-$_TBL_SLIDER='slider_add';
 $mod=$_REQUEST['mod'];
 $firstname=$_REQUEST['firstname'];
 $id=$_REQUEST['id'];
@@ -13,7 +12,7 @@ if($act=='dac')
 			$stat='1';
 		else
 			$stat='0';
-		$sql="UPDATE $_TBL_USER SET user_status= '$stat' WHERE user_id='$id'";
+		$sql="UPDATE admin SET adminstatus= '$stat' WHERE id='$id'";
 		$db->query($sql);
 		$errMsg='<br><b>Update Successfully!</b><br>';
 	}
@@ -21,7 +20,7 @@ if($act=='dac')
 if($act=='del')
 	{
 		
-		 $sql="DELETE FROM $_TBL_USER WHERE user_id='$id'";
+		 $sql="DELETE FROM admin WHERE id='$id'";
 		$db->query($sql);
 		$errMsg='<br><b>Deleted Successfully!</b><br>';
 	}
@@ -32,7 +31,7 @@ function deladmin(id)
 {
 	if(confirm("Are you sure to delete?"))
 	{
-		location.href="https://orangestate.ng/admin/admin_new/view_user.php?act=del&id="+id;
+		location.href="https://orangestate.ng/admin/admin_new/client.php?act=del&id="+id;
 	}
 }
 </script>
@@ -89,31 +88,8 @@ function deladmin(id)
                                     </thead>
                                     <tbody>
 <?php
-
-$db4=new DB();
-$l=array();
- $sql4="SELECT userid from food_order where resturant_id=".$_SESSION['rid'];
-$db4->query($sql4);
-if($db4->numRows()>0)
-{
-while($row4=$db4->fetchArray()){
-	$l[]=$row4['userid'];
-}
-}
-$alluserid=implode(',',$l);
-if(!empty($alluserid)){
-$alluserids=$alluserid;
-}else{
-$alluserids=0;	
-}
-
 $ct=1;
-if($_SESSION['Super_admin']=='superadmin'){
-									$sql="SELECT * from $_TBL_USER order by user_id desc";
-									}else{
-										 $sql="SELECT * from $_TBL_USER where user_id IN ($alluserids)";
-									}
- 
+ $sql="SELECT * from admin where usertype='restaurant' order by id desc";
 	$db->query($sql);
 	$total_records=$db->numRows();
 	$page=new Page;
@@ -127,19 +103,19 @@ if($_SESSION['Super_admin']=='superadmin'){
 	while($row=$db->fetchArray()){
 	/* $num=$db1->getSingleResult('select count(*) from '.$_TBL_USER." where id=".$row['userid']); */
 	
-$date=explode('-',$row['joindate']);
+$date=explode('-',$row['admindate']);
 $st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
 	
 		
 ?>             <tr>
 						<td><?=$ct?></td>
-                        <td> <a href="//orangestate.ng/admin/admin_new/user_profile.php?act=edit&id=<?=$row['user_id']?>"><?=$row['first_name']?></a></td>
+                        <td> <a href="//orangestate.ng/admin/admin_new/add_all_user.php?act=edit&id=<?=$row['id']?>"><?=$row['adminname']?></a></td>
 							
-                        <td> <?=$row['email_id']?></td>
+                        <td> <?=$row['adminemail']?></td>
 						<td> <?php echo date('d M,Y',$st);?></td>
-                    <td> <a href='//orangestate.ng/admin/admin_new/view_user.php?act=dac&id=<?=$row['user_id']?>&stat=<?=$row['user_status']?>'><?=$row['user_status']==0?'Deactive':'Active'?></a> </td>
+                    <td> <a href='//orangestate.ng/admin/admin_new/client.php?act=dac&id=<?=$row['id']?>&stat=<?=$row['adminstatus']?>'><?=$row['adminstatus']==0?'Deactive':'Active'?></a> </td>
                            
-                        <td > <a href="//orangestate.ng/admin/admin_new/add_users.php?act=edit&id=<?=$row['user_id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['user_id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>
+                        <td > <a href="//orangestate.ng/admin/admin_new/restaurants_list.php?act=edit&uid=<?=$row['id']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>
 						</td>
                      </tr>
 

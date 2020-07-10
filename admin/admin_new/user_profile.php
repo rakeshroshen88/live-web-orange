@@ -5,10 +5,10 @@ $db1=new DB();
 $db2=new DB();
 $dbn=new DB();
 $uid=$_REQUEST['id'];
-						 $sqln="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id = '".$uid."'";
+						  $sqln="SELECT * FROM all_user JOIN user_profile ON all_user.user_id=user_profile.user_id where all_user.user_id = '".$uid."'";
 						$dbn->query($sqln);
 						$billrow=$dbn->fetchArray();
-
+$impidnew=$billrow['image_id'];
 			
 
 
@@ -357,8 +357,19 @@ jQuery(document).on("click", ".deleteinv", function(e){
                 <div class="tab-pane active" id="Information">
 
                     <div class="add_produ">
-
+<div class="cover-sec1">
+	<?php if(!empty($billrow['cover_image_id'])){ ?>
+	<img src="https://orangestate.ng/upload/<?=$billrow['cover_image_id']?>" alt=""  style="width:1920px; height:500px">
+	<?php }else{ ?>
+        <img src="https://orangestate.ng/images/resources/company-cover.jpg" alt="" >
+	<?php } ?>
+	</div>
                          <!-- RECENT ACTIVITY -->
+						 <?php if(empty($impidnew)){ ?>
+							<img src="https://orangestate.ng/images/resources/user.png"  alt="" height="50" width="50">
+						<?php }else{?>
+							<img src="https://orangestate.ng/upload/<?=$impidnew?>" alt="" height="50" width="50">
+						<?php }?>
 
                                 <div class="block block-condensed">
 
@@ -369,8 +380,9 @@ jQuery(document).on("click", ".deleteinv", function(e){
                                             <h2>Order Information</h2>
 
                                             <p>Order Information of the Product</p>
-
-                                        </div>                                
+							
+                                        </div>  
+													
 
                                     </div>
 
@@ -381,13 +393,13 @@ jQuery(document).on("click", ".deleteinv", function(e){
 
 
 
-                                                <div class="col-md-12 ordedbox">
+                                                <div class="col-md-6 ordedbox">
 
                                                     <!-- START PAGE HEADING -->
 
                                                     <div class="app-heading-container app-heading-bordered top">
 
-                                                        Billing Address
+                                                       Permanent Address
 
                                                     </div>
 
@@ -444,15 +456,557 @@ $st=mktime(0,0,0,$date[1],$date[2],$date[0]);
 
                                                 </div>
 
+ <div class="col-md-6 ordedbox">
 
+                                                    <!-- START PAGE HEADING -->
 
+                                                    <div class="app-heading-container app-heading-bordered top">
+
+                                                       Current Address
+
+                                                    </div>
+
+                                                    <div class="app-heading app-heading-small app-heading-bordered orderDetailsbox">
+
+                                                        <div class="title w100">
+
+                                                            <div class="row">
+
+                                                                 
+
+                                                                <div class="col-md-12">
+
+                                                                    <h2>  <?php if(!empty($billrow['first_name'])){ ?>
+	Name: <?=$billrow['first_name']?>  <?=$billrow['last_name']?><?php }?></h2>
+
+                                                                    <h2> <?php if(!empty($billrow['adress'])){ ?>
+Address: <?=$billrow['adress']?> <?php }?></h2>
+
+                                                                    <h2> <?php if(!empty($billrow['state'])){ ?>
+	State: <?=$billrow['state']?>
+     <?php }?></h2>
+
+                                                                    <h2>  <?php if(!empty($billrow['zip_code'])){ ?>
+	Zip Code: <?=$billrow['zip_code']?>
+     <?php }?></h2>
+	 <h2>  <?php if(!empty($billrow['country'])){ ?>
+	Country: <?=$billrow['country']?>
+     <?php }?></h2>
+	 
+	  <h2>  <?php if(!empty($billrow['email_id'])){ ?>
+	Confirmed email: <?=$billrow['email_id']?>
+     <?php }?></h2>
+
+                                                                    <h2><?php if(!empty($billrow['mobileno'])){ ?>
+	T: <?=$billrow['mobileno']?>
+     <?php }?></h2>
+
+    Account Created on:<?php $date=explode('-',$billrow['joindate']);
+$st=mktime(0,0,0,$date[1],$date[2],$date[0]);	
+
+?>                            
+<?php echo date('d M,Y',$st);?>                                </div>
+
+                                                            </div>
+
+                                                              
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- END PAGE HEADING -->
+
+                                                </div>
+
+ <div class="col-md-12">
+ <div class="app-heading-container app-heading-bordered top">
+
+      About User
+
+    </div>
+  <div class="col-md-12"><?=$billrow['about_user']?> </div>
+   </div>
+   <div class="col-md-12">
+    <div class="app-heading-container app-heading-bordered top">
+
+     Social Site
+
+    </div>
+	<div class="col-md-12">
+   <?php  $sql="SELECT * from social_link where user_id=".$uid;
+										$db->query($sql);
+										if($db->numRows()>0)
+										{
+										while($newrow=$db->fetchArray()){?>
+   <p><a href="http://<?=$newrow['slink']?>" title=""><?=$newrow['slink']?></a></p>
+										<?php }} ?> 
+ </div>
+  </div>
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+
+ <div class="col-md-12">
+<div class="container">
+  <h2>Orders</h2>
+ 
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Product Order</a></li>
+    <li><a data-toggle="tab" href="#menu1">Food Order</a></li>
+    <li><a data-toggle="tab" href="#menu2">Hotel Order</a></li>
+   
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <h3>orders</h3>
+     
+                            <div class="block-content">
+
+                                <table class="table table-striped table-bordered datatable-extended" id="sortable-data">
+                                    <thead>
+                                        <tr>										<th>Sl No #</th>
+                                            <th>Order #</th>
+                                            <th>Purchased on</th>
+                                            <th>Bill to Name</th>
+                                            <th>Total Price</th>
+                                          
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody><?php	$db1=new DB(); $ct=1;   $sql="SELECT * from user_order";	$db->query($sql);	if($db->numRows()>0)	{	while($row=$db->fetchArray()){	$num=$db1->getSingleResult('select count(*) from '.$_TBL_ORDER." where id=".$row['id']);	 $name=$db1->getSingleResult('select first_name from all_user where user_id='.$row['userid']);			$arr1=@explode(' ',$row['buydate']);		$edate=@explode('-',$arr1[0]);		$stamp1=@mktime(0,0,0,$edate[2],$edate[1],$edate[0]);		if($row['order_status']=="0")	{	$sta="<b style='color:red;'>Pending</b>";	}elseif($row['order_status']=="1"){		$sta="Cancelled";	}elseif($row['order_status']=="2"){		$sta="Confirmed";	}			?>							<tr>						<td><?=$ct?></td>                         <td><a href="//orangestate.ng/admin/admin_new/order_view.php?id=<?=$row[orderid]?>"><?=$row['orderid']?></a></td>						 <td ><?=date('dS'.' '.'M',$stamp1)?><?=date('Y',$stamp1)?></td>						 <td ><?php echo $name;?></td>	<td align='center'>₦ <?=$row['totalprice']?></td>                           																																			                           <td>					   <?php echo $sta;?>							  </td>                        							 <td><a href="//orangestate.ng/admin/admin_new/order_view.php?id=<?=$row['orderid']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>							</td>                     </tr>
+                                      
+	<?php $ct=$ct+1; } } ?>  
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            </div>
+                  
+
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <h3>Food Order</h3>
+      <div class="block-content">
+
+                                <table class="table table-striped table-bordered datatable-extended" id="sortable-data">
+                                    <thead>
+                                        <tr>										<th>Sl No #</th>
+                                            <th>Order #</th>
+											<th>Order Type</th>
+                                            <th>Purchased on</th>
+                                            <th>Bill to Name</th>
+                                            <th>Total Price</th>
+                                          
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody><?php	$db1=new DB(); $ct=1;
+									if($_SESSION['Super_admin']=='superadmin'){
+									  $sql="SELECT * from food_order";
+									}else{
+										 $sql="SELECT * from food_order where resturant_id=".$_REQUEST['rid'];
+									}
+									$db->query($sql);	if($db->numRows()>0)	{	while($row=$db->fetchArray()){	$num=$db1->getSingleResult('select count(*) from '.$_TBL_ORDER." where id=".$row['id']);	 $name=$db1->getSingleResult('select first_name from all_user where user_id='.$row['userid']);			$arr1=@explode(' ',$row['buydate']);		$edate=@explode('-',$arr1[0]);		$stamp1=@mktime(0,0,0,$edate[2],$edate[1],$edate[0]);		if($row['order_status']=="0")	{	$sta="<b style='color:red;'>Pending</b>";	}elseif($row['order_status']=="1"){		$sta="Cancelled";	}elseif($row['order_status']=="2"){		$sta="Confirmed";	}			?>							<tr>						<td><?=$ct?></td>                         <td><a href="//orangestate.ng/admin/admin_new/food_order_details.php?id=<?=$row[orderid]?>"><?=$row['orderid']?></a></td>	
+<td><?=$row['order_type']?></td>
+
+									<td ><?=date('dS'.' '.'M',$stamp1)?><?=date('Y',$stamp1)?></td>						 <td ><?php echo $name;?></td>	<td align='center'>₦ <?=$row['totalprice']?></td>                           																																			                           <td>					   <?php echo $sta;?>							  </td>                        							 <td><a href="//orangestate.ng/admin/admin_new/food_order_details.php?id=<?=$row['orderid']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;
+									<?php if($_SESSION['Super_admin']=='superadmin'){ ?>
+									<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>
+
+									<?php } ?>
+
+									</td>                     </tr>
+                                      
+	<?php $ct=$ct+1; } } ?>  
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            </div>
+                  
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Hotel Order</h3>
+    
+                            <div class="block-content">
+
+                                <table class="table table-striped table-bordered datatable-extended" id="sortable-data">
+                                    <thead>
+                                        <tr>										<th>Sl No #</th>
+                                            <th>Order #</th>
+                                            <th>Purchased on</th>
+                                            <th>Bill to Name</th>
+											<th>Hotel Name</th>
+                                            <th>Total Price</th>
+                                          
+                                            <th>payment Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody><?php	$db1=new DB(); $ct=1;   $sql="SELECT * from hotel_order";	$db->query($sql);	if($db->numRows()>0)	{	while($row=$db->fetchArray()){
+				$num=$db1->getSingleResult('select count(*) from hotel_order where id='.$row['id']);
+				
+				$name=$db1->getSingleResult('select first_name from all_user where user_id='.$row['user_id']);	
+									$arr1=@explode(' ',$row['book_date']);		$edate=@explode('-',$arr1[0]);		$stamp1=@mktime(0,0,0,$edate[2],$edate[1],$edate[0]);		$sta=$row['payment_status'];
+if(empty($sta)){ $sta="Unpaid"; }
+									?>							<tr>						<td><?=$ct?></td>                         <td><a href="//orangestate.ng/admin/admin_new/hotel_order_view.php?id=<?=$row[orderid]?>"><?=$row['orderid']?></a></td>						 <td ><?=date('dS'.' '.'M',$stamp1)?><?=date('Y',$stamp1)?></td>						 
+									
+									<td ><?php echo $name;?></td>	
+									
+									<td align='center'> <?=$row['hotel_name']?></td>                           						<td align='center'>₦ <?=$row['totalamount']?></td>																													                           <td>					   <?php echo $sta;?>							  </td>                        							 <td><a href="//orangestate.ng/admin/admin_new/hotel_order_view.php?id=<?=$row['orderid']?>"> <span class="glyphicon glyphicon-edit" title="Edit"></span> &nbsp;<a href='javascript:deladmin("<?=$row['id']?>")'> <span class="glyphicon glyphicon-trash" title="Delete"></span>						</a>							</td>                     </tr>
+                                      
+	<?php $ct=$ct+1; } } ?>  
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            </div>
+                  
+    </div>
+   
+  </div>
+</div>
+  </div>
                                             </div>
 
+ 
+ 
+ 
 
-
-
-
-
+ 
+ 
+ <div class="row">
+                            <div class="col-md-3">
+                                
+                                <ul class="app-feature-gallery app-feature-gallery-noshadow margin-bottom-0" style="height: 107px;">
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile">
+                                            <div class="line">
+                                                <div class="title">Total Orders</div>
+                                                <div class="title pull-right"><span class="label label-success label-ghost label-bordered">+14.2%</span></div>
+                                            </div>                                        
+                                            <div class="intval">15</div>                                        
+                                            <!--<div class="line">
+                                                <div class="subtitle">Total items sold</div>
+                                                <div class="subtitle pull-right text-success"><span class="icon-arrow-up"></span> good</div>
+                                            </div>-->
+                                        </div>                                                                        
+                                        <!-- END WIDGET -->
+                                    </li>
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile">
+                                            <div class="line">
+                                                <div class="title">Total pending order</div>
+                                                <div class="title pull-right text-success">+32.9%</div>
+                                            </div>                                                                                    <div class="intval">6</div>
+                                            <!--<div class="line">
+                                                <div class="subtitle">Total items sold</div>
+                                                <div class="subtitle pull-right text-success"><span class="icon-arrow-up"></span> good</div>
+                                            </div>-->
+                                        </div>                                                                        
+                                        <!-- END WIDGET -->
+                                    </li>
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile">
+                                            <div class="line">
+                                                <div class="title">Total Confirm Order</div>
+                                                <div class="title pull-right text-success">+9.2%</div>
+                                            </div>                                              
+                                            <div class="intval">2<small></small></div>
+                                           <!-- <div class="line">
+                                                <div class="subtitle">Frofit for the year</div>                                                
+                                            </div>-->
+                                        </div>                                                                        
+                                        <!-- END WIDGET -->
+                                    </li>
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile">
+                                            <div class="line">
+                                                <div class="title">Cancel Order</div>                                                <div class="title pull-right text-success">-12.7%</div>
+                                            </div>                                        
+                                            <div class="intval">4<small></small></div>
+                                            <div class="line">
+                                                <div class="subtitle">Statistic per year</div>                                                
+                                            </div>
+                                        </div>                                                                        
+                                        <!-- END WIDGET -->
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="col-md-3">
+                                
+                                <ul class="app-feature-gallery app-feature-gallery-noshadow margin-bottom-0" style="height: 122px;">
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="line">
+                                                <div class="title">Visitors</div>
+                                                <div class="title pull-right"><span class="label label-warning label-ghost label-bordered">3.5%</span></div>
+                                            </div>                                        
+                                            <div class="intval">28</div>
+                                            <div class="line">
+                                                <div class="subtitle">Visitors per month</div>
+                                                <div class="subtitle pull-right text-warning"><span class="icon-arrow-down"></span> normal</div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->
+                                    </li>
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="line">
+                                                <div class="title">Returned</div>
+                                                <div class="title pull-right text-success">67.1%</div>
+                                            </div>                                        
+                                            <div class="intval">61,488</div>
+                                            <div class="line">
+                                                <div class="subtitle">Returned visitors per month</div>
+                                                <div class="subtitle pull-right text-success"><span class="icon-arrow-up"></span></div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->
+                                    </li>
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="line">
+                                                <div class="title">New</div>
+                                                <div class="title pull-right text-success">33.9%</div>
+                                            </div>                                        
+                                            <div class="intval">38,085</div>
+                                            <div class="line">
+                                                <div class="subtitle">New visitors per month</div>                                                
+                                                <div class="subtitle pull-right text-success"><span class="icon-arrow-up"></span></div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->
+                                    </li>
+                                    <li>
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="line">
+                                                <div class="title">Registred</div>
+                                                <div class="title pull-right">+458</div>
+                                            </div>                                        
+                                            <div class="intval">12,554</div>
+                                            <div class="line">
+                                                <div class="subtitle">Total registred users</div>                                                
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->
+                                    </li>
+                                </ul>
+                                                                
+                            </div>
+                            <div class="col-md-3">
+                                
+                                <ul class="app-feature-gallery app-feature-gallery-noshadow margin-bottom-0" style="height: 132px;">
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-bubble"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Messages</div>         
+                                                        <div class="title pull-right"><span class="label label-success label-ghost label-bordered">3 NEW</span></div>
+                                                    </div>                                        
+                                                    <div class="intval text-left">39 / 1,589</div>                                        
+                                                    <div class="line">
+                                                        <div class="subtitle"><a href="#">Open all messages</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-warning"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Server Notifications</div>                                                        
+                                                    </div>                                        
+                                                    <div class="intval text-left">14 / 631</div>                                        
+                                                    <div class="line">
+                                                        <div class="subtitle"><a href="#">Open all notifications</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-envelope"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Inbox Mail</div>                                                        
+                                                    </div>                                        
+                                                    <div class="intval text-left">2 / 481</div>                                        
+                                                    <div class="line">
+                                                        <div class="subtitle"><a href="#">Open inbox messages</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-users"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Customers</div>             
+                                                        <div class="title pull-right"><span class="label label-danger label-bordered">15 NEW</span></div>
+                                                    </div>                                        
+                                                    <div class="intval text-left">6,233</div>                                        
+                                                    <div class="line">
+                                                        <div class="subtitle"><a href="#">Open contact list</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="col-md-3">
+                                
+                                <ul class="app-feature-gallery app-feature-gallery-noshadow margin-bottom-0" style="height: 132px;">
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-cloud-check"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Total Server Load</div>
+                                                        <div class="subtitle pull-right text-success"><span class="fa fa-check"></span> UP</div>
+                                                    </div>                                        
+                                                    <div class="intval text-left">85.2%</div>                                        
+                                                    <div class="line">
+                                                        <div class="subtitle">Latest back up: <a href="#">12/07/2016</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-database"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Database Load</div>
+                                                        <div class="subtitle pull-right text-success"><span class="fa fa-check"></span> UP</div>
+                                                    </div>                                        
+                                                    <div class="intval text-left">43.16%</div>
+                                                    <div class="line">
+                                                        <div class="subtitle">4/10 databases used</div>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-inbox text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Disk Space</div>
+                                                        <div class="subtitle pull-right text-danger"><span class="fa fa-times"></span> Critical</div>
+                                                    </div>                                        
+                                                    <div class="intval text-left">99.98%</div>
+                                                    <div class="line">
+                                                        <div class="subtitle">234.2GB / 240GB used</div>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                    <li>                                        
+                                        <!-- START WIDGET -->
+                                        <div class="app-widget-tile app-widget-highlight">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="icon icon-lg">
+                                                        <span class="icon-heart-pulse"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">                                                    
+                                                    <div class="line">
+                                                        <div class="title">Proccessor</div>
+                                                        <div class="subtitle pull-right text-success"><span class="fa fa-check"></span> Normal</div>
+                                                    </div>                                        
+                                                    <div class="intval text-left">32.5%</div>
+                                                    <div class="line">
+                                                        <div class="subtitle">Intule Cori P7, 3.6Ghz</div>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <!-- END WIDGET -->                                        
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                        </div>
 
 
 
@@ -691,7 +1245,104 @@ while($shiprow=$db->fetchArray()){
                 </div>
 
                  
+<div class="tab-pane" id="Posts">
+  <div class="add_produ">
 
+                         <!-- RECENT ACTIVITY -->
+
+                                <div class="block block-condensed">
+
+                                     <div class="app-heading app-heading-small">                                
+
+                                        <div class="title">
+
+                                            <h2>Posts</h2>
+
+                                            <p>Posts Details</p>
+
+                                        </div>                                
+
+                                    </div>
+
+                                    <div class="block-content margin-bottom-0">
+
+                                        
+
+                                        <table class="table table-striped table-bordered datatable-extended" id="sortable-data">
+
+		                                    <thead>
+
+		                                        <tr>
+
+		                                            <th>Post #</th>
+
+		                                            <th>Post to Name</th>
+
+		                                            <th>Post Date</th>
+
+		                                            <th>Action</th> 
+
+		                                        </tr>
+
+		                                    </thead>
+
+		                                    <tbody>
+											<?php
+ $sqlship="select * from user_post where user_id='".$uid."'";
+$db->query($sqlship);
+while($shiprow=$db->fetchArray()){
+											?>
+											
+
+		                                        <tr>
+
+		                                            <td><?=$shiprow['post_id']?></td>
+
+		                                            <td><?=$shiprow['post_details']?></td>
+
+		                                            <td><?=$shiprow['post_date']?></td>
+													
+		                                            <td><a href=""> View </a> </td>
+
+		                                        </tr>
+
+	<?php } ?>
+
+		                                    </tbody>
+
+		                                </table>
+
+
+
+
+
+
+
+
+
+                                        <p></p>
+
+
+
+
+
+
+
+
+
+                                    </div>
+
+
+
+                                </div>
+
+                                <!-- END RECENT -->
+
+
+
+                    </div>
+
+</div>
  
 
             </div>

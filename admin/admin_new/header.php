@@ -37,7 +37,14 @@ if(empty($_SESSION['SES_ADMIN_ID'])){
             <!-- START APP CONTAINER -->
             <div class="app-container  app-sidebar-left-minimized">
                 <!-- START SIDEBAR -->
-                <?php include("sidemenu.php") ?>
+                <?php 
+				if($_SESSION['SES_USERTYPE']=='restaurant'){
+				include("restaurentsidemenu.php");
+				}else{
+				
+				include("sidemenu.php"); 
+				}
+				?>
                 <!-- END SIDEBAR -->
                 
 

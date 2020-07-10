@@ -75,11 +75,9 @@ $makearr1=getValuesArr( $_TBL_USER, "user_id","first_name","", "" );
                                         </tr>
                                     </thead>
                                     <tbody><?php	$db1=new DB(); $ct=1;
-									if($_SESSION['Super_admin']=='superadmin'){
-									  $sql="SELECT * from food_order";
-									}else{
-										 $sql="SELECT * from food_order where resturant_id=".$_REQUEST['rid'];
-									}
+								
+										 $sql="SELECT * from food_order where resturant_id=".$_SESSION['rid'];
+									
 									$db->query($sql);	if($db->numRows()>0)	{	while($row=$db->fetchArray()){	$num=$db1->getSingleResult('select count(*) from '.$_TBL_ORDER." where id=".$row['id']);	 $name=$db1->getSingleResult('select first_name from all_user where user_id='.$row['userid']);			$arr1=@explode(' ',$row['buydate']);		$edate=@explode('-',$arr1[0]);		$stamp1=@mktime(0,0,0,$edate[2],$edate[1],$edate[0]);		if($row['order_status']=="0")	{	$sta="<b style='color:red;'>Pending</b>";	}elseif($row['order_status']=="1"){		$sta="Cancelled";	}elseif($row['order_status']=="2"){		$sta="Confirmed";	}			?>							<tr>						<td><?=$ct?></td>                         <td><a href="//orangestate.ng/admin/admin_new/food_order_details.php?id=<?=$row[orderid]?>"><?=$row['orderid']?></a></td>	
 <td><?=$row['order_type']?></td>
 

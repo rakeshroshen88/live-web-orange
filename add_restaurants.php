@@ -127,8 +127,6 @@ $link = mysqli_connect("localhost", "orangestate_uorange", "MN9Ydvr,Hg!!", "oran
 $title = mysqli_real_escape_string($link, $_REQUEST['title']);
 $prod_detail = mysqli_real_escape_string($link, $prod_detail);
 $address = mysqli_real_escape_string($link, $_REQUEST['address']);	
-$catid=$db->getSingleResult("select id from recipe_categories where catname='".$_REQUEST['food_type']."'");
-$password=base64_encode($_POST['password']);
 $updatearr=array(	
 					 "title"=>$title,	
 					 "desciption"=>$prod_detail,
@@ -136,44 +134,24 @@ $updatearr=array(
 					 "pin_code"=>$_REQUEST['pin_code'],
 					 "delivery_avg_time"=>$_REQUEST['delivery_avg_time'],
 					 "main_image"=>$largeimage,	
-					  "slider_image"=>$image,	
-"cat_id"=>$catid,		
-"adminid"=>$_SESSION['SES_ADMIN_ID'],									 					  
+					  "slider_image"=>$image,						 
 					  "starrating"=>$_REQUEST['star'],
-					    "payment_option"=>$_REQUEST['payment_option'],
-						  "radius"=>$_REQUEST['radius'],
 					  "Status"=>$_REQUEST['pstatus'],
 					  "state_id"=>$_REQUEST['state'],
 					  "country_id"=>$_REQUEST['country'],
 					  "landmark"=>$_REQUEST['landmark'],
-					   "email"=>$_REQUEST['email'],
-					    "phone"=>$_REQUEST['userphone'],
-						 "password"=>$password,
 					  "address"=>$address,
 					  "city_id"=>$city,	
 					  "featured"=>$_REQUEST['featured'],						
 					 "date"=>date('Y-m-d')
 					 );
 		
-				
-				
-				
+				//print_r($updatearr);
 			if($act=="edit")
 				{
 					$whereClause=" id=".$_REQUEST['prodid'];
 					updateData($updatearr, 'resturant_detail', $whereClause);
 					
-					$updatearrn=array(	 
-					 "adminname"=>$title,
-					 "resturant_id"=>$_REQUEST['prodid'],					 					 
-					 "adminemail"=>$_REQUEST['email'],
-					 "adminphone"=>$_REQUEST['userphone'],					
-					 "adminpassword"=>$password,					
-					 "admindate"=>date("Y-m-d")
-					
-						);
-					$whereClausen=" resturant_id=".$_REQUEST['prodid'];
-					updateData($updatearrn, 'admin', $whereClausen);
 					if(isset($_SESSION["picid"]))
 					{
 					$db->query("update restaurant_image set res_id=".$_REQUEST['id']." where res_id='".$_SESSION["picid"]."' and userid=".$_SESSION['SES_ADMIN_ID']);
@@ -203,17 +181,6 @@ $updatearr=array(
 				}elseif($act=="add"){
 				
 					$insid=insertData($updatearr, 'resturant_detail');
-					$updatearrn=array(	 
-					 "adminname"=>$title,
-					 "resturant_id"=>$insid,					 					 
-					 "adminemail"=>$_REQUEST['email'],
-					 "adminphone"=>$_REQUEST['userphone'],					
-					 "adminpassword"=>$password,					
-					 "admindate"=>date("Y-m-d")
-					
-						);
-					$insidn=insertData($updatearrn, 'admin');
-					
 					
 					if($insid>0)
 						{
@@ -371,14 +338,7 @@ if(!empty($prodid))
 													<div class="form-group col-md-4">
                                         <label class="col-md-12 control-label" for="name"> Country<span class="required">*</span></label>
                                         <div class="col-md-12">
-										<select name="country" id="country" class="form-control state" required>
-															<option value="0">Select Country</option>
-															<?php $country_id=$row[ 'country_id']; $sqlcon="SELECT * FROM countries order by countries_id" ; $db->query($sqlcon)or die($db->error()); if($db->numRows()>0){ while($row11=$db->fetchArray()){ ?>
-															<option value="<?=$row11['countries_id']?>" <?php if($row11[ 'countries_id']==$country_id){ echo "selected"; }?>>
-																<?=$row11[ 'countries_name']?>
-															</option>
-															<?php }} ?>
-														</select>
+										<?php echo createComboBox($makearr,"country",$row['country_id'] ," id='country' class='form-control country' required")?>
                                       
                                         </div><br>
                                     </div>
@@ -386,8 +346,48 @@ if(!empty($prodid))
 									
 								
 <script>
-													jQuery(document).on("click", ".submit ", function(e){		/* var a=$('#tinymce').contents().find('body').text();	 */	var country = $("#country").val();		var state = $("#state").val();		var food_type = $("#food_type").val();	 if(country=='' || country==0){ 		$( "#country" ).focus();		alert('Select country!');		return false;	   }	   if(state=='' || state==0){ 		$( "#state" ).focus();		alert('Select State!');		return false;	   }	    if(food_type=='' || food_type==0){ 		$( "#food_type" ).focus();		alert('Select Food Type!');		return false;	   }	   	   	   var editorContent = tinyMCE.get('prod_desc').getContent();if (editorContent == ''){   $( "#prod_desc" ).focus();		alert('Fill Discription!');		return false;}var st=$('input[name="pstatus"]:checked').val();if (st == ''){  		alert('Select Status');		return false;}/* else{	 alert('hoqq');    // Editor contains a value} */	    /* if(prod_desc=='' || prod_desc==0){ 		$( "#prod_desc" ).focus();		alert('Description!');		//return false;	   } */	});
-												</script>
+
+
+jQuery(document).on("click", ".submit ", function(e){
+	
+	var a=$('#tinymce').contents().find('body').text();
+	alert('hi');
+	var state = $("#state").val();
+	var prod_desc = $("#prod_desc").val();
+	alert(prod_desc);
+	var food_type = $("#food_type").val();
+	   if(state=='' || state==0){ 
+		$( "#state" ).focus();
+		alert('Select State!');
+		return false;
+	   }
+	    if(food_type=='' || food_type==0){ 
+		$( "#food_type" ).focus();
+		alert('Select Food Type!');
+		return false;
+	   }
+	   
+	   
+	   var editorContent = tinyMCE.get('prod_desc').getContent();
+if (editorContent == '')
+{
+    alert('ho');
+}
+else
+{
+	 alert('hoqq');
+    // Editor contains a value
+}
+	    /* if(prod_desc=='' || prod_desc==0){ 
+		$( "#prod_desc" ).focus();
+		alert('Description!');
+		//return false;
+	   } */
+	});
+
+
+
+</script>
 											      <div class="form-group col-md-4" id="showstate">
 													
 <?php $stateid=$row['state_id'];
@@ -471,58 +471,7 @@ $db->query($sqlstate)or die($db->error());
                                     </div>
                                                         
                                                     </div>
-													
-
-
-
-							  <div class="row">
-							  <div class="col-md-6">
-								<div class="form-group">
-									<label class="col-md-12 control-label" for="email">Restaurant E-mail<span class="required">*</span></label>
-									<div class="col-md-12">
-										<input id="email" name="email" type="text" placeholder="Your email" class="form-control" value="<?=$row['email']?>" required>
-									</div>
-								</div>
-                               </div>
-							   
-							   
-							    <div class="col-md-6">  
-                                   <div class="form-group">
-									<label class="col-md-12 control-label" for="email"> Phone No<span class="required">*</span></label>
-									<div class="col-md-12">
-										  <input name="userphone" placeholder="Your Phone No" type="text" class="form-control" value="<?=$row['phone']?>" required/>          
-									</div>
-								</div>
-                              </div> 
-							   
-							   
-							   
-							   
-							   
-							  </div>
-							  
-							  
-							  <div class="row" >
-							   <div class="col-md-6">  
-                                   <div class="form-group">
-									<label class="col-md-12 control-label" for="password"> Password</label>
-									<div class="col-md-12">
-										  <input name="password" placeholder="Your Password" type="text" class="form-control" value="<?=$row['password']?>"/>          
-									</div>
-								</div>
-                              </div> 
-							  <div class="col-md-6">  
-                                   <div class="form-group">
-									<label class="col-md-12 control-label" for="password"> </label>
-									<div class="col-md-12">
-										 <!-- <input name="cpassword" placeholder="Your Confirm Password" type="text" class="form-control" value=""/>  -->        
-									</div>
-								</div>
-                              </div> 
-							  
-							   </div> 
-							 
-							  
+<br>
 								<div class="row" >
 									<div class="form-group col-md-6">
                                         <label class="col-md-12 control-label" for="name"> Address<span class="required">*</span></label>
@@ -554,29 +503,7 @@ $db->query($sqlstate)or die($db->error());
                                     </div>
 									</div>
 								
-								<div class="row" >
-									<div class="form-group col-md-6">
-                                        <label class="col-md-12 control-label" for="name"> Radius (Km) <span class="required">*</span></label>
-                                        <div class="col-md-12">
-                                         <input name="radius" type="text" class="form-control" value="<?=$row['radius']?>" placeholder="In Minutes" required/>
-                                        </div>
-                                    </div>
-									
-									<div class="form-group col-md-6">
-                                        <label class="col-md-12 control-label" for="name"> Payment Option :</label>
-                                        <div class="col-md-12">
-                                         <select id="payment_option" name="payment_option" class="form-control" >
-                        <option value='COD' <?php if($row['payment_option'] == 'COD'){ echo 'selected'; } ?>>COD</option>
-						<option value='ONLINE' <?php if($row['payment_option'] == 'ONLINE'){ echo 'selected'; } ?>>Online</option>
-						<option value='BOTH' <?php if($row['payment_option'] == 'BOTH'){ echo 'selected'; } ?>>Both</option></select>
-                                        </div>
-                                    </div>
-									</div>
-								
-							
-							
-							
-							<div class="row" >
+								   	<div class="row" >
 								 <div class="form-group col-md-6">
                                         <label class="col-md-12 control-label" for="name">Star Rating:(0-5):</label>
                                         <div class="col-md-12">
@@ -633,31 +560,12 @@ $db->query($sqlstate)or die($db->error());
 												
                     
 <div class="form-group col-md-6">
-        									<label class="col-md-12 control-label"> Logo</label>
+        									<label class="col-md-12 control-label"> Image</label>
         									<div class="col-md-12">
                                                 <input type="file" name="largeimage" id="largeimage"><span style="color:#FF0000;">(jpg, gif, png)</span>  <?php if($row['main_image']){?><a href="javascript:void(0)" onclick="javascript:window.open('../resviewaimage.php?img=<?=$row['main_image']?>','imgid','height=510,width=660,toolbars=no,left=150,top=200');">View Image</a><?php }?>
         									 
         									</div>
         								</div>
-										
-										<!--<div class="form-group col-md-6">
-										<div id="googleMap" style="width:100%;height:400px;"></div>
-
-<script>
-function myMap() {
-var mapProp= {
-  center:new google.maps.LatLng(51.508742,-0.120850),
-  zoom:5,
-};
-var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-}
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXH7JgXIWzi8QpwjwiwOKk3jDo6k3cEaM&callback=myMap"></script>
-										
-										</div>-->
-										
-										
 </div>  
   <div class="row">
   <div class="form-group col-md-6">
@@ -668,28 +576,30 @@ var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
         									</div>
         								</div>
 
-										 <div class="form-group col-md-6">
-													<label class="col-md-12 control-label">Status<span class="required">*</span>
-													</label>
-													<div class="col-md-12">
-														<div class="radio">
-															<label>
-																<input name="pstatus" type="radio" value="1" <?php if($row[ 'Status']=="1" ){ echo " checked";}?> required />Active</label>
+										 	<div class="form-group col-md-6">
+                									<label class="col-md-12 control-label"> Status<span class="required">*</span></label>
+                									<div class="col-md-12" required>
+                                                       
+                    								
+                    									<div class="radio">
+                    										<label>
+                    												<input name="pstatus" type="radio" value="1"<?php if($row['Status']=="1"){echo " checked";}?>/>Active
+						
+                    										</label>
+                    									</div>
+                    									<div class="radio">
+                    										<label>
+                    											<input name="pstatus" type="radio" value="0"<?php if($row['Status']=="0"){echo " checked";}?>/>Deactive
+                    										</label>
+                    									</div>
+														</div> 
 														</div>
-														<div class="radio">
-															<label>
-																<input name="pstatus" type="radio" value="0" <?php if($row[ 'Status']=="0" ){ echo " checked"; } ?> required/>Deactive</label>
-														</div>
-													</div>
-												</div>
-												
-														
 														</div>
 														
 <div class="form-group ">
 								 <div class="row">
 								<?php //echo $array_values; ?>
-								 <label class="col-md-2 control-label" for="size"> Add Opening Days/Hour</label>
+								 <label class="col-md-2 control-label" for="size"> Add Working Days/Hour</label>
 				<div class="col-md-10">
 				<div class="wrapper">
 				

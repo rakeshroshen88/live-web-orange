@@ -79,6 +79,18 @@
 								<li><a href="https://orangestate.ng/admin/admin_new/restaurants_list.php?act=add"><span class="nav-icon-hexa">View</span> Restaurants</a>
 								<ul><li><a href="https://orangestate.ng/admin/admin_new/restaurants_list.php?act=add"><span class="nav-icon-hexa">View</span> Restaurants</a></li>
 								<li><a href="https://orangestate.ng/admin/admin_new/add_restaurants.php?act=add"><span class="nav-icon-hexa">Add</span> Restaurants</a></li>
+
+								
+								
+								<li><a href="https://orangestate.ng/admin/admin_new/client.php?act=add"><span class="nav-icon-hexa">View</span> client</a></li>
+								
+								
+								<li><a href="https://orangestate.ng/admin/admin_new/add_all_user.php?act=add"><span class="nav-icon-hexa">Add</span> client</a></li>
+								
+								
+																
+								
+								
 								
 								  
 								</ul>
@@ -86,24 +98,27 @@
 								</li>
 								 
 								  <li>
-								 <a href=""><span class="nav-icon-hexa">View</span> Product</a>
+								 <a href=""><span class="nav-icon-hexa">View</span> Menu</a>
 								 <ul>
 								 <li><a href="https://orangestate.ng/admin/admin_new/recipe_list.php"><span class="nav-icon-hexa">View</span> Product</a></li>
 								  <li><a href="https://orangestate.ng/admin/admin_new/add_recipe.php?act=add"><span class="nav-icon-hexa">Add</span> Product</a></li>
 								  
 								   <li><a href="https://orangestate.ng/admin/admin_new/recipe_category_list.php"><span class="nav-icon-hexa">View</span> Category</a></li>
 								  <li><a href="https://orangestate.ng/admin/admin_new/add_recipe_cat.php?act=add"><span class="nav-icon-hexa">Add</span> Category</a></li>
+								  
+								   <li><a href="https://orangestate.ng/admin/admin_new/extra_list.php?act=add"><span class="nav-icon-hexa">View</span> Extra</a></li>
 								 
 								 
 								  </ul>
 								</li>
 								 
 								 
-								 <li>
-								 <a href=""><span class="nav-icon-hexa">View</span> Extra</a>
+								<li>
+								 <a href=""><span class="nav-icon-hexa">Delivery</span> Charges</a>
 								 <ul>
-								 <li><a href="https://orangestate.ng/admin/admin_new/extra_list.php?act=add"><span class="nav-icon-hexa">View</span> Extra</a></li>
-								  <!--<li><a href="https://orangestate.ng/admin/admin_new/add_extra.php?act=add"><span class="nav-icon-hexa">Add</span> Extra</a></li>-->
+								 <li><a href="https://orangestate.ng/admin/admin_new/deliverycharge.php?act=add"><span class="nav-icon-hexa">Delivery</span> Charges</a></li>
+								
+								
 								  </ul>
 								</li>
 								
