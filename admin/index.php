@@ -17,9 +17,12 @@ if(isset($_POST['Login']))
 			if($db5->numRows()>0)
 			{
 			$_SESSION['SES_ADMIN_ID']=$row['id'];
-			$_SESSION['SES_ADMIN_USER']=$row['adminname'];
+			 $_SESSION['SES_USERTYPE']=$row['usertype'];
+			 $_SESSION['SES_ADMIN_USER']=$row['adminname'];
+			 $_SESSION['Super_admin']=$row['admintype'];
+			 $_SESSION['rid']=$row['resturant_id'];
 			
-			redirect("main.php");
+			redirect("/admin_new/");
 			}
 			else{
 			$errMsg="User is not active till now!";
