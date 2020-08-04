@@ -1,0 +1,38 @@
+
+                      <div class="row">
+                      <!--mid 5-->
+<div class="amid5 mid">
+                        <?php 
+						$sql="SELECT * from ".$_TBL_PROD." where catid='".$catid1."' and subcatid='$subid1' and subsubcatid='$subsubid' order by id desc";
+						$db->query($sql);
+						if($db->numRows()>0)
+						{
+						while($row=$db->fetchArray()){
+						
+						$path=$row['prod_large_image'];
+						$goid=base64_encode($row['id']);
+	
+						?>
+    
+    <a href="products-details.php?cid=<?php echo base64_encode($catid1);?>&subid=<?php echo base64_encode($subid1);?>&subsubid=<?php echo base64_encode($subsubid);?>&pid=<?php echo base64_encode($row['id']);?>">
+    <div class="col-md-2">
+        <div class="abox">
+            <h3><?=$row['prod_name']?></h3>
+                <div class="aimg">
+                <img src="<?=$_SITE_PATH?>product/<?=$path?>" alt="<?=$row['prod_name']?>" />
+                </div>
+            
+            <p class="aby"><span>By:</span> <?=$row['author']?></p>
+            <p class="aprice"><span>Rs.<?=number_format($row['prod_price'],2);?></span> <span>Rs.<?=number_format($row['prod_sprice'],2);?></span></p>
+        </div>
+    </div>
+    </a>
+	
+	 <?php }}?>
+	
+    
+    </div>
+
+<!--end mid 5-->
+                      </div>
+                      
